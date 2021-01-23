@@ -1,0 +1,124 @@
+.deal-index{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	background: linear-gradient(180deg,#f2f6fa, #ffffff);
+	.safe-header{
+		width: 100%;
+		height: 44px;
+		line-height: 44px;
+		padding: 0 15px;
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		border-bottom: 5px solid rgba(0,0,0,0.04);
+		image{
+			width: 18px;
+			height: 18px;
+		}
+		text{
+			font-size: 16px;
+			font-weight: bolder;
+			color: #111111;
+			margin-left: 6px;
+		}
+	}
+	.power-bg{
+		height: 150px;
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		margin: 0 10px;
+		background: linear-gradient(134deg,#40a1ff 2%, #5470ff 99%);
+		border-radius: 6px;
+		.power-info{
+			padding: 6px 10px;
+			.power-title{
+				font-size: 16px;
+				font-family: PingFang SC, PingFang SC-Medium;
+				font-weight: 500;
+				color: #ffffff;
+			}
+			.deal-list{
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				border-bottom: 1px solid #E7E6ED;
+				padding-bottom: 8px;
+				.list{
+					text{
+						font-size: 12px;
+						font-family: PingFang SC, PingFang SC-Regular;
+						font-weight: 400;
+						color: #ffffff;
+					}
+					view{
+						font-size: 15px;
+						font-family: PingFang SC, PingFang SC-Semibold;
+						font-weight: 600;
+						color: #ffffff;
+						margin-top: -4px;
+					}
+				}
+			}
+		}
+		.btn-list{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0 10px;
+			margin-top: 6px;
+			.list{
+				width: 45%;
+				background: linear-gradient(180deg,#ffffff 50%, #b5daff);
+				border: 2px solid rgba(255,255,255,0.3);
+				border-radius: 3px;
+				box-shadow: 0px 3px 16px 0px rgba(0,0,0,0.16); 
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 2px 0;
+				image{
+					width: 18px;
+					height: 17px;
+					margin-right: 6px;
+				}
+				text{
+					font-size: 13px;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #5470ff;
+				}
+			}
+		}
+	}
+	.deal-list-info{
+		display: flex;
+		justify-content: space-between;
+		margin: 10px 15px;
+		border-bottom: 1px solid #E7E6ED;
+		padding-bottom: 10px;
+		.deal-title{
+			.title{
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #454e5e;
+			}
+			.date{
+				font-size: 12px;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #909090;
+			}
+		}
+		.deal-data{
+			font-size: 15px;
+			font-family: PingFang SC, PingFang SC-Semibold;
+			font-weight: 600;
+			color: #071328;
+		}
+		.red{
+			color: #E1643F;
+		}
+	}
+}

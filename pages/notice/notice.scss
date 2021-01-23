@@ -1,0 +1,100 @@
+.notice-index{
+	height: 100%;
+	width: 100%;
+	background: linear-gradient(134deg,#ecf2fd 2%, #ffffff 99%);
+	overflow: hidden;
+	position: relative;
+	.safe-header{
+		width: 100%;
+		height: 44px;
+		line-height: 44px;
+		padding: 0 15px;
+		display: flex;
+		align-items: center;
+		image{
+			width: 18px;
+			height: 18px;
+		}
+		text{
+			font-size: 16px;
+			font-weight: bolder;
+			color: #111111;
+			margin-left: 6px;
+		}
+	}
+	.visit-img{
+		width: 120px;
+		height: 120px;
+		position: fixed;
+		right: -15px;
+		top: 0;
+	}
+	.visit-tabs{
+		margin: 0 15px;
+		margin-top: 12px;
+		display: flex;
+		align-items: center;
+		.tab-list{
+			margin-right: 25px;
+			font-size: 15px;
+			font-family: PingFang SC, PingFang SC-Bold;
+			font-weight: 400;
+			color: #909090;
+			view{
+				width: 20px;
+				height: 2px;
+				border-radius: 2px;
+				margin: 0 auto;
+				margin-top: 2px;
+			}
+		}
+		.active{
+			font-weight: bolder;
+			color: #020526;
+			.henxian{
+				background: linear-gradient(134deg,#40a1ff 2%, #5470ff 99%);
+			}
+		}
+		
+	}
+	.notice-content{
+		padding: 30px 15px;
+		.content-list{
+			display: flex;
+			justify-content: space-between;
+			background-color: #FFFFFF;
+			padding: 10px;
+			border-radius: 4px;
+			margin-bottom: 20px;
+			.list{
+				display: flex;
+				align-items: center;
+				image{
+					width: 26px;
+					height: 21px;
+					margin-right: 10px;
+				}
+				.title{
+					text{
+						font-size: 15px;
+						font-family: PingFang SC, PingFang SC-Bold;
+						font-weight: 700;
+						color: #071328;
+					}
+					view{
+						font-size: 13px;
+						font-family: PingFang SC, PingFang SC-Regular;
+						font-weight: 400;
+						color: #909090;
+					}
+				}
+			}
+			.date{
+				font-size: 12px;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #909090;
+			}
+		}
+	}
+}

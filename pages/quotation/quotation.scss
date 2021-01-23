@@ -1,0 +1,68 @@
+.quotation-index{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	.prodect-title{
+		width: 100%;
+		text-align: center;
+		height: 44px;
+		line-height: 44px;
+		background-color: #FFFFFF;
+		font-weight: 600;
+		font-size: 17px;
+	}
+	.quotation-info{
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		background-color: #F9F9F9;
+		padding: 6px 0;
+		.info-title{
+			width: 33.3%;
+			text-align: center;
+			font-size: 14px;
+			font-weight: 400;
+			color: #909090;
+		}
+	}
+	.info-list{
+		background-color: #FFFFFF;
+		padding: 15px 0 0px 0;
+		.info-title{
+			display: flex;
+			align-items: center;
+			width: 33.3%;
+			position: relative;
+			left: 25px;
+			
+			image{
+				width: 24px;
+				height: 24px;
+				margin-right: 6px;
+			}
+			.title{
+				width: 60px;
+				text{
+					font-weight: 600;
+					color: #071328;
+					font-size: 15px;
+				}
+				view{
+					font-size: 11px;
+					color: #909090;
+					margin-top: -3px;
+				}
+			}
+		}
+		.list-title{
+			display: flex;
+			align-items: center;
+			width: 33.3%;
+			justify-content: center;
+			font-size: 14px;
+			font-weight: 600;
+			color: #5db567;
+			
+		}
+	}
+}

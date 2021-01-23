@@ -1,0 +1,120 @@
+.backup-info{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	.safe-header{
+		width: 100%;
+		height: 44px;
+		line-height: 44px;
+		padding: 0 15px;
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		border-bottom: 5px solid rgba(0,0,0,0.04);
+		image{
+			width: 18px;
+			height: 18px;
+		}
+		text{
+			font-size: 16px;
+			font-weight: bolder;
+			color: #111111;
+			margin-left: 6px;
+		}
+	}
+	.backup-title{
+		padding: 10px;
+		font-size: 15px;
+		font-family: PingFang SC, PingFang SC-Regular;
+		font-weight: 400;
+		color: #071328;
+	}
+	.backup-content{
+		margin: 0 15px;
+		background: #f6f6f6;
+		border-top: 1.5px solid #e7e6ed;
+		border-left: 1.5px solid #e7e6ed;
+		border-right: 0.5px solid #e7e6ed;
+		border-bottom: 0.5px solid #e7e6ed;
+		border-radius: 4px;
+		.backup-list{
+			display: flex;
+			.list{
+				width: 33.3%;
+				float: left;
+				padding: 5px 10px;
+				border-bottom: 1px solid #E7E6ED;
+				border-right: 1px solid #E7E6ED;
+				text{
+					font-size: 13px;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #909090;
+					float: right;
+				}
+				view{
+					clear: both;
+					font-size: 15px;
+					font-family: PingFang SC, PingFang SC-Medium;
+					font-weight: 500;
+					color: #071328;
+				}
+			}
+		}
+	}
+	.create-list{
+		padding: 10px 20px;
+		.tip-list{
+			display: flex;
+			align-items: baseline;
+			margin-top: 10px;
+			image{
+				width: 13px;
+				height: 13px;
+				margin-right: 6px;
+				position: relative;
+				top: 2px;
+			}
+			view{
+				font-size: 13px;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #909090;
+				line-height: 23px;
+				width: 95%;
+			}
+		}
+	}
+	.container-login {
+		width: 30%;
+		height: 36px;
+		line-height: 36px;
+		border-radius: 4px;
+		color: #FFFFFF;
+		text-align: center;
+		background: linear-gradient(to right, #3FA2FF, #5470FF);
+		font-size: 13px;
+		letter-spacing: 1px;
+		margin: 60px auto;
+	}
+	.sure-content{
+		padding: 15px;
+		.backup-list{
+			display: flex;
+			justify-content: space-around;
+			.list{
+				width: 30%;
+				background: #f6f6f6;
+				border: 1.5px solid #e7e6ed;
+				border-radius: 4px;
+				text-align: center;
+				padding: 5px 0;
+				font-size: 15px;
+				font-family: PingFang SC, PingFang SC-Medium;
+				font-weight: 500;
+				color: #071328;
+				margin-bottom: 10px;
+			}
+		}
+	}
+}

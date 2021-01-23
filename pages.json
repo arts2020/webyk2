@@ -1,0 +1,586 @@
+{
+	"pages": [
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/pay/pay-power/xieyi",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/notice/notice-detail/notice-detail",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/register/agreement/hide",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/register/agreement/agreement",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/register/register",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/about-us/about-us",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/pay/pay-power/pay-power",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/pay/pay",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/tip-page/pay-tip",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/tip-page/create-tip",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/tip-page/recover-tip",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/order-list/order-list",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/deal-record/deal-filecoin",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/deal-record/deal-usdt",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/deal-record/deal-eth",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/deal-record/deal-record",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/backup-tip/backup-info/backup-sure",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/backup-tip/backup-info/backup-info",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/backup-tip/backup-tip",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/mine/creat-wallet/creat-wallet",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/recover-identify/recover",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/mine/my-wallet/my-wallet",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/notice/notice",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/register/visit/visit",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/income/my-income/my-income",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/income/filecion",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/income/income-eth",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/income/income-btc",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/computing-power/power",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/help/help",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/recharge-currency/carry-over/carry-over",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/recharge-currency/filecoin-over/carry-over",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/recharge-currency/recharge-currency",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/safe/pwd-back",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/safe/authentication/authentication",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/safe/money-pwd/sure-pwd",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/safe/money-pwd/money-pwd",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},{
+			"path": "pages/safe/money-pwd/money-changepwd",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/safe/safe-center",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#efefef",
+				"backgroundColor": "#efefef",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		},
+		{
+			"path": "pages/product/product",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#F8F8F8",
+				"backgroundColor": "#F8F8F8",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		}, {
+			"path": "pages/quotation/quotation",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#F8F8F8",
+				"backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		}, {
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "我的",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#F8F8F8",
+				"backgroundColor": "#F8F8F8",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		}
+	],
+	"globalStyle": {
+		// "navigationBarTextStyle": "black",
+		// "navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"app-plus": {
+			"titleNView": false
+		}
+	},
+	"tabBar": {
+		"color": "#A9B7C4",
+		"selectedColor": "#232323",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/home/index",
+			"text": "首页",
+			"iconPath": "static/image/index/index.png",
+			"selectedIconPath": "static/image/index/index-select.png"
+		}, {
+			"pagePath": "pages/product/product",
+			"text": "产品",
+			"iconPath": "static/image/index/chanpin.png",
+			"selectedIconPath": "static/image/index/chanpin-select.png"
+		}, {
+			"pagePath": "pages/quotation/quotation",
+			"text": "行情",
+			"iconPath": "static/image/index/hangqing.png",
+			"selectedIconPath": "static/image/index/hangqing-select.png"
+		}, {
+			"pagePath": "pages/mine/mine",
+			"text": "我的",
+			"iconPath": "static/image/index/mine.png",
+			"selectedIconPath": "static/image/index/mine-select.png"
+		}]
+	},
+	"subPackages": [{
+		"root": "pages/",
+		"pages": [{
+			"path": "home/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#F8F8F8",
+				"backgroundColor": "#F8F8F8",
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
+		}]
+	}]
+}

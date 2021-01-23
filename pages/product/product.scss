@@ -1,0 +1,142 @@
+.prodect-index{
+	height: 100%;
+	width: 100%;
+	background-color: #F1F5F9;
+	overflow: hidden;
+	.prodect-title{
+		width: 100%;
+		text-align: center;
+		height: 44px;
+		line-height: 44px;
+		background-color: #FFFFFF;
+		font-weight: 600;
+		font-size: 17px;
+	}
+	.type-list{
+		background-color: #FFFFFF;
+		margin: 15px 10px;
+		border-radius: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		.list-btc{
+			display: flex;
+			align-items: center;
+			width: 33.3%;
+			height: 30px;
+			justify-content: center;
+			border-right: 1px solid #efefef;
+			image{
+				width: 18px;
+				height: 18px;
+				margin-right: 6px;
+			}
+			text{
+				font-size: 13px;
+				color: #232323;
+				font-weight: bolder;
+			}
+			
+		}
+		.active{
+			background: rgba(84,112,255,0.1);
+			border: 1px solid #5470ff;
+			border-radius: 5px;
+		}
+	}
+	.borui-power{
+		background-color: #FFFFFF;
+		margin: 0 10px;
+		border-radius: 4px;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+		.ruibo-title{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 5px;
+			height: 21px;
+			.title{
+				font-size: 13px;
+				height: 21px;
+				line-height: 21px;
+				font-weight: bolder;
+				color: #020202;
+				padding-left: 10px;
+				position: relative;
+				top: 4px;
+				width: 70%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.ruibo-state{
+				width: 70px;
+				height: 21px;
+				position: relative;
+				text-align: center;
+				image{
+					width: 70px;
+					height: 21px;
+				}
+				text{
+					position: absolute;
+					top: -2px;
+					left: 20px;
+					font-size: 13px;
+					color: #FFFFFF;
+				}
+			}
+		}
+		.state-list{
+			display: flex;
+			align-items: center;
+			padding: 0 10px;
+			padding-bottom: 5px;
+			margin-bottom: 5px;
+			.state-type{
+				margin-right: 6px;
+				font-size: 12px;
+				background-color: rgba(83, 4, 228, 0.05);
+				color: #5304E4;
+				border: 1px solid #5304E4;
+				border-radius: 10px;
+				line-height: 20px;
+				padding: 0 8px;
+			}
+			.lower-power{
+				background-color: rgba(30, 138, 226, 0.05);
+				color: #1E8AE2;
+				border: 1px solid #1E8AE2;
+			}
+			.lower-safe{
+				background-color: rgba(62, 204, 104, 0.05);
+				color: #3ECC68;
+				border: 1px solid #3ECC68;
+			}
+		}
+		.ruibo-content{
+			margin: 0 10px;
+			border-top: 1px solid  #efefef;
+			padding-top: 8px;
+			.content-list{
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-bottom: 3px;
+				.content-title{
+					color: #848484;
+					font-size: 12px;
+				}
+				.content-data{
+					font-size: 13px;
+					color: #000000;
+					font-weight: bolder;
+				}
+				.unit-data{
+					color: #2A62FF;
+				}
+			}
+		}
+	}
+}
