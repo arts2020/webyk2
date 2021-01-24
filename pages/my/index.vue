@@ -7,7 +7,7 @@
 				<view class="user-info">
 					<view @tap="btnIdentity()" class="info-title">
 						<text>{{m_username}}</text>
-						<image v-show="dal.Character.m_playerInfo.identity_state == 1" src="../../static/image/mine/back.svg" />
+						<!-- <image v-show="dal.Character.m_playerInfo.identity_state == 1" src="../../static/image/mine/back.svg" /> -->
 					</view>
 					<view class="tel">{{m_phonenumber}}</view>
 				</view>
@@ -324,5 +324,5 @@
 </script>
 
 <style lang="scss">
-	@import "mine.scss";
+	@import "index.scss";
 </style>
