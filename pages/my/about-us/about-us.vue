@@ -2,11 +2,11 @@
 	<view class="about-us">
 		<bar ref="bar"></bar>
 		<view @tap="btnBack()" class="safe-header">
-			<image src="../../static/image/login/left.svg" />
+			<image src="../../../static/image/login/left.svg" />
 			<text>关于我们</text>
 		</view>
 		<view class="banner">
-			<image src="../../static/image/index/index-bg1.png" />
+			<image src="../../../static/image/index/index-bg1.png" />
 		</view>
 		<view class="about-content">
 			    平台深度布局BTC,ETH和IPFS/Filecoin产业链,在使用集中采购和共建机制降低挖矿运行成本的同时,公司投入重金进行硬件建设、系统开发、算法优化等，利用矿机及矿场的分时共享模式降低客户参与挖矿行业的门槛,

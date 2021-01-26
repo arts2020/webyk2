@@ -2,7 +2,7 @@
 	<view class="agreement-index">
 		<bar ref="bar"></bar>
 		<view @tap="btnBack()" class="safe-header">
-			<image src="../../../static/image/login/left.svg" />
+			<image src="../../../../static/image/login/left.svg" />
 			<text>用户服务协议</text>
 		</view>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">

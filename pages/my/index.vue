@@ -123,7 +123,7 @@
 		onShow() {
 			let _this = this;
 			if (this.dal.Character.isValidLogin() === false) {
-				this.util.UiUtils.switchToPage("login-login", "product-product");
+				this.util.UiUtils.switchToPage("login-login");
 				return;
 			}
 			//获取高度
@@ -272,7 +272,7 @@
 				} else if (idx == 5) { //分享我					
 					// this.util.UiUtils.switchToPage("register-visit", "mine-mine", {this.id});
 					this.$openPage({
-						name: "register-visit",
+						name: "my-visit",
 						query: {
 							id: this.id
 						}

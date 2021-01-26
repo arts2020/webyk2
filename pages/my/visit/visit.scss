@@ -1,0 +1,109 @@
+.visit-index{
+	height: 100%;
+	width: 100%;
+	background: linear-gradient(134deg,#40a1ff 2%, #5470ff 99%);
+	overflow: hidden;
+	.safe-header{
+		width: 100%;
+		height: 44px;
+		line-height: 44px;
+		padding: 0 15px;
+		display: flex;
+		align-items: center;
+		image{
+			width: 18px;
+			height: 18px;
+		}
+		text{
+			font-size: 16px;
+			font-weight: bolder;
+			color: #FFFFFF;
+			margin-left: 6px;
+			opacity: 0.9;
+		}
+	}
+	.visit-content{
+		margin: 35px 15px;
+		background-color: #FFFFFF;
+		background-image: url("../../../static/image/safe/visit-bg.png");
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		border-radius: 3px;
+		text-align: center;
+		position: relative;
+		padding-bottom: 60px;
+		.visit-logo{
+			width: 70px;
+			height: 70px;
+			border-radius: 70px;
+			background-color: #FFFFFF;
+			margin: 0 auto;
+			position: absolute;
+			top: -35px;
+			left: 50%;
+			margin-left: -35px;
+			box-shadow: 0px 6px 16px 0px rgba(0,0,0,0.16); 
+			image{
+				width: 56px;
+				height: 56px;
+				position: absolute;
+				top: 7px;
+				left: 7px;
+			}
+		}
+		.visit-title{
+			padding-top: 46px;
+			color: #071328;
+			font-size: 15px;
+		}
+		.visit-erweima{
+			margin: 10px auto;
+			image{
+				width: 150px;
+				height: 150px;
+			}
+		}
+		.visit-tips{
+			color: #071328;
+			font-size: 14px;
+		}
+		.container-login{
+			margin: 20px auto;
+			width: 30%;
+			height: 36px;
+			line-height: 36px;
+			border-radius: 4px;
+			color: #FFFFFF;
+			text-align: center;
+			background: linear-gradient(to right, #3FA2FF, #5470FF);
+			font-size: 13px;
+			letter-spacing: 1px;
+		}
+	}
+	.btn-list{
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		margin-top: 40px;
+		.btn{
+			width: 40%;
+			border: 1px solid #ffffff;
+			border-radius: 3px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 3px 0;
+			image{
+				width: 18px;
+				height:18px;
+				margin-right: 5px;
+			}
+			.btn-title{
+				font-size: 14px;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #ffffff;
+			}
+		}
+	}
+}

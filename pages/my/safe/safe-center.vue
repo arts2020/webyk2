@@ -2,7 +2,7 @@
 	<view class="safe-center">
 		<bar ref="bar"></bar>
 		<view @tap="btnBack()" class="safe-header">
-			<image src="../../static/image/login/left.svg" />
+			<image src="../../../static/image/login/left.svg" />
 			<text>安全中心</text>
 		</view>
 		<view class="mine-type">
@@ -10,19 +10,19 @@
 				<view class="list-title">
 					设置资金密码
 				</view>
-				<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
+				<image class="right-icon" src="../../../static/image/mine/arrow-left.svg" />
 			</view>
 			<view @tap="btnLoginPassWord()" class="type-list">
 				<view class="list-title">
 					修改登录密码
 				</view>
-				<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
+				<image class="right-icon" src="../../../static/image/mine/arrow-left.svg" />
 			</view>
 			<view @tap="btnPrivate(3)" class="type-list">
 				<view class="list-title">
 					导出钱包助记词
 				</view>				
-				<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
+				<image class="right-icon" src="../../../static/image/mine/arrow-left.svg" />
 			</view>
 			<view  class="type-list"  @click="changeContent()">
 				<view class="list-title">
@@ -76,7 +76,7 @@
 				passWordFilterInput(value) {
 					return value;
 				},
-				imgUrl:'../../static/image/mine/arrow-left.svg',
+				imgUrl:'../../../static/image/mine/arrow-left.svg',
 				showContent:false
 			}
 		},
@@ -180,7 +180,7 @@
 			changeContent(){
 				this.showContent = !this.showContent
 				if(this.showContent == false){
-					this.imgUrl = '../../static/image/mine/arrow-left.svg'
+					this.imgUrl = '../../../static/image/mine/arrow-left.svg'
 				}else{
 					this.imgUrl = '../../static/image/index/dowm.svg'
 				}

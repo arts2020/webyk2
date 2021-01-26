@@ -2,7 +2,7 @@
 	<view class="login-index">
 		<bar ref="bar"></bar>
 		<view @tap="btnBack" class="login-back">
-			<image src="../../static/image/login/back.svg" />
+			<image src="../../../static/image/login/back.svg" />
 		</view>
 		<view class="login-content">
 			<view class="login-title">
@@ -22,7 +22,7 @@
 							maxlength="20"
 							style="color: #071328;"
 						/>
-						<image class="cha" v-if="showClearIcon" @click.stop="clearIcon" src="../../static/image/login/cha.png" />
+						<image class="cha" v-if="showClearIcon" @click.stop="clearIcon" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view class="container-account">
@@ -41,7 +41,7 @@
 							maxlength="6"
 							style="color: #071328;"
 						/>
-						<image class="cha" v-if="showClearIconYzm" @click.stop="clearIconYzm" src="../../static/image/login/cha.png" />
+						<image class="cha" v-if="showClearIconYzm" @click.stop="clearIconYzm" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view class="container-pwd">
@@ -57,7 +57,7 @@
 							@input="clearPwdInput" 
 							style="color: #071328;"
 							type="text" :password="!isShowPassword1" maxlength="20" />
-							<image class="cha" v-if="showPwdClearIcon" @click="clearPwdIcon" src="../../static/image/login/cha.png" />
+							<image class="cha" v-if="showPwdClearIcon" @click="clearPwdIcon" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view class="container-pwd">
@@ -73,7 +73,7 @@
 							@input="clearPwdInputAgain" 
 							style="color: #071328;"
 							type="text" :password="!isShowPassword2" maxlength="20" />
-							<image class="cha" v-if="showPwdClearIconAgain" @click="clearPwdIconAgain" src="../../static/image/login/cha.png" />
+							<image class="cha" v-if="showPwdClearIconAgain" @click="clearPwdIconAgain" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view @tap="btnConfirm" class="container-login" >确定</view>
@@ -334,5 +334,5 @@
 </script>
 
 <style lang="scss">
-	@import '../register/register.scss';
+	@import '@/pages/account/register/register.scss';
 </style>

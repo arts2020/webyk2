@@ -2,14 +2,14 @@
 	<view class="login-index">
 		<bar ref="bar"></bar>
 		<view class="login-back" @tap="btnBack">
-			<image src="../../static/image/login/back.svg" />
+			<image src="../../../static/image/login/back.svg" />
 		</view>
 		<view class="login-content">
 			<view class="login-title">
 				<view class="title">注册</view>
 				<view class="create-user" @tap="btnBackLogin">
 					<text>已有珀芯账号，去登录</text>
-					<image src="../../static/image/mine/back.svg" />
+					<image src="../../../static/image/mine/back.svg" />
 				</view>
 			</view>
 			
@@ -26,13 +26,13 @@
 							maxlength="20"
 							style="color: #071328;"
 						/>
-						<image class="cha" v-if="showClearIcon" @click.stop="clearIcon()" src="../../static/image/login/cha.png" />
+						<image class="cha" v-if="showClearIcon" @click.stop="clearIcon()" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view class="container-account">
 					<view class="label-font" >
 						<text>输入验证码</text>
-						<image src="../../static/image/login/regIcon.svg" />
+						<image src="../../../static/image/login/regIcon.svg" />
 						<text @tap="btnYzm" v-if="messageShow"  class="send-message">发送验证码</text>
 						<text class="doajishi" v-if="timeShow">倒计时{{timeValue}}S</text>
 					</view>
@@ -46,7 +46,7 @@
 							maxlength="6"
 							style="color: #071328;"
 						/>
-						<image class="cha" v-if="showClearIconYzm" @click.stop="clearIconYzm" src="../../static/image/login/cha.png" />
+						<image class="cha" v-if="showClearIconYzm" @click.stop="clearIconYzm" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view class="container-pwd">
@@ -62,7 +62,7 @@
 							@input="clearPwdInput" 
 							style="color: #071328;"
 							type="text" :password="!isShowPassword1" maxlength="20" />
-							<image class="cha" v-if="showPwdClearIcon" @click="clearPwdIcon" src="../../static/image/login/cha.png" />
+							<image class="cha" v-if="showPwdClearIcon" @click="clearPwdIcon" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view class="container-pwd">
@@ -78,7 +78,7 @@
 							@input="clearPwdInputAgain" 
 							style="color: #071328;"
 							type="text" :password="!isShowPassword2" maxlength="20" />
-							<image class="cha" v-if="showPwdClearIconAgain" @click="clearPwdIconAgain" src="../../static/image/login/cha.png" />
+							<image class="cha" v-if="showPwdClearIconAgain" @click="clearPwdIconAgain" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view class="check-box">
@@ -327,10 +327,10 @@
 					requestcode: "", //邀请码
 					username: username,//用户名(手机号)
 					password: password,//密码
-					captcha: useryzm,//短信验证码
+					captcha: useryzm,// 短信验证码
 				}
 				this.util.UiUtils.showLoading("用户注册中...")
-				this.dal.Account.onRegister(reg)
+				 
 			},
 			
 			btnBackLogin:function(){

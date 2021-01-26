@@ -2,7 +2,7 @@
 	<view class="safe-center">
 		<bar ref="bar" style="background-color: #FFFFFF;"></bar>
 		<view @tap="btnBack()" class="safe-header">
-			<image src="../../../static/image/login/left.svg" />
+			<image src="../../../../static/image/login/left.svg" />
 			<text>身份认证</text>
 		</view>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
@@ -47,8 +47,8 @@
 		data() {
 			return {
 				scrollHeight: 0,
-				m_imgUrl1:'../../../static/image/safe/upload.png',//正面
-				m_imgUrl2:'../../../static/image/safe/upload-bei.png',//背面
+				m_imgUrl1:'../../../../static/image/safe/upload.png',//正面
+				m_imgUrl2:'../../../../static/image/safe/upload-bei.png',//背面
 				examState:'0'
 			}
 		},

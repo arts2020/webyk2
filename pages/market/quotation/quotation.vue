@@ -1,7 +1,7 @@
 <template>
 	<view class="quotation-index">
-		<bar ref="bar"></bar>
-		<view class="prodect-title">市场行情</view>
+		<!-- <bar ref="bar"></bar> -->
+		<!-- <view class="prodect-title">市场行情</view> -->
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			<view class="quotation-info">
 				<view class="info-title">
@@ -14,7 +14,7 @@
 					24H涨幅
 				</view>
 			</view> 
-			<view v-for="(item, index) in m_items" :key="index"  v-if="haveData">
+			<view v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
 				<view class="quotation-info info-list">
 					<view class="info-title">
 						<image :src="item.logo_png"></image>
@@ -40,80 +40,107 @@
 </template>
 
 <script>
-	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
+	// import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
 	import noData from '@/components/no-data/no-data.vue';
 	export default {
 		components: {
-			Bar,
+			// Bar,
 			noData
 		},
-		created() {
-			// this.util.UiUtils.showLoading("")
-			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
+		props:{
+			m_marketList:{
+				type:Array,
+				required:true,
+				default:()=>[]
+			},
+			m_configitem:{
+				type:Object,
+				required:true,
+				default:()=>{}
+			},
+			haveData:{
+				type:Boolean,
+				required:true,
+				default:false
+			},
+			noData:{
+				type:Boolean,
+				required:true,
+				default:false
+			},
+			scrollHeight:{
+				type:Number,
+				required:true,
+				default:667
+			}
 		},
+		// created() {
+		// 	// this.util.UiUtils.showLoading("")
+		// 	this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
+		// },
 		
-		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
-		},
+		// destroyed() {
+		// 	this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
+		// },
 		data() {
 			return {
-				m_items:[],
-				m_stype:"",
-				m_configitem:{},
-				scrollHeight: 0,
+				// m_items:[],
+				// m_stype:"",
+				// m_configitem:{},
+				// scrollHeight: 0,
 				getStyle(val){
 					return val > 0 ? 'color: #5DB567;' : 'color: #E1643F;'
 				},
-				haveData:true,
-				noData:false
+				// haveData:true,
+				// noData:false
 			}
 		},
 		onLoad() {
 			console.log("====onGetAssetprice===onLoad===")
 			
 		},
-		onShow() {
-			console.log("====onGetAssetprice===onShow===")
-			let _this = this;
-			uni.startPullDownRefresh();
-			setTimeout(function () {
-				this.dal.Common.onGetAssetprice();
-			}.bind(this), 1000);
+		// onShow() {
+		// 	console.log("====onGetAssetprice===onShow===")
+		// 	let _this = this;
+		// 	uni.startPullDownRefresh();
+		// 	setTimeout(function () {
+		// 		this.dal.Common.onGetAssetprice();
+		// 	}.bind(this), 1000);
 			//获取高度
-			uni.getSystemInfo({
-				success(res) {
-					_this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
-				}
-			});
-		},
-		onPullDownRefresh() {
-			console.log('refresh');
-			this.dal.Common.onGetAssetprice();
-			// this.onRefresh();
-			// setTimeout(function () {
-			// 	uni.stopPullDownRefresh();
-			// }, 1000);
-		},
+		// 	uni.getSystemInfo({
+		// 		success(res) {
+		// 			_this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
+		// 		}
+		// 	});
+		// },
+		// onPullDownRefresh() {
+		// 	console.log('refresh');
+		// 	this.dal.Common.onGetAssetprice();
+		// 	// this.onRefresh();
+		// 	// setTimeout(function () {
+		// 	// 	uni.stopPullDownRefresh();
+		// 	// }, 1000);
+		// },
 		
 		methods: {
-			onGetAssetprice:function(data){
-				console.log("====onGetAssetprice===data===",data.data)
-				uni.stopPullDownRefresh();
-				function rankFun(a,b){
-					return a.rank - b.rank
-				}
-				data.data.sort(rankFun)
-				this.m_items = data.data;
-				this.m_configitem = this.dal.Common.onGetRateInfo("exchange_key");
-				console.log("====onGetAssetprice===onShow===",this.m_configitem)
-				if(this.m_items.length == 0){
-					this.haveData = false
-					this.noData = true
-				}else{
-					this.noData = false
-					this.haveData = true
-				}
-			}
+			// onGetAssetprice:function(data){
+			// 	console.log("====onGetAssetprice===data===",data.data)
+			// 	uni.stopPullDownRefresh();
+			// 	function rankFun(a,b){
+			// 		return a.rank - b.rank
+			// 	}
+			// 	data.data.sort(rankFun)
+			// 	this.m_items = data.data;
+			// 	this.m_configitem = this.dal.Common.onGetRateInfo("exchange_key");
+			// 	console.log("====onGetAssetprice===onShow===",this.m_configitem)
+			// 	if(this.m_items.length == 0){
+			// 		this.haveData = false
+			// 		this.noData = true
+			// 	}else{
+			// 		this.noData = false
+			// 		this.haveData = true
+			// 	}
+			// }
 		},
 		
 	}

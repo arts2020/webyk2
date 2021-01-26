@@ -13,30 +13,67 @@ const router = new MinRouter({
 	// name: 'back' 当 type 为 'navigateBack' 时有效，表示回退的层数。。。。
 	
 	routes: [{
-			path: 'pages/home/index',
+			path: 'pages/wallet/index',
 			type: 'navigateBack', //特定跳转
 			name: 'back'
 		},{
-			path: 'pages/home/index',
+			path: 'pages/wallet/index',
 			type: 'switchTab', //特定跳转
-			name: 'home-index'
+			name: 'wallet-index'
 		}, {
-			path: 'pages/product/product',
+			path: 'pages/market/index',
 			type: 'switchTab', //特定跳转
-			name: 'product-product'
+			name: 'market-index'
 		}, {
-			path: 'pages/mine/mine',
+			path: 'pages/dapp/index',
+			type: 'switchTab', //特定跳转
+			name: 'dapp-index'
+		},{
+			path: 'pages/my/index',
 			type: 'switchTab', //特定跳转
 			name: 'mine-mine'
 		},{
-			path: 'pages/register/register',
+			path: 'pages/account/register/register',
 			name: 'register-register'
 		}, {
-			path: 'pages/login/login',
+			path: 'pages/account/login/login',
 			name: 'login-login'
 		},{
-			path: 'pages/safe/pwd-back',
+			path: 'pages/account/register/agreement/agreement',
+			name: 'agreement-page'
+		},{
+			path: 'pages/account/register/agreement/hide',
+			name: 'hide-page'
+		},{
+			path: 'pages/my/visit/visit',
+			name: 'my-visit'
+		},{
+			path: 'pages/my/about-us/about-us',
+			name: 'about-us'
+		},{
+			path: 'pages/my/help/help',
+			name: 'help-help'
+		},{
+			path: 'pages/my/safe/pwd-back',
 			name: 'safe-pwd-back'
+		},{
+			path: 'pages/my/safe/safe-center',
+			name: 'safe-safe-center'
+		},{
+			path: 'pages/my/safe/money-pwd/sure-pwd',
+			name: 'safe-money-pwd-sure-pwd'
+		},{
+			path: 'pages/my/safe/money-pwd/money-pwd',
+			name: 'safe-money-pwd'
+		},{
+			path: 'pages/my/safe/money-pwd/money-changepwd',
+			name: 'safe-money-changepwd'
+		},{
+			path: 'pages/my/safe/authentication/authentication',
+			name: 'safe-authentication-authentication'
+		},{
+			path: 'pages/market/quotation/quotation',
+			name: 'quotation-quotation'
 		},{
 			path: 'pages/notice/notice',
 			name: 'notice-notice'
@@ -50,28 +87,8 @@ const router = new MinRouter({
 			path: 'pages/order-list/order-list',
 			name: 'order-list-order-list'
 		},{
-			path: 'pages/safe/safe-center',
-			name: 'safe-safe-center'
-		},{
-			path: 'pages/safe/money-pwd/sure-pwd',
-			name: 'safe-money-pwd-sure-pwd'
-		},{
-			path: 'pages/safe/money-pwd/money-pwd',
-			name: 'safe-money-pwd'
-		},{
-			path: 'pages/safe/money-pwd/money-changepwd',
-			name: 'safe-money-changepwd'
-		},
-		
-		{
-			path: 'pages/help/help',
-			name: 'help-help'
-		},{
 			path: 'pages/income/my-income/my-income',
 			name: 'income-my-income'
-		},{
-			path: 'pages/safe/authentication/authentication',
-			name: 'safe-authentication-authentication'
 		},{
 			path: 'pages/income/income-eth',
 			name: 'income-income-eth'
@@ -117,22 +134,8 @@ const router = new MinRouter({
 		},{
 			path: 'pages/recharge-currency/recharge-currency',
 			name: 'recharge-currency'
-		},{
-			path: 'pages/register/visit/visit',
-			name: 'register-visit'
 		},
-		{
-			path: 'pages/about-us/about-us',
-			name: 'about-us'
-		},
-		{
-			path: 'pages/register/agreement/agreement',
-			name: 'agreement-page'
-		},
-		{
-			path: 'pages/register/agreement/hide',
-			name: 'hide-page'
-		},
+		
 		{
 			path: 'pages/notice/notice-detail/notice-detail',
 			name: 'notice-detail'

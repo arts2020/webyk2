@@ -1,0 +1,73 @@
+.help-index{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+	.safe-header{
+		width: 100%;
+		height: 44px;
+		line-height: 44px;
+		padding: 0 15px;
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+		border-bottom: 5px solid rgba(0,0,0,0.04);
+		image{
+			width: 18px;
+			height: 18px;
+		}
+		text{
+			font-size: 16px;
+			font-weight: bolder;
+			color: #111111;
+			margin-left: 6px;
+		}
+	}
+	.help-suanli{
+		padding: 10px 0px;
+		.help-title{
+			font-size: 15px;
+			font-weight: bolder;
+			color: #222222;
+			padding: 0 15px;
+		}
+		.mine-type{
+			background-color: #FFFFFF;
+			.type-list{
+				padding: 8px 0px;
+				.mineList{
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					padding: 0 15px;
+					.list-title{
+						display: flex;
+						align-items: center;
+						font-size: 13px;
+						font-weight: bolder;
+						color: #222222;
+						margin-bottom: 8px;
+					}
+					.right-icon{
+						width: 16px;
+						height: 10px;
+					}
+				}
+				.type-content{
+					background-color: #F5F8FD;
+					padding: 10px 15px;
+					font-size: 13px;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #909090;
+					text-indent: 20px;
+				}
+			}
+		}
+	}
+	.jiange{
+		width: 100%;
+		height: 5px;
+		background-color: rgba(0,0,0,0.04);
+	}
+}

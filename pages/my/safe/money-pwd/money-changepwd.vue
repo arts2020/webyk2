@@ -2,7 +2,7 @@
 	<view class="money-pwd">
 		<bar ref="bar" style="background-color: #FFFFFF;"></bar>
 		<view @tap="btnBack()" class="safe-header">
-			<image src="../../../static/image/login/left.svg" />
+			<image src="../../../../static/image/login/left.svg" />
 			<text>修改资金密码</text>
 		</view>
 		<view class="mine-type">

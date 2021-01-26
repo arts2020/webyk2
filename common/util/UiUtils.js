@@ -83,7 +83,7 @@ const UiUtils = {
 		if (name == "login-login") {
 			uni.cclog("=switchToPage==2=name==", name)
 			uni.redirectTo({
-				url: 'pages/home/index'
+				url: '/pages/wallet/index.vue'
 			});
 			return;
 		}

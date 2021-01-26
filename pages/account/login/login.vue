@@ -9,7 +9,7 @@
 				<view class="title">登录</view>
 				<view class="create-user" @tap="btnRegister">
 					<text>创建账号</text>
-					<image src="../../static/image/login/right.svg" />
+					<image src="../../../static/image/login/right.svg" />
 				</view>
 			</view>
 			
@@ -26,7 +26,7 @@
 							maxlength="20"
 							style="color: #071328;"
 						/>
-						<image class="cha" v-if="showClearIcon" @click.stop="clearIcon" src="../../static/image/login/cha.png" />
+						<image class="cha" v-if="showClearIcon" @click.stop="clearIcon" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view class="container-pwd">
@@ -42,7 +42,7 @@
 							@input="clearPwdInput" 
 							style="color: #071328;"
 							type="text" :password="!isShowPassword" maxlength="20" />
-							<image class="cha" v-if="showPwdClearIcon" @click="clearPwdIcon" src="../../static/image/login/cha.png" />
+							<image class="cha" v-if="showPwdClearIcon" @click="clearPwdIcon" src="../../../static/image/login/cha.png" />
 					</view>
 				</view>
 				<view @tap="btnForget" class="forget-pwd">忘记密码？</view>
@@ -70,7 +70,7 @@
 		},
 		data() {
 			return {
-				eyeImg:'../../static/image/login/closeEye.png',
+				eyeImg:'../../../static/image/login/closeEye.png',
 				username: '',
 				password: '',
 				showClearIcon: false, //清除按钮
@@ -139,7 +139,7 @@
 			
 			onCharacterUpdate:function(){
 				console.log('11==onCharacterUpdate=',this.dal.Character.m_playerInfo)
-				this.$openPage({name: "home-index",query: {}})
+				this.$openPage({name: "wallet-index",query: {}})
 			},
 			
 			onLogin:function(data){
@@ -179,9 +179,9 @@
 				console.log("========")
 				this.isShowPassword = !this.isShowPassword;
 				if(this.isShowPassword){
-					this.eyeImg = "../../static/image/login/eye.png"
+					this.eyeImg = "../../../static/image/login/eye.png"
 				}else{
-					this.eyeImg = "../../static/image/login/closeEye.png"
+					this.eyeImg = "../../../static/image/login/closeEye.png"
 				}
 			},
 			btnForget:function(){
