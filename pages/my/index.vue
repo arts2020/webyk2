@@ -204,9 +204,9 @@
 
 			btnMyFun: function(idx) {
 				if (idx == 1) { //我的算力
-					this.util.UiUtils.switchToPage("computing-power-power", "mine-mine", {});
+					// this.util.UiUtils.switchToPage("computing-power-power", "mine-mine", {});
 				} else if (idx == 2) { //我的收益
-					this.util.UiUtils.switchToPage("income-my-income", "mine-mine", {});
+					// this.util.UiUtils.switchToPage("income-my-income", "mine-mine", {});
 				} else if (idx == 3) { //我的钱包
 					// if (!this.isWallet) {
 					// 	this.util.UiUtils.switchToPage("mine-creat-wallet", "mine-mine", {});
@@ -214,19 +214,19 @@
 					// 	this.util.UiUtils.switchToPage("mine-my-wallet-my-wallet", "mine-mine", {});
 					// }
 				} else if (idx == 4) { //公告
-					this.$openPage({
-						name: "notice-notice",
-						query: {
-							type: 1
-						}
-					})
+					// this.$openPage({
+					// 	name: "notice-notice",
+					// 	query: {
+					// 		type: 1
+					// 	}
+					// })
 				} else if (idx == 5) { //订单
-					this.$openPage({
-						name: "order-list-order-list",
-						query: {
-							from: 1
-						}
-					})
+					// this.$openPage({
+					// 	name: "order-list-order-list",
+					// 	query: {
+					// 		from: 1
+					// 	}
+					// })
 				}
 			},
 

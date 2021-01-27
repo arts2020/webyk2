@@ -1,7 +1,11 @@
 <template>
 	<view class="quotation-index">
 		<!-- <bar ref="bar"></bar> -->
-		<!-- <view class="prodect-title">市场行情</view> -->
+		<view class="prodect-title">
+			<view :class="active==0?'pro active-index':'pro'" @tap="updateMenu(0)">自选</view>
+			<view :class="active==1?'pro active-index':'pro'" @tap="updateMenu(1)">市值</view>
+			<view :class="active==2?'pro active-index':'pro'" @tap="updateMenu(2)">DeFi</view>
+		</view>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			<view class="quotation-info">
 				<view class="info-title">
@@ -47,58 +51,47 @@
 			// Bar,
 			noData
 		},
-		props:{
-			m_marketList:{
-				type:Array,
-				required:true,
-				default:()=>[]
-			},
-			m_configitem:{
-				type:Object,
-				required:true,
-				default:()=>{}
-			},
-			haveData:{
-				type:Boolean,
-				required:true,
-				default:false
-			},
-			noData:{
-				type:Boolean,
-				required:true,
-				default:false
-			},
-			scrollHeight:{
-				type:Number,
-				required:true,
-				default:667
-			}
+		created() {
+			// this.util.UiUtils.showLoading("")
+			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
+		    let _this = this;
+		    uni.startPullDownRefresh();
+		    //获取高度
+		    uni.getSystemInfo({
+		    	success(res) {
+		    		
+		    		_this.scrollHeight = res.windowHeight - res.statusBarHeight - 54-60;
+		    	}
+		    });
+			setTimeout(function () {
+				this.dal.Common.onGetAssetprice();
+			}.bind(this), 1000);
 		},
-		// created() {
-		// 	// this.util.UiUtils.showLoading("")
-		// 	this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
-		// },
 		
-		// destroyed() {
-		// 	this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
-		// },
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
+		},
 		data() {
 			return {
-				// m_items:[],
-				// m_stype:"",
-				// m_configitem:{},
-				// scrollHeight: 0,
+				m_marketList:[],
+				m_stype:"",
+				m_configitem:{},
+				scrollHeight: 0,
 				getStyle(val){
 					return val > 0 ? 'color: #5DB567;' : 'color: #E1643F;'
 				},
-				// haveData:true,
-				// noData:false
+				active:1,
+				haveData:true,
+				noData:false,
+				ishow_selfC:false,
+				ishow_market:true,
+				ishow_defi:false,
 			}
 		},
-		onLoad() {
-			console.log("====onGetAssetprice===onLoad===")
+		// onLoad() {
+		// 	console.log("====onGetAssetprice===onLoad===")
 			
-		},
+		// },
 		// onShow() {
 		// 	console.log("====onGetAssetprice===onShow===")
 		// 	let _this = this;
@@ -106,41 +99,55 @@
 		// 	setTimeout(function () {
 		// 		this.dal.Common.onGetAssetprice();
 		// 	}.bind(this), 1000);
-			//获取高度
+		// 	//获取高度
 		// 	uni.getSystemInfo({
 		// 		success(res) {
+					
 		// 			_this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
 		// 		}
 		// 	});
 		// },
-		// onPullDownRefresh() {
-		// 	console.log('refresh');
-		// 	this.dal.Common.onGetAssetprice();
-		// 	// this.onRefresh();
-		// 	// setTimeout(function () {
-		// 	// 	uni.stopPullDownRefresh();
-		// 	// }, 1000);
-		// },
+		onPullDownRefresh() {
+			this.dal.Common.onGetAssetprice();
+			// this.onRefresh();
+			// setTimeout(function () {
+			// 	uni.stopPullDownRefresh();
+			// }, 1000);
+		},
 		
 		methods: {
-			// onGetAssetprice:function(data){
-			// 	console.log("====onGetAssetprice===data===",data.data)
-			// 	uni.stopPullDownRefresh();
-			// 	function rankFun(a,b){
-			// 		return a.rank - b.rank
-			// 	}
-			// 	data.data.sort(rankFun)
-			// 	this.m_items = data.data;
-			// 	this.m_configitem = this.dal.Common.onGetRateInfo("exchange_key");
-			// 	console.log("====onGetAssetprice===onShow===",this.m_configitem)
-			// 	if(this.m_items.length == 0){
-			// 		this.haveData = false
-			// 		this.noData = true
-			// 	}else{
-			// 		this.noData = false
-			// 		this.haveData = true
-			// 	}
-			// }
+			updateMenu(val){
+				this.active = val;
+				this.$nextTick(()=>{
+					setTimeout(()=>{
+						if(val==0){
+							this.ishow_selfC = true;
+						}else if(val==1){
+							this.ishow_market=true;
+						}else if(val==2){
+							this.ishow_defi = true
+						}
+					},50)
+				})
+			},
+			onGetAssetprice:function(data){
+				console.log("====onGetAssetprice===data===",data.data)
+				uni.stopPullDownRefresh();
+				function rankFun(a,b){
+					return a.rank - b.rank
+				}
+				data.data.sort(rankFun)
+				this.m_marketList = data.data;
+				this.m_configitem = this.dal.Common.onGetRateInfo("exchange_key");
+				console.log("====onGetAssetprice===onShow===",this.m_configitem)
+				if(this.m_marketList.length == 0){
+					this.haveData = false
+					this.noData = true
+				}else{
+					this.noData = false
+					this.haveData = true
+				}
+			}
 		},
 		
 	}

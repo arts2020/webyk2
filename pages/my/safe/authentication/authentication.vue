@@ -77,12 +77,12 @@
 				if(item.imgurl != ''){
 					this.m_imgUrl1 = item.imgurl
 				}else{
-					this.m_imgUrl1 = "../../../static/image/safe/upload.png"
+					this.m_imgUrl1 = "../../../../static/image/safe/upload.png"
 				}
 				if(item.imgurl2 != ''){
 					this.m_imgUrl2 = item.imgurl2
 				}else{
-					this.m_imgUrl2 = "../../../static/image/safe/upload-bei.png"
+					this.m_imgUrl2 = "../../../../static/image/safe/upload-bei.png"
 				}
 				this.examState = item.verify_state
 				if(item.imgurl.length <= 0 || item.imgurl2.length <= 0){

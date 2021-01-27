@@ -3,13 +3,32 @@
 	width: 100%;
 	overflow: hidden;
 	.prodect-title{
-		width: 100%;
-		text-align: center;
-		height: 44px;
-		line-height: 44px;
+		width: 60%;
+		height: 60rpx;
+		margin: 10rpx 0 20rpx 30rpx;
+		line-height: 60rpx;
 		background-color: #FFFFFF;
-		font-weight: 600;
 		font-size: 17px;
+		display: flex;
+		align-items: center;
+		.pro{
+			width: 33.3%;
+			height: 100%;
+			line-height: 60rpx;
+			font-size: 28rpx;
+			color: #444444;
+			&.active-index{
+				font-size: 32rpx;
+				font-weight: bold;
+			}
+			&.active-index::after{
+				content: '';
+				display: block;
+				width: 40%;
+				height: 4rpx;
+				background-color: #0A98D5;
+			}
+		}
 	}
 	.quotation-info{
 		width: 100%;
