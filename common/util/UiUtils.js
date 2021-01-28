@@ -78,10 +78,7 @@ const UiUtils = {
 	},
 
 	switchToPage: function(name, from, param, gotype, delta) {
-		uni.cclog("=switchToPage===from==", from)
-		uni.cclog("=switchToPage===name==", name)
 		if (name == "login-login") {
-			uni.cclog("=switchToPage==2=name==", name)
 			uni.redirectTo({
 				url: '/pages/wallet/index.vue'
 			});
@@ -115,9 +112,9 @@ const UiUtils = {
 
 	switchBackPage: function() {
 		let pages = getCurrentPages();
-		console.log("==pages.length==", pages.length)
+		
 		if (pages.length <= 1) {
-			vue.util.UiUtils.switchToPage("home-index", "switchBackPage")
+			vue.util.UiUtils.switchToPage("wallet-index", "switchBackPage")
 		} else {
 			uni.navigateBack({
 				delta: 1

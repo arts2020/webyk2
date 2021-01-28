@@ -1,0 +1,173 @@
+<template>
+	<view class="market-search">
+		<bar ref="bar"></bar>
+		<view class="search-header">
+			<view class="search-frame">
+				<uni-icons type="search" class="search-icon" size="20" color="#E1643F" @tap="gosearch"></uni-icons>
+				<input type="text" placeholder="请输入token名称" v-model="keyword" confirm-type="search" @confirm="gosearch"/>
+			</view>
+			<text class="cancell-txt" @tap="btnBack">取消</text>
+		</view>
+		<view class="serach-content">
+			<view class="content-list" v-if="hasData">
+				<view class="list-item" v-for="(item,index) in coinList" :key="index">
+					<view class="left_info">
+						<view>{{item.name}}</view>
+						<view>全网</view>
+					</view>
+					<view class="right_info">
+						<text>￥{{item.price}}</text>
+						<image v-if="item.isStar" src="../../../static/image/index/chanpin-select.png" mode="" @tap="addStar(item)"></image>
+						<image v-else src="../../../static/image/index/chanpin.png" mode=""></image>
+					</view>
+				</view>
+			</view>
+			<noData v-else/>
+		</view>
+	</view>
+</template>
+
+<script>
+	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
+	import noData from '@/components/no-data/no-data.vue';
+	export default {
+		components: {
+			Bar,
+			noData
+		},
+		data() {
+			return {
+				scrollHeight:'',
+				keyword:'',
+				hasData:true,
+				coinList:[
+					{
+						name:"BTC",
+						price:"201.23",
+						isStar:false
+					},
+					{
+						name:"BTMX",
+						price:"201.23",
+						isStar:false
+					},
+					{
+						name:"BTG",
+						price:"201.23",
+						isStar:false
+					},
+				]
+			};
+		},
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetCoinSearch, this.onGoSearch);
+			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtAddCollect, this.onAddCollect);
+		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetCoinSearch, this.onGoSearch);
+			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtAddCollect, this.onAddCollect);
+		},
+		onShow() {
+			let _this = this;
+			//获取高度
+			uni.getSystemInfo({
+				success(res) {
+					_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
+				}
+			});
+		},
+		methods:{
+			btnBack:function(){
+				this.util.UiUtils.switchBackPage();
+			},
+			gosearch(){
+			    this.dal.Common.onGetSearchcoin(this.keyword)
+			},
+			onGoSearch(data){
+				this.coinList = data.data;
+			},
+			addStar(item){
+				this.dal.Common.onAddStar()
+			},
+			onAddCollect(data){
+				
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+.market-search{
+	min-height: calc(100vh);
+	height: 100%;
+	width: 100%;
+	background-color: #F2F2F2;
+	.search-header{
+		width: 100%;
+		height: 88rpx;
+		padding: 0 30rpx;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		background-color: #FFFFFF;
+		.search-frame{
+			width: 85%;
+			height: 60rpx;
+			border-radius: 30rpx;
+			background-color: #F2F2F2;
+			margin-right: 20rpx;
+			display: flex;
+			align-items: center;
+			padding: 0 10rpx 0 30rpx;
+			box-sizing: border-box;
+			.search-icon{
+				padding-right: 20rpx;
+			}
+			uni-input{
+				
+			}
+		}
+		.cancell-txt{
+			font-size: 28rpx;
+			color: #007AFF;
+		}
+	}
+    .serach-content{
+		width: 100%;
+		background-color: #FFFFFF;
+		padding: 0 40rpx;
+		box-sizing: border-box;
+		.list-item{
+			width: 100%;
+			height: 120rpx;
+			border-bottom: 2rpx solid #F2F2F2;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			.left_info{
+				view:first-child{
+					font-size: 28rpx;
+					color: #444444;
+				}
+				view:nth-child(2){
+					font-size: 24rpx;
+					color: #8e8e8e;
+				}
+			}
+			.right_info{
+				display: flex;
+				align-items: center;
+				text{
+					font-size: 28rpx;
+					color: #8e8e8e;
+				}
+				image{
+					width: 40rpx;
+					height: 40rpx;
+					margin-left: 30rpx;
+				}
+			}
+		}
+	}
+}
+</style>

@@ -6,12 +6,18 @@
 	.nav-menu{
 		width: 100%;
 		height: 80rpx;
+		padding: 0 30rpx;
+		box-sizing: border-box;
 		line-height: 80rpx;
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		transition: all 1s;
+		.search-icon{
+			
+		}
 		.menu{
-			width: 50%;
+			width: 30%;
 			text-align: center;
 			line-height: 80rpx;
 			font-size: 28rpx;
@@ -32,7 +38,9 @@
 		}
 	}
     .quotation-content{
-		opacity: 0;
+		width: 100%;
+		height: 100%;
+		// opacity: 0;
 		transition: all 1s;
 		// transform: translateX(-100%);
 		&.active{
@@ -42,14 +50,73 @@
 	}
 	.transf-content{
 		width: 100%;
-		height: 600rpx;
-		background-color: #0000FF;
-		opacity: 0;
+		height: 100%;
+		padding: 20rpx 40rpx;
+		box-sizing: border-box;
+		background-color: #F2f2f2;
+		// opacity: 0;
 		transition: all 1s;
 		// transform: translateX(-100%);
 		&.active{
 			opacity: 1;
 			// transform: translateX(100%);
+		}
+		.line{
+			width: 100%;
+			height: 4rpx;
+			background-color: #FFFFFF;
+			margin-top: 30rpx;
+		}
+		.select-icon{
+			width: 100%;
+			height: 100rpx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			.coin-picker{
+				width: 250rpx;
+				height: 100%;
+				border-radius: 30rpx;
+				text-align: center;
+				background-color: #FFFFFF;
+				uni-view{
+					line-height: 100rpx;
+				}
+			}
+		}
+		.selsect-num{
+			width: 100%;
+			height: 100rpx;
+			margin-top: 30rpx;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			view{
+				width: 250rpx;
+				height: 100%;
+				border-radius: 30rpx;
+				text-align: center;
+				background-color: #FFFFFF;
+				uni-input{
+					height: 100rpx;
+					line-height: 100rpx !important;
+				}
+			}
+		}
+		.rate-fee{
+			width: 100%;
+			height: 150rpx;
+		}
+		.btn-ok{
+			width: 100%;
+			height: 90rpx;
+			line-height: 90rpx;
+			text-align: center;
+			font-size: 32rpx;
+			font-weight: bold;
+			color: #FFFFFF;
+			border-radius: 30rpx;
+			background-color: #0000FF;
 		}
 	}
 }

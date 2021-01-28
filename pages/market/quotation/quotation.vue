@@ -6,18 +6,21 @@
 			<view :class="active==1?'pro active-index':'pro'" @tap="updateMenu(1)">市值</view>
 			<view :class="active==2?'pro active-index':'pro'" @tap="updateMenu(2)">DeFi</view>
 		</view>
-		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
-			<view class="quotation-info">
-				<view class="info-title">
-					币种
-				</view>
-				<view class="info-title">
-					价格(¥)
-				</view>
-				<view class="info-title">
-					24H涨幅
-				</view>
-			</view> 
+		<view class="quotation-info">
+			<view class="info-title" v-if="active==0">
+				成交量
+			</view>
+			<view class="info-title" v-else>
+				市值
+			</view>
+			<view class="info-title">
+				价格(¥)
+			</view>
+			<view class="info-title">
+				24H涨幅
+			</view>
+		</view> 
+		<scroll-view v-if="active==0" class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			<view v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
 				<view class="quotation-info info-list">
 					<view class="info-title">
@@ -38,7 +41,55 @@
 					</view>
 				</view>
 			</view>
-			<noData v-if="noData"></noData>
+			<view class="nodata_add" v-else @tap="goAdd">
+				添加
+			</view>
+		</scroll-view>
+		<scroll-view v-if="active==1" class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">	
+			<view v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
+				<view class="quotation-info info-list">
+					<view class="info-title">
+						<image :src="item.logo_png"></image>
+						<view class="title">
+							<text>{{item.symbol}}</text>
+							<view>{{item.name_zh}}</view>
+						</view>
+					</view>
+					<view class="list-title" :style="getStyle(item.percent_change_24h)">
+						<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
+							<label style="font-size: 13px;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
+							<label style="color: #b5b2b6;font-size: 10px;">${{(item.price_usd*1).toFixed(2)}}</label> 
+						</view>
+					</view>
+					<view class="list-title" :style="getStyle(item.percent_change_24h)">
+						{{item.percent_change_24h}}%
+					</view>
+				</view>
+			</view>
+			<noData v-else></noData>
+		</scroll-view>
+		<scroll-view v-if="active==2" class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
+			<view v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
+				<view class="quotation-info info-list">
+					<view class="info-title">
+						<image :src="item.logo_png"></image>
+						<view class="title">
+							<text>{{item.symbol}}</text>
+							<view>{{item.name_zh}}</view>
+						</view>
+					</view>
+					<view class="list-title" :style="getStyle(item.percent_change_24h)">
+						<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
+							<label style="font-size: 13px;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
+							<label style="color: #b5b2b6;font-size: 10px;">${{(item.price_usd*1).toFixed(2)}}</label> 
+						</view>
+					</view>
+					<view class="list-title" :style="getStyle(item.percent_change_24h)">
+						{{item.percent_change_24h}}%
+					</view>
+				</view>
+			</view>
+			<noData v-else></noData>
 		</scroll-view>
 	</view>
 </template>
@@ -82,7 +133,6 @@
 				},
 				active:1,
 				haveData:true,
-				noData:false,
 				ishow_selfC:false,
 				ishow_market:true,
 				ishow_defi:false,
@@ -116,6 +166,9 @@
 		},
 		
 		methods: {
+			goAdd(){
+			 this.$openPage({name:"quotation-search"});	
+			},
 			updateMenu(val){
 				this.active = val;
 				this.$nextTick(()=>{
@@ -131,7 +184,6 @@
 				})
 			},
 			onGetAssetprice:function(data){
-				console.log("====onGetAssetprice===data===",data.data)
 				uni.stopPullDownRefresh();
 				function rankFun(a,b){
 					return a.rank - b.rank
@@ -139,13 +191,10 @@
 				data.data.sort(rankFun)
 				this.m_marketList = data.data;
 				this.m_configitem = this.dal.Common.onGetRateInfo("exchange_key");
-				console.log("====onGetAssetprice===onShow===",this.m_configitem)
 				if(this.m_marketList.length == 0){
 					this.haveData = false
-					this.noData = true
-				}else{
-					this.noData = false
-					this.haveData = true
+				}else{	
+					this.haveData = true;
 				}
 			}
 		},

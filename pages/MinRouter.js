@@ -66,6 +66,7 @@ function isNeedLogin(path) {
 var preReqUrlName = "";
 
 function openPage(args) {
+	
 	let name, query = {},
 		gotype,
 		queryStr = null,

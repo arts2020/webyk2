@@ -1,38 +1,25 @@
-<!-- 沉浸式导航栏 设置top高度 -->
 <template>
-	<view>
-		<view :style="{ height: titleHight + 'px' }" class="top-back-blue" ></view>
+	<view :style="{ height: statusBarHeight }" class="uni-status-bar">
+		<slot />
 	</view>
 </template>
 
-<script> 
+<script>
+	var statusBarHeight = uni.getSystemInfoSync().statusBarHeight + 'px'
 	export default {
+		name: 'UniStatusBar',
 		data() {
 			return {
-				titleHight:0
+				statusBarHeight: statusBarHeight
 			}
-		},
-		methods:{
-			getHeight(){
-				let _this = this;
-				//获取高度
-				uni.getSystemInfo({
-					success(res) {
-						_this.titleHight = res.statusBarHeight;
-					}
-				});
-			}
-			
-		},
-		mounted(){
-			this.getHeight();
 		}
 	}
 </script>
-<style>
 
-.top-back-blue {
-	 background-color: #FFFFFF;	
-}
-
+<style lang="scss" scoped>
+	.uni-status-bar {
+		width: 750rpx;
+		height: 20px;
+		// height: var(--status-bar-height);
+	}
 </style>

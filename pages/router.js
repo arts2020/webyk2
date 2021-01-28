@@ -75,6 +75,27 @@ const router = new MinRouter({
 			path: 'pages/market/quotation/quotation',
 			name: 'quotation-quotation'
 		},{
+			path: 'pages/market/quotation/search-page',
+			name: 'quotation-search'
+		},{
+			path: 'pages/wallet/creat-wallet/index',
+			name: 'creat-wallet-index'
+		},{
+			path: 'pages/wallet/creat-wallet/creat-wallet',
+			name: 'creat-wallet-wallet'
+		},{
+			path: 'pages/wallet/creat-wallet/create-status',
+			name: 'creat-wallet-status'
+		},{
+			path: 'pages/wallet/import-wallet/import-wallet',
+			name: 'import-wallet-wallet'
+		},{
+			path: 'pages/wallet/import-wallet/index',
+			name: 'import-wallet-index'
+		},{
+			path: 'pages/wallet/import-wallet/recover',
+			name: 'import-wallet-recover'
+		},{
 			path: 'pages/notice/notice',
 			name: 'notice-notice'
 		},{
@@ -93,9 +114,6 @@ const router = new MinRouter({
 			path: 'pages/income/income-eth',
 			name: 'income-income-eth'
 		},{
-			path: 'pages/mine/creat-wallet/creat-wallet',
-			name: 'mine-creat-wallet'
-		},{
 			path: 'pages/pay/pay-power/pay-power',
 			name: 'pay-pay-power'
 		},{
@@ -110,9 +128,6 @@ const router = new MinRouter({
 		},{
 			path: 'pages/tip-page/recover-tip',
 			name: 'tip-page-recover-tip'
-		},{
-			path: 'pages/recover-identify/recover',
-			name: 'recover-identify-recover'
 		},{
 			path: 'pages/backup-tip/backup-info/backup-sure',
 			name: 'backup-info-backup-sure'

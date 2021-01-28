@@ -17,9 +17,13 @@ const RequestCode = {
 	GetNoticeInfo: 81, //公告详情
 	GetNotify: 82, // 通知 查询接口	
 	GetSwiperList: 83, //轮播图列表
-	GetAssetprice: 84, //获得币价
+	
 	GetRate: 85, //配置文件
 	GetAssetstate: 86, //全网算力
+	
+	GetAssetprice: 84, //获得币价
+	GetSearchcoin:84,//通过关键词搜索币
+	AddCollect:84,//添加为自选
 }
 
 export default RequestCode

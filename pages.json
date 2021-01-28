@@ -210,8 +210,108 @@
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
 			}
+		},{
+			"path": "pages/market/quotation/search-page",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#F8F8F8",
+				"backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
+			}
 		}
-	],
+	    ,{
+            "path" : "pages/wallet/creat-wallet/index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/wallet/creat-wallet/creat-wallet",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        },{
+            "path" : "pages/wallet/creat-wallet/create-status",
+            "style" :                                                                                    
+            {
+              "navigationStyle": "custom",
+              "navigationBarTextStyle": "black",
+              "navigationBarBackgroundColor": "#F8F8F8",
+              "backgroundColor": "#F8F8F8",
+              "enablePullDownRefresh": true,
+              "app-plus": {
+              	"titleNView": true //禁用原生导航栏，APP和H5可用
+              }
+            }
+            
+        }
+        ,{
+            "path" : "pages/wallet/import-wallet/import-wallet",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/wallet/import-wallet/index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom",
+               "navigationBarTextStyle": "black",
+               "navigationBarBackgroundColor": "#F8F8F8",
+               "backgroundColor": "#F8F8F8",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        },{
+            "path" : "pages/wallet/import-wallet/recover",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom",
+               "navigationBarTextStyle": "black",
+               "navigationBarBackgroundColor": "#F8F8F8",
+               "backgroundColor": "#F8F8F8",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		// "navigationBarTextStyle": "black",
 		// "navigationBarTitleText": "uni-app",
@@ -262,6 +362,8 @@
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
 			}
-		}]
+		}    
+                
+            ]
 	}]
 }
