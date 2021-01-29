@@ -7,12 +7,13 @@ const MainWallet = {
 	m_privateKeys: {}, //主链私钥列表
 	m_mnemonic: "", //助记词
 	
-	m_currChainType: vue.entities.ChainType.ETH,//当前钱包
+	m_currChainType: 1,//当前钱包
 	
 	m_chains:[],//主链信息
 	
 	init: function() {
-		uni.cclog("======MainWallet init==========",this.getAssets(vue.entities.Metadata.ChainType.ETH))
+		uni.cclog("======MainWallet init==========")
+		this.m_currChainType = vue.entities.Metadata.ChainType.ETH,//当前钱包
 		this.onAddListener();
 		return true;
 	},
