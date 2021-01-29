@@ -6,6 +6,7 @@ import Common from '@/common/entities/Common.js'
 import RequestCode from "@/common/entities/RequestCode.js"
 import Routes from "@/common/entities/Routes.js"
 import LogType from "@/common/entities/LogType.js"
+import Wallets from "@/common/entities/wallet/Wallets.js"
 
 export default {
 	LocalDataKeys,
@@ -16,9 +17,11 @@ export default {
 	RequestCode,
 	Routes,
 	LogType,
+	Wallets,
 	init: function() {
 		uni.cclog("====entities init===")
 		LocalStrMgr.init();
 		Routes.init();
+		Wallets.init();
 	}
 }
