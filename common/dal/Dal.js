@@ -9,6 +9,11 @@ import Common from "@/common/dal/Common.js"
 import Chain from "@/common/dal/wallet/Chain.js"
 import MainWallet from "@/common/dal/wallet/MainWallet.js"
 import NomalWallet from "@/common/dal/wallet/NomalWallet.js"
+import BTC from "@/common/dal/wallet/wallets/btc.js"
+import EOS from "@/common/dal/wallet/wallets/eos.js"
+import ETH from "@/common/dal/wallet/wallets/ethers.js"
+import Lotus from "@/common/dal/wallet/wallets/lotus.js"
+import TRON from "@/common/dal/wallet/wallets/tron.js"
 
 const Dal = {
 	Net,
@@ -22,6 +27,11 @@ const Dal = {
 	Chain,
 	MainWallet,
 	NomalWallet,
+	BTC,
+	EOS,
+	ETH,
+	Lotus,
+	TRON,
 
 	init: function() {
 		Net.init()

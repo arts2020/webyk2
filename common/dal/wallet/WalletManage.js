@@ -30,7 +30,7 @@ const WalletMange = {
 	await initMainWallets: function() {
 		let mnemonic = vue.dal.MainWallet.getMnemonic();
 		if(mnemonic.length > 0){
-			
+
 		}
 	},
 
