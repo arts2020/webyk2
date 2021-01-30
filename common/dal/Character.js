@@ -5,7 +5,6 @@ const Character = {
 	evtCharacterUpdate: "evt_CharacterUpdate", //角色信息更新
 
 	init: function() {
-		uni.cclog("======Character init==========")
 		this.m_playerInfo = null;
 		this.onAddListener();
 
@@ -44,7 +43,6 @@ const Character = {
 		data.m_sUserName = data.username || "";
 		
 		this.m_playerInfo = data;
-		uni.cclog("==setPlayerInfo==this.m_playerInfo==", this.m_playerInfo)
 
 		vue.util.StringUtils.setUserDefaults(vue.entities.LocalDataKeys.CHARACTER_PLYAERINFO_KEY, JSON.stringify(this.m_playerInfo));
 
@@ -58,7 +56,6 @@ const Character = {
 				this.m_playerInfo = JSON.parse(playinfo);
 			}
 		}
-		uni.cclog("===getPlayerInfo=this.m_playerInfo==", this.m_playerInfo)
 		return this.m_playerInfo;
 	},
 
@@ -76,7 +73,6 @@ const Character = {
 	//登录是否有效
 	isValidLogin: function() {
 		var isloginSuccess = vue.dal.Account.getIsLoginSuccess();
-		console.log('==isloginSuccess==',isloginSuccess)
 		if (isloginSuccess) {
 			return true;
 		}

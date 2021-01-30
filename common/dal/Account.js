@@ -90,7 +90,7 @@ const Account = {
 			this.m_loginSuccess = true;
 			vue.dal.UserInfo.onGetUserInfo(playInfo.m_nUserId);
 			vue.dal.onLoginSuccess();
-			uni.redirectTo({url: 'pages/home/index'});
+			uni.redirectTo({url: '/pages/wallet/index.vue'});
 		}else{
 			// this.$openPage({name: "login-login",query: {},gotype:"reLaunch"})
 			// uni.redirectTo({url: 'pages/login/login'});

@@ -1,10 +1,6 @@
 <template>
 	<view class="backup-info">
-		<bar ref="bar"></bar>
-		<view @tap="btnBack()"  class="safe-header">
-			<image src="../../../static/image/login/left.svg" />
-			<text>确认备份</text>
-		</view>
+<uniNavBar :status="true" :fixed="true" left-icon="back" title="确认助记词" @clickLeft="btnBack"></uniNavBar>
 		<view style="margin-top: 20px;">
 			<label style="font-size: 16px;display: flex;margin-left: 30px;color: #007AFF;">
 				请按顺序点击助记词，以确定您正确备份。</label>
@@ -45,10 +41,9 @@
 		},
 	
 		created() {
-			var ws = this.dal.Wallter.getMnemonic();
-			this.cclog("======ws===", ws)
-			this.words = ws.split(' ')
-		
+			let wordStr = this.dal.Wallter.m_MnemonicInfo;
+			this.words = wordStr.split(' ')
+					
 			var ws = [];
 			for (var i = 0; i < this.words.length; i++) {
 				var a = {
@@ -60,7 +55,6 @@
 			}
 			this.tmpwords = ws;
 			this.randomWords();
-		
 		},
 		
 		data() {
@@ -68,6 +62,7 @@
 				scrollHeight: 0,
 				words: [],
 				seletItems: [],
+				tmpwords:[],
 				menuKey: 0,
 				isok: true,
 				wrongIndex: 0,
@@ -162,8 +157,6 @@
 					}
 				}
 			
-				this.dal.Wallter.addKey();
-				// this.dal.TronWallter.addKey();
 				uni.showModal({
 					title: this.getLocalStr("tip_title"),
 					content: "助记词正确,进入您的钱包",
@@ -171,8 +164,7 @@
 					showCancel: false,
 					success: function(res) {
 						if (res.confirm) {
-							//	//pages/mine/my-wallet/my-wallet
-							this.util.UiUtils.switchToPage("mine-my-wallet-my-wallet", "recover-tip",{},"reLaunch");
+							this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
 						}
 					}.bind(this)
 				});
@@ -203,6 +195,6 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	@import "backup-info.scss"
 </style>

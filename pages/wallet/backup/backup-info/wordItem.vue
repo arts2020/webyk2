@@ -1,10 +1,10 @@
-<template>
+<strong></strong><template>
 	<view style="width: 100px;height: 60px;">
 		<view :class="isselect== false ? 'itemStyle' : 'itemStyle2'" @click="selectItem">
 			{{item.val}} 
 		</view>
 		<view @click="closeItem" v-if="item.iswron == true" style="position: relative;top: -80px;left:90px; border-radius: 50%;">
-			<image style="height: 20px;width: 20px;" src="../../../static/image/wallet/guide_word.png"></image>
+			<image style="height: 20px;width: 20px;" src="../../../../static/image/wallet/guide_word.png"></image>
 		</view>
 	</view>
 </template>

@@ -54,6 +54,33 @@ const router = new MinRouter({
 			path: 'pages/my/help/help',
 			name: 'help-help'
 		},{
+			path: 'pages/my/address/index',
+			name: 'address-list'
+		},{
+			path: 'pages/my/address/detail',
+			name: 'address-detail'
+		},{
+			path: 'pages/my/address/address-type',
+			name: 'address-type'
+		},{
+			path: 'pages/my/agreement/agreement',
+			name: 'user-agreement'
+		},{
+			path:"pages/wallet/add-coin",
+			name: 'wallet-add-coin'
+		},{
+			path: 'pages/wallet/my-wallet/index',
+			name: 'my-wallet-index'
+		},{
+			path: 'pages/wallet/my-wallet/detail',
+			name: 'my-wallet-detail'
+		},{
+			path: 'pages/wallet/status-wallet/index',
+			name: 'status-wallet-index'
+		},{
+			path: 'pages/wallet/status-wallet/status-info',
+			name: 'status-wallet-info'
+		},{
 			path: 'pages/my/safe/pwd-back',
 			name: 'safe-pwd-back'
 		},{
@@ -96,69 +123,15 @@ const router = new MinRouter({
 			path: 'pages/wallet/import-wallet/recover',
 			name: 'import-wallet-recover'
 		},{
-			path: 'pages/notice/notice',
-			name: 'notice-notice'
+			path: 'pages/wallet/backup/backup-info/backup-info',
+			name: 'backup-info'
 		},{
-			path: 'pages/computing-power/power',
-			name: 'computing-power-power'
+			path: 'pages/wallet/backup/backup-info/backup-sure',
+			name: 'backup-info-sure'
 		},{
-			path: 'pages/mine/my-wallet/my-wallet',
-			name: 'mine-my-wallet-my-wallet'
-		},{
-			path: 'pages/order-list/order-list',
-			name: 'order-list-order-list'
-		},{
-			path: 'pages/income/my-income/my-income',
-			name: 'income-my-income'
-		},{
-			path: 'pages/income/income-eth',
-			name: 'income-income-eth'
-		},{
-			path: 'pages/pay/pay-power/pay-power',
-			name: 'pay-pay-power'
-		},{
-			path: 'pages/pay/pay',
-			name: 'pages-pay'
-		},{
-			path: 'pages/order-list/order-list',
-			name: 'order-list'
-		},{
-			path: 'pages/tip-page/pay-tip',
-			name: 'tip-page-pay-tip'
-		},{
-			path: 'pages/tip-page/recover-tip',
-			name: 'tip-page-recover-tip'
-		},{
-			path: 'pages/backup-tip/backup-info/backup-sure',
-			name: 'backup-info-backup-sure'
-		},{
-			path: 'pages/backup-tip/backup-info/backup-info',
-			name: 'backup-info-backup-info'
-		},{
-			path: 'pages/backup-tip/backup-tip',
-			name: 'backup-tip-backup-tip'
-		},{
-			path: 'pages/deal-record/deal-record',
-			name: 'deal-record-deal-record'
-		},{
-			path: 'pages/recharge-currency/carry-over/carry-over',
-			name: 'carry-over'
-		},{
-			path: 'pages/recharge-currency/filecoin-over/carry-over',
-			name: 'filecoin-carry-over'
-		},{
-			path: 'pages/recharge-currency/recharge-currency',
-			name: 'recharge-currency'
+			path: 'pages/wallet/backup/backup-tip',
+			name: 'backup-tip'
 		},
-		
-		{
-			path: 'pages/notice/notice-detail/notice-detail',
-			name: 'notice-detail'
-		},
-		{
-			path: 'pages/pay/pay-power/xieyi',
-			name: 'xieyi-xieyi'
-		}
 	]
 })
 

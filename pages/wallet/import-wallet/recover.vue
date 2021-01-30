@@ -1,10 +1,6 @@
 <template>
 	<view class="recover-index">
-		<bar ref="bar"></bar>
-		<view @tap="btnBack()" class="safe-header">
-			<image src="../../../static/image/login/left.svg" />
-			<text>恢复身份</text>
-		</view>
+		<uni-nav-bar left-icon="back" title="恢复身份" @clickLeft="btnBack"></uni-nav-bar>
 		<view style="height: 10px;"></view>
 		<view style="width: 100%;display: flex;justify-content: center;">
 			<view style="display: flex;justify-content: left;margin-bottom: 20px;margin-top: 10px;width: 90%;">
@@ -23,12 +19,10 @@
 </template>
 
 <script>
-	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
 	import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
 	
 	export default {
 		components: {
-			Bar,
 			uniSegmentedControl
 		},
 		data() {
@@ -41,6 +35,12 @@
 				isdisabled:false,
 			}
 		},
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverStatus, this.recoverWallet);
+		},
+		destroyed() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverStatus, this.recoverWallet);
+		},
 		onLoad() {
 			
 		},
@@ -50,25 +50,19 @@
 			},
 			bindTxtContent: function(e) {
 				this.txtContent = e.detail.value
-				console.log("==this.txtContent====", this.txtContent)
 			},
 			bindTxtPrivate: function(e) {
 				this.txtPrivate = e.detail.value
-				console.log("==this.txtContent====", this.txtPrivate)
 			},
 			btnRecover:function(){
-				console.log("=22===this.txtPrivate=", this.txtPrivate)
 				let privateval = this.txtPrivate.replace(' ', '').replace("0x", '')
 				let content = this.txtContent					
-				console.log("=22===privateval=", privateval)
-				console.log("=22===content=", content)
 				if (this.current == 0) {
 					if (content.length <= 0) {
 						this.util.UiUtils.showToast("助记词不能为空")
 						return;
 					}
 					this.words = content.split(' ')
-					console.log("=22===ws=", this.words)
 					if (this.words.length < 12) {
 						this.util.UiUtils.showToast("助记词长度不正确")
 						return;
@@ -97,8 +91,12 @@
 				this.isdisabled = true;
 				this.dal.Wallter.m_password = this.password;
 				this.dal.Wallter.m_passTip = this.passtips;
-				this.dal.Wallter.addKey();
-				this.util.UiUtils.switchToPage("tip-page-recover-tip", "create-wallter",{},'reLaunch');
+				
+				this.dal.Wallter.onRecoverStatus();
+				// this.util.UiUtils.switchToPage("tip-page-recover-tip", "create-wallter",{},'reLaunch');
+			},
+			recoverWallet(data){
+				this.util.UiUtils.switchToPage("wallet-index", "import-wallet-recover",{},'switchTab');
 			},
 			onClickItem(e) {
 				if (this.current !== e.currentIndex) {

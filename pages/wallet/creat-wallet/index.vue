@@ -1,7 +1,7 @@
 <template>
 	<view class="create-wallet-index">
 		<uniNavBar :status="true" :fixed="true" left-icon="back" title="创建身份&钱包" @clickLeft="btnBack"></uniNavBar>
-		<view class="create-status">
+		<view class="create-status" @tap="goCreateStatus">
 			<image class="status_icon" src="../../../static/image/index/chanpin-select.png" mode=""></image>
 		    <text>创建身份钱包</text>
 			<image class="right_arr" src="../../../static/image/index/jiantou.png" mode=""></image>
@@ -9,19 +9,11 @@
 		<view class="single-wallet">
 			<view class="title">创建单底层钱包</view>
 			<view class="main-list">
-				<view class="menu-item" @tap="goCreate">
-					<image class="menu-icon" src="../../../static/image/index/gonggao.png" mode=""></image>
+				<view class="menu-item" @tap="goCreate(item)" v-for="(item,index) in coinList" :key="index">
+					<image class="menu-icon" :src="item.logo" mode=""></image>
 					<view class="menu-msg">
-						<view class="msg-title">BTC</view>
-						<view class="msg-subT">Bitcoin</view>
-					</view>
-					<image class="right_arr" src="../../../static/image/index/jiantou.png" mode=""></image>
-				</view>
-				<view class="menu-item" @tap="goCreate">
-					<image class="menu-icon" src="../../../static/image/index/gonggao.png" mode=""></image>
-					<view class="menu-msg">
-						<view class="msg-title">BTC</view>
-						<view class="msg-subT">Bitcoin</view>
+						<view class="msg-title">{{item.short_name}}</view>
+						<view class="msg-subT">{{item.full_name}}</view>
 					</view>
 					<image class="right_arr" src="../../../static/image/index/jiantou.png" mode=""></image>
 				</view>
@@ -39,7 +31,19 @@
 		},
 		data() {
 			return {
-				scrollHeight:0
+				scrollHeight:0,
+				coinList:[
+					{
+						logo:"../../../static/image/index/eth.png",
+						short_name:"ETH",
+						full_name:"Ethereum"
+					},
+					{
+						logo:"../../../static/image/index/btc.png",
+						short_name:"BTC",
+						full_name:"Btcoin"
+					},
+				]
 			};
 		},
 		onShow() {
@@ -55,8 +59,11 @@
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},
-			goCreate(){
-				
+			goCreate(item){
+				this.$openPage({name:"creat-wallet-wallet",query:item})
+			},
+			goCreateStatus(){
+				this.$openPage({name:"creat-wallet-status"})
 			}
 		}
 	}

@@ -1,18 +1,18 @@
 <template>
 	<view class="mine-index">
-		<bar ref="bar"></bar>
+		<uni-nav-bar :status="true" :fixed="true" v-if="!isLogin" right-text="登录" title="未登录" @clickLeft="goBack" @clickRight="goLogin"></uni-nav-bar>
+		<uni-nav-bar v-else title="我的"></uni-nav-bar>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
-			<view class="mine-header">
+			<!-- <view class="mine-header">
 				<image class="user-img" :src="m_head" />
 				<view class="user-info">
 					<view @tap="btnIdentity()" class="info-title">
 						<text>{{m_username}}</text>
-						<!-- <image v-show="dal.Character.m_playerInfo.identity_state == 1" src="../../static/image/mine/back.svg" /> -->
 					</view>
 					<view class="tel">{{m_phonenumber}}</view>
 				</view>
-			</view>
-			<view class="user-list">
+			</view> -->
+			<!-- <view class="user-list">
 				<view class="list" @tap="btnMyFun(1)">
 					<image src="../../static/image/index/suanli.png" />
 					<view class="list-label">算力</view>
@@ -29,8 +29,38 @@
 					<image src="../../static/image/index/gonggao.png" />
 					<view class="list-label">订单</view>
 				</view>
+			</view> -->
+			<view class="wallet-manage" @tap="goManageW">
+				<image class="wallet-icon" src="../../static/image/index/gonggao.png" mode=""></image>
+			    <text>钱包管理</text>
+				<image class="right-arr" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 			<view class="mine-type">
+				<view @tap="btnModelFun(8)" class="type-list">
+					<view class="list-title">
+						<image class="list-icon" src="../../static/image/mine/anquanzhongxin.svg" />
+						<text>地址本</text>
+					</view>
+					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
+				</view>
+				<view @tap="btnModelFun(9)" class="type-list">
+					<view class="list-title">
+						<image class="list-icon" src="../../static/image/mine/anquanzhongxin.svg" />
+						<text>语言设置</text>
+					</view>
+					<view class="list-title">
+						<text style="font-size: 22rpx;font-weight: normal;">简体中文</text>
+						<image class="right-icon" style="margin-left: 30rpx;" src="../../static/image/mine/arrow-left.svg" />
+					</view>
+					
+				</view>
+				<view @tap="btnModelFun(10)" class="type-list">
+					<view class="list-title">
+						<image class="list-icon" src="../../static/image/mine/anquanzhongxin.svg" />
+						<text>用户协议</text>
+					</view>
+					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
+				</view>
 				<view @tap="btnModelFun(1)" class="type-list">
 					<view class="list-title">
 						<image class="list-icon" src="../../static/image/mine/shenfenyanzheng.svg" />
@@ -102,10 +132,11 @@
 </template>
 
 <script>
-	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
+	// import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
+	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	export default {
 		components: {
-			Bar
+			uniNavBar
 		},
 		created() {
 			this.onRefresh();
@@ -122,10 +153,11 @@
 
 		onShow() {
 			let _this = this;
-			if (this.dal.Character.isValidLogin() === false) {
-				this.util.UiUtils.switchToPage("login-login");
-				return;
-			}
+			// if (this.dal.Character.isValidLogin() === false) {
+			// 	this.util.UiUtils.switchToPage("login-login");
+			// 	return;
+			// }
+			this.isLogin = this.dal.Character.isValidLogin();
 			//获取高度
 			uni.getSystemInfo({
 				success(res) {
@@ -151,9 +183,29 @@
 				passWordFilterInput(value) {
 					return value;
 				},
+				isLogin:false,
+				ishaveWallet:false
 			}
 		},
 		methods: {
+			goManageW(){
+				let params = {}
+				if(this.ishaveWallet){
+					params.name="my-wallet-index"
+				}else{
+					params.name="wallet-index",
+					params.gotype = "switchTab"
+				}
+				this.$openPage(params)
+			},
+			goLogin(){
+				this.dal.Net.clear();
+				this.$openPage({
+					name: "login-login",
+					query: {},
+					gotype: "reLaunch"
+				})
+			},
 			handleCancel() {
 				console.log('cancel')
 			},
@@ -317,7 +369,16 @@
 							}.bind(this)
 						});
 					}
+				}else if(idx == 8){
+					// 地址本  
+					this.$openPage({name: "address-list",query: {}})
+				}else if(idx == 9){
+					// 语言设置
+				}else if(idx == 10){
+					// 用户协议 
+					this.$openPage({name: "user-agreement",query: {}})
 				}
+			
 			}
 		},
 	}

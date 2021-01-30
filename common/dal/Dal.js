@@ -6,6 +6,7 @@ import Net from "@/common/dal/Net.js"
 import Logger from "@/common/dal/Logger.js"
 import Utils from "@/common/dal/Utils.js"
 import Common from "@/common/dal/Common.js"
+import Wallter from '@/common/dal/wallter/WallterManage.js'
 
 const Dal = {
 	Net,
@@ -16,6 +17,7 @@ const Dal = {
 	Character,
 	UserInfo,
 	Common,
+	Wallter,
 	
 	init: function() {
 		Net.init()
@@ -23,7 +25,6 @@ const Dal = {
 
 	onLoginSuccess: function() {
 		Common.onGetAssetstate();
-		Common.onGetAssetprice();
 	}
 }
 export default Dal

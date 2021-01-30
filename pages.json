@@ -310,7 +310,177 @@
                }
             }
             
+        },{
+            "path" : "pages/wallet/my-wallet/index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom",
+               "navigationBarTextStyle": "black",
+               "navigationBarBackgroundColor": "#F8F8F8",
+               "backgroundColor": "#F8F8F8",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        },{
+            "path" : "pages/wallet/my-wallet/detail",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        },{
+            "path" : "pages/wallet/status-wallet/index",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
         }
+        ,{
+            "path" : "pages/wallet/status-wallet/status-info",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        },{
+            "path" : "pages/wallet/backup/backup-tip",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        },{
+            "path" : "pages/wallet/backup/backup-info/backup-info",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        },{
+            "path" : "pages/wallet/backup/backup-info/backup-sure",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        },{
+            "path" : "pages/wallet/add-coin",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom",
+               "navigationBarTextStyle": "black",
+               "navigationBarBackgroundColor": "#F8F8F8",
+               "backgroundColor": "#F8F8F8",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        },{
+            "path" : "pages/my/address/index",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom",
+               "navigationBarTextStyle": "black",
+               "navigationBarBackgroundColor": "#F8F8F8",
+               "backgroundColor": "#F8F8F8",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        },{
+            "path" : "pages/my/address/address-type",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/my/address/detail",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        },{
+            "path" : "pages/my/agreement/agreement",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom",
+               "navigationBarTextStyle": "black",
+               "navigationBarBackgroundColor": "#F8F8F8",
+               "backgroundColor": "#F8F8F8",
+               "enablePullDownRefresh": true,
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        }     
     ],
 	"globalStyle": {
 		// "navigationBarTextStyle": "black",

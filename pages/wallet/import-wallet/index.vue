@@ -1,7 +1,7 @@
 <template>
 	<view class="import-wallet-index">
 		<uniNavBar :status="true" :fixed="true" left-icon="back" title="导入身份&钱包" @clickLeft="btnBack"></uniNavBar>
-		<view class="import-status">
+		<view class="import-status" @tap="goRecoverStatus">
 			<image class="status_icon" src="../../../static/image/index/chanpin-select.png" mode=""></image>
 		    <text>导入身份钱包</text>
 			<image class="right_arr" src="../../../static/image/index/jiantou.png" mode=""></image>
@@ -9,24 +9,21 @@
 		<view class="single-wallet">
 			<view class="title">导入单底层钱包</view>
 			<view class="main-list">
-				<view class="menu-item" @tap="goimport">
-					<image class="menu-icon" src="../../../static/image/index/gonggao.png" mode=""></image>
+				<view class="menu-item" @tap="goimport(item)" v-for="(item,index) in coinList" :key="index">
+					<image class="menu-icon" :src="item.logo" mode=""></image>
 					<view class="menu-msg">
-						<view class="msg-title">BTC</view>
-						<view class="msg-subT">Bitcoin</view>
-					</view>
-					<image class="right_arr" src="../../../static/image/index/jiantou.png" mode=""></image>
-				</view>
-				<view class="menu-item" @tap="goimport">
-					<image class="menu-icon" src="../../../static/image/index/gonggao.png" mode=""></image>
-					<view class="menu-msg">
-						<view class="msg-title">BTC</view>
-						<view class="msg-subT">Bitcoin</view>
+						<view class="msg-title">{{item.short_name}}</view>
+						<view class="msg-subT">{{item.full_name}}</view>
 					</view>
 					<image class="right_arr" src="../../../static/image/index/jiantou.png" mode=""></image>
 				</view>
 			</view>
 		</view>
+	    <uni-popup type="bottom" ref="popupS">
+			<view class="main-c">
+				<view class="type-item" v-for="(item,index) in items" :key="index" @tap="goRecover(index)">{{item}}</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -39,7 +36,21 @@
 		},
 		data() {
 			return {
-				scrollHeight:0
+				items: ['助记词导入', '私钥导入'],
+				activeCoin:{},
+				scrollHeight:0,
+				coinList:[
+					{
+						logo:"../../../static/image/index/eth.png",
+						short_name:"ETH",
+						full_name:"Ethereum"
+					},
+					{
+						logo:"../../../static/image/index/btc.png",
+						short_name:"BTC",
+						full_name:"Btcoin"
+					},
+				]
 			};
 		},
 		onShow() {
@@ -52,11 +63,19 @@
 			});
 		},			
 		methods:{
+			goRecoverStatus(){
+				this.$openPage({name:"import-wallet-recover"})
+			},
+			goRecover(index){
+				this.activeCoin.recoverType = index;
+				this.$openPage({name:"import-wallet-wallet",query:this.activeCoin})
+			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},
-			goimport(){
-				
+			goimport(item){
+				this.activeCoin = item;
+				this.$refs.popupS.open();
 			}
 		}
 	}
@@ -132,6 +151,19 @@
 					margin-left: auto;
 				}
 			}
+		}
+	}
+    .main-c{
+		width: 100%;
+		padding: 30rpx;
+		box-sizing: border-box;
+		background-color: #FFFFFF;
+		border-radius: 20rpx 20rpx 0 0;
+		.type-item{
+			width: 100%;
+			height: 60rpx;
+			line-height: 60rpx;
+			text-align: center;
 		}
 	}
 }
