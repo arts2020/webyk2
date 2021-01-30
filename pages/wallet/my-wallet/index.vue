@@ -44,10 +44,10 @@
 <script>
 	export default {
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtGetWalletList, this.onGetWallet);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtGetWalletList, this.onGetWallet);
 		},
 		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtGetWalletList, this.onGetWallet);
+			// this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtGetWalletList, this.onGetWallet);
 		},
 		data() {
 			return {
@@ -91,7 +91,7 @@
 		onShow() {
 			uni.startPullDownRefresh();
 			setTimeout(function () {
-				this.dal.Wallter.onGetWalletL()
+				// this.dal.Wallter.onGetWalletL()
 			}.bind(this), 1000);
 		},
 		onPullDownRefresh() {

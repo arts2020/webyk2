@@ -42,15 +42,15 @@
 	export default {
 		name:"create-status",
 		onShow() {
-			this.dal.Setting.onGetUserAgree();
+			// this.dal.Setting.onGetUserAgree();
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetAgreement, this.handleAgreement);
-		    this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateStatus, this.createStatus);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetAgreement, this.handleAgreement);
+		    // this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateStatus, this.createStatus);
 		},
 		destroyed() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetAgreement, this.handleAgreement);
-		    this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateStatus, this.createStatus);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetAgreement, this.handleAgreement);
+		    // this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateStatus, this.createStatus);
 		},
 		data() {
 			return {
@@ -126,11 +126,11 @@
 			},
 			btnCreate:function(){
 				this.util.UiUtils.showLoading("身份初始化...");
-				this.dal.Wallter.onCreateStatus({
-					statusName:this.statusName,
-					password:this.password,
-					pasdTip:this.pasdTip,
-				})
+				// this.dal.Wallter.onCreateStatus({
+				// 	statusName:this.statusName,
+				// 	password:this.password,
+				// 	pasdTip:this.pasdTip,
+				// })
 			},	
 			createStatus(data){
 				uni.showToast({

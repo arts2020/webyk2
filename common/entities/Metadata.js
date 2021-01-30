@@ -25,7 +25,8 @@ const Metadata = {
 	// 游戏语言
 	GameLanguage: {
 		CN: 1, // 简体中文
-		TW: 2, // 繁体中文
+		EN: 2, // 英文中文
+		TW: 3, // 繁体中文
 	},
 
 	PayType: {
@@ -65,6 +66,20 @@ const Metadata = {
 		Lost: 2, //提现失败
 		Handled: 3, //已处理
 		Pay_success: 4 //支付成功
+	},
+	
+	//钱包类型
+	WalletType:{
+		IdentityType:1,//身份钱包
+		Normal:2,//普通钱包
+	},
+	//主链
+	ChainType:{
+		ETH:1,//以太坊
+		BTC:2,//BTC
+		TRON:3,//波厂
+		FIL:4,
+		EOS:5,
 	}
 }
 

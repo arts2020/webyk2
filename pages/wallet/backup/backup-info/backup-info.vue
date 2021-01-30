@@ -84,10 +84,10 @@
 			Bar
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtGetMnemonic, this.getMnemonic);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtGetMnemonic, this.getMnemonic);
 		},
 		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtGetMnemonic, this.getMnemonic);
+			// this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtGetMnemonic, this.getMnemonic);
 		},
 		
 		data() {
@@ -123,7 +123,7 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
 				}
 			});
-			this.dal.Wallter.onGetMnemonic();
+			// this.dal.Wallter.onGetMnemonic();
 		}
 	}
 </script>

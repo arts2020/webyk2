@@ -29,10 +29,10 @@
 			
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateWallet, this.createWallet);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateWallet, this.createWallet);
 		},
 		destroyed() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateWallet, this.createWallet);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateWallet, this.createWallet);
 		},
 		data() {
 			return {
@@ -91,12 +91,12 @@
 			},
 			btnCreate:function(){
 				this.util.UiUtils.showLoading("钱包初始化...");
-				this.dal.Wallter.onCreateWallet({
-					type:this.coinObj.short_name,
-					walletName:this.walletName,
-					password:this.password,
-					pasdTip:this.pasdTip,
-				})
+				// this.dal.Wallter.onCreateWallet({
+				// 	type:this.coinObj.short_name,
+				// 	walletName:this.walletName,
+				// 	password:this.password,
+				// 	pasdTip:this.pasdTip,
+				// })
 			},	
 			createWallet(data){
 				uni.showToast({

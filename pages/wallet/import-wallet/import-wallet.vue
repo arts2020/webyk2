@@ -1,6 +1,6 @@
 <template>
 	<view class="recover-index">
-		<uni-nav-bar :status="true" :fixed="true" left-icon="back"  title="创建钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar :status="true" :fixed="true" left-icon="back"  title="导入钱包"  @clickLeft="goBack"></uni-nav-bar>
 		<view class="recover-main" :style="'height:'+scrollHeight+'px'">
 			<view class="top-title">助记词</view>
 			<view class="input-box" style="height: 300rpx;">
@@ -28,10 +28,10 @@
 			
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverWallet, this.recoverWallet);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverWallet, this.recoverWallet);
 		},
 		destroyed() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverWallet, this.recoverWallet);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverWallet, this.recoverWallet);
 		},
 		data() {
 			return {
@@ -90,12 +90,12 @@
 			},
 			btnRecover:function(){
 				this.util.UiUtils.showLoading("钱包初始化...");
-				this.dal.Wallter.onRecoverWallet({
-					type:this.coinObj.short_name,
-					walletName:this.walletName,
-					password:this.password,
-					pasdTip:this.pasdTip,
-				})
+				// this.dal.Wallter.onRecoverWallet({
+				// 	type:this.coinObj.short_name,
+				// 	walletName:this.walletName,
+				// 	password:this.password,
+				// 	pasdTip:this.pasdTip,
+				// })
 			},	
 			recoverWallet(data){
 				uni.showToast({

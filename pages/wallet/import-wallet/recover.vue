@@ -36,10 +36,10 @@
 			}
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverStatus, this.recoverWallet);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverStatus, this.recoverWallet);
 		},
 		destroyed() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverStatus, this.recoverWallet);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverStatus, this.recoverWallet);
 		},
 		onLoad() {
 			
@@ -92,7 +92,7 @@
 				this.dal.Wallter.m_password = this.password;
 				this.dal.Wallter.m_passTip = this.passtips;
 				
-				this.dal.Wallter.onRecoverStatus();
+				// this.dal.Wallter.onRecoverStatus();
 				// this.util.UiUtils.switchToPage("tip-page-recover-tip", "create-wallter",{},'reLaunch');
 			},
 			recoverWallet(data){

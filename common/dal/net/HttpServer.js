@@ -11,9 +11,12 @@ const HttpServert = {
 		this._components.push(vue.dal.UserInfo); // 用户信息
 		this._components.push(vue.dal.Character); // 个人
 		this._components.push(vue.dal.Logger); // 			
-		this._components.push(vue.dal.Common); // 	Wallter	
-        this._components.push(vue.dal.Wallter); //
 		
+		this._components.push(vue.dal.Common); // 			
+		this._components.push(vue.dal.Chain); //	
+		this._components.push(vue.dal.MainWallet); // /
+		this._components.push(vue.dal.NomalWallet); // 	 		
+
 		this.initComps();
 
 		vue.shared.Http.setEvtHandler({
