@@ -296,6 +296,20 @@
                }
             }
             
+        } ,{
+            "path" : "pages/wallet/import-wallet/import-style",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
         },{
             "path" : "pages/wallet/import-wallet/recover",
             "style" :                                                                                    
@@ -423,6 +437,20 @@
                }
             }
             
+        } ,{
+            "path" : "pages/wallet/add-wallet",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "navigationBarTextStyle": "black",
+                "navigationBarBackgroundColor": "#F8F8F8",
+                "backgroundColor": "#F8F8F8",
+                "enablePullDownRefresh": true,
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
         },{
             "path" : "pages/my/address/index",
             "style" :                                                                                    
@@ -480,7 +508,8 @@
                }
             }
             
-        }     
+        } 
+       
     ],
 	"globalStyle": {
 		// "navigationBarTextStyle": "black",

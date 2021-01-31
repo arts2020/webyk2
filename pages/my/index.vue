@@ -1,7 +1,7 @@
 <template>
 	<view class="mine-index">
-		<uni-nav-bar :status="true" :fixed="true" v-if="!isLogin" right-text="登录" title="未登录" @clickLeft="goBack" @clickRight="goLogin"></uni-nav-bar>
-		<uni-nav-bar v-else title="我的"></uni-nav-bar>
+		<uni-nav-bar :statusBar="true" :fixed="true" v-if="!isLogin" right-text="登录" title="未登录" @clickLeft="goBack" @clickRight="goLogin"></uni-nav-bar>
+		<uni-nav-bar :statusBar="true" :fixed="true" v-else title="我的"></uni-nav-bar>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			<!-- <view class="mine-header">
 				<image class="user-img" :src="m_head" />
@@ -132,7 +132,6 @@
 </template>
 
 <script>
-	// import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
 	export default {
 		components: {
@@ -184,7 +183,8 @@
 					return value;
 				},
 				isLogin:false,
-				ishaveWallet:false
+				// 是否有钱包
+				ishaveWallet:true
 			}
 		},
 		methods: {
@@ -371,7 +371,7 @@
 					}
 				}else if(idx == 8){
 					// 地址本  
-					this.$openPage({name: "address-list",query: {}})
+					this.$openPage({name: "address-list",query: {type:2}})
 				}else if(idx == 9){
 					// 语言设置
 				}else if(idx == 10){

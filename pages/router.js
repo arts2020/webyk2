@@ -69,6 +69,9 @@ const router = new MinRouter({
 			path:"pages/wallet/add-coin",
 			name: 'wallet-add-coin'
 		},{
+			path:"pages/wallet/add-wallet",
+			name: 'wallet-add-wallet'
+		},{
 			path: 'pages/wallet/my-wallet/index',
 			name: 'my-wallet-index'
 		},{
@@ -116,6 +119,10 @@ const router = new MinRouter({
 		},{
 			path: 'pages/wallet/import-wallet/import-wallet',
 			name: 'import-wallet-wallet'
+		},
+		{
+			path: 'pages/wallet/import-wallet/import-style',
+			name: 'import-wallet-style'
 		},{
 			path: 'pages/wallet/import-wallet/index',
 			name: 'import-wallet-index'

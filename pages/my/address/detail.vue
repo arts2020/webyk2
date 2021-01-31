@@ -1,25 +1,25 @@
 <template>
 	<view class="address-detail">
-		<uni-nav-bar :status="true" :fixed="true" left-icon="back" title="地址本" @clickLeft="goBack">
-			<view slot="right" :style="{'color':address?'#0000FF':'#8e8e8e'}" @tap="goSave">保存</view>
+		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="地址本" @clickLeft="goBack">
+			<view slot="right" :style="{'color':coinObj.addrInfo?'#0000FF':'#8e8e8e'}" @tap="goSave">保存</view>
 		</uni-nav-bar>
 	    <view class="coin" @tap="goChioce">
 			<image class="wallet-icon" :src="coinObj.logo" mode=""></image>
-			<text>{{coinObj.short_name}}</text>
+			<text>{{coinObj.name}}</text>
 			<image class="right-arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="addr_info">
 			<view class="title">地址信息</view>
 			<view class="addr_description">
 				<view class="addr_item">
-					<input type="text" placeholder="请输入地址" v-model="address" />
+					<input type="text" placeholder="请输入地址" v-model="coinObj.addrInfo" />
 					<uni-icons type="scan" size="30" color="#444444"></uni-icons>
 				</view>
 				<view class="addr_item">
-					<input type="text" placeholder="名称" v-model="addr_name" />
+					<input type="text" placeholder="名称" v-model="coinObj.addrName" />
 				</view>
 				<view class="addr_item">
-					<input type="text" placeholder="描述(选填)" v-model="addr_desc" />
+					<input type="text" placeholder="描述(选填)" v-model="coinObj.addr_bak" />
 				</view>
 			</view>
 		</view>
@@ -32,21 +32,24 @@
 			return {
 				coinObj:{
 					logo:'../../../static/image/index/btc.png',
-					short_name:"ETH"
+					chaintype:1,
+					name:"ETH",
+					addrInfo:"",
+					addrName:"",
+					addr_bak:""
 				},
-				address:"",
-				addr_name:"",
-				addr_desc:""
+				
 			};
 		},
 		onLoad(option) {
-			if(option.query){
-				this.coinObj=JSON.parse(option.query)
+			let params = JSON.parse(option.query);
+			if(Object.keys(params).length!=0){
+				this.coinObj=params;
 			}
 		},
 		onShow() {
+			
 			// let _this = this;
-			uni.startPullDownRefresh();
 			//获取高度
 			// uni.getSystemInfo({
 			// 	success:(res)=>{
@@ -65,24 +68,23 @@
 				this.util.UiUtils.switchBackPage();
 			},
 			goSave(){
-				if(!this.address){
+				if(!this.coinObj.addrInfo){
 					return;
 				}
-				if(!this.addr_name){
+				if(!this.coinObj.addrName){
 					uni.showToast({
 						title:"名称不能为空",
 						icon:"none"
 					})
 					return;
 				}
-				this.dal.Setting.onSetAddressInfo({
-					address:this.address,
-					addr_desc:this.addr_desc,
-					addr_name:this.addr_name
-				});
+				this.dal.Setting.onSetAddressInfo(this.coinObj);
+				setTimeout(()=>{
+					this.$openPage({name:"address-list"})
+				},1000)
 			},
 			goChioce(){
-				this.$openPage({name:"address-type",gotype:"redirectTo",query:{short_name:this.coinObj.short_name}})
+				this.$openPage({name:"address-type",query:{name:this.coinObj.chaintype}})
 			},
 			onSetAddress(data){
 				vue.util.UiUtils.showToast(data.msg);

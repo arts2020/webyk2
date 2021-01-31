@@ -1,6 +1,6 @@
 <template>
 	<view class="create-index">
-		<uni-nav-bar :status="true" :fixed="true" left-icon="back"  title="创建钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back"  title="创建钱包"  @clickLeft="goBack"></uni-nav-bar>
 		<view class="create-main" :style="'height:'+scrollHeight+'px'">
 			<view class="top-title">钱包名称</view>
 			<view class="input-box">
@@ -27,12 +27,6 @@
 	export default {
 		components: {
 			
-		},
-		created() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateWallet, this.createWallet);
-		},
-		destroyed() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateWallet, this.createWallet);
 		},
 		data() {
 			return {
@@ -90,18 +84,21 @@
 				this.util.UiUtils.switchBackPage();
 			},
 			btnCreate:function(){
+				// 还没有输入钱包名称和密码时点击按钮不给予操作
+				if(!(this.walletName&&this.password)){return;}
+				
 				this.util.UiUtils.showLoading("钱包初始化...");
-				// this.dal.Wallter.onCreateWallet({
-				// 	type:this.coinObj.short_name,
-				// 	walletName:this.walletName,
-				// 	password:this.password,
-				// 	pasdTip:this.pasdTip,
-				// })
-			},	
-			createWallet(data){
-				uni.showToast({
-					title:data.msg
-				})
+				let params = {
+					type:this.coinObj.chaintype,
+					walletName:this.walletName,
+					password:this.password,
+					pasdTip:this.pasdTip,
+				}
+				//传参到数据层添加普通钱包
+				
+				//给出成功提示
+				
+				//1s后跳转到备份助记词提示页
 				setTimeout(()=>{
 					this.util.UiUtils.switchToPage("backup-tip", "creat-wallet-wallet",{},"redirectTo");
 				},1000)

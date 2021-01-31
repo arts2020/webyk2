@@ -1,6 +1,6 @@
 <template>
 	<view class="create-wallet-index">
-		<uniNavBar :status="true" :fixed="true" left-icon="back" title="创建身份&钱包" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="创建身份&钱包" @clickLeft="btnBack"></uniNavBar>
 		<view class="create-status" @tap="goCreateStatus">
 			<image class="status_icon" src="../../../static/image/index/chanpin-select.png" mode=""></image>
 		    <text>创建身份钱包</text>

@@ -1,7 +1,7 @@
 <template>
 	<view class="backup-info">
 		
-		<uniNavBar :status="true" :fixed="true" left-icon="back" title="备份助记词" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="备份助记词" @clickLeft="btnBack"></uniNavBar>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			<view class="backup-title">请按顺序抄写助记词，确保备份正确</view>
 			<view class="backup-content">

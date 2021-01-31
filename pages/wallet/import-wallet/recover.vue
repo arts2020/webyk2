@@ -1,110 +1,67 @@
 <template>
-	<view class="recover-index">
-		<uni-nav-bar left-icon="back" title="恢复身份" @clickLeft="btnBack"></uni-nav-bar>
-		<view style="height: 10px;"></view>
-		<view style="width: 100%;display: flex;justify-content: center;">
-			<view style="display: flex;justify-content: left;margin-bottom: 20px;margin-top: 10px;width: 90%;">
-				<uni-segmented-control style="width: 230px;" :current="current" :values="items" @clickItem="onClickItem" style-type="text"
-				 active-color="#007AFF"></uni-segmented-control>
+	<view class="create-status">
+		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="恢复身份" @clickLeft="goBack"></uni-nav-bar>
+	    
+		<view class="create-main" v-if="isNext" :style="'height:'+scrollHeight+'px'">
+				<view class="top-title">恢复身份，你将会有身份下的多链钱包，比如ETH、BTC。。。</view>
+				<view class="input-box" style="height: 300rpx;">
+					<textarea placeholder-style="font-size: 26rpx;color: #8e8e8e;" placeholder="输入助记词并使用空格分离" v-model="words"/>
+				</view>
+				<view class="input-box">
+					<input @input="inputPasd" type="text" password placeholder="密码" v-model="password"/>
+				</view>
+				<view class="tips">{{tip_1}}</view>
+				<view class="input-box">
+					<input @blur="reconfirm" password type="text" placeholder="重复输入密码" v-model="confirmPasd"/>
+				</view>
+				<view class="tips">{{tip_2}}</view>
+				<view class="input-box">
+					<input type="text" placeholder="密码提示(可选)" v-model="pasdTip"/>
+				</view>
+			    <view class="btn_ok" :style="'background-color:'+btnCreate_color" @tap="btnCreate">创建</view>
+		</view>
+		
+		<view class="aggrement"  v-else :style="'height:'+scrollHeight+'px'">
+			<scroll-view scroll-y="true" class="aggr-c" >
+				<rich-text :nodes="content"></rich-text>
+			</scroll-view>
+			<view class="btn-box">
+				<radio-group @change="handleCheck">
+					<label>
+						<radio value="aggr" /><text>我已阅读并同意服务条款</text>
+					</label>
+				</radio-group>
+				<view class="btn_ok" :style="'background-color:'+btn_color" @tap="goNext">确认</view>
 			</view>
 		</view>
-		<scroll-view v-show="current == 0"  class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
-			<textarea @blur="bindTxtContent" placeholder-style="color:#909090;font-size:13px;" placeholder="请输入助记词单词，并用空格分隔" />
-			</scroll-view>
-		<scroll-view v-show="current == 1" class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
-			<textarea @blur="bindTxtPrivate" placeholder-style="color:#909090;font-size:13px;" placeholder="请输入私钥"/>
-		</scroll-view>
-		<view @tap="btnRecover()" :disabled="isdisabled" class="container-login">恢复身份</view>
+		
 	</view>
 </template>
 
 <script>
-	import uniSegmentedControl from "@/components/uni-segmented-control/uni-segmented-control.vue"
-	
 	export default {
-		components: {
-			uniSegmentedControl
+		name:"create-status",
+		onShow() {
+			// this.dal.Setting.onGetUserAgree();
 		},
 		data() {
 			return {
-				items: ['助记词恢复', '私钥恢复'],
-				scrollHeight: 0,
-				current: 0,
-				txtPrivate:"",
-				txtContent:"",
-				isdisabled:false,
-			}
-		},
-		created() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverStatus, this.recoverWallet);
-		},
-		destroyed() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverStatus, this.recoverWallet);
-		},
-		onLoad() {
-			
-		},
-		methods: {
-			btnBack:function(){
-				this.util.UiUtils.switchBackPage();
-			},
-			bindTxtContent: function(e) {
-				this.txtContent = e.detail.value
-			},
-			bindTxtPrivate: function(e) {
-				this.txtPrivate = e.detail.value
-			},
-			btnRecover:function(){
-				let privateval = this.txtPrivate.replace(' ', '').replace("0x", '')
-				let content = this.txtContent					
-				if (this.current == 0) {
-					if (content.length <= 0) {
-						this.util.UiUtils.showToast("助记词不能为空")
-						return;
-					}
-					this.words = content.split(' ')
-					if (this.words.length < 12) {
-						this.util.UiUtils.showToast("助记词长度不正确")
-						return;
-					}
-					var isValid = this.dal.Wallter.findPassword(content);
-					if (!isValid) {
-						this.util.UiUtils.showToast("助记词不正确")
-						return;
-					}
-					var Mnemonic = this.dal.Wallter.getMnemonic()
-					if (!Mnemonic || Mnemonic.length <= 0) {
-						this.util.UiUtils.showToast("助记词不正确")
-						return;
-					}
-				} else {
-					if (privateval.length <= 0) {
-						this.util.UiUtils.showToast("私钥不能为空")
-						return;
-					}
-					let res = this.dal.Wallter.recoveryEthWallter(privateval);
-					if (!res) {
-						this.util.UiUtils.showToast("私钥不正确，请重新输入")
-						return;
-					}
-				}
-				this.isdisabled = true;
-				this.dal.Wallter.m_password = this.password;
-				this.dal.Wallter.m_passTip = this.passtips;
-				
-				// this.dal.Wallter.onRecoverStatus();
-				// this.util.UiUtils.switchToPage("tip-page-recover-tip", "create-wallter",{},'reLaunch');
-			},
-			recoverWallet(data){
-				this.util.UiUtils.switchToPage("wallet-index", "import-wallet-recover",{},'switchTab');
-			},
-			onClickItem(e) {
-				if (this.current !== e.currentIndex) {
-					this.current = e.currentIndex;
-				}
-			},
+				scrollHeight:0,
+				content:"",
+				// 是否下一步
+				isNext:false,
+				// 是否同意协议
+				isAgree:false,
+				words:"",
+				password:"",
+				confirmPasd:"",
+				pasdTip:"",
+				tip_1:"",
+				tip_2:"",
+			};
 		},
 		onShow() {
+			// 是否要求恢复到页面刚加载进来时的状态
 			let _this = this;
 			//获取高度
 			uni.getSystemInfo({
@@ -112,64 +69,147 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
 				}
 			});
+		},
+		computed:{
+			btn_color(){
+				if(this.isAgree){
+					return '#0000FF'
+				}else{
+					return '#C8C7CC'
+				}
+			},
+			btnCreate_color(){
+				if(this.words&&this.password){
+					return '#0000FF'
+				}else{
+					return '#C8C7CC'
+				}
+			}
+		},
+		methods:{
+			handleCheck(evt){
+				if(evt.target.value){
+					this.isAgree=true;
+				}
+			},
+			goNext(){
+				if(!this.isAgree){return;}
+				this.isNext=true;
+			},
+			goBack(){
+				this.util.UiUtils.switchBackPage();
+			},
+			handleAgreement(data){
+				this.content = data.data;
+			},
+			reconfirm(){
+				if(this.password!=this.confirmPasd){
+					this.tip_2 = '两次密码不一致'
+				}else{
+					this.tip_2 = ''
+				}
+			},
+			inputPasd(){
+				if(this.password.length<8){
+					this.tip_1 = "不少于8个字符，建议大小写字母、数字混合"
+				}else{
+					this.tip_1=""
+				}
+				
+			},
+			btnCreate:function(){
+				if(!(this.words&&this.password)){return;}
+				
+				this.util.UiUtils.showLoading("身份初始化...");
+				
+				//执行恢复身份操作
+				
+				//给出成功提示
+				
+				//1s后跳转
+				setTimeout(()=>{
+					this.util.UiUtils.switchToPage("wallet-add-coin", "creat-wallet-status",{backType:1},"redirectTo");
+				},1000)
+			},	
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.recover-index{
-		height: 100%;
+.create-status{
+	width: 100%;
+	height: 100%;
+	min-height: 100vh;
+	background-color: #F2F2F2;
+	.aggrement{
 		width: 100%;
-		overflow: hidden;
-		background: linear-gradient(180deg,#f2f6fa, #ffffff);
-		.safe-header{
+		padding: 0rpx 20rpx;
+		box-sizing: border-box;
+		.aggr-c{
 			width: 100%;
-			height: 44px;
-			line-height: 44px;
-			padding: 0 15px;
-			background-color: #FFFFFF;
-			display: flex;
-			align-items: center;
-			border-bottom: 5px solid rgba(0,0,0,0.04);
-			image{
-				width: 18px;
-				height: 18px;
-			}
-			text{
-				font-size: 16px;
-				font-weight: bolder;
-				color: #111111;
-				margin-left: 6px;
-			}
+			height: calc(100% - 150rpx);
 		}
-		.recover-title{
-			padding: 20px 15px 10px 20px;
-			font-size: 16px;
-			font-family: PingFang SC, PingFang SC-Heavy;
-			font-weight: 800;
-			color: #071328;
-		}
-		uni-textarea{
-			width: auto !important;
-			margin: 0 15px;
-			background: #ffffff;
-			border: 1px solid #e7e6ed;
-			border-radius: 3px;
-			padding: 10px;
-		}
-		.container-login {
-			width: 30%;
-			height: 36px;
-			line-height: 36px;
-			border-radius: 4px;
-			color: #FFFFFF;
-			text-align: center;
-			background: linear-gradient(to right, #3FA2FF, #5470FF);
-			font-size: 13px;
-			letter-spacing: 1px;
+		.btn-box{
+			width: calc(100% - 40rpx);
+			height: 150rpx;
 			position: fixed;
-			bottom: 10%;
-			left: 35%;
+			bottom: 10rpx;
+			left: 20rpx;
+			.btn_ok{
+				width: 100%;
+				height: 80rpx;
+				border-radius: 20rpx;
+				background-color: #0000FF;
+				font: 28rpx bold;
+				color: #FFFFFF;
+				text-align: center;
+				line-height: 100rpx;
+				margin-top: 20rpx;
+			}
 		}
 	}
+	.create-main{
+		width: 100%;
+		padding: 50rpx;
+		box-sizing: border-box;
+		background-color: #F2F2F2;
+		.top-title{
+			font-size: 28rpx;
+			font-weight: bold;
+			color: #444444;
+			margin-bottom: 30rpx;
+		}
+		.input-box{
+			width: 100%;
+			height: 80rpx;
+			border-radius: 20rpx;
+			background-color: #FFFFFF;
+			margin-bottom: 30rpx;
+			display: flex;
+			align-items: center;
+			uni-input{
+				height: 60rpx;
+				margin-left: 30rpx;
+				font-size: 26rpx;
+				color: #8e8e8e;
+			}
+		}
+		.tips{
+			text-align: right;
+			font-size: 24rpx;
+			color: #007AFF;
+			margin-bottom: 30rpx;
+		}
+		.btn_ok{
+			width: 100%;
+			height: 80rpx;
+			font: 28rpx bold;
+			color: #FFFFFF;
+			letter-spacing: 10rpx;
+			text-align: center;
+			line-height: 80rpx;
+			border-radius: 20rpx;
+		}
+	}
+}
 </style>

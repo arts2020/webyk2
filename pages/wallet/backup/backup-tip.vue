@@ -1,6 +1,6 @@
 <template>
 	<view class="create-index">
-		<uniNavBar :status="true" :fixed="true" left-icon="back" title="备份" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="备份" @clickLeft="btnBack"></uniNavBar>
 		<view class="create-list">
 			<view class="tip-title">备份提示</view>
 			<view class="tip-cotent">获取助记词等于获取钱包资产所有权</view>

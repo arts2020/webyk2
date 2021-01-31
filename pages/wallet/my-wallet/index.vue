@@ -1,20 +1,16 @@
 <template>
 	<view class="wallet-index">
-		<uni-nav-bar :status="true" :fixed="true" left-icon="back" right-icon="plusempty" title="管理钱包" @clickLeft="btnBack" @clickRight="goAdd"></uni-nav-bar>
+		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" right-icon="plusempty" title="管理钱包" @clickLeft="btnBack" @clickRight="goAddWallet"></uni-nav-bar>
 	    <view class="main-content">
 			<scroll-view class="main-left" scroll-y="true" >
 				<view class="nav-menu">
-					<image :src="active==-1?'../../../static/image/index/hangqing-select.png':'../../../static/image/index/hangqing.png'" mode="" @tap="handleChecked(-1)"></image>
-					<image :src="active==item.id?item.logo_act:item.logo" mode="" v-for="(item,index) in identity_wallets" :key="index" @tap="handleChecked(item.id)"></image>
+					<image :src="activeObj.chaintype==-1?'../../../static/image/index/hangqing-select.png':'../../../static/image/index/hangqing.png'" mode="" @tap="handleChecked({chaintype:-1})"></image>
+					<image :src="activeObj.chaintype==item.chaintype?item.logo_act:item.logo" mode="" v-for="(item,index) in identity_wallets" :key="index" @tap="handleChecked(item)"></image>
 				</view>
 			</scroll-view>
 			<scroll-view class="main-right" scroll-y="true" >
-				<view class="top-title">
-					<text>身份钱包</text>
-					<image src="../../../static/image/index/chanpin.png" mode=""></image>
-				</view>
-				<view class="menu-list">
-					<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url('+item.bgcImg+') no-repeat center;'" @tap="goManage(item)">
+				<view class="current-c" v-if="currentList.length">
+					<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url('+item.bgcImg+') no-repeat center;'" @tap="goDetail(item)">
 						<view class="wallet-name">
 							<text>{{item.name}}</text>
 							<text>...</text>
@@ -22,19 +18,45 @@
 						<view class="wallet-addr">{{item.addr}}</view>
 					</view>
 				</view>
-				<view class="imKey">
-					<view class="top-title">imKey</view>
-					<view class="imKey-main">配对imKey硬件钱包</view>
-				</view>
-				<view class="create-import" v-if="single_wallets.length">
-					<view class="top-title">创建/导入</view>
-					<view class="list-item" @tap="goManage(item)" :style="'background: url('+item.bgcImg+') no-repeat center;'" v-for="(item,index) in single_wallets" :key="index">
-						<view class="wallet-name">
-							<text>{{item.name}}</text>
-							<text>...</text>
-						</view>
-						<view class="wallet-addr">{{item.addr}}</view>
+				<view class="main-c" v-else>
+					<view class="top-title">
+						<text>身份钱包</text>
+						<text @tap="goManage">管理</text>
 					</view>
+					<view class="menu-list">
+						<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url('+item.bgcImg+') no-repeat center;'" @tap="goDetail(item)">
+							<view class="wallet-name">
+								<text>{{item.name}}</text>
+								<text>...</text>
+							</view>
+							<view class="wallet-addr">{{item.addr}}</view>
+						</view>
+						<view class="add-coin" @tap="goAddCoin">
+							<view class="tip-msg">
+								<view class="tip-title">添加币种</view>
+								<view class="tip-content">
+									<view class="dot"></view>
+									<view class="content">支持EOS、TRX、CKB、KSM、FIL</view>
+								</view>
+							</view>
+							<uni-icons type="plus" size="30" color="#444444"></uni-icons>
+						</view>
+					</view>
+					<view class="imKey">
+						<view class="top-title">imKey</view>
+						<view class="imKey-main">配对imKey硬件钱包</view>
+					</view>
+					<view class="create-import" v-if="single_wallets.length">
+						<view class="top-title">创建/导入</view>
+						<view class="list-item" @tap="goDetail(item)" :style="'background: url('+item.bgcImg+') no-repeat center;'" v-for="(item,index) in single_wallets" :key="index">
+							<view class="wallet-name">
+								<text>{{item.name}}</text>
+								<text>...</text>
+							</view>
+							<view class="wallet-addr">{{item.addr}}</view>
+						</view>
+					</view>
+					
 				</view>
 			</scroll-view>
 		</view>
@@ -43,40 +65,38 @@
 
 <script>
 	export default {
-		created() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtGetWalletList, this.onGetWallet);
-		},
-		destroyed() {
-			// this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtGetWalletList, this.onGetWallet);
-		},
 		data() {
 			return {
 				scrollHeight: 0,
-				active:-1,
+				activeObj:{
+					chaintype:-1,
+				},
 				identity_wallets:[
 					{
-						id:1,
+						chaintype:1,
 						logo:"../../../static/image/index/index.png",
 						logo_act:"../../../static/image/index/index-select.png",
-						name:"ETH-Wallet",
+						name:"ETH",
+						alias:"Ethereum",
 						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"../../../static/image/index/index-bg.png"
 					},
 					{
-						id:2,
+						chaintype:2,
 						logo:"../../../static/image/index/index.png",
 						logo_act:"../../../static/image/index/index-select.png",
-						name:"ETH-Wallet",
+						name:"BTC",
+						alias:"Bitcoin",
 						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"../../../static/image/safe/powerBg.png"
 					},
 				],
 				single_wallets:[
 					{
-						id:3,
+						chaintype:1,
 						logo:"../../../static/image/index/index.png",
 						logo_act:"../../../static/image/index/index.png",
-						name:"ETH-Wallet",
+						name:"lisa",
 						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"../../../static/image/index/index-bg.png"
 					}
@@ -95,25 +115,35 @@
 			}.bind(this), 1000);
 		},
 		onPullDownRefresh() {
-			this.dal.Wallter.onGetWalletL()
+			// this.dal.Wallter.onGetWalletL()
 		},
 		methods: {
-			onGetWallet(data){
-				uni.stopPullDownRefresh();
-				// 拿到钱包数据后进行分类处理
+			//添加币种
+			goAddCoin(){
+				this.util.UiUtils.switchToPage("wallet-add-coin", "creat-wallet-status",{backType:3});
 			},
-			// 去到管理钱包的界面
-			goManage(item){
-				
+			//去到管理身份界面
+            goManage(){
+				this.$openPage({name:"status-wallet-index"})
+			},
+			// 去到钱包详情界面，钱包详情界面 身份钱包和普通钱包有区别，进行状态控制
+			goDetail(item){
+				this.$openPage({name:"my-wallet-detail",query:item})
 			},
 			// 去添加钱包
-			goAdd(){
-				
+			goAddWallet(){
+				this.$openPage({name:"wallet-add-wallet"})
 			},			
-			handleChecked(eId){
-				this.active=eId;
-				let curItem = this.identity_wallets.find(el=>el.id==eId);
-				// 筛选选中的钱包类型加入到this.currentList中
+			handleChecked(item){
+			    this.currentList = [];		
+				this.activeObj = item;
+				if(item.chaintype!=-1){
+					// 选中主链中一种,加入活动列表,并从普通钱包列表中筛选该类型的普通钱包加入活动列表
+					let list = this.single_wallets.filter(el=>el.chaintype==item.chaintype);
+					list.unshift(item);
+					this.currentList = list;
+				}
+				console.log(item.chaintype,this.single_wallets.filter(el=>el.chaintype==item.chaintype))
 			},
 			onRefresh:function(){
 
@@ -204,6 +234,35 @@
 						color: #FFFFFF;
 					}
 				}
+				.add-coin{
+					width: 100%;
+					height: 120rpx;
+					border-radius: 20rpx;
+					margin-top: 20rpx;
+					padding: 20rpx;
+					box-sizing: border-box;
+					background-color: #ECECEC;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					.tip-msg{
+						width: calc(100% - 80rpx);
+						.tip-title{
+							
+						}
+						.tip-content{
+							font-size: 24rpx;
+							color: #8e8e8e;
+							display: flex;
+							align-items: center;
+							.content{
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
+							}
+						}
+					}
+				}
 				.imKey-main{
 					width: 100%;
 					height: 120rpx;
@@ -220,5 +279,6 @@
 				}
 			}
 		}
+	
 	}
 </style>

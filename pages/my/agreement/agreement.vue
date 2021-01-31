@@ -1,6 +1,6 @@
 <template>
 	<view class="agreement">
-		<uni-nav-bar :status="true" :fixed="true" left-icon="back" title="用户协议" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="用户协议" @clickLeft="goBack"></uni-nav-bar>
 		<rich-text :nodes="content" v-if="content"></rich-text>
 		<noData ref="nodata" v-else/>
 	</view>

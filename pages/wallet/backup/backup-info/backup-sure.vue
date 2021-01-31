@@ -1,6 +1,6 @@
 <template>
 	<view class="backup-info">
-<uniNavBar :status="true" :fixed="true" left-icon="back" title="确认助记词" @clickLeft="btnBack"></uniNavBar>
+     <uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="确认助记词" @clickLeft="btnBack"></uniNavBar>
 		<view style="margin-top: 20px;">
 			<label style="font-size: 16px;display: flex;margin-left: 30px;color: #007AFF;">
 				请按顺序点击助记词，以确定您正确备份。</label>

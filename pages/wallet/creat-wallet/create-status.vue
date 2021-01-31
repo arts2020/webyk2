@@ -1,6 +1,6 @@
 <template>
 	<view class="create-status">
-		<uni-nav-bar :status="true" :fixed="true" left-icon="back" title="创建身份" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="创建身份" @clickLeft="goBack"></uni-nav-bar>
 	    
 		<view class="create-main" v-if="isNext" :style="'height:'+scrollHeight+'px'">
 				<view class="top-title">创建身份，你将会有身份下的多链钱包，比如ETH、BTC。。。</view>
@@ -43,14 +43,6 @@
 		name:"create-status",
 		onShow() {
 			// this.dal.Setting.onGetUserAgree();
-		},
-		created() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetAgreement, this.handleAgreement);
-		    // this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateStatus, this.createStatus);
-		},
-		destroyed() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetAgreement, this.handleAgreement);
-		    // this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtCreateStatus, this.createStatus);
 		},
 		data() {
 			return {
@@ -101,6 +93,7 @@
 				}
 			},
 			goNext(){
+				if(!this.isAgree){return;}
 				this.isNext=true;
 			},
 			goBack(){
@@ -125,21 +118,19 @@
 				
 			},
 			btnCreate:function(){
+				if(!(this.statusName&&this.password)){return;}
+				
 				this.util.UiUtils.showLoading("身份初始化...");
-				// this.dal.Wallter.onCreateStatus({
-				// 	statusName:this.statusName,
-				// 	password:this.password,
-				// 	pasdTip:this.pasdTip,
-				// })
-			},	
-			createStatus(data){
-				uni.showToast({
-					title:data.msg
-				})
+				
+				//执行身份创建操作
+				
+				//给出成功提示
+				
+				//1s后跳转
 				setTimeout(()=>{
-					this.util.UiUtils.switchToPage("backup-tip", "creat-wallet-status",{},"redirectTo");
+					this.util.UiUtils.switchToPage("wallet-add-coin", "creat-wallet-status",{backType:2},"redirectTo");
 				},1000)
-			}
+			},	
 		}
 	}
 </script>

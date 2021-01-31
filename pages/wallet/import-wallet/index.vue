@@ -1,6 +1,6 @@
 <template>
 	<view class="import-wallet-index">
-		<uniNavBar :status="true" :fixed="true" left-icon="back" title="导入身份&钱包" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="导入身份&钱包" @clickLeft="btnBack"></uniNavBar>
 		<view class="import-status" @tap="goRecoverStatus">
 			<image class="status_icon" src="../../../static/image/index/chanpin-select.png" mode=""></image>
 		    <text>导入身份钱包</text>
@@ -12,18 +12,18 @@
 				<view class="menu-item" @tap="goimport(item)" v-for="(item,index) in coinList" :key="index">
 					<image class="menu-icon" :src="item.logo" mode=""></image>
 					<view class="menu-msg">
-						<view class="msg-title">{{item.short_name}}</view>
-						<view class="msg-subT">{{item.full_name}}</view>
+						<view class="msg-title">{{item.name}}</view>
+						<view class="msg-subT">{{item.alias}}</view>
 					</view>
 					<image class="right_arr" src="../../../static/image/index/jiantou.png" mode=""></image>
 				</view>
 			</view>
 		</view>
-	    <uni-popup type="bottom" ref="popupS">
+	  <!-- <uni-popup type="bottom" ref="popupS">
 			<view class="main-c">
 				<view class="type-item" v-for="(item,index) in items" :key="index" @tap="goRecover(index)">{{item}}</view>
 			</view>
-		</uni-popup>
+		</uni-popup> -->
 	</view>
 </template>
 
@@ -36,22 +36,28 @@
 		},
 		data() {
 			return {
-				items: ['助记词导入', '私钥导入'],
-				activeCoin:{},
 				scrollHeight:0,
-				coinList:[
+				coinList: [
 					{
-						logo:"../../../static/image/index/eth.png",
-						short_name:"ETH",
-						full_name:"Ethereum"
+						chaintype: 1,
+						logo: "../../../static/image/index/eth.png",
+						name: "ETH",
+						alias: "Ethereum"
 					},
 					{
-						logo:"../../../static/image/index/btc.png",
-						short_name:"BTC",
-						full_name:"Btcoin"
+						chaintype: 2,
+						logo: "../../../static/image/index/btc.png",
+						name: "BTC",
+						alias: "Btcoin"
 					},
-				]
-			};
+					{
+						chaintype: 3,
+						logo: "../../../static/image/index/fil.png",
+						name: "ATOM",
+						alias: "Cosmos"
+					},
+			],
+		   }
 		},
 		onShow() {
 			let _this = this;
@@ -66,16 +72,11 @@
 			goRecoverStatus(){
 				this.$openPage({name:"import-wallet-recover"})
 			},
-			goRecover(index){
-				this.activeCoin.recoverType = index;
-				this.$openPage({name:"import-wallet-wallet",query:this.activeCoin})
-			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},
 			goimport(item){
-				this.activeCoin = item;
-				this.$refs.popupS.open();
+				this.$openPage({name:"import-wallet-style",query:item})
 			}
 		}
 	}

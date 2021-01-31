@@ -1,10 +1,13 @@
 <template>
 	<view class="recover-index">
-		<uni-nav-bar :status="true" :fixed="true" left-icon="back"  title="导入钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back"  title="导入钱包"  @clickLeft="goBack"></uni-nav-bar>
 		<view class="recover-main" :style="'height:'+scrollHeight+'px'">
-			<view class="top-title">助记词</view>
-			<view class="input-box" style="height: 300rpx;">
+			<view class="top-title">{{title}}</view>
+			<view class="input-box" style="height: 300rpx;" v-if="coinObj.type == 1">
 				<textarea placeholder-style="font-size: 26rpx;color: #8e8e8e;" placeholder="输入助记词并使用空格分离" v-model="words"/>
+			</view>
+			<view class="input-box" v-else>
+				<input type="text" placeholder="私钥" v-model="secretKey"/>
 			</view>
 			<view class="input-box">
 				<input @input="inputPasd" type="text" password placeholder="密码" v-model="password"/>
@@ -27,27 +30,29 @@
 		components: {
 			
 		},
-		created() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverWallet, this.recoverWallet);
-		},
-		destroyed() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtRecoverWallet, this.recoverWallet);
-		},
 		data() {
 			return {
 				scrollHeight:0,
+				secretKey:"",
 				words:"",
 				password:"",
 				confirmPasd:"",
 				pasdTip:"",
 				tip_1:"",
 				tip_2:"",
-				coinObj:{}
+				//要导入的钱包所属单链的信息
+				coinObj:{},
+				title:"助记词"
 			}
 		},
 		onLoad(option) {
 			if(option.query){
-				this.coinObj = JSON.parse(option.query)
+				this.coinObj = JSON.parse(option.query);
+				if(this.coinObj.type == 1){
+					this.title = "助记词"
+				}else if(this.coinObj.type==2){
+					this.title =  "私钥"
+				}
 			}
 		},
 		onShow() {
@@ -62,7 +67,7 @@
 		},
 		computed:{
 			btn_color(){
-				if(this.words&&this.password){
+				if((this.words||this.secretKey)&&this.password){
 					return '#0000FF'
 				}else{
 					return '#C8C7CC'
@@ -89,22 +94,29 @@
 				this.util.UiUtils.switchBackPage();
 			},
 			btnRecover:function(){
+				if(!(this.words||this.secretKey)&&this.password){
+					return;
+				}
 				this.util.UiUtils.showLoading("钱包初始化...");
-				// this.dal.Wallter.onRecoverWallet({
-				// 	type:this.coinObj.short_name,
-				// 	walletName:this.walletName,
-				// 	password:this.password,
-				// 	pasdTip:this.pasdTip,
-				// })
-			},	
-			recoverWallet(data){
-				uni.showToast({
-					title:data.msg
-				})
+				
+				let params = {
+					walletName:this.walletName,
+					password:this.password,
+					pasdTip:this.pasdTip,
+				}
+				//传参到数据层导入普通钱包，  根据助记词和私钥需要的不同参数传
+				if(this.coinObj.type == 1){
+					
+				}else if(this.coinObj.type==2){
+					
+				}
+				//给出成功提示
+				
+				//1s后跳转到首页
 				setTimeout(()=>{
 					this.util.UiUtils.switchToPage("wallet-index", "import-wallet-wallet",{},"switchTab");
 				},1000)
-			}
+			},	
 		},
 	}
 </script>
