@@ -4,7 +4,7 @@ var vue = Vue.prototype
 //普通钱包
 const NormalWallet = {
 	m_normalWallet: {}, //普通钱包
-
+	
 	init: function() {
 		uni.cclog("======NormalWallet init==========")
 		this.onAddListener();
@@ -41,6 +41,9 @@ const NormalWallet = {
 			privateKey: wallet.privateKey,
 			address: wallet.address,
 			importtype: wallet.importtype
+			password: wallet.password,
+			passwordtip:wallet.passwordtip,
+			name: wallet.name,//钱包名称
 		}
 		if (this.m_normalWallet[chaintype] == null) {
 			this.m_normalWallet[chaintype] = [];
@@ -69,11 +72,23 @@ const NormalWallet = {
 		}
 		return items;
 	},
+	
+	//获得指定钱包
+	getNormalWallet:function(chaintype,idx){
+		let items = this.getNormalWallets(chaintype);
+		for (let i = 0; i < this.m_normalWallet.length ; i++) {
+			let item = this.m_normalWallet[i];
+			if(item.idx == idx){
+				return item;
+			}
+		}
+		return null;
+	},
 
 	//私钥是否被普通钱包使用过
 	isExistWallet: function(chaintype, privateKey) {
 		let isexist = false;
-		let items = this.m_normalWallet[chaintype];
+		let items = this.getNormalWallets(chaintype);
 		for (let i = 0; i < items.length; i++) {
 			let item = items[i];
 			if (item.privateKey == privateKey) {

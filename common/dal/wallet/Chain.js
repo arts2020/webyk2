@@ -6,7 +6,9 @@ var vue = Vue.prototype
 const Chain = {
 	m_chains: [], //主链信息
 	m_assets: [], //资产信息
-
+	
+	m_mineChains:[];//我选择的主链
+	
 	init: function() {
 		uni.cclog("======Chain init==========")
 		this.m_chains = vue.entities.Wallets.getChains();
@@ -61,6 +63,20 @@ const Chain = {
 		}
 		return items;
 	},
-	//===================我选择的主链================
+	
+	//===================增加我选择的主链================
+	addMineChainInfo:function(chaintype){
+		let ishave = false;
+		for(let i = 0; i < this.m_mineChains.length ;i++){
+			let type = this.m_mineChains[i]
+			if(type == chaintype){
+				ishave = true;
+				break;
+			}
+		}
+		if(!ishave){
+			this.m_mineChains.push(chaintype);
+		}
+	}
 }
 export default Chain

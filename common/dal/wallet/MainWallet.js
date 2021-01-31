@@ -39,7 +39,10 @@ const MainWallet = {
 			chain: chaintype,
 			address: wallet.address,
 			privateKey: wallet.privateKey,
-			importtype: vue.Metadata.ImportType.WordType
+			importtype: vue.Metadata.ImportType.WordType,
+			password: wallet.password,
+			passwordtip: wallet.passwordtip, //密码提示
+			name: wallet.name,//钱包名称
 		}
 		this.m_mainWallet[chaintype] = item;
 	},
@@ -78,7 +81,7 @@ const MainWallet = {
 
 	//获取主链私钥
 	getMainPrivate: function(chaintype) {
-		let walletInfo = getMainWallet(chaintype)
+		let walletInfo = this.getMainWallet(chaintype)
 		if (walletInfo) {
 			return walletInfo.privateKey;
 		}
@@ -88,7 +91,7 @@ const MainWallet = {
 	//私钥是否被身份钱包使用过
 	isExistWallet: function(chaintype, privateKey) {
 		let isexist = false;
-		let items = this.m_normalWallet[chaintype];
+		let items = this.getMainWallet(chaintype);
 		for (let i = 0; i < items.length; i++) {
 			let item = items[i];
 			if (item.privateKey == privateKey) {
@@ -98,11 +101,11 @@ const MainWallet = {
 		}
 		return isexist;
 	},
-	
+
 	//======================切换链钱包=============================
 	//设置当前钱包
 	setCurrWallet: function(chaintype) {
-		let cinfo = this.getChainInfo(chaintype)
+		let cinfo = this.getMainWallet(chaintype)
 		if (cinfo) {
 			this.m_currChainType = chaintype;
 		} else {
