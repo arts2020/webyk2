@@ -45,6 +45,7 @@
 		"bip39": "^3.0.3",
 		"bitcoinjs-lib": "^5.2.0",
 		"crypto-js": "^4.0.0",
+		"eckey": "^1.0.1",
 		"eosjs": "^21.0.3",
 		"eosjs-ecc": "^4.0.7",
 		"ethereumjs-tx": "^2.1.2",

@@ -31,15 +31,16 @@ const NormalWallet = {
 
 	//===========================普通钱包=================================
 	//增加普通钱包
-	addNormalWallet: function(chaintype, mnemonic, privateKey, address) {
+	addNormalWallet: function(chaintype, wallet) {
 		let wallets = this.getNormalWallets(chaintype)
 		let len = wallets.Length() + 1;
 		let item = {
 			idx: len,
 			chaintype: chaintype,
-			mnemonic: mnemonic,
-			privateKey: privateKey,
-			address: address
+			mnemonic: wallet.mnemonic,
+			privateKey: wallet.privateKey,
+			address: wallet.address,
+			importtype: wallet.importtype
 		}
 		if (this.m_normalWallet[chaintype] == null) {
 			this.m_normalWallet[chaintype] = [];
@@ -48,17 +49,17 @@ const NormalWallet = {
 	},
 
 	//删除普通钱包
-	deleteNormalWallet:function(chaintype,idx){
-		let normalWallet = this.m_normalWallet[chaintype]
-		for(let i = 0; i < normalWallet.length ;i++){
-			let item =  normalWallet[i];
-			if(item.idx == idx){
-				normalWallet.splice(i,1)
+	deleteNormalWallet: function(chaintype, idx) {
+		let items = this.m_normalWallet[chaintype]
+		for (let i = 0; i < items.length; i++) {
+			let item = items[i];
+			if (item.idx == idx) {
+				items.splice(i, 1)
 				break;
 			}
 		}
 	},
-	
+
 	//获得所有普通钱包
 	getNormalWallets: function(chaintype) {
 		let items = [];
@@ -67,6 +68,20 @@ const NormalWallet = {
 			break;
 		}
 		return items;
+	},
+
+	//私钥是否被普通钱包使用过
+	isExistWallet: function(chaintype, privateKey) {
+		let isexist = false;
+		let items = this.m_normalWallet[chaintype];
+		for (let i = 0; i < items.length; i++) {
+			let item = items[i];
+			if (item.privateKey == privateKey) {
+				isexist = true;
+				break;
+			}
+		}
+		return isexist;
 	}
 }
 export default NormalWallet

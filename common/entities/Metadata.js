@@ -12,7 +12,7 @@ const Metadata = {
 		H5_IOS: 5,
 		H5_ANDROID: 6,
 	},
-	
+
 	SmsType: {
 		XXBG: 63, //信息变更验证码 63 
 		XGMM: 64, //修改密码验证码 64  	
@@ -67,19 +67,26 @@ const Metadata = {
 		Handled: 3, //已处理
 		Pay_success: 4 //支付成功
 	},
-	
+
+	//钱包导下方式
+	ImportType: {
+		WordType: 1,//助记词导入
+		PrivateType: 2,//私钥导入
+	},
+
 	//钱包类型
-	WalletType:{
-		IdentityType:1,//身份钱包
-		Normal:2,//普通钱包
+	WalletType: {
+		UnKnow: 0, //未知
+		MainType: 1, //身份钱包
+		Normal: 2, //普通钱包
 	},
 	//主链
-	ChainType:{
-		ETH:1,//以太坊
-		BTC:2,//BTC
-		TRON:3,//波厂
-		FIL:4,
-		EOS:5,
+	ChainType: {
+		ETH: 1, //以太坊
+		BTC: 2, //BTC
+		TRON: 3, //波厂
+		FIL: 4,
+		EOS: 5,
 	}
 }
 

@@ -12,8 +12,8 @@ const LocalStrMgr = {
 			this.addStrStruct(vue.language.LocalStrCN);
 		} else if (gameLanguage === vue.entities.Metadata.GameLanguage.EN) {
 			this.addStrStruct(vue.language.LocalStrEN);
-		} else if (gameLanguage === vue.entities.Metadata.GameLanguage.CN) {
-			this.addStrStruct(vue.language.LocalStrCN);
+		} else if (gameLanguage === vue.entities.Metadata.GameLanguage.TW) {
+			this.addStrStruct(vue.language.LocalStrTW);
 		}
 	},
 
