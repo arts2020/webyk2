@@ -32,12 +32,6 @@ const Routes = {
 			{code:vue.entities.RequestCode.AddCollect , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
 			{code:vue.entities.RequestCode.GetAddressList , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
 			{code:vue.entities.RequestCode.saveAddress , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.evtGetWalletList , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.CreateWallet , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.GetMnemonic , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.GetUserAgreement , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-		    {code:vue.entities.RequestCode.CreateStatus , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-		    {code:vue.entities.RequestCode.RecoverWallet , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
 		    {code:vue.entities.RequestCode.RecoverStatus , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
 		]
 	},

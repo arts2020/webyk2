@@ -7,7 +7,7 @@ const Chain = {
 	m_chains: [], //主链信息
 	m_assets: [], //资产信息
 	
-	m_mineChains:[];//我选择的主链
+	m_mineChains:[],//我选择的主链
 	
 	init: function() {
 		uni.cclog("======Chain init==========")

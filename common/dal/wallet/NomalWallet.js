@@ -40,7 +40,7 @@ const NormalWallet = {
 			mnemonic: wallet.mnemonic,
 			privateKey: wallet.privateKey,
 			address: wallet.address,
-			importtype: wallet.importtype
+			importtype: wallet.importtype,
 			password: wallet.password,
 			passwordtip:wallet.passwordtip,
 			name: wallet.name,//钱包名称
