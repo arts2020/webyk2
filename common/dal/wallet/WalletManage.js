@@ -5,8 +5,12 @@ var vue = Vue.prototype
 
 //钱包管理器
 const WalletMange = {
+	m_currChainType: 1, //当前钱包
+	m_currMainWallet:null,
+	
 	init: function() {
 		uni.cclog("======WalletMange init==========")
+		this.m_currChainType = vue.entities.Metadata.ChainType.Normal, //当前钱包
 		this.onAddListener();
 		return true;
 	},
@@ -86,6 +90,18 @@ const WalletMange = {
 			return vue.Metadata.WalletType.Normal;
 		}
 		return vue.Metadata.WalletType.UnKnow;
-	}
+	},
+	
+	//======================切换链钱=============================
+	//设置当前选择的主链
+	setCurrChainType: function(chaintype) {
+		// this.m_currMainWallet = vue.dal.MainWallet.getMainWallet(chaintype);
+		this.m_currChainType = chaintype;
+	},
+	
+	getCurrChainType:function(){
+		return this.m_currChainType;
+	},
+	
 }
 export default WalletMange

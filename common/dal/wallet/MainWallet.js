@@ -4,13 +4,11 @@ var vue = Vue.prototype
 //身份钱包
 const MainWallet = {
 	m_mainWallet: {}, //主钱包
-	m_currChainType: 1, //当前钱包
 	m_chains: [], //主链信息
 
 	init: function() {
 		uni.cclog("======MainWallet init==========")
-		this.m_currChainType = vue.entities.Metadata.ChainType.ETH, //当前钱包
-			this.onAddListener();
+		this.onAddListener();
 		return true;
 	},
 
@@ -42,7 +40,7 @@ const MainWallet = {
 			importtype: vue.Metadata.ImportType.WordType,
 			password: wallet.password,
 			passwordtip: wallet.passwordtip, //密码提示
-			name: wallet.name,//钱包名称
+			name: wallet.name, //钱包名称
 		}
 		this.m_mainWallet[chaintype] = item;
 	},
@@ -101,17 +99,5 @@ const MainWallet = {
 		}
 		return isexist;
 	},
-
-	//======================切换链钱包=============================
-	//设置当前钱包
-	setCurrWallet: function(chaintype) {
-		let cinfo = this.getMainWallet(chaintype)
-		if (cinfo) {
-			this.m_currChainType = chaintype;
-		} else {
-			return false;
-		}
-		return true;
-	}
 }
 export default MainWallet

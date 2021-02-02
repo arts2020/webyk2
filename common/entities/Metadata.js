@@ -70,8 +70,8 @@ const Metadata = {
 
 	//钱包导下方式
 	ImportType: {
-		WordType: 1,//助记词导入
-		PrivateType: 2,//私钥导入
+		WordType: 1, //助记词导入
+		PrivateType: 2, //私钥导入
 	},
 
 	//钱包类型
@@ -82,6 +82,7 @@ const Metadata = {
 	},
 	//主链
 	ChainType: {
+		Normal: 0, //未知
 		ETH: 1, //以太坊
 		BTC: 2, //BTC
 		TRON: 3, //波厂
