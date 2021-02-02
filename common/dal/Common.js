@@ -7,8 +7,7 @@ const Common = {
 	evtGetAssetprice: "EVT_evtGetAssetprice",
 	evtGetRate:"EVT_evtGetRate",
 	evtGetAssetstate:"EVT_evtGetAssetstate",
-	evtGetCoinSearch:"EVT_evtGetCoinSearch",
-	evtAddCollect:"EVT_evtAddCollect",
+	
 	init: function() {
 		uni.cclog("======Common init==========")
 		this.m_AssetpriceList = {};
@@ -44,47 +43,15 @@ const Common = {
 		vue.shared.Event.attach(vue.entities.RequestCode.GetNoticeInfo, this.handleGetNoticeInfo, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetRate, this.handleGetRate, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetAssetstate, this.handleGetAssetstate, "dal_common", this);
-	    vue.shared.Event.attach(vue.entities.RequestCode.GetSearchcoin, this.handleGetSearchcoin, "dal_common", this);
-	    vue.shared.Event.attach(vue.entities.RequestCode.AddCollect, this.handleAddCollect, "dal_common", this);
 	},
 
 	onRemoveListener: function() {
 		vue.shared.Event.removeByObserverName("dal_common");
 	},
 	// 添加代币为自选
-	onAddStar(){
-		var params = {
-			
-		};
-		vue.dal.Net.request(vue.entities.RequestCode.AddCollect, params);
-	},
-	handleAddCollect(){
-		if (packetIn.pktin.code == 200) {
-			vue.util.EventUtils.dispatchEventCustom(this.evtAddCollect, {
-				data: packetIn.pktin.data
-			});
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
+	
 	//行情中搜索代币
-	onGetSearchcoin(keyword){
-		var params = {
-			keyword: keyword
-		};
-		vue.dal.Net.request(vue.entities.RequestCode.GetSearchcoin, params);
-	},
-    handleGetSearchcoin(packetIn){
-		if (packetIn.pktin.code == 200) {
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetCoinSearch, {
-				data: packetIn.pktin.data
-			});
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
+	
 	//通知 首页
 	onGetNotify: function() {
 		var params = {};

@@ -56,12 +56,6 @@
 			// 		this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
 			// 	}
 			// });
-		},
-		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtSaveAddress, this.onSetAddress);
-		},
-		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Setting.evtSaveAddress, this.onSetAddress);
 		},		
 		methods:{
 			goBack(){
@@ -78,7 +72,7 @@
 					})
 					return;
 				}
-				this.dal.Setting.onSetAddressInfo(this.coinObj);
+				// this.dal.Setting.onSetAddressInfo(this.coinObj);
 				setTimeout(()=>{
 					this.$openPage({name:"address-list"})
 				},1000)

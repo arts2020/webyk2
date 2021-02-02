@@ -8,17 +8,9 @@ const Setting = {
 	evtGetAuthentication: "evt_evtGetAuthentication",
 	evtChangePassword: "evt_ChangePassword",
 	evtCheckCapitalPassword: "evt_CheckCapitalPassword",
-	evtGetAllCoinInfo:"evt_GetAllCoinInfo",
-	evtGetAddressList:"evt_evtGetAddressList",
-	evtSaveAddress:"evt_evtSaveAddress",
-	evtGetAgreement:"evt_evtGetAgreement",
-	
-	m_allCoin:[],
-	m_useragreement:null,
 	
 	init: function() {
 		this.onAddListener();
-		this.onGetAllCoin();
 		return true;
 	},
 
@@ -40,76 +32,11 @@ const Setting = {
 		vue.shared.Event.attach(vue.entities.RequestCode.CheckCapitalPassword, this.handleCheckCapitalPassword,
 			"dal_setting", this);	
 		// 新增
-		vue.shared.Event.attach(vue.entities.RequestCode.GetAllCoinInfo, this.handleAllCoinInfo, "dal_setting", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.GetAddressList, this.handleAddressList, "dal_setting", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.saveAddress, this.handleSaveAddress, "dal_setting", this);
-			vue.shared.Event.attach(vue.entities.RequestCode.GetUserAgreement, this.handleGetUserAgree, "dal_setting", this);	
 	},
 
 	onRemoveListener: function() {
 		vue.shared.Event.removeByObserverName("dal_setting");
 	},
-	//获取用户协议
-	onGetUserAgree(){
-	  vue.dal.Net.request(vue.entities.RequestCode.GetUserAgreement); 	
-	},
-	handleGetUserAgree(packetIn){
-		if (packetIn.pktin.code === 200) {
-	 this.m_useragreement=packetIn.pktin.data;
-		  vue.util.EventUtils.dispatchEventCustom(this.evtGetAgreement, {
-			data: packetIn.pktin.data
-		  });
-		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);  
-		}
-		vue.util.UiUtils.hideLoading(); 
-	},
-     //获取app所支持的所有币种信息
-	 onGetAllCoin(){
-	   vue.dal.Net.request(vue.entities.RequestCode.GetAllCoinInfo); 
-	 },
-	 handleAllCoinInfo(packetIn){
-		if (packetIn.pktin.code === 200) {
-          this.m_allCoin=packetIn.pktin.data;
-		  vue.util.EventUtils.dispatchEventCustom(this.evtGetAllCoinInfo, {
-		  	data: packetIn.pktin.data
-		  });
-		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);  
-		}
-		vue.util.UiUtils.hideLoading(); 
-	 },
-	 //获取地址本列表
-	 onGetAddressList(){
-		 vue.dal.Net.request(vue.entities.RequestCode.evtGetAddressList); 
-	 },
-	 handleAddressList(packetIn){
-		 if (packetIn.pktin.code === 200) {
-		 	vue.util.EventUtils.dispatchEventCustom(this.evtGetAddressList, {
-				data: packetIn.pktin.data
-			});
-		 } else {
-		 	vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		 }
-		 vue.util.UiUtils.hideLoading();
-	 },
-	 //保存地址信息
-	 onSetAddressInfo(addr){
-		 let params = {
-			 
-		 }
-	    vue.dal.Net.request(vue.entities.RequestCode.evtSaveAddress,params); 
-	 },
-	 handleSaveAddress(packetIn){
-		 if (packetIn.pktin.code === 200) {
-		 	vue.util.EventUtils.dispatchEventCustom(this.evtSaveAddress, {
-				data: packetIn.pktin.data
-			});
-		 } else {
-		 	vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		 }
-		 vue.util.UiUtils.hideLoading();
-	 },
 	//修改用户密码接口
 	onChangePassword: function(oldPassword, newPassowrd) {
 		oldPassword = vue.util.Utils.AesEncrypt(oldPassword);

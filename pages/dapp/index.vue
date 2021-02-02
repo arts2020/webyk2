@@ -2,9 +2,9 @@
 	<view class="DApp">
 		<bar ref="bar"></bar>
 		<view class="navBar">
-			<view class="nav-search">
-				<uni-icons type="search" size="20" color="#CCD3D9" @tap="goSearch"></uni-icons>
-				<input type="text" v-model="keyword" confirm-type="search" placeholder="搜索或输入DApp网址" placeholder-class="tipClass" @con="goSearch"/>
+			<view class="nav-search" @tap="goSearch">
+				<uni-icons type="search" size="20" color="#CCD3D9"></uni-icons>
+				<input type="text" v-model="keyword" confirm-type="search" placeholder="搜索或输入DApp网址" placeholder-class="tipClass"/>
 			</view>
 		</view>
 		<scroll-view scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
@@ -17,6 +17,22 @@
 				<image class="right-arr" src="../../static/image/index/arrow-left.png" mode=""></image>
 			</view>
 		</scroll-view>
+	    <uni-popup type="bottom" ref="popup">
+			<view class="tip-Pop">
+				<view class="top-title">访问说明</view>
+				<view class="tip-content">
+					<image :src="currentDapp.logo" mode=""></image>
+					<view class="act-title">你正在访问第三方DApp</view>
+					<view class="tip-desc">
+						你在第三方DApp上的使用行为将适用该第三方DApp的《用户协议》和《隐私政策》，又{{currentDapp.title}}直接并单独向你承担责任
+					</view>
+				</view>
+				<view class="btns">
+					<view class="cancell" @tap="cancell">退出</view>
+					<view class="confirm-ok" @tap="confirm">确认</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -40,6 +56,8 @@
 			return{
 				keyword:"",
 				scrollHeight:0,
+				// 当前点击的dapp数据
+				currentDapp:{},
 				// 所有数据
 				list:[
 					{
@@ -53,22 +71,27 @@
 						desciption:"参与所有DeFi项目的社区治理"
 					},
 				],
-				//要在页面上显示的数据
-				showList:[]
 			}
 		},
 		methods:{
 			goCheck(item){
-				
+				// 打开访问说明
+				this.currentDapp = item;
+				this.$refs.popup.open();
 			},
 			goSearch(){
-				//搜索时显示搜索到的数据
-				if(this.keyword){
-					this.showList = this.list.filter(el=>el.title.includes(this.keyword))
-				}else{
-					this.showList = this.list;
-				}
-				console.log(this.showList)
+				this.$openPage({name:"dapp-search"})
+			},
+			cancell(){
+				// 取消访问
+				this.$refs.popup.close()
+			},
+			confirm(){
+				// 确认访问
+				//关闭弹框
+				this.$refs.popup.close()
+				//执行操作
+				
 			}
 		}
 	}
@@ -152,6 +175,59 @@
 				width: 13rpx;
 				height: 24rpx;
 				margin-left: auto;
+			}
+		}
+	}
+	.tip-Pop{
+		width: 100%;
+		height: 680rpx;
+		text-align: center;
+		padding: 20rpx 10rpx;
+		box-sizing: border-box;
+		border-radius: 20rpx;
+		background-color: #D8D8D8;
+		.top-title{
+			font-size: 28rpx;
+		}
+		.tip-content{
+			width: 100%;
+			background-color: #FFFFFF;
+			border-radius: 20rpx;
+			text-align: center;
+			padding: 50rpx 50rpx 30rpx;
+			box-sizing: border-box;
+			image{
+				width: 80rpx;
+				height: 80rpx;
+			}
+			.act-title{
+				margin: 20rpx 0;
+				font-size: 30rpx;
+				color: #444444;
+			}
+			.tip-desc{
+				font-size: 24rpx;
+			}
+		}
+		.btns{
+			margin-top: 20rpx;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			view{
+				width: 45%;
+				height: 80rpx;
+				line-height: 80rpx;
+				text-align: center;
+				color: #FFFFFF;
+				border-radius: 30rpx;
+			}
+			.cancell{
+				background-color: #00BFFF;
+			}
+			.confirm-ok{
+				background-color: #0000FF;
 			}
 		}
 	}

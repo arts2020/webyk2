@@ -27,12 +27,6 @@ const Routes = {
 			{code:vue.entities.RequestCode.GetRate , path:"/api/v1/getRate",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.GetAssetstate , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
 			// 这里以下的path路径未改
-			{code:vue.entities.RequestCode.GetAllCoinInfo , path:"/api/v1/getAssetstate",method:"POST", islogin:false},
-			{code:vue.entities.RequestCode.GetSearchcoin , path:"/api/v1/getAssetstate",method:"POST", islogin:false},
-			{code:vue.entities.RequestCode.AddCollect , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.GetAddressList , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.saveAddress , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
-		    {code:vue.entities.RequestCode.RecoverStatus , path:"/api/v1/getAssetstate",method:"POST", islogin:true},
 		]
 	},
 	getRoute:function(code){

@@ -138,7 +138,10 @@ const router = new MinRouter({
 		},{
 			path: 'pages/wallet/backup/backup-tip',
 			name: 'backup-tip'
-		},
+		},{
+			path:"pages/dapp/search-page",
+			name: 'dapp-search'
+		}
 	]
 })
 

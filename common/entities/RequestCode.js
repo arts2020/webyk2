@@ -20,21 +20,6 @@ const RequestCode = {
 	GetAssetprice: 84, //获得币价，该币要分一下类别，自选的、市币、defi
 	GetRate: 85, //配置文件
 	GetAssetstate: 86, //全网算力
-	
-	GetSearchcoin:87,//通过关键词搜索币
-	AddCollect:88,//添加为自选
-	
-	GetAddressList:89, //获取地址本列表信息
-	saveAddress:90,  // 添加或者修改地址，保存地址信息
-	GetAllCoinInfo:91, //获取app所支持的所有币的信息，用于添加币种或者选择地址类型
-    
-	evtGetWalletList:92,//钱包列表
-	CreateWallet:93,  //创建钱包
-	GetMnemonic:94,  //获取助记词
-	GetUserAgreement:95,//用户协议
-	CreateStatus:96,//创建身份
-	RecoverWallet:97,
-	RecoverStatus:98,
 }
 
 export default RequestCode

@@ -60,12 +60,8 @@
 			};
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetCoinSearch, this.onGoSearch);
-			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtAddCollect, this.onAddCollect);
 		},
 		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetCoinSearch, this.onGoSearch);
-			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtAddCollect, this.onAddCollect);
 		},
 		onShow() {
 			let _this = this;
@@ -81,13 +77,11 @@
 				this.util.UiUtils.switchBackPage();
 			},
 			gosearch(){
-			    this.dal.Common.onGetSearchcoin(this.keyword)
 			},
 			onGoSearch(data){
 				this.coinList = data.data;
 			},
 			addStar(item){
-				this.dal.Common.onAddStar()
 			},
 			onAddCollect(data){
 				

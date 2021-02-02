@@ -14,13 +14,7 @@
 			noData
 		},
 		onShow() {
-			this.dal.Setting.onGetUserAgree();
-		},
-		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetAgreement, this.handleAgreement);
-		},
-		destroyed() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetAgreement, this.handleAgreement);
+			
 		},
 		data() {
 			return {
