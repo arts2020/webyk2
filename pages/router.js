@@ -32,19 +32,21 @@ const router = new MinRouter({
 			path: 'pages/my/index',
 			type: 'switchTab', //特定跳转
 			name: 'mine-mine'
-		},{
-			path: 'pages/account/register/register',
-			name: 'register-register'
-		}, {
-			path: 'pages/account/login/login',
-			name: 'login-login'
-		},{
-			path: 'pages/account/register/agreement/agreement',
-			name: 'agreement-page'
-		},{
-			path: 'pages/account/register/agreement/hide',
-			name: 'hide-page'
-		},{
+		},
+		// {
+		// 	path: 'pages/account/register/register',
+		// 	name: 'register-register'
+		// }, {
+		// 	path: 'pages/account/login/login',
+		// 	name: 'login-login'
+		// },{
+		// 	path: 'pages/account/register/agreement/agreement',
+		// 	name: 'agreement-page'
+		// },{
+		// 	path: 'pages/account/register/agreement/hide',
+		// 	name: 'hide-page'
+		// },
+		{
 			path: 'pages/my/visit/visit',
 			name: 'my-visit'
 		},{
@@ -83,25 +85,27 @@ const router = new MinRouter({
 		},{
 			path: 'pages/wallet/status-wallet/status-info',
 			name: 'status-wallet-info'
-		},{
-			path: 'pages/my/safe/pwd-back',
-			name: 'safe-pwd-back'
-		},{
-			path: 'pages/my/safe/safe-center',
-			name: 'safe-safe-center'
-		},{
-			path: 'pages/my/safe/money-pwd/sure-pwd',
-			name: 'safe-money-pwd-sure-pwd'
-		},{
-			path: 'pages/my/safe/money-pwd/money-pwd',
-			name: 'safe-money-pwd'
-		},{
-			path: 'pages/my/safe/money-pwd/money-changepwd',
-			name: 'safe-money-changepwd'
-		},{
-			path: 'pages/my/safe/authentication/authentication',
-			name: 'safe-authentication-authentication'
-		},{
+		},
+		// {
+		// 	path: 'pages/my/safe/pwd-back',
+		// 	name: 'safe-pwd-back'
+		// },{
+		// 	path: 'pages/my/safe/safe-center',
+		// 	name: 'safe-safe-center'
+		// },{
+		// 	path: 'pages/my/safe/money-pwd/sure-pwd',
+		// 	name: 'safe-money-pwd-sure-pwd'
+		// },{
+		// 	path: 'pages/my/safe/money-pwd/money-pwd',
+		// 	name: 'safe-money-pwd'
+		// },{
+		// 	path: 'pages/my/safe/money-pwd/money-changepwd',
+		// 	name: 'safe-money-changepwd'
+		// },{
+		// 	path: 'pages/my/safe/authentication/authentication',
+		// 	name: 'safe-authentication-authentication'
+		// },
+		{
 			path: 'pages/market/quotation/quotation',
 			name: 'quotation-quotation'
 		},{
@@ -159,6 +163,13 @@ const router = new MinRouter({
 		},{
 			path:"pages/wallet/recharge/recharge-currency",
 			name: 'recharge-currency'
+		},{
+			path:"pages/wallet/recharge/carry-over/setting-fee",
+			name: 'setting-fee'
+		},
+		,{
+			path:"pages/wallet/add-asset",
+			name: 'add-asset'
 		}
 	]
 })

@@ -1,0 +1,227 @@
+<template>
+	<view class="setting-fee">
+		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" title="矿工费设置" @clickLeft="btnBack"></uni-nav-bar>
+	    <view class="fee-info">
+			<view class="top-box">
+				<text>矿工费</text>
+				<view class="fee-desc">
+					<view class="coin">{{currentFee.coin}}{{currentFee.coinType}}</view>
+					<view class="rmb">￥{{currentFee.rmb}}</view>
+				</view>
+				<image src="../../../../static/image/mine/arrow-left.svg" mode=""></image>
+			</view>
+			<view class="botto-box">
+				Gas Price(59.00 GWEI)*Gas(21,000)
+			</view>
+		</view>
+		<view class="setting-rate">
+			<view class="title">矿工费率</view>
+			<view class="setting-content">
+				<view @tap="handleCheck(index)" class="list-item" v-for="(item,index) in menuList" :key="index">
+					<view class="info">
+						<view class="p1">{{item.name}}</view>
+						<view class="p2">{{item.value}}</view>
+					</view>
+					<text><{{item.time}}</text>
+				    <uni-icons v-if="activeIndex==index" type="checkmarkempty" color="#009A80" size="25"></uni-icons>
+				    <view v-else style="width: 50rpx;height: 50rpx;"></view>
+				</view>
+			</view>
+		</view>
+	    <view class="confirm-ok" @click="btnConfirm">确定</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				//当前选中项
+				currentFee:{},
+				//选中的选项下标
+				activeIndex:0,
+				menuList:[
+					{
+						value:'89.00GWEI',
+						name: "较快",
+						time:'5分钟',
+						coin:"0.004500",
+						rmb:"39.28",
+					},
+					{
+						value:'75.00GWEI',
+						name: "快速",
+						time:'2分钟',
+						coin:"0.004500",
+						rmb:"39.28",
+					},
+					{
+						value:'50.00GWEI',
+						name: "一般",
+						time:'5分钟',
+						coin:"0.004500",
+						rmb:"39.28",
+					},
+					{
+						value:'47.00GWEI',
+						name: "缓慢",
+						time:'30分钟',
+						coin:"0.004500",
+						rmb:"39.28",
+					}
+				]
+			};
+		},
+		onLoad(option) {
+			if(option.query){
+				
+				let params = JSON.parse(option.query);
+				if(Object.keys(params).length!=0){
+					this.currentFee = params;
+					this.menuList.forEach((el,index)=>{
+						if(el.name==params.name){
+							this.activeIndex=index;
+						}
+					})
+				}
+			}
+		},
+		methods:{
+			handleCheck(index){
+				this.activeIndex = index;
+			},
+			btnConfirm(){
+				//点击确定回到转账页
+				this.btnBack()
+			},
+			btnBack: function() {
+				this.util.UiUtils.switchBackPage();
+			},			
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+.setting-fee{
+	width: 100%;
+	height: 100%;
+	background: #f6f7f9;
+	min-height: 100vh;
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
+	.fee-info{
+		height: 177rpx;
+		background: #ffffff;
+		border-radius: 10rpx;
+		width: calc(100% - 72rpx);
+		margin: 0 auto;
+		padding: 0 30rpx;
+		box-sizing: border-box;
+		.top-box{
+			border-bottom: 1rpx solid #E7E6ED;
+			width:100%;
+			height: 106rpx;
+			display: flex;
+			align-items: center;
+			font-size: 30rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 400;
+			color: #121212;
+			
+			.fee-desc{
+				text-align: right;
+				margin-left: auto;
+				.rmb{
+					color: #c2c2c2;
+				}
+			}
+			image{
+				width: 13rpx;
+				height: 24rpx;
+				margin-left: 22rpx;
+			}
+	    }
+		.botto-box{
+			height: 70rpx;
+			line-height: 70rpx;
+			text-align: right;
+			margin-right: 35rpx;
+			font-size: 24rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 400;
+			text-align: right;
+			color: #c2c2c2;
+		}
+	}
+	.setting-rate{
+		width: calc(100% - 72rpx);	
+		margin: 30rpx auto;
+		.title{
+			font-size: 26rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 400;
+			text-align: left;
+			color: #121212;
+			margin-bottom: 17rpx;
+		}
+		.setting-content{
+			width: 100%;
+			padding: 0 30rpx;
+			box-sizing: border-box;
+			background-color: #FFFFFF;
+			border-radius: 10rpx;
+			.list-item{
+				width: 100%;
+				height: 116rpx;
+				display: flex;
+				align-items: center;
+				border-bottom: 1rpx solid #E7E6ED;
+				&:last-child{
+					border: 0;
+				}
+				text{
+					font-size: 24rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #c2c2c2;
+					margin-right: 31rpx;
+				}
+				.info{
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					margin-right: auto;
+					.p1{
+						font-size: 30rpx;
+						color: #121212;
+						line-height: 40rpx;
+					}
+					.p2{
+						font-size: 28rpx;
+						color: #8e8e8e;
+						line-height: 40rpx;
+					}
+				}
+			}
+		}
+	}
+    .confirm-ok{
+    	position: fixed;
+    	bottom: 33rpx;
+    	left: 50%;
+    	transform: translateX(-50%);
+    	width: calc(100% - 102rpx);
+    	margin: 0 auto;
+    	height: 88rpx;
+    	line-height: 88rpx;
+    	background: #4c72ef;
+    	border-radius: 14rpx;
+    	box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06);
+    	 font-size: 32rpx;
+    	 font-family: PingFang SC, PingFang SC-Bold;
+    	 font-weight: 700;
+    	 text-align: center;
+    	 color: #ffffff;
+    }
+}
+</style>

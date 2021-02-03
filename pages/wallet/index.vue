@@ -17,7 +17,7 @@
 			 <view class="asset">
 				 <view class="top-btn">
 					 <text>资产</text>
-					 <uni-icons size="30" type="plus"></uni-icons>
+					 <uni-icons size="30" type="plus" @click="goAddAsset"></uni-icons>
 				 </view>
 				 <scroll-view scroll-y="true" class="coin-list">
 				 	<view class="coin-item" v-for="(item,index) in currentAsset" :key="index" @tap="goDealRecord(item)">
@@ -231,6 +231,9 @@
 			});
 		},
 		methods:{
+			goAddAsset(){
+				this.$openPage({name:"add-asset"})
+			},
 			goDealRecord(item){
 				this.$openPage({name:"deal-record",query:item})
 			},

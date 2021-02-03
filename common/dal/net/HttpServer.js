@@ -7,9 +7,9 @@ const HttpServert = {
 		this._request = null;
 		this._components = [];
 		this._components.push(vue.dal.Setting); // 
-		this._components.push(vue.dal.Account); // 账户
-		this._components.push(vue.dal.UserInfo); // 用户信息
-		this._components.push(vue.dal.Character); // 个人
+		// this._components.push(vue.dal.Account); // 账户
+		// this._components.push(vue.dal.UserInfo); // 用户信息
+		// this._components.push(vue.dal.Character); // 个人
 		this._components.push(vue.dal.Logger); // 			
 		
 		this._components.push(vue.dal.Common); // 			

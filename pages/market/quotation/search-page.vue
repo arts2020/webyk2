@@ -3,8 +3,8 @@
 		<bar ref="bar"></bar>
 		<view class="search-header">
 			<view class="search-frame">
-				<uni-icons type="search" class="search-icon" size="20" color="#E1643F" @tap="gosearch"></uni-icons>
-				<input type="text" placeholder="请输入token名称" v-model="keyword" confirm-type="search" @confirm="gosearch"/>
+				<uni-icons type="search" class="search-icon" size="20" color="#CCD3D9" @tap="gosearch"></uni-icons>
+				<input type="text" placeholder="请输入token名称" v-model="keyword" confirm-type="search" @confirm="gosearch" placeholder-style="color: #a9b7c4;"/>
 			</view>
 			<text class="cancell-txt" @tap="btnBack">取消</text>
 		</view>
@@ -95,7 +95,7 @@
 	min-height: calc(100vh);
 	height: 100%;
 	width: 100%;
-	background-color: #F2F2F2;
+	background-color: #fafbff;
 	.search-header{
 		width: 100%;
 		height: 88rpx;
@@ -103,12 +103,12 @@
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
-		background-color: #FFFFFF;
+		background-color: #fafbff;
 		.search-frame{
 			width: 85%;
-			height: 60rpx;
+			height: 65rpx;
 			border-radius: 30rpx;
-			background-color: #F2F2F2;
+			background-color: #FFFFFF;
 			margin-right: 20rpx;
 			display: flex;
 			align-items: center;
@@ -118,7 +118,10 @@
 				padding-right: 20rpx;
 			}
 			uni-input{
-				
+				font-size: 26rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #444444;
 			}
 		}
 		.cancell-txt{

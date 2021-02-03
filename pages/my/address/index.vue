@@ -67,7 +67,8 @@
 			handleChecked(item){
 				// 1返回转账界面,2去到地址详情页
 				if(this.backType==1){
-					// 跳到转账页面
+					// 跳到转账页面  转账页有之前页面传过来的参数  
+					this.goBack();
 				}else if(this.backType==2){
 					this.$openPage({name:"address-detail",query:item})
 				}

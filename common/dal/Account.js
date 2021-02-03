@@ -84,8 +84,7 @@ const Account = {
 		
 		let loginInfo = this.getLoginInfo()
 		let playInfo = vue.dal.Character.getPlayerInfo();
-		console.log('==loginInfo==',loginInfo)
-		console.log('==playInfo==',playInfo)
+		
 		if(loginInfo && playInfo){
 			this.m_loginSuccess = true;
 			vue.dal.UserInfo.onGetUserInfo(playInfo.m_nUserId);

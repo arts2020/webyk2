@@ -1,20 +1,33 @@
 <template>
 	<view class="recharge-currency">
 		<uni-nav-bar left-icon="back" :statusBar="true" :fixed="true" title="收款" @clickLeft="btnBack"></uni-nav-bar>
-		<view style="display: flex;justify-content: center;width: 100%;margin-top: 40px">
-			<text style="font-size: 22px;">扫描二维码，充值{{m_cointype}}</text>
+		<view class="main-c">
+			<view class="title">
+				扫描二维码，充值{{m_cointype}}
+			</view>
+			<view class="recharge-code">
+				<tki-qrcode ref="qrcode" :cid="cid" :val="val" :size="size" :unit="unit" :background="background" :foreground="foreground"
+					 :pdground="pdground" :icon="icon" :iconSize="iconsize" :lv="lv" :onval="onval" :loadMake="loadMake"
+					 :usingComponents="usingComponents" :showLoading="showLoading" :loadingText="loadingText" />
+				<!-- <canvas style="width: 180px;height: 180px;" canvas-id="couponQrcode"></canvas> -->
+				<!-- <image style="width: 180px;height: 180px;" src="../../static/image/safe/timg.jpg" /> -->
+				
+			</view>
+			<view class="address">
+				<view class="addr-title">钱包地址</view>
+				<view class="addr-info">{{m_address}}</view>
+			</view>
+            <view class="btns">
+				<view class="btn" @tap="goShare">
+					<uni-icons type="redo" size="30"></uni-icons>
+					<text>分享</text>
+				</view>
+				<view @tap="btnCopyFun()" class="btn">
+					<uni-icons type="compose" size="30"></uni-icons>
+					<text>复制</text>
+				</view>
+			</view>
 		</view>
-		<view class="recharge-code">
-			<tki-qrcode ref="qrcode" :cid="cid" :val="val" :size="size" :unit="unit" :background="background" :foreground="foreground"
-				 :pdground="pdground" :icon="icon" :iconSize="iconsize" :lv="lv" :onval="onval" :loadMake="loadMake"
-				 :usingComponents="usingComponents" :showLoading="showLoading" :loadingText="loadingText" />
-			<!-- <canvas style="width: 180px;height: 180px;" canvas-id="couponQrcode"></canvas> -->
-			<!-- <image style="width: 180px;height: 180px;" src="../../static/image/safe/timg.jpg" /> -->
-			
-		</view>
-		<view @tap="btnSavePic()" class="container-login">保存二维码</view>
-		<view class="code">{{m_address}}</view>
-		<view @tap="btnCopyFun()" class="code-tips">复制地址</view>
 	</view>
 </template>
 
@@ -51,7 +64,7 @@
 				loadingText: "",
 				showLoading: "",
 				ifShow: true,
-				val: '', // 要生成的二维码值
+				val: 'asf1v2s5fee8saccz5', // 要生成的二维码值
 				size: 360, // 二维码大小
 				unit: 'upx', // 单位
 				background: '#FFFFFF', // 背景色
@@ -82,11 +95,25 @@
 					fail: function(err) {},
 					complete: function(res) {}
 				});
+			},
+			goShare(){
+				// #ifdef APP-PLUS
+					let params = {
+						type:"",
+						content:"",
+						href:""
+					}
+					 plus.share.sendWithSystem(params, function(){
+					        console.log('分享成功');
+					    }, function(e){
+					        console.log('分享失败：'+JSON.stringify(e));
+					    });
+				// #endif
 			}
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	@import 'recharge-currency.scss';
 </style>

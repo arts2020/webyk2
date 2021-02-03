@@ -3,8 +3,8 @@
 			<bar ref="bar"></bar>
 			<view class="search-header">
 				<view class="search-frame">
-					<uni-icons type="search" class="search-icon" size="20" color="#E1643F" @tap="gosearch"></uni-icons>
-					<input type="text" placeholder="请输入token名称" v-model="keyword" confirm-type="search" @confirm="gosearch"/>
+					<uni-icons type="search" class="search-icon" size="20" color="#CCD3D9" @tap="gosearch"></uni-icons>
+					<input type="text" placeholder-style="color: #a9b7c4;" placeholder="请输入token名称" v-model="keyword" confirm-type="search" @confirm="gosearch"/>
 				</view>
 				<text class="cancell-txt" @tap="btnBack">取消</text>
 			</view>
@@ -117,6 +117,8 @@
 <style lang="scss" scoped>
 .searchPage{
 	width: 100%;
+	min-height: 100vh;
+	background-color: #fafbff;
 	.title{
 		font-size: 26rpx;
 		color: #8e8e8e;
@@ -129,12 +131,12 @@
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
-		background-color: #FFFFFF;
+		background-color: #fafbff;
 		.search-frame{
 			width: 85%;
-			height: 60rpx;
+			height: 65rpx;
 			border-radius: 30rpx;
-			background-color: #F2F2F2;
+			background-color: #FFFFFF;
 			margin-right: 20rpx;
 			display: flex;
 			align-items: center;
@@ -144,7 +146,10 @@
 				padding-right: 20rpx;
 			}
 			uni-input{
-				
+				font-size: 26rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #444444;
 			}
 		}
 		.cancell-txt{
@@ -154,33 +159,36 @@
 	}
 	.list-content{
 		width: 100%;
-		padding: 0 35rpx 0 25rpx;
-		box-sizing: border-box;
-		background-color: #FFFFFF;
+		background-color: #fafbff;
 		.list-item{
 			width: 100%;
-			height: 155rpx;
+			height: 121rpx;
+			padding: 22rpx 34rpx 16rpx;
+			box-sizing: border-box;
 			display: flex;
 			align-items: center;
+			background-color: #FFFFFF;
 			border-bottom: 1rpx solid #ebebeb;
 			.icon{
-				width: 90rpx;
-				height: 90rpx;
-				border-radius: 10rpx;
-				margin-right: 30rpx;
+				width: 54rpx;
+				height: 54rpx;
+				margin-right: 22rpx;
 			}
 			.dapp-info{
+				height: 83rpx;
 				font-family: PingFang SC, PingFang SC-Bold;
 				text-align: left;
 				.title{
-					font-size: 32rpx;
-					font-weight: 700;					
-					color: #121212;
+					font-size: 36rpx;
+					font-weight: 600;					
+					color: #071328;
+					line-height: 20rpx;
 				}
 				.descrip{
-					font-size: 28rpx;
+					font-size: 26rpx;
 					font-weight: 400;
-					color: #989898;
+					color: #8e8e8e;
+					line-height: 20rpx;
 				}
 			}
 			.right-arr{
@@ -203,8 +211,11 @@
 				display: flex;
 				align-items: center;
 				flex: none;
-				width: 50%;
+				width: 48%;
+				padding-left: 10rpx;
+				box-sizing: border-box;
 				height: 90rpx;
+				background-color: #FFFFFF;
 				image{
 					width: 70rpx;
 					height: 70rpx;

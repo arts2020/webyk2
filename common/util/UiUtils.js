@@ -99,9 +99,9 @@ const UiUtils = {
 		let pages = getCurrentPages();
 		if (pages.length < 1) {
 			this.$openPage({
-				name: "login-login",
+				name: "wallet-index",
 				query: {},
-				gotype: "reLaunch"
+				gotype: "switchTab"
 			})
 		} else {
 			uni.navigateBack({

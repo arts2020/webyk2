@@ -1,108 +1,113 @@
 <template>
 	<view class="carry-over">
-		<uni-nav-bar left-icon="back" :statusBar="true" :fixed="true" :title="m_asset.toLocaleUpperCase()+'转账'" @clickLeft="btnBack"></uni-nav-bar>
-		<view class="carry-content">
-			<view class="carry-title">转账地址</view>
-			<QSInput :maxlength="70" style="background-color: #FFFFFF;" inputwidth="94%" name="address" placeholder="输入或长按粘贴地址"
-			 :filterFc="userNameFilterInput" variableName="address" title="" customTapIcon="scanning" customId="1000" v-model="address"
-			 focusBorderColor="#FFFFFF;" blurBorderColor="#e5e5e5"></QSInput>
-		</view>
-		<view class="carry-count">
-			<view class="carry-title">转账数量</view>
-			<QSInput :maxlength="16" inputwidth="94%" name="count" style="border-bottom: 1px solid rgba(0,0,0,0.06);height: 40px;"
-			 placeholder="请输入转出数额" :filterFc="countFilterInput" variableName="count" title="" v-model="count" focusBorderColor="#FFFFFF"
-			 blurBorderColor="#FFFFFF"></QSInput>
-			<view class="count">可用数量：{{m_balane || 0}} {{m_title.toLocaleUpperCase()}}</view>
-		</view>
-
-		<view class="carry-count">
-			<label class="carry-title">矿工费</label>
-			<radio-group @change="radioChange" style="display: flex;flex-direction: column;margin-left: 30px;">
-				<view v-for="(item, index) in m_gitems" :key="item.value" style="display: flex;flex-direction: row;align-items: center;height: 35px;">
-					<radio style="transform: scale(0.6);" :value="item.value" :checked="index === current" />
-					<view style="display: flex;flex-direction: row;">
-						<label style="color: #666666;">{{item.name}}</label>
-						<label style="color: #666666;">{{item.value/100000}} ETH</label>
-					</view>
-				</view>
-			</radio-group>
-		</view>
-
-		<view class="carry-count">
-			<view class="label-font">
-				<text class="carry-title">资金密码</text>
-				<!-- <image @input="InputEye" @tap="btnEye" class="eye" :src="eyeImg" /> -->
+		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" :title="m_asset.name+'转账'" @clickLeft="btnBack"></uni-nav-bar>
+		<view class="carry-addr">
+			<view class="carry-title">收款地址</view>
+		    <view class="addr">
+				<input type="text" :placeholder="m_asset.name+'地址'" v-model="address" placeholder-class="tipClass"/>
+			    <image src="../../../../static/image/index/address.png" mode="" @tap="goAddressList"></image>
 			</view>
-			<QSInput :maxlength="16" inputwidth="94%" name="password" style="border-bottom: 1px solid rgba(0,0,0,0.06);"
-			 placeholder="请输入资金密码" :filterFc="passWordFilterInput" variableName="password" password title="" v-model="password"
-			 focusBorderColor="#FFFFFF" blurBorderColor="#FFFFFF"></QSInput>
 		</view>
-		<view @tap="btnConfirm()" class="container-login">确认转账</view>
+		<view class="carry-count">
+			<view class="carry-title">
+				<text>金额</text><text>{{m_balane || 0}} {{m_asset.name}}</text>
+			</view>
+			<view class="count">
+				<view class="input-count">
+					<input type="text" placeholder="0" placeholder-class="tipClass-2" v-model="count"/>
+				</view>
+				<view class="bak">
+					<text>备注</text>
+					<input type="text"  v-model="bak"/>
+				</view>
+			</view>
+		</view>		
+		<view class="fee" @tap="goSetting">
+			<text>矿工费</text>
+			<view class="fee-info">
+				<view class="coin">{{count}}{{m_asset.name}}</view>
+				<view class="rmb">￥{{rmb}}</view>
+			</view>
+			<image src="../../../../static/image/mine/arrow-left.svg" mode=""></image>
+		</view>
+		<view class="confirm-ok" @click="btnConfirm">转账</view>
+	    <uni-popup type="bottom" ref="tipPop">
+			<view class="tip-content">
+				<uni-icons @click="cancell(1)" type="closeempty" color="#444444" size="30" class="close-icon"></uni-icons>
+				<view class="tip-title">风险提示</view>
+				<view class="ok_btn" @tap="confirmKnow">我知晓了</view>
+			</view>
+		</uni-popup>
+		<uni-popup type="center" ref="pasdPop" class="pasdTip">
+			<view class="main-content">
+				<view class="title">请输入密码</view>
+				<view class="input-box">
+					<input type="text" password placeholder="密码" v-model="password" />
+				</view>
+				<view class="btns">
+					<view class="cancell" @click="cancell(2)">取消</view>
+					<view class="ok" @click="confirmOk">确定</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
-	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
 	export default {
-		components: {
-			Bar
-		},
 		created() {
-			this.onRefresh();
-			this.getGas();
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtTransResult, this.onTransResult);
-			this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtBalance, this.onRefresh);
-			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtCheckCapitalPassword, this.onCheckCapitalPassword);
+			// this.onRefresh();
+			// this.getGas();
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtTransResult, this.onTransResult);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtBalance, this.onRefresh);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtCheckCapitalPassword, this.onCheckCapitalPassword);
 		},
 		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtTransResult, this.onTransResult);
-			this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtBalance, this.onRefresh);
-			this.util.EventUtils.removeEventCustom(this.dal.Setting.evtCheckCapitalPassword, this.onCheckCapitalPassword);
+			// this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtTransResult, this.onTransResult);
+			// this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtBalance, this.onRefresh);
+			// this.util.EventUtils.removeEventCustom(this.dal.Setting.evtCheckCapitalPassword, this.onCheckCapitalPassword);
 		},
 		onLoad(option) {
-			if (option) {
+			if (option.query) {
 				var data = JSON.parse(option.query);
-				this.m_asset = data.param.asset;
-				this.m_title = this.m_asset;
-				console.log('==this.m_title.toLocaleLowerCase()=', this.m_title.toLocaleLowerCase())
-				if (this.m_title.toLocaleLowerCase() == "filecoin") {
-					this.m_title = "FIL";
+				console.log(data)
+				this.m_asset = data;
+				if (this.m_asset.name == "filecoin") {
+					this.m_asset.name = "FIL";
 				}
 			}
 		},
 		data() {
 			return {
-				m_gitems: [],
-				current: 1,
-				eyeImg: '../../../static/image/login/closeEye.png',
 				count: "",
+				rmb:"0.124",
 				address: "",
 				password: "",
-				m_asset: "btc",
-				m_title: "btc",
+				bak:"",
+				//当前资产信息
+				m_asset: {},
 				m_balane: "",
-				isShowPassword: false,
-				showAddressClearIcon: false,
-				showAmountClearIcon: false,
-				showPwdClearIcon: false,
-				showClearIcon: false, //清除按钮
-				userNameFilterInput(value) {
-					var specialStr = value.replace(/[^\w\.\/]/ig, '')
-					return specialStr;
-				},
-				countFilterInput(value) {
-					return value;
-				},
-				passWordFilterInput(value) {
-					// uni.cclog("=====passWordFilterInput=======", value)	
-					return value;
-				},
-				inputCustomTapFc(value) {
-					uni.cclog("=====inputCustomTapFc=======", value)
+				//默认矿工费
+				feeInfo:{
+					coin:"0.004500",
+					rmb:"39.28",
+					value:'89.00GWEI',
+					name: "快速",
+					time:'5分钟'
 				}
 			}
 		},
 		methods: {
+			goAddressList(){
+				this.$openPage({name:"address-list",query:{type:1}})
+			},
+			goSetting(){
+				let params = {
+					  coinType:this.m_asset.name,
+					  ...this.feeInfo
+					}
+				this.$openPage({name:"setting-fee",query:params})
+			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
 			},
@@ -130,69 +135,34 @@
 
 			onRefresh: function() {
 				if (this.m_asset == "eth") {
-					this.m_balane = this.dal.Ethers.getBalance().toFixed(6);
+					// this.m_balane = this.dal.Ethers.getBalance().toFixed(6);
 				} else if (this.m_asset == "usdt") {
-					this.m_balane = this.dal.UsdtErc20.getBalance().toFixed(6);
+					// this.m_balane = this.dal.UsdtErc20.getBalance().toFixed(6);
 				} else if (this.m_asset == "btc") {
-					this.m_balane = this.dal.BtcWallter.getBalance().toFixed(6);
+					// this.m_balane = this.dal.BtcWallter.getBalance().toFixed(6);
 				} else if (this.m_asset == "filecoin") {
-					this.m_balane = this.dal.FileCoinWallter.getBalance().toFixed(6);
+					// this.m_balane = this.dal.FileCoinWallter.getBalance().toFixed(6);
 				}
-				console.log("==3===this.m_balane=", this.m_balane)
-				console.log("==3===this.m_asset=", this.m_asset)
 			},
 
 			onTransResult(data) {
-				console.log("==3===onTransResult=", data)
-				this.dal.WallterTranser.onTransfer(this.m_asset, this.count, this.address, data.tx);
+				// this.dal.WallterTranser.onTransfer(this.m_asset, this.count, this.address, data.tx);
 				// this.dal.Common.
 				setTimeout(function() {
 					uni.navigateBack();
 				}, 500)
 			},
-
-			radioChange: function(evt) {
-				for (let i = 0; i < this.m_gitems.length; i++) {
-					if (this.m_gitems[i].value === evt.target.value) {
-						this.current = i;
-						this.gas = this.m_gitems[i].value;
-						break;
-					}
-				}
-				console.log('==this.gas==', this.gas)
-			},
-			getGas: async function() {
-				this.m_gitems = [];
-				let price = await this.dal.Wallter.getGasPriceAsync()
-				console.log('==this.price==', price)
-				let v0 = {
-					value: price.safeLow + "",
-					name: "较慢"
-				}
-				let v1 = {
-					value: price.average + "",
-					name: "普通"
-				}
-				let v2 = {
-					value: price.fast + "",
-					name: "较快"
-				}
-				this.gas = price.average;
-				this.m_gitems.push(v0)
-				this.m_gitems.push(v1)
-				this.m_gitems.push(v2)
-			},
-
+			//点击转账
 			btnConfirm() {
-				console.log("==this.address==", this.address)
-
-				if (!this.util.UiUtils.getIsCanTrans()) {
-					return;
-				}
+             // 对地址数量和矿工费进行校验并打开风险提示框
+			 
+			// 	if (!this.util.UiUtils.getIsCanTrans()) {
+			// 		return;
+			// 	}
 
 				let address = this.address.replace(new RegExp(/( )/g), "");
 				let count = this.count.replace(new RegExp(/( )/g), "");
-				let password = this.password.replace(new RegExp(/( )/g), "");
+				// let password = this.password.replace(new RegExp(/( )/g), "");
 
 				if (address.length <= 0) {
 					this.util.UiUtils.showToast("请输入转出的地址")
@@ -204,7 +174,7 @@
 				}
 				if (this.m_balane <= 0) {
 					this.util.UiUtils.showToast(this.m_asset + "可用余额不足")
-					// return;
+					return;
 				}
 				if (count.length <= 0) {
 					this.util.UiUtils.showToast("请输入转出的数额")
@@ -214,70 +184,71 @@
 				// 	this.util.UiUtils.showToast("请输入矿工费")
 				// 	return;
 				// }
-				if (password.length <= 0) {
-					this.util.UiUtils.showToast("密码不能为空")
-					return;
-				}
+			// 	let sum = count * 1 + this.gas / 100000 * 1;
+			// 	if (this.m_balane < sum) {
+			// 		this.util.UiUtils.showToast(this.m_asset + "可用余额不足")
+			// 		return;
+			// 	}
 
-				let sum = count * 1 + this.gas / 100000 * 1;
-				if (this.m_balane < sum) {
-					console.log("====getGasPriceAsync=data==1==sum==", sum)
-					this.util.UiUtils.showToast(this.m_asset + "可用余额不足")
-					return;
-				}
+			// 	let selfAddress = this.dal.Wallter.getAddress().toLowerCase();
+			// 	if (address.toLowerCase() == selfAddress) {
+			// 		this.util.UiUtils.showToast("不允许对自己进行转帐")
+			// 		return;
+			// 	}
+			// 	uni.showModal({
+			// 		title: this.getLocalStr("tip_title"),
+			// 		content: "您确定要转帐吗？",
+			// 		confirmText: this.getLocalStr("btnstring_confirm"),
+			// 		showCancel: true,
+			// 		success: function(res) {
+			// 			if (res.confirm) {
+			// 				this.util.UiUtils.showLoading("");
+			// 				this.dal.Setting.onCheckCapitalPassword(password);
+			// 			}
+			// 		}.bind(this)
+			// 	});
+			// },
+			// onCheckCapitalPassword: function(data) {
+			// 	this.util.UiUtils.showLoading("");
+			// 	let val = this.gas;
+			// 	let gas = parseInt(val) * Math.pow(10, 8);
+			// 	gas = '0x' + parseInt(gas).toString(16);
 
-				let selfAddress = this.dal.Wallter.getAddress().toLowerCase();
-				if (address.toLowerCase() == selfAddress) {
-					this.util.UiUtils.showToast("不允许对自己进行转帐")
-					return;
-				}
-				uni.showModal({
-					title: this.getLocalStr("tip_title"),
-					content: "您确定要转帐吗？",
-					confirmText: this.getLocalStr("btnstring_confirm"),
-					showCancel: true,
-					success: function(res) {
-						if (res.confirm) {
-							this.util.UiUtils.showLoading("");
-							this.dal.Setting.onCheckCapitalPassword(password);
-						}
-					}.bind(this)
-				});
+			// 	if (this.m_asset == "eth") {
+			// 		this.dal.Ethers.sendTransaction(this.address, this.count, gas)
+			// 	} else if (this.m_asset == "usdt") {
+			// 		this.dal.UsdtErc20.sendTransaction(this.address, this.count, gas)
+			// 	} else if (this.m_asset == "btc") {
+			// 		this.dal.BtcWallter.sendTransaction(this.address, this.count, gas)
+			// 	} else if (this.m_asset == "filecoin") {
+			// 		this.dal.FileCoinWallter.sendTransaction(this.address, this.count, gas)
+			// 	}
+			this.$refs.tipPop.open();
 			},
-			onCheckCapitalPassword: function(data) {
-				this.util.UiUtils.showLoading("");
-				let val = this.gas;
-				console.log("====getGasPriceAsync=data==1==gas==", val)
-				let gas = parseInt(val) * Math.pow(10, 8);
-				gas = '0x' + parseInt(gas).toString(16);
-
-				console.log("====getGasPriceAsync=data====gas==", gas)
-
-				if (this.m_asset == "eth") {
-					this.dal.Ethers.sendTransaction(this.address, this.count, gas)
-				} else if (this.m_asset == "usdt") {
-					this.dal.UsdtErc20.sendTransaction(this.address, this.count, gas)
-				} else if (this.m_asset == "btc") {
-					this.dal.BtcWallter.sendTransaction(this.address, this.count, gas)
-				} else if (this.m_asset == "filecoin") {
-					this.dal.FileCoinWallter.sendTransaction(this.address, this.count, gas)
+			//点击我知晓了
+			confirmKnow(){
+				this.$refs.pasdPop.open()
+			},
+			cancell(e){
+				if(e==2){
+					this.password = "";
+					this.$refs.pasdPop.close();
+					this.$refs.tipPop.close();
+				}else if(e==1){
+					this.$refs.tipPop.close();
 				}
 			},
-
+			//点击密码提示框的确定
+            confirmOk(){
+				if(!this.password){
+					this.util.UiUtils.showToast("请输入密码");
+					return;
+				}
+			},
 			isETHValidAddress: function(input) {
 				if (StrUtil.isEmpty(input) || !input.startsWith("0x"))
 					return false;
 				return isValidAddress(input);
-			},
-
-			btnEye: function() {
-				console.log("========")
-				this.isShowPassword = !this.isShowPassword;
-				if (this.isShowPassword) {
-					this.eyeImg = "../../../static/image/login/eye.png"
-				} else {
-					this.eyeImg = "../../../static/image/login/closeEye.png"
-				}
 			},
 		}
 	}

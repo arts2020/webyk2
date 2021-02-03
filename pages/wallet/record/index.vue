@@ -185,7 +185,7 @@
 				this.$openPage({name:"recharge-currency",query:this.currentAsset})
 			},
 			goTransfer(){
-				this.$openPage({name:"carry-over"})
+				this.$openPage({name:"carry-over",query:this.currentAsset})
 			},
 			goDetail(item){
 				this.$openPage({name:"deal-record-detail",query:item})
