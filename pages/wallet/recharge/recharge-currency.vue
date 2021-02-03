@@ -1,12 +1,8 @@
 <template>
 	<view class="recharge-currency">
-		<bar ref="bar"></bar>
-		<view @tap="btnBack()" class="safe-header">
-			<image src="../../static/image/login/left.svg" />
-			<text>充币</text>
-		</view>
+		<uni-nav-bar left-icon="back" :statusBar="true" :fixed="true" title="收款" @clickLeft="btnBack"></uni-nav-bar>
 		<view style="display: flex;justify-content: center;width: 100%;margin-top: 40px">
-			<text style="font-size: 22px;">扫描二维码，充值{{m_cointype.toLocaleUpperCase()}}</text>
+			<text style="font-size: 22px;">扫描二维码，充值{{m_cointype}}</text>
 		</view>
 		<view class="recharge-code">
 			<tki-qrcode ref="qrcode" :cid="cid" :val="val" :size="size" :unit="unit" :background="background" :foreground="foreground"
@@ -24,31 +20,31 @@
 
 <script>
 	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
-	import qrCode from '../../common/util/qrCode.js';
+	import qrCode from '@/common/util/qrCode.js';
 	export default {
 		components: {
 			Bar,
 			qrCode,
 		},
 		created() {
-			this.m_cointype = this.m_asset;
-			console.log('==this.m_cointype==',this.m_cointype)
+			this.m_cointype = this.m_asset.name;
 			if(this.m_cointype == "filecoin"){
-				this.val = this.dal.LotusWallter.getAddress();
+				// this.val = this.dal.LotusWallter.getAddress();
 			}else{
-				this.val = this.dal.Wallter.getAddress();
+				// this.val = this.dal.Wallter.getAddress();
 			}
 			this.m_address = this.val;
 		},
 		onLoad(option) {
-			console.log("==option=",option)
 			var data = JSON.parse(option.query);
-			this.m_asset = data.param.asset;
+			this.m_asset = data;
 		},
 		data() {
 			return {
 				m_address: "",
 				m_cointype: "",
+				//当前资产
+				m_asset:"",
 				qrR: "",
 				cid: "",
 				usingComponents: "",

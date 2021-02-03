@@ -23,6 +23,18 @@
 			<view class="tips">请添加身份钱包下的币种(多选)</view>
 			<view class="btn" :style="'background-color:'+btn_color" @tap="btnConfirmAdd">确定</view>
 		</view>
+	    <uni-popup type="center" ref="pasdPop" class="pasdTip">
+	    	<view class="main-content">
+	    		<view class="title">请输入密码</view>
+	    		<view class="input-box">
+	    			<input type="text" password placeholder="密码" v-model="password" />
+	    		</view>
+	    		<view class="btns">
+	    			<view class="cancell" @click="cancell">取消</view>
+	    			<view class="ok" @click="confirmOk">确定</view>
+	    		</view>
+	    	</view>
+	    </uni-popup>
 	</view>
 </template>
 
@@ -63,7 +75,9 @@
 					alias: "Ethereum"
 				}, ],
 				// 选中的币种列表
-				checkedTypes: []
+				checkedTypes: [],
+				
+				password:""
 			};
 		},
 		onLoad(option) {
@@ -99,9 +113,13 @@
 			handleChecked(e) {
 				this.checkedTypes = e.detail.value;
 			},
-			btnConfirmAdd(){				
-				//未选择时点击无反应
-				if(this.checkedTypes.length==0){return;}
+			confirmOk(){	
+				//检查密码是否为空
+				if(!this.password){
+					this.util.UiUtils.showToast('密码不能为空')
+					return;
+				}
+				//检查输入密码是否正确，正确则添加币种--关闭弹框---跳转，否则给与密码不对提示
 				
 				//执行添加币种的操作   this.checkedTypes数组中存储了选中的币的链类型
 				let list = [];   //要添加的币种对象数组
@@ -110,7 +128,6 @@
 						list.push(el)
 					}
 				})
-				
 				
 				//给与成功提示
 				
@@ -139,8 +156,22 @@
 					}
 				}
 				setTimeout(()=>{
+					
 					this.$openPage(params);
+					
+					this.password = "";
+					this.$refs.pasdPop.close();
 				},1000)
+			},
+			btnConfirmAdd(){
+				//未选择时点击无反应
+				if(this.checkedTypes.length==0){return;}
+				
+				this.$refs.pasdPop.open();
+			},
+			cancell(){
+				this.password ="";
+				this.$refs.pasdPop.close()
 			}
 		}
 	}
@@ -229,5 +260,51 @@
 				border-radius: 20rpx;
 			}
 		}
+	    .main-content{
+	    	width: 500rpx;
+	    	background-color: #efefef;
+	    	border-radius: 20rpx;
+	    	padding-top: 30rpx;
+	    	.title{
+	    		font-size: 26rpx;
+	    		color: #444444;
+	    		font-weight: bold;
+	    		text-align: center;
+	    	}
+	    	.input-box{
+	    		width: 100%;
+	    		uni-input{
+	    			width: 90%;
+	    			height: 60rpx;
+	    			line-height: 60rpx;
+	    			border-radius: 10rpx;
+	    			padding-left: 20rpx;
+	    			box-sizing: border-box;
+	    			background-color: #FFFFFF;
+	    			margin: 10rpx auto 30rpx;
+	    			font-size: 24rpx;
+	    			color: #8e8e8e;
+	    		}
+	    	}
+	    	.btns{
+	    		width: 100%;
+	    		font-size: 26rpx;
+	    		color: #007AFF;
+	    		font-weight: bold;
+	    		text-align: center;
+	    		border-top: 2rpx solid #F2F2F2;
+	    		display: flex;
+	    		align-items: center;
+	    		.cancell{
+	    			width: 50%;
+	    			line-height: 60rpx;
+	    			border-right: 2rpx solid #F2F2F2;
+	    		}
+	    		.ok{
+	    			width: 50%;
+	    			line-height: 60rpx;
+	    		}
+	    	}
+	    }
 	}
 </style>

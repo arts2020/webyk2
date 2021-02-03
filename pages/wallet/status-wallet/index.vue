@@ -28,7 +28,7 @@
 			<view class="main-content">
 				<view class="title">请输入密码</view>
 				<view class="input-box">
-					<input type="text" placeholder="密码" v-model="password" />
+					<input type="text" placeholder="密码" password v-model="password" />
 				</view>
 				<view class="btns">
 					<view class="cancell" @click="cancell">取消</view>
@@ -76,12 +76,18 @@
 				this.util.UiUtils.switchToPage("wallet-add-coin", "status-wallet-index",{backType:4});
 			},
 			confirmOk(){
-				//检查输入密码是否正确，正确则跳转到备份页，否则给与密码不对提示
+				if(!this.password){
+					this.util.UiUtils.showToast('密码不能为空')
+					return;
+				}
 				
+				//检查输入密码是否正确，正确则跳转到备份页，否则给与密码不对提示
+				this.password="";
 				this.$refs.pasdPop.close()
 				this.$openPage({name:"backup-tip"});
 			},
 			cancell(){
+				this.password="";
 				this.$refs.pasdPop.close()
 			}
 		}

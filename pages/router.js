@@ -139,8 +139,26 @@ const router = new MinRouter({
 			path: 'pages/wallet/backup/backup-tip',
 			name: 'backup-tip'
 		},{
+			path: 'pages/wallet/backup/backup-info/backup-private',
+			name: 'backup-private'
+		},{
+			path: 'pages/wallet/backup/backup-info/backup-keystore',
+			name: 'backup-keystore'
+		},{
 			path:"pages/dapp/search-page",
 			name: 'dapp-search'
+		},{
+			path:"pages/wallet/record/index",
+			name: 'deal-record'
+		},{
+			path:"pages/wallet/record/detail",
+			name: 'deal-record-detail'
+		},{
+			path:"pages/wallet/recharge/carry-over/carry-over",
+			name: 'carry-over'
+		},{
+			path:"pages/wallet/recharge/recharge-currency",
+			name: 'recharge-currency'
 		}
 	]
 })

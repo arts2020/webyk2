@@ -3,14 +3,14 @@
 		<uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="备份" @clickLeft="btnBack"></uniNavBar>
 		<view class="create-list">
 			<view class="tip-title">备份提示</view>
-			<view class="tip-cotent">获取助记词等于获取钱包资产所有权</view>
+			<view class="tip-cotent">获取{{str1}}等于获取钱包资产所有权</view>
 			<view class="tip-list">
 				<image src="../../../static/image/notice/warn.svg" />
 				<view>助记词由英文单词组成，请抄写并妥善保管</view>
 			</view>
 			<view class="tip-list">
 				<image src="../../../static/image/notice/warn.svg" />
-				<view>助记词丢失无法找回，请务必备份助记词</view>
+				<view>{{str2}}丢失无法找回，请务必备份{{str2}}</view>
 			</view>
 		</view>
 		<view @tap="goNext" class="container-login" >下一步</view>
@@ -34,13 +34,32 @@
 		},
 		data() {
 			return {
+				//备份提示，1备份助记词  2备份keystore 3备份私钥
+				//根据不同情况显示不同提示
+				bakType:1,
 				scrollHeight: 0,
+				str1:"",
+				str2:""
 			}
 		},
-		created() {
+		onLoad(option) {
+			if(option.query){
+				let params = JSON.parse(option.query);
+				
+				if(Object.keys(params).length!=0){
+					switch (params.bakType){
+						case 1:this.bakType==1;this.str1="助记词"; this.str2="助记词";
+							break;
+						case 2:this.bakType==2;this.str1="keystore和密码"; this.str2="keystore";
+							break;
+						case 3:this.bakType==3;this.str1="私钥和密码"; this.str2="私钥";
+							break;
+						default:this.bakType==1;this.str1="助记词"; this.str2="助记词";
+							break;
+					}
+				}
+			}
 			
-		},
-		onLoad() {
 			
 		},
 		methods: {
@@ -54,7 +73,13 @@
 				this.$refs.popup.close()
 			},
 			btnNext:function(){
-				this.util.UiUtils.switchToPage("backup-info", "backup-tip",{});
+				if(this.bakType==1){
+					this.util.UiUtils.switchToPage("backup-info", "backup-tip",{});
+				}else if(this.bakType==2){
+					this.util.UiUtils.switchToPage("backup-keystore", "backup-tip",{});
+				}else if(this.bakType==3){
+					this.util.UiUtils.switchToPage("backup-private", "backup-tip",{});
+				}
 			}
 		},
 		onShow() {

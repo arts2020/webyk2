@@ -6,7 +6,7 @@
 		    <view class="wallet" :style="'background: url('+currentWallet.bgcImg+') no-repeat center;'">
 				<view class="p1">
 					<text>{{currentWallet.name}}</text>
-					<text>...</text>
+					<text @click="goDetail">...</text>
 				</view>
 				<view class="p2">
 					<text>{{currentWallet.addr}}</text>
@@ -20,11 +20,11 @@
 					 <uni-icons size="30" type="plus"></uni-icons>
 				 </view>
 				 <scroll-view scroll-y="true" class="coin-list">
-				 	<view class="coin-item" v-for="(item,index) in currentAsset" :key="index">
+				 	<view class="coin-item" v-for="(item,index) in currentAsset" :key="index" @tap="goDealRecord(item)">
 						<image class="icon" :src="item.img" mode=""></image>
 						<text>{{item.name}}</text>
 						<view class="kind-asset">
-							<view class="b1">{{item.money}}</view>
+							<view class="b1">{{item.rmb}}</view>
 							<view class="b2">￥{{item.money}}</view>
 						</view>
 					</view>
@@ -117,37 +117,41 @@
 			   </view>
 		   </view>
 	   </view>
-	   
 	</view>
 </template>
 
-<script>
+<script>	
 	export default {
 		name:"wallet",
 		data(){
 			return{
 				hasWallet:false,
 				scrollHeight:0,
+				//当前使用的钱包
 				currentWallet:{},
 				currentAsset:[
 					{
 						img:"../../static/image/index/btc.png",
 						name:"BTC",
+						rmb:"23.03",
 						money:"1234.65"
 					},
 					{
 						img:"../../static/image/index/btc.png",
 						name:"BTC",
+						rmb:"23.03",
 						money:"1234.65"
 					},
 					{
 						img:"../../static/image/index/btc.png",
 						name:"BTC",
+						rmb:"23.03",
 						money:"1234.65"
 					},
 					{
 						img:"../../static/image/index/btc.png",
 						name:"BTC",
+						rmb:"23.03",
 						money:"1234.65"
 					},
 					{
@@ -161,10 +165,15 @@
 						money:"1234.65"
 					}
 				],
+				
+				//钱包管理页数据
+				//当前选中钱包的类型
 				activeObj:{
 					chaintype:-1,
 				},
+				//钱包管理页类型一致钱包列表
 				currentList:[],
+				//身份钱包
 				identity_wallets:[
 					{
 						chaintype:1,
@@ -187,6 +196,7 @@
 						money:"12.54"
 					},
 				],
+				//普通钱包
 				single_wallets:[
 					{
 						chaintype:1,
@@ -221,6 +231,12 @@
 			});
 		},
 		methods:{
+			goDealRecord(item){
+				this.$openPage({name:"deal-record",query:item})
+			},
+			goDetail(){
+				this.$openPage({name:"my-wallet-detail",query:this.currentWallet})
+			},
 			importWallet(){
 				this.$openPage({name:"import-wallet-index"})
 			},
@@ -239,6 +255,8 @@
 				this.$refs.walletPop.open()
 			},
 			cancell(){
+				//关闭时清除之前状态
+				this.activeObj.chaintype = -1;
 				this.$refs.walletPop.close()
 			},
 			checkedItem(item){
@@ -253,6 +271,7 @@
 			},
 			//去到管理钱包
 			goManage(){
+				this.$refs.walletPop.close()
 				this.$openPage({name:"my-wallet-index"})
 			},
 			handleChecked(item){

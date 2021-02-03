@@ -1,10 +1,6 @@
 <template>
 	<view class="carry-over">
-		<bar ref="bar"></bar>
-		<view @tap="btnBack()" class="safe-header">
-			<image src="../../../static/image/login/left.svg" />
-			<text>{{m_asset.toLocaleUpperCase()}}转账</text>
-		</view>
+		<uni-nav-bar left-icon="back" :statusBar="true" :fixed="true" :title="m_asset.toLocaleUpperCase()+'转账'" @clickLeft="btnBack"></uni-nav-bar>
 		<view class="carry-content">
 			<view class="carry-title">转账地址</view>
 			<QSInput :maxlength="70" style="background-color: #FFFFFF;" inputwidth="94%" name="address" placeholder="输入或长按粘贴地址"
