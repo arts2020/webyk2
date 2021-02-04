@@ -7,10 +7,11 @@ const HttpServert = {
 		this._request = null;
 		this._components = [];
 		this._components.push(vue.dal.Setting); // 
-		// this._components.push(vue.dal.Account); // 账户
-		// this._components.push(vue.dal.UserInfo); // 用户信息
-		// this._components.push(vue.dal.Character); // 个人
+		this._components.push(vue.dal.Account); // 账户
+		this._components.push(vue.dal.UserInfo); // 用户信息
+		this._components.push(vue.dal.Character); // 个人
 		this._components.push(vue.dal.Logger); // 			
+		this._components.push(vue.dal.Dapp); // 			
 		
 		this._components.push(vue.dal.Common); // 			
 		this._components.push(vue.dal.Chain); //	
@@ -159,6 +160,46 @@ const HttpServert = {
 		var url = host + route.path
 		// uni.cclog("=====url==", url)
 		vue.shared.Http.request(url, route.method, params, code);
+	},
+	
+	async asyncRequest(code, params, host) {
+		var route = vue.entities.Routes.getRoute(code);
+		//检测请求是否需要权限权限
+		var logininfo = vue.dal.Account.getLoginInfo();
+		// console.warn("=request=logininfo===", logininfo)
+		if (route.islogin && code != vue.entities.RequestCode.AutoLogin) {
+			if (!vue.dal.Character.isValidLogin()) {
+				console.warn("=没登录禁请求==isLoginCache==request=code===", code)
+				// vue.util.UiUtils.switchToPage("login", "http_request==code=" + code);
+				return;
+			}
+		}
+		if (!params) {
+			params = {};
+		}
+	
+		params.act = code;
+		if (!route.islogin) {
+			params.userid = "0";
+			params.token = "0";
+			if (logininfo) {
+				params.userid = logininfo.m_nUserId;
+				params.token = logininfo.m_sUserToken;
+			}
+		} else {
+			if (!logininfo) {
+				uni.cclog("=====登录信息不存在，请重新登录==", code)
+				return;
+			}
+			params.userid = logininfo.m_nUserId;
+			params.token = logininfo.m_sUserToken;
+		}
+		// uni.cclog("=====params==", params)
+		// uni.cclog("=====host==", host)
+		// uni.cclog("=====route.path==", route.path)
+		var url = host + route.path
+		// uni.cclog("=====url==", url)
+		return await vue.shared.Http.asyncRequest(url, route.method, params, code);
 	}
 }
 

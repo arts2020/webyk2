@@ -4,6 +4,7 @@ import UserInfo from "@/common/dal/UserInfo.js"
 import Setting from "@/common/dal/Setting.js"
 import Net from "@/common/dal/Net.js"
 import Logger from "@/common/dal/Logger.js"
+import Dapp from "@/common/dal/dapp/Dapp.js"
 
 import Utils from "@/common/dal/Utils.js"
 import Common from "@/common/dal/Common.js"
@@ -19,6 +20,7 @@ import TRON from "@/common/dal/wallet/wallets/tron.js"
 const Dal = {
 	Net,
 	Logger,
+	Dapp,
 	Utils,
 	Setting,
 	Account,
