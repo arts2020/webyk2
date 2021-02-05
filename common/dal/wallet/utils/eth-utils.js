@@ -1,9 +1,10 @@
+
 const Tx = require('../../../../node_modules/ethereumjs-tx').Transaction;
 const HttpUtils = require('./https-util.js').HttpUtils
 import Vue from 'vue'
 var vue = Vue.prototype
 
-const OtcpUtils = {
+const EthUtils = {
 
 	async getGasPriceAsync() {
 		console.log("====getGasPriceAsync=data=======")
@@ -681,5 +682,5 @@ const OtcpUtils = {
 }
 
 module.exports = {
-	OtcpUtils
+	EthUtils
 };

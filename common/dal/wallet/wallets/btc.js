@@ -104,7 +104,13 @@ const Btc = {
 			return false;
 		}
 	},
-
+	
+	async initCurrChain(){
+		let walletInfo = vue.dal.WalletMange.getCurrWallet();
+		this.m_privateKey = walletInfo.privateKey;
+		this.fromAddress = walletInfo.address;
+	},
+	
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
 		let privateKey = vue.dal.Wallter.getPrivateKey();

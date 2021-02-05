@@ -99,4 +99,5 @@ const NormalWallet = {
 		return isexist;
 	}
 }
+
 export default NormalWallet

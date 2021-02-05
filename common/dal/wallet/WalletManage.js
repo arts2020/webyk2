@@ -6,12 +6,18 @@ var vue = Vue.prototype
 //钱包管理器
 const WalletMange = {
 	m_currChainType: 1, //当前钱包
-	m_currMainWallet:null,
+	m_currWalletIdx: 0, //当前普通钱包ID
+	m_currMainWallet: null,
+	m_currNormalWallet: null,
+	
+	evtBalance: "EVT_BALANCE",
+	evtCreateWallter: "EVT_CREATE_WALLTER",
+	evtTransResult: "EVT_TRANSRESULT",
 	
 	init: function() {
 		uni.cclog("======WalletMange init==========")
 		this.m_currChainType = vue.entities.Metadata.ChainType.Normal, //当前钱包
-		this.onAddListener();
+			this.onAddListener();
 		return true;
 	},
 
@@ -21,6 +27,8 @@ const WalletMange = {
 	},
 
 	clear: function() {
+		this.m_currMainWallet = null;
+		this.m_currNormalWallet = null;
 		uni.cclog("======WalletMange clear==========")
 	},
 
@@ -31,16 +39,16 @@ const WalletMange = {
 	onRemoveListener: function() {
 		vue.shared.Event.removeByObserverName("dal_walletmangage");
 	},
-	
+
 	//获得助记词
-	async getMnemonic{
+	async getMnemonic {
 		let mnemonic = this.createNewWords();
 		return mnemonic;
 	}
-	
+
 	//创建身份钱包
-	async createMainWallet(words) {
-		if (words && words.length > 0) {
+	async createMainWallet(mnemonic) {
+		if (mnemonic && mnemonic.length > 0) {
 			await vue.dal.BTC.createMain(mnemonic)
 			await vue.dal.EOS.createWalletByWords(mnemonic)
 			await vue.dal.ETH.createWalletByWords(mnemonic)
@@ -54,15 +62,30 @@ const WalletMange = {
 	//创建普通钱包
 	async createNormalWallet(chaintype, importtype, strval) {
 		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
-			await vue.dal.BTC.createNormal(importtype, importtype, strval)
+			await vue.dal.BTC.createNormal(importtype, strval)
 		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {
-			await vue.dal.EOS.createNormal(importtype, importtype, strval)
+			await vue.dal.EOS.createNormal(importtype, strval)
 		} else if (chaintype == vue.entities.Metadata.ChainType.ETH) {
-			await vue.dal.ETH.createNormal(importtype, importtype, strval)
+			await vue.dal.ETH.createNormal(importtype, strval)
 		} else if (chaintype == vue.entities.Metadata.ChainType.Lotus) {
-			await vue.dal.Lotus.createNormal(importtype, importtype, strval)
+			await vue.dal.Lotus.createNormal(importtype, strval)
 		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
-			await vue.dal.TRON.createNormal(importtype, importtype, strval)
+			await vue.dal.Tron.createNormal(importtype, strval)
+		}
+	},
+	
+	//创建合约钱包
+	async createContractWallet(chaintype, address) {
+		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
+			await vue.dal.BTC.createContract(address)
+		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {
+			await vue.dal.EOS.createContract(address)
+		} else if (chaintype == vue.entities.Metadata.ChainType.ETH) {
+			await vue.dal.ETH.createContract(address)
+		} else if (chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			await vue.dal.Lotus.createContract(address)
+		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
+			await vue.dal.Tron.createContract(address)
 		}
 	},
 
@@ -91,17 +114,32 @@ const WalletMange = {
 		}
 		return vue.Metadata.WalletType.UnKnow;
 	},
-	
-	//======================切换链钱=============================
-	//设置当前选择的主链
-	setCurrChainType: function(chaintype) {
-		// this.m_currMainWallet = vue.dal.MainWallet.getMainWallet(chaintype);
+
+	//设置当前钱包
+	setCurrWallet: function(chaintype,idx) {
 		this.m_currChainType = chaintype;
+		this.m_currWalletIdx = idx;
+		this.m_currWallet = null;
+		if(idx == 0){//身份钱包
+			this.m_currWallet = vue.dal.MainWallet.getMainWallet(chaintype)
+		}else{//普通钱包
+			this.m_currWallet = vue.dal.MainWallet.getNormalWallet(chaintype,idx)
+		}
+		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
+			vue.dal.Btc.initCurrChain();
+		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {
+			vue.dal.Eos.initCurrChain();
+		} else if (chaintype == vue.entities.Metadata.ChainType.ETH) {
+			vue.dal.Eth.initCurrChain();
+		} else if (chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			vue.dal.Lotus.initCurrChain();
+		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
+			vue.dal.Tron.initCurrChain();
+		}
 	},
-	
-	getCurrChainType:function(){
-		return this.m_currChainType;
-	},
-	
+
+	getCurrWallet: function() {
+		return this.m_currWallet;
+	}
 }
 export default WalletMange
