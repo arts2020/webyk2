@@ -1,6 +1,5 @@
 <template>
 	<view class="quotation-index">
-		<!-- <bar ref="bar"></bar> -->
 		<view class="prodect-title">
 			<view :class="active==0?'pro active-index':'pro'" @tap="updateMenu(0)">自选</view>
 			<view :class="active==1?'pro active-index':'pro'" @tap="updateMenu(1)">市值</view>
@@ -20,73 +19,58 @@
 				24H涨幅
 			</view>
 		</view> 
-		<scroll-view v-if="active==0" class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
-			<view v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
-				<view class="quotation-info info-list">
-					<view class="info-title">
-						<image :src="item.logo_png"></image>
-						<view class="title">
-							<text>{{item.symbol}}</text>
-							<view>{{item.name_zh}}</view>
-						</view>
-					</view>
-					<view class="list-title" :style="getStyle(item.percent_change_24h)">
-						<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
-							<label style="font-size: 13px;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
-							<label style="color: #b5b2b6;font-size: 10px;">${{(item.price_usd*1).toFixed(2)}}</label> 
-						</view>
-					</view>
-					<view class="list-title" :style="getStyle(item.percent_change_24h)">
-						{{item.percent_change_24h}}%
+		<scroll-view v-if="active==0" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
+			<view class="list-item" v-for="(item, index) in m_marketList" :key="index">
+				<view class="title">
+					<view>{{item.symbol}}</view>
+					<view>{{item.name_zh}}</view>
+				</view>
+				<view class="price-title" :style="'color:'+getStyle(item.percent_change_24h)">
+					<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
+						<label style="font-size: 30rpx;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
+						<label style="color: #b5b2b6;font-size: 24rpx;">${{(item.price_usd*1).toFixed(2)}}</label> 
 					</view>
 				</view>
+				<view class="cha-title" :style="'background-color:'+getStyle(item.percent_change_24h)">
+					{{item.percent_change_24h}}%
+				</view>
 			</view>
-			<view class="nodata_add" v-else @tap="goAdd">
+			<view class="nodata_add" @tap="goAdd">
 				添加
 			</view>
 		</scroll-view>
-		<scroll-view v-if="active==1" class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">	
-			<view v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
-				<view class="quotation-info info-list">
-					<view class="info-title">
-						<image :src="item.logo_png"></image>
-						<view class="title">
-							<text>{{item.symbol}}</text>
-							<view>{{item.name_zh}}</view>
-						</view>
+		<scroll-view v-if="active==1" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">	
+			<view class="list-item" v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
+				<view class="title">
+					<view>{{item.symbol}}</view>
+					<view>{{item.name_zh}}</view>
+				</view>
+				<view class="price-title" :style="'color:'+getStyle(item.percent_change_24h)">
+					<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
+						<label style="font-size: 30rpx;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
+						<label style="color: #b5b2b6;font-size: 24rpx;">${{(item.price_usd*1).toFixed(2)}}</label> 
 					</view>
-					<view class="list-title" :style="getStyle(item.percent_change_24h)">
-						<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
-							<label style="font-size: 13px;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
-							<label style="color: #b5b2b6;font-size: 10px;">${{(item.price_usd*1).toFixed(2)}}</label> 
-						</view>
-					</view>
-					<view class="list-title" :style="getStyle(item.percent_change_24h)">
-						{{item.percent_change_24h}}%
-					</view>
+				</view>
+				<view class="cha-title" :style="'background-color:'+getStyle(item.percent_change_24h)">
+					{{item.percent_change_24h}}%
 				</view>
 			</view>
 			<noData v-else></noData>
 		</scroll-view>
-		<scroll-view v-if="active==2" class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
-			<view v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
-				<view class="quotation-info info-list">
-					<view class="info-title">
-						<image :src="item.logo_png"></image>
-						<view class="title">
-							<text>{{item.symbol}}</text>
-							<view>{{item.name_zh}}</view>
-						</view>
+		<scroll-view v-if="active==2" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
+			<view class="list-item" v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
+				<view class="title">
+					<view>{{item.symbol}}</view>
+					<view>{{item.name_zh}}</view>
+				</view>
+				<view class="price-title" :style="'color:'+getStyle(item.percent_change_24h)">
+					<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
+						<label style="font-size: 30rpx;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
+						<label style="color: #b5b2b6;font-size: 24rpx;">${{(item.price_usd*1).toFixed(2)}}</label> 
 					</view>
-					<view class="list-title" :style="getStyle(item.percent_change_24h)">
-						<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
-							<label style="font-size: 13px;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
-							<label style="color: #b5b2b6;font-size: 10px;">${{(item.price_usd*1).toFixed(2)}}</label> 
-						</view>
-					</view>
-					<view class="list-title" :style="getStyle(item.percent_change_24h)">
-						{{item.percent_change_24h}}%
-					</view>
+				</view>
+				<view class="cha-title" :style="'background-color:'+getStyle(item.percent_change_24h)">
+					{{item.percent_change_24h}}%
 				</view>
 			</view>
 			<noData v-else></noData>
@@ -129,7 +113,7 @@
 				m_configitem:{},
 				scrollHeight: 0,
 				getStyle(val){
-					return val > 0 ? 'color: #5DB567;' : 'color: #E1643F;'
+					return val > 0 ? '#61C0A0;' : '#E46866;'
 				},
 				active:1,
 				haveData:true,

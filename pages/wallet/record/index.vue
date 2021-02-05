@@ -14,7 +14,7 @@
 			</view>
 			<swiper :style="{ height: scrollHeight + 'px',backgroundColor:'#ffffff' }" @change="swiperChange" :current="active">
 				<swiper-item>
-					<view class="list-content">
+					<scroll-view scroll-y="true" class="list-content">
 					   <view class="list-item" v-for="(item,index) in allList" :key="index" @click="goDetail">
 						   <image class="icon" :src="itemIcon(item.status,item.type)" mode=""></image>
 						   <view class="info">
@@ -24,10 +24,10 @@
 						   <view class="num" :style="'color:'+Wordcolor(item.status,item.type)"> <text v-if="item.type==2">+</text><text v-if="item.type==1">-</text> {{item.num}}</view>
 					   </view>
 					   <noData v-if="allList.length==0"/>
-					</view>
+					</scroll-view>
 				</swiper-item>
 				<swiper-item>
-                    <view class="list-content">
+                    <scroll-view scroll-y="true" class="list-content">
                        <view class="list-item" v-for="(item,index) in rollOutList" :key="index" @click="goDetail">
                     	   <image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'" mode=""></image>
                     	   <view class="info">
@@ -37,10 +37,10 @@
                     	   <view class="num"> <text v-if="item.type==2">+</text><text v-if="item.type==1">-</text> {{item.num}}</view>
                        </view>
 					   <noData v-if="rollOutList.length==0"/>
-                    </view>
+                    </scroll-view>
 				</swiper-item>
 				<swiper-item>
-					<view class="list-content">
+					<scroll-view scroll-y="true" class="list-content">
 					   <view class="list-item" v-for="(item,index) in rollInList" :key="index" @click="goDetail">
 						   <image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'" mode=""></image>
 						   <view class="info">
@@ -50,10 +50,10 @@
 						   <view class="num"> <text v-if="item.type==2">+</text><text v-if="item.type==1">-</text> {{item.num}}</view>
 					   </view>
 					   <noData v-if="rollInList.length==0"/>
-					</view>
+					</scroll-view>
 				</swiper-item>
 				<swiper-item>
-				    <view class="list-content">
+				    <scroll-view scroll-y="true" class="list-content">
 				       <view class="list-item" v-for="(item,index) in failList" :key="index" @click="goDetail">
 				    	   <image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'" mode=""></image>
 				    	   <view class="info">
@@ -63,7 +63,7 @@
 				    	   <view class="num"> <text v-if="item.type==2">+</text><text v-if="item.type==1">-</text> {{item.num}}</view>
 				       </view>
 					   <noData v-if="failList.length==0"/>
-				    </view>
+				    </scroll-view>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -88,6 +88,89 @@
 				currentAsset:{},
 				//所有交易记录
 				allList:[
+					{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},
+					{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},{
+						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
+						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
+						time:"2020.11.25 21:02:39",
+						num:'0.02',
+						// 1成功 2失败
+						status:'1',
+						// 1转出 2转入
+						type:"1"
+					},
 					{
 						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
 						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
@@ -158,7 +241,7 @@
 			//获取高度
 			uni.getSystemInfo({
 				success:(res)=>{					
-					this.scrollHeight = res.windowHeight - res.statusBarHeight-44-71-8-46;
+					this.scrollHeight = res.windowHeight - res.statusBarHeight-44-71-8-46-75;
 				}
 			});
 			
@@ -198,7 +281,7 @@
 .deal-record{
 	width: 100%;
 	min-height: 100vh;
-	background-color: #f5f5f5;
+	background-color: #FFFFFF;
 	/deep/ .uni-navbar--border{
 		border: 0;
 	}
@@ -206,7 +289,7 @@
 		width: 100%;
 		height: 142rpx;
 		background-color: #FAFBFF;
-		margin-bottom: 16rpx;
+		border-bottom: 16rpx solid #f5f5f5;
 		text-align: center;
 		font-family: PingFang SC, PingFang SC-Bold;
 		.title{

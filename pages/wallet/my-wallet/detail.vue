@@ -1,20 +1,20 @@
 <template>
 	<view class="wallet-detail">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="钱包详情" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="钱包详情" @clickLeft="goBack"></uni-nav-bar>
 	    <view class="wallet-info">
 			<view class="wallet_addr">
-				<view class="title">钱包地址</view>
+				<view class="w-title" style="color: #999999;">钱包地址</view>
 				<view class="addr">{{walletInfo.addr}}</view>
 			</view>
 			<view class="wallet-Name" @click="goEdit">
-				<text class="title">钱包名称</text>
+				<text class="w-title">钱包名称</text>
 				<text class="w-name">{{walletInfo.name}}</text>
 				<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
-			<view class="wallet-bak" @click="goBak">
-				<text class="title">备份钱包</text>
-				<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
-			</view>
+		</view>
+		<view class="wallet-bak" @click="goBak">
+			<text class="w-title">备份钱包</text>
+			<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="wallet-mode">
 			<view class="title-item">
@@ -142,23 +142,39 @@
 .wallet-detail{
 	width: 100%;
 	min-height: 100vh;
-	background-color: #F2F2F2; 
+	background-color: #FAFBFF; 
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
+	.w-title{
+		font-size: 30rpx;
+		font-family: PingFang SC, PingFang SC-Regular;
+		font-weight: 400;
+		color: #121212;
+	}
 	.wallet-info{
-		width: 100%;
-		margin-top: 50rpx;
-		padding: 20rpx 35rpx;
+		width: calc(100% - 72rpx);
+		margin: 16rpx auto;
+		padding: 0rpx 27rpx;
 		box-sizing: border-box;
 		background-color: #FFFFFF;
-		border-radius: 20rpx;
-		&>view{
-			height: 120rpx;
-			width: 100%;
-			border-bottom: 1rpx solid #F2F2F2;
-		}
+		border-radius: 10rpx;
 		.wallet_addr{
-			
+			width: 100%;
+			height: 151rpx;
+			padding: 35rpx 0rpx 21rpx;
+			box-sizing: border-box;
+			border-bottom: 1rpx solid #e7e6ed;
+			.addr{
+				font-size: 28rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #121212;
+			}
 		}
 		.wallet-Name{
+			width: 100%;
+			height: 95rpx;
 			display: flex;
 			align-items: center;
 			.w-name{
@@ -170,26 +186,35 @@
 				margin-left: 30rpx;
 			}
 		}
-		.wallet-bak{
-			display: flex;
-			align-items: center;
-			.right_arr{
-				width: 13rpx;
-				height: 24rpx;
-				margin-left: auto;
-			}
+		
+	}
+	.wallet-bak{
+		width: calc(100% - 72rpx);
+		height: 108rpx;
+		margin: 20rpx auto 27rpx;
+		padding: 0rpx 27rpx;
+		box-sizing: border-box;
+		background-color: #FFFFFF;
+		border-radius: 10rpx;
+		display: flex;
+		align-items: center;
+		.right_arr{
+			width: 13rpx;
+			height: 24rpx;
+			margin-left: auto;
 		}
 	}
     .wallet-mode{
-		width: 100%;
-		margin-top: 50rpx;
-		padding: 20rpx 35rpx;
-		box-sizing: border-box;
-		background-color: #FFFFFF;
-		border-radius: 20rpx;
+		width: calc(100% - 72rpx);
+		height: 108rpx;
+		margin: 0 auto;
+		border-radius: 10rpx;
 		.title-item{
 			width: 100%;
-			height: 90rpx;
+			height:108rpx;
+			padding: 0rpx 27rpx;
+			box-sizing: border-box;
+			background-color: #FFFFFF;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -199,6 +224,10 @@
 			}
 		}
 		.type-list{
+			width: 100%;
+			padding: 0rpx 27rpx;
+			box-sizing: border-box;
+			background-color: #FFFFFF;
 			.type-item{
 				width: 100%;
 				height: 80rpx;
@@ -215,29 +244,38 @@
 		}
 	}
 	.main-content{
-    	width: 500rpx;
-    	background-color: #efefef;
-    	border-radius: 20rpx;
-    	padding-top: 30rpx;
+    	width: 569rpx;
+    	height: 320rpx;
+    	background: #ffffff;
+    	border: 1rpx solid #707070;
+    	border-radius: 21rpx;
+    	padding-top: 26rpx;
+		box-sizing: border-box;
     	.title{
-    		font-size: 26rpx;
-    		color: #444444;
-    		font-weight: bold;
+    		font-size: 30rpx;
+    		font-family: PingFang SC, PingFang SC-Regular;
+    		font-weight: 400;
+    		color: #071328;
     		text-align: center;
+			font-weight: bold;
     	}
     	.input-box{
-    		width: 100%;
+			width: 505rpx;
+			height: 77rpx;	
+			background: #f6f5f8;
+			margin: 42rpx auto 49rpx;
     		uni-input{
-    			width: 90%;
-    			height: 60rpx;
-    			line-height: 60rpx;
+    			width: 100%;
+    			height: 77rpx;
+    			line-height: 77rpx;
     			border-radius: 10rpx;
     			padding-left: 20rpx;
     			box-sizing: border-box;
-    			background-color: #FFFFFF;
-    			margin: 10rpx auto 30rpx;
-    			font-size: 24rpx;
-    			color: #8e8e8e;
+    			background: #f6f5f8;
+    			font-size: 30rpx;
+    			font-family: PingFang SC, PingFang SC-Regular;
+    			font-weight: 400;
+    			color: #c2c2c2;
     		}
     	}
     	.btns{
@@ -246,31 +284,41 @@
     		color: #007AFF;
     		font-weight: bold;
     		text-align: center;
-    		border-top: 2rpx solid #F2F2F2;
+    		border-top: 1rpx solid #E7E6ED;
     		display: flex;
     		align-items: center;
+			font-size: 30rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 400;
     		.cancell{
+				color: #C2C2C2;
     			width: 50%;
     			line-height: 60rpx;
-    			border-right: 2rpx solid #F2F2F2;
+    			border-right: 1rpx solid #E5E5E5;
     		}
     		.ok{
+				color: #4C72EF;
     			width: 50%;
     			line-height: 60rpx;
     		}
     	}
     }
     .dele_btn{
-		width: 100%;
-		margin-top: 50rpx;
-		padding: 20rpx 35rpx;
-		box-sizing: border-box;
-		background-color: #FFFFFF;
-		border-radius: 20rpx;
-		color: #FF3333;
-		font-size: 30rpx;
+		width: 647rpx;
+		height: 88rpx;
+		background: #f57778;
+		border-radius: 14rpx;
+		box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06); 
+		color: #FFFFFF;
+		font-size: 32rpx;
+		font-family: PingFang SC, PingFang SC-Bold;
+		font-weight: 700;
 		text-align: center;
-		line-height: 80rpx;
+		line-height: 88rpx;
+		position: fixed;
+		bottom: 47rpx;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 }
 </style>

@@ -91,6 +91,9 @@
 	width: 100%;
 	min-height: 100vh;
 	background-color: #fafbff;
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
 	.search-header{
 		width: 100%;
 		height: 88rpx;

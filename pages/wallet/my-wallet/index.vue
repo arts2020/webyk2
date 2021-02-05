@@ -1,11 +1,15 @@
 <template>
 	<view class="wallet-index">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" right-icon="plusempty" title="管理钱包" @clickLeft="btnBack" @clickRight="goAddWallet"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" right-icon="plusempty" title="管理钱包" @clickLeft="btnBack" @clickRight="goAddWallet"></uni-nav-bar>
 	    <view class="main-content">
 			<scroll-view class="main-left" scroll-y="true" >
 				<view class="nav-menu">
-					<image :src="activeObj.chaintype==-1?'../../../static/image/index/hangqing-select.png':'../../../static/image/index/hangqing.png'" mode="" @tap="handleChecked({chaintype:-1})"></image>
-					<image :src="activeObj.chaintype==item.chaintype?item.logo_act:item.logo" mode="" v-for="(item,index) in identity_wallets" :key="index" @tap="handleChecked(item)"></image>
+					<view class="menu-item" :class="{'activeClass':activeObj.chaintype==-1}">
+						<image src="../../../static/image/index/all.png" mode="" @tap="handleChecked({chaintype:-1})"></image>
+					</view>
+					<view class="menu-item" :class="{'activeClass':activeObj.chaintype==item.chaintype}" v-for="(item,index) in identity_wallets" :key="index" @tap="handleChecked(item)">
+						<image :src="item.logo" mode=""></image>
+					</view>
 				</view>
 			</scroll-view>
 			<scroll-view class="main-right" scroll-y="true" >
@@ -41,10 +45,6 @@
 							</view>
 							<uni-icons type="plus" size="30" color="#444444"></uni-icons>
 						</view>
-					</view>
-					<view class="imKey">
-						<view class="top-title">imKey</view>
-						<view class="imKey-main">配对imKey硬件钱包</view>
 					</view>
 					<view class="create-import" v-if="single_wallets.length">
 						<view class="top-title">创建/导入</view>
@@ -169,45 +169,65 @@
 		width: 100%;
 		height: 100%;
 		min-height: 100vh;
+		background-color: #FFFFFF;
+		/deep/ .uni-navbar--border{
+			border: 0;
+		}
 		.main-content{
 			width: 100%;
 			height: 100%;
 			display: flex;
+			justify-content: space-between;
 			.main-left{
-				width: 20%;
+				width: 122rpx;
 				height: 100%;
-				
 				.nav-menu{
 					width: 100%;
 					height: 100%;
-					background-color: #F2F2F2;
 					padding-top: 20rpx;
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					image{
-						width: 60rpx;
-						height: 60rpx;
-						border-radius: 50%;
-						margin-bottom: 30rpx;
+					.menu-item{
+						width: 100%;
+						height: 71rpx;	
+						margin-bottom: 39rpx;
+						position: relative;
+						text-align: center;
+						&.activeClass::after{
+						  content: '';
+						  display: block;
+						  width: 4rpx;
+						  height: 40rpx;
+						  background-color: #3981F3;
+						  position: absolute;
+						  top: 50%;
+						  right: 0;
+						  transform: translateY(-50%);
+					    }
+						image{
+							width: 71rpx;
+							height: 71rpx;
+							border-radius: 50%;
+						}
 					}
 				}
 			}
 			.main-right{
-				width: 80%;
+				width: 605rpx;
 				height: 100%;
-				padding: 20rpx 40rpx;
+				padding: 36rpx 36rpx 0 0;
 				box-sizing: border-box;
 				.top-title{
-					font-size: 24rpx;
-					color: #8e8e8e;
+					margin-bottom: 34rpx;
+					font-size: 30rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #121212;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
-					image{
-						width: 24rpx;
-						height: 24rpx;
-						border-radius: 50%;
+					text:last-child{
+						font-size: 26rpx;
+						font-weight: 400;
+						color: #4c72ef;
 					}
 				}
 			    .list-item{
@@ -215,7 +235,7 @@
 					height: 120rpx;
 					background-size: 100% 100%;
 				    border-radius: 20rpx;
-					margin-top: 20rpx;
+					margin-top: 34rpx;
 					padding: 20rpx;
 					box-sizing: border-box;
 					

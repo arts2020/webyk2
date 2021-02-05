@@ -1,26 +1,42 @@
 <template>
 	<view class="recover-index">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back"  title="导入钱包"  @clickLeft="goBack"></uni-nav-bar>
-		<view class="recover-main" :style="'height:'+scrollHeight+'px'">
-			<view class="top-title">{{title}}</view>
-			<view class="input-box" style="height: 300rpx;" v-if="coinObj.type == 1">
-				<textarea placeholder-style="font-size: 26rpx;color: #8e8e8e;" placeholder="输入助记词并使用空格分离" v-model="words"/>
+		<uni-nav-bar background-color="#F6F7F9" :statusBar="true" :fixed="true" left-icon="back"  title="导入钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<view class="recover-main">
+			<view v-if="coinObj.type == 1">
+				<view class="top-title">{{title}}</view>
+				<view class="input-box" style="height: 335rpx;margin-bottom: 28rpx;" >
+					<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词单词，并使用空格分隔/输入明文私钥" v-model="words"/>
+				</view>
 			</view>
-			<view class="input-box" v-else>
-				<input type="text" placeholder="私钥" v-model="secretKey"/>
+			<view v-else>
+				<view class="top-title">{{title}}</view>
+				<view class="input-box" >
+					<input type="text" placeholder="私钥" placeholder-style="font-size: 26rpx;color: #C2C2C2;" v-model="secretKey"/>
+				</view>
 			</view>
-			<view class="input-box">
-				<input @input="inputPasd" type="text" password placeholder="密码" v-model="password"/>
+			<view>
+				<view class="top-title">设置密码</view>
+				<view class="input-box">	
+					<input @input="inputPasd" type="text" password placeholder="输入密码不少于8位数" placeholder-style="font-size: 26rpx;color: #C2C2C2;" v-model="password"/>
+				</view>
+				<view class="tips">{{tip_1}}</view>
 			</view>
-			<view class="tips">{{tip_1}}</view>
-			<view class="input-box">
-				<input @blur="reconfirm" password type="text" placeholder="重复输入密码" v-model="confirmPasd"/>
+			
+			<view>
+				<view class="top-title">确认密码</view>
+				<view class="input-box">
+					<input @blur="reconfirm" password type="text" placeholder="重复输入密码" placeholder-style="font-size: 26rpx;color: #C2C2C2;" v-model="confirmPasd"/>
+				</view>
+				<view class="tips">{{tip_2}}</view>
 			</view>
-			<view class="tips">{{tip_2}}</view>
-			<view class="input-box">
-				<input type="text" placeholder="密码提示(可选)" v-model="pasdTip"/>
+			
+			<view>
+				<view class="top-title">设置密码提示</view>
+				<view class="input-box">
+					<input type="text" placeholder="密码提示(可选)" v-model="pasdTip" placeholder-style="font-size: 26rpx;color: #C2C2C2;"/>
+				</view>
 			</view>
-		    <view class="btn_ok" :style="'background-color:'+btn_color" @tap="btnRecover">创建</view>
+		    <view class="btn_ok" :style="'background-color:'+btn_color" @tap="btnRecover">确定</view>
 		</view>
 	</view>
 </template>
@@ -68,7 +84,7 @@
 		computed:{
 			btn_color(){
 				if((this.words||this.secretKey)&&this.password){
-					return '#0000FF'
+					return '#4C72EF'
 				}else{
 					return '#C8C7CC'
 				}
@@ -126,53 +142,64 @@
 	height: 100%;
 	width: 100%;
 	min-height: 100vh;
+	background-color: #F6F7F9;
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
 	.recover-main{
 		width: 100%;
 		height: 100%;
-		padding: 50rpx;
+		padding: 32rpx 36rpx;
 		box-sizing: border-box;
-		background-color: #F2F2F2;
 		.top-title{
-			font-size: 28rpx;
-			font-weight: bold;
-			color: #444444;
-			margin-bottom: 30rpx;
+			font-size: 26rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 400;
+			color: #121212;
+			margin-bottom: 22rpx;
 		}
 		.input-box{
 			width: 100%;
-			height: 80rpx;
-			border-radius: 20rpx;
+			height: 104rpx;
+			border-radius: 10rpx;
 			background-color: #FFFFFF;
-			margin-bottom: 30rpx;
+			margin-bottom: 34rpx;
 			display: flex;
 			align-items: center;
+			color: #444444;
+			font-size: 26rpx;
 			uni-textarea{
 				width: 100%;
-				padding: 20rpx;
+				height: 335rpx;
+				padding: 36rpx 32rpx;
 				box-sizing: border-box;				
 			}
 			uni-input{
 				height: 60rpx;
-				margin-left: 30rpx;
-				font-size: 26rpx;
-				color: #8e8e8e;
+				margin-left: 32rpx;	
 			}
 		}
 		.tips{
 			text-align: right;
 			font-size: 24rpx;
 			color: #007AFF;
-			margin-bottom: 30rpx;
 		}
 		.btn_ok{
-			width: 100%;
-			height: 80rpx;
-			font: 28rpx bold;
+			width: 647rpx;
+			height: 88rpx;
+			font: 32rpx;
+			font-weight: 700;
 			color: #FFFFFF;
 			letter-spacing: 10rpx;
 			text-align: center;
-			line-height: 80rpx;
-			border-radius: 20rpx;
+			line-height: 88rpx;
+			border-radius: 14rpx;
+			box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06); 
+			margin: 60rpx auto 0;
+			// position: fixed;
+			// bottom: 10rpx;
+			// left: 50%;
+			// transform: translateX(-50%);
 		}
 	}
 }

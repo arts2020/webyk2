@@ -89,21 +89,21 @@ function openPage(args) {
 	}
 	var reqname = name;
 
-	var ishave = false;
+	// var ishave = false;
 	
-	if (this.dal.Character.isValidLogin() === false) {
-		for (var i = 0; i < noNeedLoginUrl.length; i++) {
-			var val = noNeedLoginUrl[i];
-			if (val.toLocaleLowerCase() === name.toLocaleLowerCase()) {
-				ishave = true;
-				break;
-			}
-		}
-		if (ishave === false) {
-			uni.cclog("======重复请求===ishave==")
-			name = "login-login";
-		}
-	}
+	// if (this.dal.Character.isValidLogin() === false) {
+	// 	for (var i = 0; i < noNeedLoginUrl.length; i++) {
+	// 		var val = noNeedLoginUrl[i];
+	// 		if (val.toLocaleLowerCase() === name.toLocaleLowerCase()) {
+	// 			ishave = true;
+	// 			break;
+	// 		}
+	// 	}
+	// 	if (ishave === false) {
+	// 		uni.cclog("======重复请求===ishave==")
+	// 		name = "login-login";
+	// 	}
+	// }
 
 	if (isObject(query)) {
 		queryStr = encodeURIComponent(JSON.stringify(query))

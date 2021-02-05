@@ -1,16 +1,14 @@
 <template>
 	<view class="addWallet">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="添加钱包" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="添加钱包" @clickLeft="goBack"></uni-nav-bar>
 		<view class="coin-list">
 			<view class="list-item" v-for="(item,index) in coinList" :key="index" @click="handleChecked(item)">
 				<image class="icon" :src="item.logo" mode=""></image>
-				<view class="coin-info">
-					<view class="coin-name">
-						<view class="short-N">{{item.name}}</view>
-						<view class="full_N">{{item.alias}}</view>
-					</view>
-					<image class="checked-icon" src="../../static/image/mine/arrow-left.svg" mode=""></image>
+				<view class="coin-name">
+					<view class="short-N">{{item.name}}</view>
+					<view class="full_N">{{item.alias}}</view>
 				</view>
+				<image class="checked-icon" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 		</view>
 		<uni-popup type="bottom" ref="popupS">
@@ -111,52 +109,43 @@
 <style lang="scss" scoped>
 	.addWallet {
 		width: 100%;
-
+		background-color: #FFFFFF;
+        /deep/ .uni-navbar--border{
+        	border: 0;
+        }
 		.coin-list {
 			width: 100%;
-			padding: 0 30rpx;
+			padding: 0 34rpx;
 			box-sizing: border-box;
-			background-color: #FFFFFF;
-
 			.list-item {
 				width: 100%;
-				height: 150rpx;
+				height: 120rpx;
 				display: flex;
 				align-items: center;
-
+			    border-bottom: 1rpx solid #E7E6ED;
 				.icon {
-					width: 80rpx;
-					height: 80rpx;
-					margin-right: 30rpx;
-					border-radius: 50%;
+					width: 54rpx;
+					height: 54rpx;
+					margin-right: 22rpx;
 				}
-
-				.coin-info {
-					width: calc(100% - 110rpx);
-					border-bottom: 2rpx solid #F2F2F2;
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-
-					.coin-name {
-						.short-N {
-							font-size: 28rpx;
-							color: #444444;
-							font-weight: bold;
-						}
-
-						.full-N {
-							font-size: 24rpx;
-							color: #8e8e8e;
-						}
-					}
-
-					.checked-icon {
-						width: 40rpx;
-						height: 40rpx;
-						border-radius: 50%;
-						margin-left: auto;
-					}
+			    .coin-name {
+			    	font-family: PingFang SC, PingFang SC-Semibold;					
+			    	.short-N {
+			    		font-size: 36rpx;
+			    		color: #071328;
+			    		font-weight: 600;
+						line-height: 40rpx;
+			    	}
+			    	.full-N {
+			    		font-size: 24rpx;
+			    		color: #7C7C7C;
+						line-height: 30rpx;
+			    	}
+			    }
+				.checked-icon{
+					margin-left: auto;
+					width: 13rpx;
+					height: 24rpx;
 				}
 			}
 		}

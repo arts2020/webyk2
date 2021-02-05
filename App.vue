@@ -18,9 +18,9 @@
 			
 			this.dal.Common.onGetRate();
 				
-			this.dal.Account.onAutoLogin();
+			// this.dal.Account.onAutoLogin();
 		
-			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetRate, this.onGetRate);
+			// this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetRate, this.onGetRate);
 		},
 	
 		onShow: function() {
@@ -30,14 +30,14 @@
 			console.log('App Hide')
 		},
 		
-		methods:{
-			onGetRate:function(){
-				console.log("====22===onGetRate=========",this.PlatformInfo.vsn)
-				setTimeout(function(){
-					this.util.UiUtils.checkUpdate(this.PlatformInfo.vsn,true)
-				}.bind(this),2000)
-			}
-		}
+		// methods:{
+		// 	onGetRate:function(){
+		// 		console.log("====22===onGetRate=========",this.PlatformInfo.vsn)
+		// 		setTimeout(function(){
+		// 			this.util.UiUtils.checkUpdate(this.PlatformInfo.vsn,true)
+		// 		}.bind(this),2000)
+		// 	}
+		// }
 	}
 </script>
 

@@ -1,20 +1,18 @@
 <template>
 	<view class="add-coin">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="添加币种" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="添加币种" @clickLeft="goBack"></uni-nav-bar>
 		<scroll-view scroll-y="true" class="coin-list" :style="'height:'+scrollHeight+'px'">
 			<checkbox-group @change="handleChecked">
 				<view class="list-item" v-for="(item,index) in coinList" :key="index">
 					<image class="icon" :src="item.logo" mode=""></image>
-					<view class="coin-info">
-						<view class="coin-name">
-							<view class="short-N">{{item.name}}</view>
-							<view class="full_N">{{item.alias}}</view>
-						</view>
-						<label>
-							<!-- 之前该身份下已经存在的币种不可再选页不可取消  该处value应为字符串要不会有警告-->
-							<checkbox :value="item.chaintype+''" :disabled="ischecked(item.chaintype)" :checked="ischecked(item.chaintype)" /><text></text>
-						</label>
+					<view class="coin-name">
+						<view class="short-N">{{item.name}}</view>
+						<view class="full_N">{{item.alias}}</view>
 					</view>
+					<label class="checked-icon">
+						<!-- 之前该身份下已经存在的币种不可再选页不可取消  该处value应为字符串要不会有警告-->
+						<checkbox color="#009A80" :value="item.chaintype+''" :disabled="ischecked(item.chaintype)" :checked="ischecked(item.chaintype)" /><text></text>
+					</label>
 				</view>
 
 			</checkbox-group>
@@ -97,7 +95,7 @@
 		computed:{
 			btn_color(){
 				if(this.checkedTypes.length!=0){
-					return '#0000FF'
+					return '#4c72ef'
 				}else{
 					return '#C8C7CC'
 				}
@@ -182,52 +180,46 @@
 		width: 100%;
 		height: 100%;
 		min-height: 100vh;
-		background-color: #fcfcfc;
-
+		background-color: #FFFFFF;
+        /deep/ uni-checkbox .uni-checkbox-input{
+			border: 0;
+			background-color: 0;
+		}
+		/deep/ .uni-navbar--border{
+			border: 0;
+		}
 		.coin-list {
 			width: 100%;
-			padding: 0 30rpx;
+			padding: 0 34rpx;
 			box-sizing: border-box;
 
 			.list-item {
 				width: 100%;
-				height: 150rpx;
+				height: 120rpx;
 				display: flex;
 				align-items: center;
-
+                border-bottom: 1rpx solid #E7E6ED;
 				.icon {
-					width: 80rpx;
-					height: 80rpx;
-					margin-right: 30rpx;
-					border-radius: 50%;
+					width: 54rpx;
+					height: 54rpx;
+					margin-right: 22rpx;
 				}
-
-				.coin-info {
-					width: calc(100% - 110rpx);
-					border-bottom: 2rpx solid #F2F2F2;
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-
-					.coin-name {
-						.short-N {
-							font-size: 28rpx;
-							color: #444444;
-							font-weight: bold;
-						}
-
-						.full-N {
-							font-size: 24rpx;
-							color: #8e8e8e;
-						}
-					}
-
-					.checked-icon {
-						width: 40rpx;
-						height: 40rpx;
-						border-radius: 50%;
-						margin-left: auto;
-					}
+                .coin-name {
+                	font-family: PingFang SC, PingFang SC-Semibold;					
+                	.short-N {
+                		font-size: 36rpx;
+                		color: #071328;
+                		font-weight: 600;
+						line-height: 40rpx;
+                	}
+                	.full-N {
+                		font-size: 24rpx;
+                		color: #7C7C7C;
+						line-height: 30rpx;
+                	}
+                }
+				.checked-icon{
+					margin-left: auto;
 				}
 			}
 		}
@@ -237,7 +229,7 @@
 			height:160rpx;
 			background-color: #FFFFFF;
 			position: fixed;
-			bottom: 0;
+			bottom: 47rpx;
 			left: 0;
 			padding: 30rpx;
 			padding-bottom: 0;
@@ -245,45 +237,58 @@
 
 			.tips {
 				font-size: 24rpx;
-				color: #8e8e8e;
-				margin-bottom: 10rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				text-align: left;
+				color: #7c7c7c;margin-bottom: 22rpx;
 			}
 
 			.btn {
-				width: 100%;
-				height: 60rpx;
-				line-height: 60rpx;
 				text-align: center;
-				font-size: 28rpx;
+				width: 100%;
+				height: 88rpx;
+				line-height: 88rpx;
+				font-size: 32rpx;
+				font-family: PingFang SC, PingFang SC-Bold;
+				font-weight: 700;
 				color: #FFFFFF;
-				background-color: #007AFF;
-				border-radius: 20rpx;
+				border-radius: 14rpx;
+				box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06); 
 			}
 		}
 	    .main-content{
-	    	width: 500rpx;
-	    	background-color: #efefef;
-	    	border-radius: 20rpx;
-	    	padding-top: 30rpx;
+	    	width: 569rpx;
+	    	height: 320rpx;
+	    	background: #ffffff;
+	    	border: 1rpx solid #707070;
+	    	border-radius: 21rpx;
+	    	padding-top: 26rpx;
+	    	box-sizing: border-box;
 	    	.title{
-	    		font-size: 26rpx;
-	    		color: #444444;
-	    		font-weight: bold;
+	    		font-size: 30rpx;
+	    		font-family: PingFang SC, PingFang SC-Regular;
+	    		font-weight: 400;
+	    		color: #071328;
 	    		text-align: center;
+	    		font-weight: bold;
 	    	}
 	    	.input-box{
-	    		width: 100%;
+	    		width: 505rpx;
+	    		height: 77rpx;	
+	    		background: #f6f5f8;
+	    		margin: 42rpx auto 49rpx;
 	    		uni-input{
-	    			width: 90%;
-	    			height: 60rpx;
-	    			line-height: 60rpx;
+	    			width: 100%;
+	    			height: 77rpx;
+	    			line-height: 77rpx;
 	    			border-radius: 10rpx;
 	    			padding-left: 20rpx;
 	    			box-sizing: border-box;
-	    			background-color: #FFFFFF;
-	    			margin: 10rpx auto 30rpx;
-	    			font-size: 24rpx;
-	    			color: #8e8e8e;
+	    			background: #f6f5f8;
+	    			font-size: 30rpx;
+	    			font-family: PingFang SC, PingFang SC-Regular;
+	    			font-weight: 400;
+	    			color: #c2c2c2;
 	    		}
 	    	}
 	    	.btns{
@@ -292,15 +297,20 @@
 	    		color: #007AFF;
 	    		font-weight: bold;
 	    		text-align: center;
-	    		border-top: 2rpx solid #F2F2F2;
+	    		border-top: 1rpx solid #E7E6ED;
 	    		display: flex;
 	    		align-items: center;
+	    		font-size: 30rpx;
+	    		font-family: PingFang SC, PingFang SC-Regular;
+	    		font-weight: 400;
 	    		.cancell{
+	    			color: #C2C2C2;
 	    			width: 50%;
 	    			line-height: 60rpx;
-	    			border-right: 2rpx solid #F2F2F2;
+	    			border-right: 1rpx solid #E5E5E5;
 	    		}
 	    		.ok{
+	    			color: #4C72EF;
 	    			width: 50%;
 	    			line-height: 60rpx;
 	    		}

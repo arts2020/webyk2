@@ -1,24 +1,24 @@
 <template>
 	<view class="mine-index">
-		<uni-nav-bar :statusBar="true" :fixed="true" title="我的"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" title="我的"></uni-nav-bar>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			
 			<view class="wallet-manage" @tap="goManageW">
-				<image class="wallet-icon" src="../../static/image/index/gonggao.png" mode=""></image>
+				<image class="wallet-icon" src="../../static/image/mine/wallet.png" mode=""></image>
 			    <text>钱包管理</text>
 				<image class="right-arr" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 			<view class="mine-type">
 				<view @tap="btnModelFun(8)" class="type-list">
 					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/anquanzhongxin.svg" />
+						<image class="list-icon" style="width: 30rpx;height: 37rpx;" src="../../static/image/mine/address.png" />
 						<text>地址本</text>
 					</view>
 					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
 				<view @tap="btnModelFun(9)" class="type-list">
 					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/anquanzhongxin.svg" />
+						<image class="list-icon" src="../../static/image/mine/langage.png" />
 						<text>语言设置</text>
 					</view>
 					<view class="list-title">
@@ -29,7 +29,7 @@
 				</view>
 				<view @tap="btnModelFun(10)" class="type-list">
 					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/anquanzhongxin.svg" />
+						<image class="list-icon" style="width: 31rpx;height: 34rpx;" src="../../static/image/mine/aggrement.png" />
 						<text>用户协议</text>
 					</view>
 					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
@@ -37,28 +37,28 @@
 
 				<view @tap="btnModelFun(3)" class="type-list">
 					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/bangzhuzhongxin.svg" />
+						<image class="list-icon" style="width: 34rpx;height: 27rpx;" src="../../static/image/mine/help-center.png" />
 						<text>帮助中心</text>
 					</view>
 					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
 				<view @tap="btnModelFun(4)" class="type-list">
 					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/guanyuwomen.svg" />
+						<image class="list-icon" src="../../static/image/mine/about-us.png" />
 						<text>关于我们</text>
 					</view>
 					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
 				<view @tap="btnModelFun(5)" class="type-list">
 					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/fenxiangwomen.svg" />
+						<image class="list-icon" src="../../static/image/mine/share-us.png" />
 						<text>分享我们</text>
 					</view>
 					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
 				<view @tap="btnModelFun(6)" class="type-list">
 					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/banbenhao.svg" />
+						<image class="list-icon" src="../../static/image/mine/version.png" />
 						<text>版本号</text>
 						<span style="position: absolute;left:80%;">v{{m_vsn}}</span>
 					</view>

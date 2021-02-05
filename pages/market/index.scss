@@ -5,34 +5,41 @@
 	background-color: #FFFFFF;
 	.nav-menu{
 		width: 100%;
-		height: 80rpx;
-		padding: 0 30rpx;
-		box-sizing: border-box;
+		height: 88rpx;
 		line-height: 80rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		transition: all 1s;
+		background-color: #FAFBFF;
+		position: relative;
+		box-shadow: 0px 3rpx 10rpx 0px rgba(0,0,0,0.06); 
 		.search-icon{
-			
+			font-weight: 800;
+			position: absolute;
+			right: 31rpx;
+			top: 50%;
+			transform: translateY(-50%);
 		}
 		.menu{
 			width: 30%;
 			text-align: center;
-			line-height: 80rpx;
-			font-size: 28rpx;
+			line-height: 88rpx;
+			font-size: 32rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			color: #b4b4b4;
 			font-weight: bold;
-			color: #444444;
 			&.active-index{
-				font-size: 32rpx;
-				font-weight: bold;
+				font-size: 36rpx;
+				font-weight: 700;
+				color: #111111;
 			}
 			&.active-index::after{
 				content: '';
 				display: block;
-				width: 40%;
-				height: 4rpx;
-				background-color: #0A98D5;
+				width: 20%;
+				height: 6rpx;
+				background-color: #3981F3;
 				margin: 0 auto;
 			}
 		}
@@ -48,75 +55,101 @@
 			// transform: translateX(100%);
 		}
 	}
-	.transf-content{
+	.transf-c{
 		width: 100%;
 		height: 100%;
-		padding: 20rpx 40rpx;
+	}
+	.transf-content{
+		width: 694rpx;
+		height: 475rpx;
+		padding: 44rpx 13rpx;
 		box-sizing: border-box;
-		background-color: #F2f2f2;
-		// opacity: 0;
-		transition: all 1s;
-		// transform: translateX(-100%);
-		&.active{
-			opacity: 1;
-			// transform: translateX(100%);
-		}
-		.line{
-			width: 100%;
-			height: 4rpx;
-			background-color: #FFFFFF;
-			margin-top: 30rpx;
-		}
+		margin: 35rpx auto;
+		background: #ffffff;
+		border-radius: 10rpx;
+		box-shadow: 0px 7rpx 27rpx 0px rgba(231,234,242,0.80); 
+		position: relative;
 		.select-icon{
 			width: 100%;
-			height: 100rpx;
+			height: 95rpx;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			border-bottom: 1rpx solid #ebebeb;
+			font-size: 44rpx;
+			font-family: PingFang SC, PingFang SC-Medium;
+			font-weight: 800;
+			color: #111111;
 			.coin-picker{
-				width: 250rpx;
+				width: 50%;
 				height: 100%;
-				border-radius: 30rpx;
 				text-align: center;
-				background-color: #FFFFFF;
-				uni-view{
-					line-height: 100rpx;
+				.pick-c{
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					image{
+						width:54rpx;
+						height: 54rpx;
+						margin-right: 22rpx;
+					}
 				}
 			}
 		}
 		.selsect-num{
 			width: 100%;
-			height: 100rpx;
-			margin-top: 30rpx;
+			height: 179rpx;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			border-bottom: 1rpx solid #ebebeb;
 			view{
-				width: 250rpx;
+				width: 50%;
 				height: 100%;
-				border-radius: 30rpx;
-				text-align: center;
-				background-color: #FFFFFF;
+				
 				uni-input{
-					height: 100rpx;
-					line-height: 100rpx !important;
+					height: 62rpx;
+					margin-top: 87rpx;
+					font-size: 44rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					text-align: left;
+					text-indent: 2rem;
+					color: #c2c2c2;
+					line-height: 62rpx !important;
 				}
 			}
 		}
 		.rate-fee{
 			width: 100%;
-			height: 150rpx;
+			font-size: 28rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 500;
+			color: #333333;
+			padding: 21rpx 23rpx 0;
+			box-sizing: border-box;
 		}
-		.btn-ok{
-			width: 100%;
-			height: 90rpx;
-			line-height: 90rpx;
-			text-align: center;
-			font-size: 32rpx;
-			font-weight: bold;
-			color: #FFFFFF;
-			border-radius: 30rpx;
-			background-color: #0000FF;
+		.trans-icon{
+			width: 132rpx;
+			height: 132rpx;
+			position: absolute;
+			top: 79rpx;
+			left: 50%;
+			transform: translateX(-50%);
 		}
+	}
+	.btn-ok{
+		width: 647rpx;
+		height: 88rpx;
+		margin: 60rpx auto;
+		line-height: 88rpx;
+		background: #4c72ef;
+		border-radius: 14rpx;
+		box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06);
+		 font-size: 32rpx;
+		 font-family: PingFang SC, PingFang SC-Bold;
+		 font-weight: 700;
+		 text-align: center;
+		 color: #ffffff;
 	}
 }

@@ -1,7 +1,7 @@
-import Account from "@/common/dal/Account.js"
-import Character from "@/common/dal/Character.js"
-import UserInfo from "@/common/dal/UserInfo.js"
-import Setting from "@/common/dal/Setting.js"
+// import Account from "@/common/dal/Account.js"
+// import Character from "@/common/dal/Character.js"
+// import UserInfo from "@/common/dal/UserInfo.js"
+// import Setting from "@/common/dal/Setting.js"
 import Net from "@/common/dal/Net.js"
 import Logger from "@/common/dal/Logger.js"
 
@@ -20,10 +20,10 @@ const Dal = {
 	Net,
 	Logger,
 	Utils,
-	Setting,
-	Account,
-	Character,
-	UserInfo,
+	// Setting,
+	// Account,
+	// Character,
+	// UserInfo,
 	Common,
 	Chain,
 	MainWallet,
