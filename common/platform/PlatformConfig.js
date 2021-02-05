@@ -37,7 +37,7 @@ var PlatformConfig = {
 	
 		this.channelInfo = { //基础渠道配置模板
 			language: vue.entities.Metadata.GameLanguage.CN,
-			vsn: "1.0.3",
+			vsn: "1.0.9",
 			platform: platform,
 			devtype: devtype,
 			urlParams: {from: 0},

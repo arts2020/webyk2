@@ -1,43 +1,27 @@
 <template>
 	<view>
 		<!-- <uni-nav-bar :title="m_title" leftIcon="back" :fixed="true" :status-bar="true"></uni-nav-bar> -->
-		<web-view style="height: calc(100vh - 130px);" ref="scope" :webview-styles="webviewStyles" :src="m_url" @message="handleMessage"></web-view>
-
-		<view style="width: 100%;position: absolute;bottom: 0px;z-index: 100000;background-color: #FFFFFF;">
-			<view style="display: flex;justify-content: center;align-items: center;
-			flex-direction: column;">
-				<radio-group @change="radioChange">
-					<label style="display: flex;align-items: center;justify-content: center;">
-						<radio value="r1" />
-						我已阅读并同意服务条款和Cookie说明
-					</label>
-					<button class="button-style" :disabled="isdisabled" @tap="onBtnClick">确认</button>
-				</radio-group>
-			</view>
-		</view>
-
+		<web-view ref="scope" :webview-styles="webviewStyles" :src="m_url" @message="handleMessage"></web-view>
+	</view>
 	</view>
 </template>
 
 <script>
 	export default {
 		components: {},
-		
+
 		onReady() {
-			if(this.$scope){
+			console.log("==onReady====2222222== ==")
+			if (this.$scope) {
+				console.log("==onReady====333333== ==")
+				let Web3 = this.dal.Dapp.getWeb3()
+				console.log("==onReady====44444== ==", Web3)
 				var currentWebview = this.$scope.$getAppWebview().children()[0];
 				//监听注入的js
-				currentWebview.addEventListener("loaded", function() {
-					currentWebview.evalJS(
-						"$('#burlcl .liveHeader').hide();"
-					);
-				});
-				//设置高度样式
-				currentWebview.setStyle({
-					// top: 50,
-					height: '79.5%',
-					// scalable: true //webview的页面是否可以缩放，双指放大缩小
-				})
+				// currentWebview.addEventListener('loaded', function() {
+				let window = require('../../common/dal/dapp/window.js')
+				console.log("==window==", JSON.stringify(window))
+				currentWebview.evalJS(window);
 			}
 		},
 		data() {
@@ -60,6 +44,14 @@
 			})
 		},
 		methods: {
+			handleAccountsChanged: function() {
+				console.log('=====handleAccountsChanged=========');
+			},
+
+			handleChainChanged: function() {
+				console.log('=====handleChainChanged=========');
+			},
+			
 			handleMessage(evt) {
 				uni.cclog('接收到的消息：' + JSON.stringify(evt.detail.data));
 			},

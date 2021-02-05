@@ -159,5 +159,4 @@ const HttpServert = {
 		vue.shared.Http.request(url, route.method, params, code);
 	}
 }
-
 export default HttpServert
