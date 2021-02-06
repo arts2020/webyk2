@@ -54,7 +54,7 @@ const GameUtils = {
 		}
 		var pre = "tpl/cn/";
 		if (isLanguage) {
-			var gameLanguage = dal.GameSetting.getGameLanguage();
+			var gameLanguage = dal.Setting.getSysLanguage();
 			if (gameLanguage === entities.Metadata.GameLanguage.TW) {
 				pre = "tpl/tw/";
 			}
@@ -135,7 +135,7 @@ const GameUtils = {
 			address = entry.GFunc.addressChange(m_strGPSAddress);
 		}
 
-		var language = dal.GameSetting.getGameLanguage();
+		var language = dal.Setting.getSysLanguage();
 		if (language === entities.Metadata.GameLanguage.TW) {
 			address = IpList[address] || address;
 		}
@@ -216,7 +216,7 @@ const GameUtils = {
 	// 服务Http的
 	getLanguageFlag: function() {
 		var flag = "zh-tw";
-		var language = dal.GameSetting.getGameLanguage();
+		var language = dal.Setting.getSysLanguage();
 		if (language === entities.Metadata.GameLanguage.CN) {
 			flag = "zh-cn";
 		}
