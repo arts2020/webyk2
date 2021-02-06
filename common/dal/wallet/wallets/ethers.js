@@ -93,12 +93,12 @@ const Ethers = {
 		}
 	},
 
-	async initCurrChain(){
+	async initCurrChain() {
 		let walletInfo = vue.dal.WalletMange.getCurrWallet();
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 	},
-	
+
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
@@ -163,7 +163,9 @@ const Ethers = {
 		EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((balance) => {
 			vue.cclog("=====this.m_usdtErc20===balance===", balance);
 			this.m_balance = balance;
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtBalance,{balance:balance});
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtBalance, {
+				balance: balance
+			});
 		})
 	},
 
