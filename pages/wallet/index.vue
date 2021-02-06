@@ -106,7 +106,7 @@
 			<view class="no-main-c">
 				<view class="tips">
 					<view class="title">数字资产钱包</view>
-					<view class="tip-content">支持BTC、ETH、EOS、YKC、TRX、FIH......</view>
+					<view class="tip-content">支持BTC、ETH、EOS、TRX、FIL ...</view>
 				</view>
 				<view class="menu-nav">
 					<view class="menu-item" @tap="importWallet">
@@ -136,7 +136,7 @@
 		name: "wallet",
 		data() {
 			return {
-				hasWallet: false,
+				hasWallet: this.dal.WalletManage.isExistWallet(),
 				scrollHeight: 0,
 				//当前使用的钱包
 				currentWallet: {},

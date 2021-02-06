@@ -1,12 +1,12 @@
 <template>
 	<view class="create-status">
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="恢复身份" @clickLeft="goBack"></uni-nav-bar>
-	    
+
 		<view class="create-main" v-if="isNext" :style="'height:'+scrollHeight+'px'">
-				<view>
-					<view class="top-title">恢复身份，你将会有身份下的多链钱包，比如ETH、BTC。。。</view>
-					<view class="input-box" style="height: 300rpx;">
-						<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词并使用空格分离" v-model="words"/>
+			<view>
+				<view class="top-title">恢复身份，你将会有身份下的多链钱包，比如ETH、BTC ...</view>
+				<view class="input-box" style="height: 300rpx;">
+					<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词并使用空格分离" v-model="words" />
 					</view>
 				</view>
 				<view>
@@ -143,16 +143,25 @@
 			btnCreate:function(){
 				if(!(this.words&&this.password)){return;}
 				
+				if (this.words.length < 12) {
+					this.util.UiUtils.showToast("助记词长度不正确")
+					return;
+				}
+				
 				this.util.UiUtils.showLoading("身份初始化...");
 				
-				//执行恢复身份操作
+				let params = {
+					name: "identity_name",
+					password: this.password,
+					tips: this.pasdTip,
+					words:this.words,
+					importtype:this.entit.Metadata.ImportType.WordType
+				}
 				
-				//给出成功提示
-				
-				//1s后跳转
-				setTimeout(()=>{
+				this.dal.WalletManage.createMainWallet(params).then(result => {
+				    console.log("========createMainWallet======result===",result);
 					this.util.UiUtils.switchToPage("wallet-add-coin", "creat-wallet-status",{backType:1},"redirectTo");
-				},1000)
+				})
 			},	
 		}
 	}

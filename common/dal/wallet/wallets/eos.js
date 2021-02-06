@@ -15,28 +15,31 @@ const Eos = {
 	destroy: function() {
 
 	},
-	
+
 	//创建身份钱包
-	async createMain(words){
-		let btcwallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.EOS)
-		if (!btcwallet) {
-			btcWallet = await this.createWalletByWords(words)
-			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.EOS, btcWallet);
+	async createMain(walletInfo) {
+		let wallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.EOS)
+		if (!wallet) {
+			wallet = await this.createWalletByWords(walletInfo.words)
+			wallet.password = walletInfo.password;
+			wallet.passwordtip = walletInfo.tips;
+			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
+			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.EOS, wallet);
 		}
 	},
 	//创建普通钱包
-	async createNormal(importtype,strval){
-		if (importtype == vue.Metadata.ImportType.WordType) {
-			let btcWallet = await this.createWalletByWords(strval)
-			btcWallet.importtype = vue.Metadata.ImportType.WordType;
-			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, btcWallet);
-		}else if(importtype == vue.Metadata.ImportType.PrivateType){
-			let btcWallet = await this.createWalletByPrivateKey(strval)
-			btcWallet.importtype = vue.Metadata.ImportType.PrivateType;
-			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, btcWallet);
+	async createNormal(importtype, strval) {
+		if (importtype == vue.entities.Metadata.ImportType.WordType) {
+			let wallet = await this.createWalletByWords(strval)
+			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
+			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
+		} else if (importtype == vue.entities.Metadata.ImportType.PrivateType) {
+			let wallet = await this.createWalletByPrivateKey(strval)
+			wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
+			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
 		}
 	},
-	
+
 	async createWalletByWords(words) {
 		vue.cclog("========EOS===创建节点请求===============")
 		try {
@@ -45,7 +48,7 @@ const Eos = {
 			console.log("EOS私钥：", privateKey)
 			const publicKey = ecc.privateToPublic(privateKey);
 			console.log("EOS公钥：", publicKey)
-			
+
 			//随机生成新的私钥公钥
 			return {
 				words: words,
@@ -58,13 +61,13 @@ const Eos = {
 			return false;
 		}
 	},
-	
+
 	async createWalletByPrivateKey(privateKey) {
 		try {
 			console.log("==privateKey==", privateKey);
 			let ecKey = ECKey.fromPrivate(privateKey);
 			let publicKey = ecKey.getPublicKeyAsHex();
-	
+
 			const network = bitcoin.networks.bitcoin
 			//设置生成测试or正式环境的钱包
 			console.log("==network==", network)
@@ -73,7 +76,7 @@ const Eos = {
 				network: network
 			})
 			console.log("====createWalletByPrivateKey===BTC地址：", address.address)
-			
+
 			return {
 				privateKey: privateKey,
 				publicKey: publicKey,
@@ -84,15 +87,15 @@ const Eos = {
 			return false;
 		}
 	},
-	
-	async initCurrChain(){
+
+	async initCurrChain() {
 		let walletInfo = vue.dal.WalletMange.getCurrWallet();
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 	},
-	
+
 	// 记录交易
-	async sendTransaction(to, amount,gas) {
+	async sendTransaction(to, amount, gas) {
 		vue.util.UiUtils.hideLoading();
 		vue.cclog("=====Eos===sendTransaction====", txid);
 	},
@@ -103,7 +106,7 @@ const Eos = {
 	},
 
 	onBalance: function() {
-		
+
 	},
 };
 

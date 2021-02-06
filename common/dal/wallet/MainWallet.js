@@ -37,7 +37,7 @@ const MainWallet = {
 			chain: chaintype,
 			address: wallet.address,
 			privateKey: wallet.privateKey,
-			importtype: vue.Metadata.ImportType.WordType,
+			importtype: vue.entities.Metadata.ImportType.WordType,
 			password: wallet.password,
 			passwordtip: wallet.passwordtip, //密码提示
 			name: wallet.name, //钱包名称
@@ -62,7 +62,12 @@ const MainWallet = {
 
 	//获得单个身份钱包信息 
 	getMainWallet: function(chaintype) {
-		return this.m_mainWallet[chaintype];
+		console.log('=getMainWallet=chaintype==',chaintype)
+		let wallet = this.m_mainWallet[chaintype];
+		if(wallet){
+			return wallet;
+		}
+		return null;
 	},
 
 	//===========================身份钱包=助记词=私钥=======================

@@ -4,7 +4,7 @@
 		<scroll-view scroll-y="true" class="coin-list" :style="'height:'+scrollHeight+'px'">
 			<checkbox-group @change="handleChecked">
 				<view class="list-item" v-for="(item,index) in coinList" :key="index">
-					<image class="icon" :src="item.logo" mode=""></image>
+					<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
 					<view class="coin-name">
 						<view class="short-N">{{item.name}}</view>
 						<view class="full_N">{{item.alias}}</view>
@@ -39,6 +39,9 @@
 <script>
 	export default {
 		name: "add-coin",
+		created() {
+			this.onRefresh();
+		},
 		data() {
 			return {
 				// 可以从不同的地方进入到添加币种的界面,其点击确定按钮后跳转的页面不同
@@ -46,25 +49,7 @@
 				backType:3,
 				scrollHeight: 0,
 				//app所支持的所有币种的信息
-				coinList: [{
-						chaintype: 1,
-						logo: "../../static/image/index/eth.png",
-						name: "ETH",
-						alias: "Ethereum"
-					},
-					{
-						chaintype: 2,
-						logo: "../../static/image/index/btc.png",
-						name: "BTC",
-						alias: "Btcoin"
-					},
-					{
-						chaintype: 3,
-						logo: "../../static/image/index/fil.png",
-						name: "ATOM",
-						alias: "Cosmos"
-					},
-				],
+				coinList: [],
 				//该身份下已有的币种列表
 				hasCoinList: [{
 					chaintype: 1,
@@ -81,6 +66,8 @@
 		onLoad(option) {
 			if(option.query){
 				let params  = JSON.parse(option.query);
+				this.m_params = params.param;
+				console.log("=params====",params)
 				this.backType = params.param.backType;
 			}
 		},
@@ -102,6 +89,10 @@
 			}
 		},
 		methods: {
+			onRefresh:function(){
+				this.coinList = this.dal.Chain.getChainList();
+			},
+			
 			ischecked(type) {
 				return this.hasCoinList.some(el => el.chaintype == type)
 			},
@@ -128,7 +119,6 @@
 				})
 				
 				//给与成功提示
-				
 				// 1s后跳转
 				let params={}
 				
