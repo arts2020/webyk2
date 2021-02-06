@@ -239,9 +239,9 @@ const UiUtils = {
 		}
 
 		let vsn = vsn_curr.split('.')
-		let v1 = vsn[0]
-		let v2 = vsn[1]
-		let v3 = vsn[2]
+		let v1 = parseInt(vsn[0])
+		let v2 = parseInt(vsn[1])
+		let v3 = parseInt(vsn[2])
 		// 	console.log("======v1=", v1);
 		// 	console.log("======v2=", v2);
 		// 	console.log("======v3=", v3);
@@ -249,9 +249,9 @@ const UiUtils = {
 		// 	console.log("==vue.PlatformInfo.platform=", vue.PlatformInfo.platform);
 		// 	console.log("==new====v=", v);
 		let vsn_n = v.split('.')
-		let v1_n = vsn_n[0]
-		let v2_n = vsn_n[1]
-		let v3_n = vsn_n[2]
+		let v1_n = parseInt(vsn_n[0])
+		let v2_n = parseInt(vsn_n[1])
+		let v3_n = parseInt(vsn_n[2])
 
 		if (v1_n <= v1 && v2_n <= v2 && v3_n <= v3 && ishome== false) {
 			vue.util.UiUtils.showToast("已是最新版本");

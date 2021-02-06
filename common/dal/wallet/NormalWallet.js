@@ -64,12 +64,21 @@ const NormalWallet = {
 	},
 
 	//获得所有普通钱包
-	getNormalWallets: function(chaintype) {
+	getNormalWallets: function() {
 		let items = [];
 		for (let key in this.m_normalWallet) {
-			items = this.m_normalWallet[chaintype];
-			break;
+			let wallets = this.m_normalWallet[key];
+			for(let i = 0; wallets.length > 0 ; i++){
+				let walletinfo = wallets[i]
+				items.push(walletinfo);
+			}
 		}
+		return items;
+	},
+	
+	//获得所有普通钱包
+	getNormalWalletsByType: function(chaintype) {
+		let items = this.m_normalWallet[chaintype];
 		return items;
 	},
 	

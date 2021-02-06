@@ -13,24 +13,27 @@ const Lotus = {
 	},
 
 	//创建身份钱包
-	async createMain(words) {
-		let ethwallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.Lotus)
-		if (!ethwallet) {
-			ethWallet = await this.createWalletByWords(words)
-			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.Lotus, ethWallet);
+	async createMain(walletInfo) {
+		let wallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.Lotus)
+		if (!wallet) {
+			wallet = await this.createWalletByWords(walletInfo.words)
+			wallet.password = walletInfo.password;
+			wallet.passwordtip = walletInfo.tips;
+			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
+			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
 		}
 	},
 
 	//创建普通钱包
 	async createNormal(importtype, strval) {
-		if (importtype == vue.Metadata.ImportType.WordType) {
-			let ethWallet = await this.createWalletByWords(strval)
-			ethWallet.importtype = vue.Metadata.ImportType.WordType;
-			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, ethWallet);
-		} else if (importtype == vue.Metadata.ImportType.PrivateType) {
-			let ethWallet = await this.createWalletByPrivateKey(strval)
-			ethWallet.importtype = vue.Metadata.ImportType.PrivateType;
-			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, ethWallet);
+		if (importtype == vue.entities.Metadata.ImportType.WordType) {
+			let wallet = await this.createWalletByWords(strval)
+			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
+			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
+		} else if (importtype == vue.entities.Metadata.ImportType.PrivateType) {
+			let wallet = await this.createWalletByPrivateKey(strval)
+			wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
+			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
 		}
 	},
 

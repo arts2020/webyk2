@@ -12,6 +12,7 @@ import Chain from "@/common/dal/wallet/Chain.js"
 import MainWallet from "@/common/dal/wallet/MainWallet.js"
 import NormalWallet from "@/common/dal/wallet/NormalWallet.js"
 import ContractWallet from "@/common/dal/wallet/ContractWallet.js"
+import WalletManage from "@/common/dal/wallet/WalletManage.js"
 import Btc from "@/common/dal/wallet/wallets/btc.js"
 import Eos from "@/common/dal/wallet/wallets/eos.js"
 import Eth from "@/common/dal/wallet/wallets/ethers.js"
@@ -32,6 +33,7 @@ const Dal = {
 	MainWallet,
 	NormalWallet,
 	ContractWallet,
+	WalletManage,
 	Btc,
 	Eos,
 	Eth,

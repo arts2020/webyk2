@@ -10,10 +10,10 @@
 			<view class="title">创建单底层钱包</view>
 			<view class="main-list">
 				<view class="menu-item" @tap="goCreate(item)" v-for="(item,index) in coinList" :key="index">
-					<image class="menu-icon" :src="item.logo" mode=""></image>
+					<image class="menu-icon" :src="'../../../static/image/chain/'+item.img" mode=""></image>
 					<view class="menu-msg">
-						<view class="msg-title">{{item.short_name}}</view>
-						<view class="msg-subT">{{item.full_name}}</view>
+						<view class="msg-title">{{item.name}}</view>
+						<view class="msg-subT">{{item.alias}}</view>
 					</view>
 					<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
@@ -32,19 +32,11 @@
 		data() {
 			return {
 				scrollHeight:0,
-				coinList:[
-					{
-						logo:"../../../static/image/index/eth.png",
-						short_name:"ETH",
-						full_name:"Ethereum"
-					},
-					{
-						logo:"../../../static/image/index/btc.png",
-						short_name:"BTC",
-						full_name:"Btcoin"
-					},
-				]
+				coinList:[]
 			};
+		},
+		created() {
+			this.onRefresh();
 		},
 		onShow() {
 			let _this = this;
@@ -56,6 +48,9 @@
 			});
 		},			
 		methods:{
+			onRefresh:function(){
+				this.coinList = this.dal.Chain.getChainList();
+			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},

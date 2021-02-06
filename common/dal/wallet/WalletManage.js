@@ -9,11 +9,11 @@ const WalletMange = {
 	m_currWalletIdx: 0, //当前普通钱包ID
 	m_currMainWallet: null,
 	m_currNormalWallet: null,
-	
+
 	evtBalance: "EVT_BALANCE",
 	evtCreateWallter: "EVT_CREATE_WALLTER",
 	evtTransResult: "EVT_TRANSRESULT",
-	
+
 	init: function() {
 		uni.cclog("======WalletMange init==========")
 		this.m_currChainType = vue.entities.Metadata.ChainType.Normal, //当前钱包
@@ -41,47 +41,65 @@ const WalletMange = {
 	},
 
 	//获得助记词
-	async getMnemonic {
-		let mnemonic = this.createNewWords();
-		return mnemonic;
-	}
+	async getMnemonic() {
+		vue.cclog("=============getMnemonic============")
+		let words = this.createNewWords();
+		return words;
+	},
 
+	// name: "identity_name",
+	// password: this.password,
+	// tips: this.pasdTip,
+	// words:this.words,
+	// importtype:this.Metadata.ImportType.WordType
 	//创建身份钱包
-	async createMainWallet(mnemonic) {
-		if (mnemonic && mnemonic.length > 0) {
-			await vue.dal.BTC.createMain(mnemonic)
-			await vue.dal.EOS.createWalletByWords(mnemonic)
-			await vue.dal.ETH.createWalletByWords(mnemonic)
-			await vue.dal.Lotus.createWalletByWords(mnemonic)
-			await vue.dal.TRON.createWalletByWords(mnemonic)
-		} else {
-			console.error("==助记词无效=mnemonic===", mnemonic)
+	async createMainWallet(walletInfo) {
+		try {
+			if (walletInfo.words && walletInfo.words.length > 0) {
+				console.log("==Btc==")
+				await vue.dal.Btc.createMain(walletInfo)
+				console.log("==Eos==")
+				await vue.dal.Eos.createMain(walletInfo)
+				console.log("==Eth==")
+				await vue.dal.Eth.createMain(walletInfo)
+				console.log("==Lotus==")
+				await vue.dal.Lotus.createMain(walletInfo)
+				console.log("==Tron==")
+				await vue.dal.Tron.createMain(walletInfo)
+				return true;
+			} else {
+				console.error("==助记词无效=words===", words)
+				return false;
+			}
+		} catch (e) {
+			console.log("==e==", e)
+			return false;
 		}
 	},
 
 	//创建普通钱包
 	async createNormalWallet(chaintype, importtype, strval) {
 		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
-			await vue.dal.BTC.createNormal(importtype, strval)
+			await vue.dal.Btc.createNormal(importtype, strval)
 		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {
-			await vue.dal.EOS.createNormal(importtype, strval)
+			await vue.dal.Eos.createNormal(importtype, strval)
 		} else if (chaintype == vue.entities.Metadata.ChainType.ETH) {
-			await vue.dal.ETH.createNormal(importtype, strval)
+			await vue.dal.Eth.createNormal(importtype, strval)
 		} else if (chaintype == vue.entities.Metadata.ChainType.Lotus) {
 			await vue.dal.Lotus.createNormal(importtype, strval)
 		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
 			await vue.dal.Tron.createNormal(importtype, strval)
 		}
 	},
-	
+
 	//创建合约钱包
 	async createContractWallet(chaintype, address) {
 		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
-			await vue.dal.BTC.createContract(address)
+			await vue.dal.Btc.createContract(address)
 		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {
-			await vue.dal.EOS.createContract(address)
+			await vue.dal.Eos.createContract(address)
 		} else if (chaintype == vue.entities.Metadata.ChainType.ETH) {
-			await vue.dal.ETH.createContract(address)
+			await vue.dal.Eth.createContract(address)
 		} else if (chaintype == vue.entities.Metadata.ChainType.Lotus) {
 			await vue.dal.Lotus.createContract(address)
 		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
@@ -100,30 +118,40 @@ const WalletMange = {
 		return mnemonic;
 	},
 
-	//钱包是否存在（身份钱包/普通钱包）
-	isExistWallet: function(chaintype, privateKey) {
+	//指定钱包是否存在（身份钱包/普通钱包）
+	isExistWalletByChainType: function(chaintype, privateKey) {
 		//身份钱包中是否存在
 		let isexist = vue.dal.MainWallet.isExistWallet(chaintype, privateKey);
 		if (isexist) {
 			return vue.Metadata.WalletType.MainType;
 		}
 		//普通钱包中是否存在
-		isexist = vue.dal.NomalWallet.isExistWallet(chaintype, privateKey);
+		isexist = vue.dal.NormalWallet.isExistWallet(chaintype, privateKey);
 		if (isexist) {
 			return vue.Metadata.WalletType.Normal;
 		}
 		return vue.Metadata.WalletType.UnKnow;
 	},
 
+	//判断是否开通钱包
+	isExistWallet: function() {
+		let mainWallets = vue.dal.MainWallet.getMainWallets()
+		let normalWallets = vue.dal.NormalWallet.getNormalWallets()
+		if (mainWallets.length > 0 && normalWallets.length > 0) {
+			return true;
+		}
+		return false;
+	},
+
 	//设置当前钱包
-	setCurrWallet: function(chaintype,idx) {
+	setCurrWallet: function(chaintype, idx) {
 		this.m_currChainType = chaintype;
 		this.m_currWalletIdx = idx;
 		this.m_currWallet = null;
-		if(idx == 0){//身份钱包
+		if (idx == 0) { //身份钱包
 			this.m_currWallet = vue.dal.MainWallet.getMainWallet(chaintype)
-		}else{//普通钱包
-			this.m_currWallet = vue.dal.MainWallet.getNormalWallet(chaintype,idx)
+		} else { //普通钱包
+			this.m_currWallet = vue.dal.MainWallet.getNormalWallet(chaintype, idx)
 		}
 		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
 			vue.dal.Btc.initCurrChain();
@@ -140,6 +168,7 @@ const WalletMange = {
 
 	getCurrWallet: function() {
 		return this.m_currWallet;
-	}
+	},
+
 }
 export default WalletMange

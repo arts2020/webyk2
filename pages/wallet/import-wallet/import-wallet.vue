@@ -1,12 +1,12 @@
 <template>
 	<view class="recover-index">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  title="导入钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="导入钱包" @clickLeft="goBack"></uni-nav-bar>
 		<view class="recover-main">
 			<view v-if="coinObj.type == 1">
 				<view class="top-title">{{title}}</view>
-				<view class="input-box" style="height: 335rpx;margin-bottom: 28rpx;" >
-					<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词单词，并使用空格分隔/输入明文私钥" v-model="words"/>
-				</view>
+				<view class="input-box" style="height: 335rpx;margin-bottom: 28rpx;">
+					<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词单词，并使用空格分隔/输入明文私钥" v-model="words" />
+					</view>
 			</view>
 			<view v-else>
 				<view class="top-title">{{title}}</view>
@@ -115,23 +115,26 @@
 				}
 				this.util.UiUtils.showLoading("钱包初始化...");
 				
-				let params = {
-					walletName:this.walletName,
-					password:this.password,
-					pasdTip:this.pasdTip,
-				}
 				//传参到数据层导入普通钱包，  根据助记词和私钥需要的不同参数传
+				let importtype = this.entities.Metadata.ImportType.WordType
 				if(this.coinObj.type == 1){
-					
+					importtype = this.entities.Metadata.ImportType.WordType
 				}else if(this.coinObj.type==2){
-					
+					importtype = this.entities.Metadata.ImportType.PrivateType
 				}
-				//给出成功提示
 				
-				//1s后跳转到首页
-				setTimeout(()=>{
+				let params = {
+					name: this.walletName,
+					password: this.password,
+					tips: this.pasdTip,
+					words:this.words,
+					importtype:importtype
+				}
+				
+				this.dal.WalletManage.createMainWallet(params).then(result => {
+				    console.log("========import-wallet======result===",result);
 					this.util.UiUtils.switchToPage("wallet-index", "import-wallet-wallet",{},"switchTab");
-				},1000)
+				})
 			},	
 		},
 	}
