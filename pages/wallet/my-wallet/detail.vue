@@ -141,7 +141,7 @@
 <style lang="scss" scoped>
 .wallet-detail{
 	width: 100%;
-	min-height: 100vh;
+	min-height: 100vh; 
 	background-color: #FAFBFF; 
 	/deep/ .uni-navbar--border{
 		border: 0;

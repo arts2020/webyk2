@@ -1,10 +1,10 @@
 <template>
 	<view class="status-manage">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back"  title="管理身份钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  title="管理身份钱包"  @clickLeft="goBack"></uni-nav-bar>
 	    <view class="main-c" :style="'height:'+scrollHeight+'px'">
 			<view class="statusInfo" @tap="checkStatus">
-				<image class="avatar" :src="statusInfo.avatar" mode=""></image>
 				<text>{{statusInfo.statusName}}</text>
+				<image class="avatar" :src="statusInfo.avatar" mode=""></image>
 				<image class="right-arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 			<view class="bak_wallet" @tap="goBak">
@@ -101,79 +101,87 @@
 	.main-c{
 		width: 100%;
 		padding-top: 30rpx;
-		background-color: #F2F2F2;
+		background-color: #FAFBFF;
 		.right-arr{
-			width: 40rpx;
-			height: 40rpx;
-			margin-left: auto;
+			width: 13rpx;
+			height: 24rpx;
 		}
 		.statusInfo{
 		  width: 100%;
-		  height: 150rpx;
-		  padding: 0 30rpx;
+		  height: 160rpx;
+		  padding: 0 34rpx 0 43rpx;
 		  box-sizing: border-box;
 		  display: flex;
 		  align-items: center;
 		  background-color: #FFFFFF;
-		  font-size: 28rpx;
-		  font-weight: bold;
-		  color: #444444;
+		 font-size: 34rpx;
+		 font-family: PingFang SC, PingFang SC-Regular;
+		 font-weight: 600;
+		 color: #121212;
 		  .avatar{
-			  width: 100rpx;
-			  height: 100rpx;
+			  width: 78rpx;
+			  height: 78rpx;
 			  border-radius: 50%;
-			  margin-right: 40rpx;
+			  margin-right: 30rpx;
+			  margin-left: auto;
 		  }
 		}
 	    .bak_wallet{
 			width: 100%;
-			margin-top: 60rpx;
+			margin-top: 24rpx;
 			.top-c{
 				width: 100%;
-				height: 120rpx;
-				padding: 0 30rpx;
+				height: 106rpx;
+				padding: 0 34rpx 0 43rpx;
 				box-sizing: border-box;
 				display: flex;
 				align-items: center;
 				background-color: #FFFFFF;
 				.right-arr{
-					margin-left:20rpx;
+					margin-left:30rpx;
 				}
 				text:first-child{
 					margin-right: auto;
-					font-size: 28rpx;
-					color: #444444;
-					font-weight: bold;
+					font-size: 34rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 600;
+					color: #121212;
 				}
 			}
 			.botto-c{
 				width: 100%;
-				height: 80rpx;
-				padding: 0 30rpx;
+				height: 87rpx;
+				padding: 0 34rpx 0 43rpx;
 				box-sizing: border-box;
-				line-height: 80rpx;
+				line-height: 87rpx;
+				font-size: 26rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				text-align: left;
+				color: #3981f3;
 			}
 		}
 	    .add-coin{
 			width: 100%;
-			margin-top: 30rpx;
-			width: 100%;
-			height: 120rpx;
-			padding: 0 30rpx;
+			height: 157rpx;
+			padding: 0 34rpx 0 43rpx;
 			box-sizing: border-box;
 			display: flex;
 			align-items: center;
 			background-color: #FFFFFF;
 			.info{
 				width: 80%;
+				font-family: PingFang SC, PingFang SC-Regular;
+				
 				.title{
-					font-size: 28rpx;
-					color: #444444;
-					font-weight: bold;
+					font-size: 34rpx;
+					color: #121212;
+					font-weight: 600;
 				}
 				.subtitle{
-					font-size: 24rpx;
-					color: #8e8e8e;
+					font-size: 30rpx;
+					color: #999999;
+					font-weight: 500;
 				}
 			}
 		}

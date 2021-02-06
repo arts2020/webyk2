@@ -13,29 +13,25 @@
 		</view>
 		<uni-popup type="bottom" ref="popupS">
 			<view class="main-c">
-				<uni-icons @tap="cancell" type="closeempty" size="30" class="cancell-icon"></uni-icons>
-			    <view class="title">{{activeCoin.name}}</view>
+				<uni-icons @tap="cancell" type="closeempty" size="30" color="#000000" class="cancell-icon"></uni-icons>
+				<view class="title">{{activeCoin.name}}</view>
 				<view class="creat-wallet" @tap="goCreate">
-					<image class="icon" src="../../static/image/index/chanpin-select.png" mode=""></image>
-					<view class="coin-info">
-						<view class="coin-name">
-							<view class="short-N">创建钱包</view>
-							<view class="full_N">还未拥有钱包</view>
-						</view>
-						<image class="checked-icon" src="../../static/image/mine/arrow-left.svg" mode=""></image>
+					<image class="icon" src="../../static/image/index/creat-wallet.png" mode=""></image>
+					<view class="coin-name">
+						<view class="short-N">创建钱包</view>
+						<view class="full_N">还未拥有钱包</view>
 					</view>
+					<image class="checked-icon" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
 				<view class="menu-list">
 					<view class="menu-title">导入钱包</view>
 					<view @tap="goRecover(index)" class="list-item" v-for="(item,index) in menuList" :key="index" @click="handleChecked(item)">
 						<image class="icon" :src="item.logo" mode=""></image>
-						<view class="coin-info">
-							<view class="coin-name">
-								<view class="short-N">{{item.title}}</view>
-								<view class="full_N">{{item.subTitle}}</view>
-							</view>
-							<image class="checked-icon" src="../../static/image/mine/arrow-left.svg" mode=""></image>
+						<view class="coin-name">
+							<view class="short-N">{{item.title}}</view>
+							<view class="full_N">{{item.subTitle}}</view>
 						</view>
+						<image class="checked-icon" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -48,16 +44,15 @@
 		name: "addWallet",
 		data() {
 			return {
-				menuList:[
-					{
-						logo:"../../static/image/index/no-list.png",
-						title:"助记词",
-						subTitle:"助记词由单词组成，以空格隔开"
+				menuList: [{
+						logo: "../../static/image/index/word.png",
+						title: "助记词",
+						subTitle: "助记词由单词组成，以空格隔开"
 					},
 					{
-						logo:"../../static/image/index/no-list.png",
-						title:"私钥",
-						subTitle:"明文私钥字符"
+						logo: "../../static/image/index/privateword.png",
+						title: "私钥",
+						subTitle: "明文私钥字符"
 					},
 				],
 				activeCoin: {},
@@ -88,19 +83,25 @@
 			},
 			handleChecked(item) {
 				this.activeCoin = item;
-                this.$refs.popupS.open();
+				this.$refs.popupS.open();
 			},
-			cancell(){
+			cancell() {
 				this.$refs.popupS.close()
 			},
-			goCreate(){
+			goCreate() {
 				this.$refs.popupS.close()
-				this.$openPage({name:"creat-wallet-wallet",query:this.activeCoin})
+				this.$openPage({
+					name: "creat-wallet-wallet",
+					query: this.activeCoin
+				})
 			},
-			goRecover(index){
+			goRecover(index) {
 				this.$refs.popupS.close()
-				this.activeCoin.type = index+1;
-				this.$openPage({name:"import-wallet-wallet",query:this.activeCoin})
+				this.activeCoin.type = index + 1;
+				this.$openPage({
+					name: "import-wallet-wallet",
+					query: this.activeCoin
+				})
 			}
 		}
 	}
@@ -110,159 +111,172 @@
 	.addWallet {
 		width: 100%;
 		background-color: #FFFFFF;
-        /deep/ .uni-navbar--border{
-        	border: 0;
-        }
+
+		/deep/ .uni-navbar--border {
+			border: 0;
+		}
+
 		.coin-list {
 			width: 100%;
 			padding: 0 34rpx;
 			box-sizing: border-box;
+
 			.list-item {
 				width: 100%;
 				height: 120rpx;
 				display: flex;
 				align-items: center;
-			    border-bottom: 1rpx solid #E7E6ED;
+				border-bottom: 1rpx solid #E7E6ED;
+
 				.icon {
 					width: 54rpx;
 					height: 54rpx;
 					margin-right: 22rpx;
 				}
-			    .coin-name {
-			    	font-family: PingFang SC, PingFang SC-Semibold;					
-			    	.short-N {
-			    		font-size: 36rpx;
-			    		color: #071328;
-			    		font-weight: 600;
+
+				.coin-name {
+					font-family: PingFang SC, PingFang SC-Semibold;
+
+					.short-N {
+						font-size: 36rpx;
+						color: #071328;
+						font-weight: 600;
 						line-height: 40rpx;
-			    	}
-			    	.full-N {
-			    		font-size: 24rpx;
-			    		color: #7C7C7C;
+					}
+
+					.full-N {
+						font-size: 24rpx;
+						color: #7C7C7C;
 						line-height: 30rpx;
-			    	}
-			    }
-				.checked-icon{
+					}
+				}
+
+				.checked-icon {
 					margin-left: auto;
 					width: 13rpx;
 					height: 24rpx;
 				}
 			}
 		}
-		.main-c{
+
+		.main-c {
 			width: 100%;
 			height: 80vh;
-			border-radius: 20rpx;
+			border-radius: 33rpx;
 			position: relative;
-			padding: 30rpx 20rpx;
+			padding: 22rpx 36rpx;
 			box-sizing: border-box;
-			background-color: #efefef;
-			.cancell-icon{
+			background-color: #F6F7F9;
+
+			.cancell-icon {
 				position: absolute;
-				top: 0rpx;
-				left: 0rpx;
+				top: -10rpx;
+				right:20rpx;
 			}
-			.title{
-				font-size: 28rpx;
-				font-weight: bold;
-				color: #444444;
+
+			.title {
+				font-size: 32rpx;
+				font-family: PingFang SC, PingFang SC-Bold;
+				font-weight: 700;
+				color: #121212;
 				text-align: center;
 			}
-			.creat-wallet{
+
+			.creat-wallet {
 				width: 100%;
-				height: 150rpx;
-				margin: 30rpx 0 50rpx;
-				padding: 0 20rpx;
+				height: 135rpx;
+				margin: 30rpx 0;
+				padding: 0 29rpx 0 34rpx;
 				box-sizing: border-box;
-				border-radius: 20rpx;
+				border-radius: 10rpx;
 				display: flex;
 				align-items: center;
 				background-color: #FFFFFF;
+
 				.icon {
-					width: 80rpx;
-					height: 80rpx;
-					margin-right: 40rpx;
-					border-radius: 50%;
+					width: 43rpx;
+					height: 38rpx;
+					margin-right: 50rpx;
 				}
-				
-				.coin-info {
-					width: calc(100% - 110rpx);
-					border-bottom: 2rpx solid #F2F2F2;
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-				
-					.coin-name {
-						.short-N {
-							font-size: 28rpx;
-							color: #444444;
-							font-weight: bold;
-						}
-				
-						.full-N {
-							font-size: 24rpx;
-							color: #8e8e8e;
-						}
+
+				.coin-name {
+					.short-N {
+						font-size: 30rpx;
+						font-family: PingFang SC, PingFang SC-Semibold;
+						font-weight: 700;
+						color: #121212;
+						line-height: 50rpx;
 					}
-				
-					.checked-icon {
-						width: 40rpx;
-						height: 40rpx;
-						border-radius: 50%;
-						margin-left: auto;
+
+					.full-N {
+						font-size: 26rpx;
+						font-family: PingFang SC, PingFang SC-Regular;
+						font-weight: 500;
+						color: #121212;
+						line-height: 40rpx;
 					}
+				}
+
+				.checked-icon {
+					width: 13rpx;
+					height: 24rpx;
+					margin-left: auto;
 				}
 			}
-		    .menu-list {
-		    	width: 100%;
+
+			.menu-list {
+				width: 100%;
 				border-radius: 20rpx;
-				.menu-title{
+
+				.menu-title {
+					font-size: 26rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #121212;
 					margin-bottom: 20rpx;
 				}
-		    	.list-item {
-		    		width: 100%;
-		    		height: 150rpx;
-					padding: 0 30rpx;
+
+				.list-item {
+					width: 100%;
+					height: 135rpx;
+					margin: 30rpx 0;
+					padding: 0 29rpx 0 34rpx;
 					box-sizing: border-box;
-		    		display: flex;
-		    		align-items: center;
-		            background-color: #FFFFFF;
-		    		.icon {
-		    			width: 80rpx;
-		    			height: 80rpx;
-		    			margin-right: 30rpx;
-		    			border-radius: 50%;
-		    		}
-		    
-		    		.coin-info {
-		    			width: calc(100% - 110rpx);
-		    			border-bottom: 2rpx solid #F2F2F2;
-		    			display: flex;
-		    			align-items: center;
-		    			justify-content: space-between;
-		    
-		    			.coin-name {
-		    				.short-N {
-		    					font-size: 28rpx;
-		    					color: #444444;
-		    					font-weight: bold;
-		    				}
-		    
-		    				.full-N {
-		    					font-size: 24rpx;
-		    					color: #8e8e8e;
-		    				}
-		    			}
-		    
-		    			.checked-icon {
-		    				width: 40rpx;
-		    				height: 40rpx;
-		    				border-radius: 50%;
-		    				margin-left: auto;
-		    			}
-		    		}
-		    	}
-		    }
+					border-radius: 10rpx;
+					display: flex;
+					align-items: center;
+					background-color: #FFFFFF;
+
+					.icon {
+						width: 43rpx;
+						height: 38rpx;
+						margin-right: 50rpx;
+					}
+
+					.coin-name {
+						.short-N {
+							font-size: 30rpx;
+							font-family: PingFang SC, PingFang SC-Semibold;
+							font-weight: 700;
+							color: #121212;
+							line-height: 50rpx;
+						}
+
+						.full-N {
+							font-size: 26rpx;
+							font-family: PingFang SC, PingFang SC-Regular;
+							font-weight: 500;
+							color: #121212;
+							line-height: 40rpx;
+						}
+					}
+					.checked-icon {
+						width: 13rpx;
+						height: 24rpx;
+						margin-left: auto;
+					}
+			}
 		}
 	}
+}
 </style>

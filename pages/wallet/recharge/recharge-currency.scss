@@ -1,48 +1,68 @@
 .recharge-currency{
 	width: 100%;
 	min-height: 100vh;
-	background-color: #F2F2F2;
+	background-color: #4C72EF;
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
 	.main-c{
-		width: calc(100% - 60rpx);
-		margin: 60rpx auto;
-		padding: 20rpx;
+		width: calc(100% - 72rpx);
+		height: 705rpx;
+		margin: 16rpx auto 22rpx;
+		padding: 39rpx 32rpx 50rpx;
 		box-sizing: border-box;
 		background-color: #FFFFFF;
 		border-radius: 10rpx;
+		font-size: 30rpx;
+		font-family: PingFang SC, PingFang SC-Regular;
+		font-weight: 600;
+		text-align: center;
+		color: #121212;
 		.title{
-			font-size: 26rpx;
-			text-align: center;
-			margin-bottom: 30rpx;
+			margin-bottom: 50rpx;
 		}
 		.recharge-code{
 			width: 400rpx;
 			height: 400rpx;
-			border-radius: 10rpx;
 			margin: 0 auto;
 			margin-bottom: 30rpx;
 		}
 		.address{
-			width: 100%;
-			text-align: center;
-			font-size: 26rpx;
-			text-align: center;
-			margin-bottom: 30rpx;
+			width: 100%;			
 			.addr-info{
-				font-size: 24rpx;
-				color: #8e8e8e;
+				color: #999999;
 			}
 		}
-		.btns{
-			width: 100%;
-            height: 80rpx;
+		
+	}
+	.btns{
+		width: calc(100% - 72rpx);
+	    height: 88rpx;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		.btn{
+			width: 333rpx;
+			height: 88rpx;
+			line-height: 88rpx;
+			background: #ffffff;
+			border-radius: 14rpx;
+			box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06); 
+			line-height: 88rpx;
+			font-size: 32rpx;
+			font-family: PingFang SC, PingFang SC-Bold;
+			font-weight: 700;
+			text-align: center;
+			color: #343434;
+			image{
+				width: 36rpx;
+				height: 36rpx;
+				margin-right: 25rpx;
+			}
 			display: flex;
 			align-items: center;
-			border-top: 1rpx solid #F2F2F2;
-			.btn{
-				width: 50%;
-				line-height: 80rpx;
-				text-align: center;
-			}
+			justify-content: center;
 		}
 	}
 }

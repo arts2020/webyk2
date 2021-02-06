@@ -1,6 +1,6 @@
 <template>
 	<view class="recover-index">
-		<uni-nav-bar background-color="#F6F7F9" :statusBar="true" :fixed="true" left-icon="back"  title="导入钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  title="导入钱包"  @clickLeft="goBack"></uni-nav-bar>
 		<view class="recover-main">
 			<view v-if="coinObj.type == 1">
 				<view class="top-title">{{title}}</view>
@@ -31,7 +31,7 @@
 			</view>
 			
 			<view>
-				<view class="top-title">设置密码提示</view>
+				<view class="top-title">密码提示</view>
 				<view class="input-box">
 					<input type="text" placeholder="密码提示(可选)" v-model="pasdTip" placeholder-style="font-size: 26rpx;color: #C2C2C2;"/>
 				</view>
@@ -142,7 +142,7 @@
 	height: 100%;
 	width: 100%;
 	min-height: 100vh;
-	background-color: #F6F7F9;
+	background-color: #FAFBFF;
 	/deep/ .uni-navbar--border{
 		border: 0;
 	}
@@ -182,7 +182,7 @@
 		.tips{
 			text-align: right;
 			font-size: 24rpx;
-			color: #007AFF;
+			color: #3981F3;
 		}
 		.btn_ok{
 			width: 647rpx;

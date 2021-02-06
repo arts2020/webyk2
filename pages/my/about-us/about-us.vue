@@ -1,16 +1,28 @@
 <template>
 	<view class="about-us">
-		<bar ref="bar"></bar>
-		<view @tap="btnBack()" class="safe-header">
-			<image src="../../../static/image/login/left.svg" />
-			<text>关于我们</text>
-		</view>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="关于我们" @clickLeft="btnBack"></uni-nav-bar>
 		<view class="banner">
-			<image src="../../../static/image/index/index-bg1.png" />
+			<image src="../../../static/image/mine/logo.png" />
+		    <view class="youkey">YouKey</view>
+			<view class="currentVersion">
+				当前版本：{{info.version}}
+			</view>
 		</view>
-		<view class="about-content">
-			    平台深度布局BTC,ETH和IPFS/Filecoin产业链,在使用集中采购和共建机制降低挖矿运行成本的同时,公司投入重金进行硬件建设、系统开发、算法优化等，利用矿机及矿场的分时共享模式降低客户参与挖矿行业的门槛,
-				0最终为用户提供真实可靠、合规高效、响应积极、服务快捷的综合算力资产解决方案.
+		<view class="about-menu">
+			<text>官网</text>
+			<text>{{info.website}}</text>
+		</view>
+		<view class="about-menu">
+			<text>论坛</text>
+			<text>{{info.forum}}</text>
+		</view>
+		<view class="about-menu">
+			<text>微信公众号</text>
+			<text>{{info.wechat}}</text>
+		</view>
+		<view class="about-menu">
+			<text>Twitter</text>
+			<text>{{info.twitter}}</text>
 		</view>
 	</view>
 </template>
@@ -24,6 +36,13 @@
 		data(){
 			return{
 				scrollHeight:'',
+				info:{
+					version:"1.1.8",
+					website:"https//www.youkey.com",
+					twitter:"https//bbs.youkey.com",
+					forum:"youkey",
+					wechat:"youkey"
+				}
 			}
 		},
 		methods:{

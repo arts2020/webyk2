@@ -1,7 +1,7 @@
 <template>
 	<view class="address-detail">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="地址本" @clickLeft="goBack">
-			<view slot="right" :style="{'color':coinObj.addrInfo?'#0000FF':'#8e8e8e'}" @tap="goSave">保存</view>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="地址本" @clickLeft="goBack">
+			<view slot="right" :style="{'color':coinObj.addrInfo?'#4C72EF':'#8e8e8e'}" @tap="goSave">保存</view>
 		</uni-nav-bar>
 	    <view class="coin" @tap="goChioce">
 			<image class="wallet-icon" :src="coinObj.logo" mode=""></image>
@@ -12,14 +12,14 @@
 			<view class="title">地址信息</view>
 			<view class="addr_description">
 				<view class="addr_item">
-					<input type="text" placeholder="请输入地址" v-model="coinObj.addrInfo" />
-					<uni-icons type="scan" size="30" color="#444444"></uni-icons>
+					<input type="text" placeholder="请输入地址" placeholder-class="tipClass" v-model="coinObj.addrInfo" />
+					<uni-icons type="scan" size="20" color="#000000"></uni-icons>
 				</view>
 				<view class="addr_item">
-					<input type="text" placeholder="名称" v-model="coinObj.addrName" />
+					<input type="text" placeholder="名称" placeholder-class="tipClass" v-model="coinObj.addrName" />
 				</view>
 				<view class="addr_item">
-					<input type="text" placeholder="描述(选填)" v-model="coinObj.addr_bak" />
+					<input type="text" placeholder="描述(选填)" placeholder-class="tipClass" v-model="coinObj.addr_bak" />
 				</view>
 			</view>
 		</view>
@@ -78,7 +78,7 @@
 				},1000)
 			},
 			goChioce(){
-				this.$openPage({name:"address-type",query:{name:this.coinObj.chaintype}})
+				this.$openPage({name:"address-type",query:{chaintype:this.coinObj.chaintype}})
 			},
 			onSetAddress(data){
 				vue.util.UiUtils.showToast(data.msg);
@@ -92,57 +92,69 @@
 	min-height: 100vh;
 	height: 100%;
 	width: 100%;
-	background-color: #F2F2F2;
-	// /deep/ .uni-nav-bar-text{
-	// 	color: #444444;
-	// }
+	background-color: #FAFBFF;
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
 	.coin{
-		margin: 0 10rpx;
-		margin-top: 40rpx;
-		padding: 0 20rpx;
+		margin: 22rpx auto 26rpx;
+		padding: 0 17rpx;
 		box-sizing: border-box;
-		border-radius: 20rpx;
+		border-radius: 10rpx;
 		background-color: #FFFFFF;
-		width: calc(100% - 20rpx);
-		height: 100rpx;
+		width: calc(100% - 72rpx);
+		height: 104rpx;
 		display: flex;
 		align-items: center;
 		.wallet-icon{
-			width: 48rpx;
-			height: 48rpx;
-			margin-right: 16rpx;
+			width: 67rpx;
+			height: 67rpx;
+			margin-right: 22rpx;
 		}
 		.right-arr{
-			width: 32rpx;
-			height: 20rpx;
+			width: 13rpx;
+			height: 24rpx;
 			margin-left: auto;
 		}
 	}
     .addr_info{
-		margin: 60rpx 10rpx;
-		width: calc(100% - 20rpx);
+		width: 100%;
 		.title{
-			font-size: 28rpx;
-			font-weight: bold;
-			color: #444444;
-			margin-bottom: 30rpx;
+			font-size: 26rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 500;
+			color: #121212;
+			margin-bottom: 22rpx;
+			padding-left: 56rpx;
+			box-sizing: border-box;
 		}
 		.addr_description{
-			width: 100%;
+			margin: 0 auto;
+			width: calc(100% - 72rpx);
+			height: 324rpx;
+			border-radius: 10rpx;
 			background-color: #FFFFFF;
-			border-radius: 20rpx;
-			padding: 0 30rpx;
-			box-sizing: border-box;
 			.addr_item{
+				width: 100%;
+				height: 108rpx;
+				border-bottom: 1rpx solid #ebebeb;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				height: 100rpx;
-				border-bottom: 2rpx solid #F2F2F2;
+				padding: 0 30rpx 0 32rpx;
+				box-sizing: border-box;
 				uni-input{
 					width: 80%;
-					font-size: 28rpx;
-					color: #8e8e8e;
+					font-size: 26rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #121212;
+				}
+				.tipClass{
+					font-size: 26rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #c2c2c2;
 				}
 			}
 		}

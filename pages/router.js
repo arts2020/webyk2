@@ -47,6 +47,9 @@ const router = new MinRouter({
 		// 	name: 'hide-page'
 		// },
 		{
+			path:"pages/my/language/language",
+			name:"language-index"
+		},{
 			path: 'pages/my/visit/visit',
 			name: 'my-visit'
 		},{
@@ -170,6 +173,9 @@ const router = new MinRouter({
 		,{
 			path:"pages/wallet/add-asset",
 			name: 'add-asset'
+		},{
+			path:"pages/my/help/answer",
+			name: 'question-answer'
 		}
 	]
 })

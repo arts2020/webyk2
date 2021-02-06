@@ -17,8 +17,8 @@
 					</view>
 					<view class="right_info">
 						<text>￥{{item.price}}</text>
-						<image v-if="item.isStar" src="../../../static/image/index/chanpin-select.png" mode="" @tap="addStar(item)"></image>
-						<image v-else src="../../../static/image/index/chanpin.png" mode=""></image>
+						<image v-if="item.isStar" src="../../../static/image/index/plus.png" mode="" @tap="addStar(item)"></image>
+						<image v-else src="../../../static/image/index/plus-default.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -132,7 +132,7 @@
     .serach-content{
 		width: 100%;
 		background-color: #FFFFFF;
-		padding: 0 40rpx;
+		padding: 0 42rpx 0 34rpx;
 		box-sizing: border-box;
 		.list-item{
 			width: 100%;
@@ -143,11 +143,13 @@
 			justify-content: space-between;
 			.left_info{
 				view:first-child{
-					font-size: 28rpx;
-					color: #444444;
+					font-size: 36rpx;
+					font-family: PingFang SC, PingFang SC-Semibold;
+					font-weight: 600;
+					color: #071328;
 				}
 				view:nth-child(2){
-					font-size: 24rpx;
+					font-size: 30rpx;
 					color: #8e8e8e;
 				}
 			}
@@ -155,8 +157,10 @@
 				display: flex;
 				align-items: center;
 				text{
-					font-size: 28rpx;
-					color: #8e8e8e;
+					font-size: 30rpx;
+					font-family: PingFang SC, PingFang SC-Semibold;
+					font-weight: 600;
+					color: #071328;
 				}
 				image{
 					width: 40rpx;

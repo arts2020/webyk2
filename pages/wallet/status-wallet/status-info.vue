@@ -1,6 +1,6 @@
 <template>
 	<view class="status-info">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="身份信息" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="身份信息" @clickLeft="goBack"></uni-nav-bar>
 	     <view class="identityID">
 			 <view class="p1">身份ID</view>
 			 <view class="p2">{{statusInfo.identityId}}</view>
@@ -67,30 +67,53 @@
 .status-info{
 	width: 100%;
 	min-height: 100vh;
-	background-color: #F2F2F2;
+	background-color: #FAFBFF;
 	.identityID{
 		width: 100%;
-		// height: 150rpx;
-		padding: 20rpx 35rpx;
+		height: 160rpx;
+		padding: 30rpx 43rpx;
 		box-sizing: border-box;
 		background-color: #FFFFFF;
-		margin-top: 30rpx;
+		margin: 16rpx 0 24rpx;
+		font-family: PingFang SC, PingFang SC-Regular;
+		.p1{
+			font-size: 34rpx;	
+			font-weight: 600;
+			color: #121212;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		.p2{
+			font-size: 30rpx;
+			font-weight: 400;
+			color: #999999;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 	}
 	.statusName{
 		width: 100%;
-		// height: 150rpx;
-		padding: 20rpx 35rpx;
+		height: 106rpx;
+		padding: 30rpx 34rpx 30rpx 43rpx;
 		box-sizing: border-box;
 		background-color: #FFFFFF;
-		margin-top: 60rpx;
 		display: flex;
 		align-items: center;
+		font-size: 34rpx;
+		font-weight: 600;
+		color: #121212;
+		font-family: PingFang SC, PingFang SC-Regular;
 		text:nth-child(2){
 			margin-left: auto;
+			font-size: 30rpx;
+			font-weight: 400;
+			color: #999999;
 		}
 		image{
-			width: 30rpx;
-			height: 30rpx;
+			width: 13rpx;
+			height: 24rpx;
 			margin-left: 30rpx;
 		}
 	}

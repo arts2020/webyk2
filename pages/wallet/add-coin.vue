@@ -190,15 +190,14 @@
 		}
 		.coin-list {
 			width: 100%;
-			padding: 0 34rpx;
-			box-sizing: border-box;
-
 			.list-item {
 				width: 100%;
 				height: 120rpx;
 				display: flex;
 				align-items: center;
                 border-bottom: 1rpx solid #E7E6ED;
+				padding: 0 0 0 34rpx;
+				box-sizing: border-box;
 				.icon {
 					width: 54rpx;
 					height: 54rpx;

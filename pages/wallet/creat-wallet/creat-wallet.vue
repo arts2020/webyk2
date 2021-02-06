@@ -1,6 +1,6 @@
 <template>
 	<view class="create-index">
-		<uni-nav-bar background-color="#F6F7F9" :statusBar="true" :fixed="true" left-icon="back"  title="创建钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  title="创建钱包"  @clickLeft="goBack"></uni-nav-bar>
 		<view class="create-main">
 			<view>
 				<view class="top-title">钱包名称</view>
@@ -122,7 +122,7 @@
 	height: 100%;
 	width: 100%;
 	min-height: 100vh;
-	background-color: #F6F7F9;
+	background-color: #FAFBFF;
 	/deep/ .uni-navbar--border{
 		border: 0;
 	}
@@ -156,7 +156,7 @@
 		.tips{
 			text-align: right;
 			font-size: 24rpx;
-			color: #007AFF;
+			color: #3981F3;
 		}
 		.btn_ok{
 			width: 100%;

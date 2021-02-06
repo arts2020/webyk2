@@ -1,8 +1,10 @@
 <template>
 	<view class="agreement">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back" title="用户协议" @clickLeft="goBack"></uni-nav-bar>
-		<rich-text :nodes="content" v-if="content"></rich-text>
-		<noData ref="nodata" v-else/>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="用户协议" @clickLeft="goBack"></uni-nav-bar>
+		<view class="aggr-c">
+			<view class="aggr-title">YouKey服务协议</view>
+			
+		</view>
 	</view>
 </template>
 
@@ -35,5 +37,24 @@
 <style lang="scss" scoped>
 .agreement{
 	width: 100%;
+	background-color: #FFFFFF;
+	.aggr-c{
+		width: 100%;
+		padding: 22rpx 30rpx;
+		box-sizing: border-box;
+		font-size: 30rpx;
+		font-family: PingFang SC, PingFang SC-Regular;
+		font-weight: 500;
+		text-align: left;
+		color: #333333;
+		.aggr-title{
+			font-size: 36rpx;
+			font-family: PingFang SC, PingFang SC-Bold;
+			font-weight: 700;
+			text-align: center;
+			color: #111111;
+			margin-bottom: 25rpx;
+		}
+	}
 }
 </style>

@@ -1,42 +1,46 @@
 <template>
 	<view class="help-index">
-		<bar ref="bar"></bar>
-		<view @tap="btnBack()" class="safe-header">
-			<image src="../../../static/image/login/left.svg" />
-			<text>帮助中心</text>
-		</view>
+        <uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="帮助中心" @clickLeft="btnBack"></uni-nav-bar>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
-			<view class="help-suanli">
-				<view class="help-title">算力</view>
-				<view class="mine-type">
-					<view class="type-list" v-for="(item,index) in typeList" :key="index">
-						<view class="mineList">
-							<view class="list-title">•&nbsp{{item.name}}？</view>
-							<image class="right-icon" :src="item.rightIcon" @click="changeContent(index)" />
-						</view>
-						<view class="type-content" v-show="item.showContent">
-							资产中权益资产的预期回报率是特别高的，会吸引海外资金的流入。
-							因此我们认为，美元在未来一个季度的贬值趋势，是比较利好于A股权益市场资产的。 
-							中期来看，注意防范美国经济恢复对中国权益市场的冲击
-						</view>
+			<view class="hot-question">
+				<view class="title">常见问题</view>
+				<view class="question-item">
+					<view class="question">
+						<view class="dot"></view>
+						<text>转账不成功怎么办？</text>
 					</view>
+					<view class="answer"></view>
+				</view>
+				<view class="question-item">
+					<view class="question">
+						<view class="dot"></view>
+						<text>为什么一定要备份助记词？</text>
+					</view>
+					<view class="answer"></view>
+				</view>
+				<view class="question-item">
+					<view class="question">
+						<view class="dot"></view>
+						<text>忘记钱包密码怎么办？</text>
+					</view>
+					<view class="answer"></view>
+				</view>
+				<view class="question-item">
+					<view class="question">
+						<view class="dot"></view>
+						<text>收不到币怎么办？</text>
+					</view>
+					<view class="answer"></view>
 				</view>
 			</view>
-			<view class="jiange"></view>
-			<view class="help-suanli">
-				<view class="help-title">收益</view>
-				<view class="mine-type">
-					<view class="type-list" v-for="(item,index) in incomeList" :key="index">
-						<view class="mineList">
-							<view class="list-title">•&nbsp{{item.name}}？</view>
-							<image class="right-icon" :src="item.rightImg" @click="incomeContent(index)" />
-						</view>
-						<view class="type-content" v-show="item.incomeContent">
-							资产中权益资产的预期回报率是特别高的，会吸引海外资金的流入。
-							因此我们认为，美元在未来一个季度的贬值趋势，是比较利好于A股权益市场资产的。 
-							中期来看，注意防范美国经济恢复对中国权益市场的冲击
-						</view>
+			<view class="question-kind">
+				<view class="title">问题分类</view>
+				<view class="question-item" v-for="(item,index) in typeList" :key="index" @tap="goCheck(index)">
+					<view class="question">
+						<view class="dot"></view>
+						<text>{{item}}</text>
 					</view>
+					<image src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
 			</view>
 		</scroll-view>
@@ -52,23 +56,7 @@
 		data(){
 			return{
 				scrollHeight:'',
-				typeList:[
-					{
-						name:'收益如何产生',
-						showContent:true,
-						rightIcon:'../../../static/image/index/dowm.svg'
-					},
-					{
-						name:'什么是算力',
-						showContent:false,
-						rightIcon:'../../../static/image/mine/arrow-left.svg'
-					},
-					{
-						name:'什么是算力到账日期',
-						showContent:false,
-						rightIcon:'../../../static/image/mine/arrow-left.svg'
-					}
-				],
+				typeList:['快速入门','初阶教程','钱包管理','备份&恢复','代币管理','转账收款'],
 				incomeList:[
 					{
 						name:'收益如何产生',
@@ -109,6 +97,9 @@
 		methods: {
 			btnBack:function(){
 				this.$openPage({name: "mine-mine",query: {}})
+			},
+			goCheck(index){
+				this.$openPage({name: "question-answer",query: {index:index}})
 			},
 			changeContent(index){
 				this.typeList[index].showContent = !this.typeList[index].showContent

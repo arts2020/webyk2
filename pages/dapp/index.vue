@@ -21,11 +21,7 @@
 			<view class="tip-Pop">
 				<view class="top-title">访问说明</view>
 				<view class="tip-content">
-					<image :src="currentDapp.logo" mode=""></image>
-					<view class="act-title">你正在访问第三方DApp</view>
-					<view class="tip-desc">
-						你在第三方DApp上的使用行为将适用该第三方DApp的《用户协议》和《隐私政策》，又{{currentDapp.title}}直接并单独向你承担责任
-					</view>
+你正在访问第三方DApp，你在第三方DApp上的使用行为将适用于第三方DApp的《用户协议》和《隐私政策,有第三方DApp直接想你承担责任。
 				</view>
 				<view class="btns">
 					<view class="cancell" @tap="cancell">退出</view>
@@ -100,7 +96,7 @@
 <style lang="scss" scoped>
 .DApp{
 	width: 100%;
-	
+	background-color: #FFFFFF;
 	.navBar{
 		width: 100%;
 		height: 88rpx;
@@ -144,7 +140,6 @@
 		width: 100%;
 		padding: 0 35rpx 0 25rpx;
 		box-sizing: border-box;
-		background-color: #FFFFFF;
 		.list-item{
 			width: 100%;
 			height: 155rpx;
@@ -180,34 +175,33 @@
 	}
 	.tip-Pop{
 		width: 100%;
-		height: 680rpx;
+		height: 532rpx;
+		background: #ffffff;
+		border-radius: 33rpx 33rpx 0 0;
 		text-align: center;
-		padding: 20rpx 10rpx;
+		padding: 55rpx 36rpx 61rpx;
 		box-sizing: border-box;
-		border-radius: 20rpx;
-		background-color: #D8D8D8;
+		position: relative;
+		/deep/ .uni-popup{
+			z-index: 999;
+		}
+		
 		.top-title{
-			font-size: 28rpx;
+			font-size: 32rpx;
+			font-family: PingFang SC, PingFang SC-Bold;
+			font-weight: 700;
+			text-align: center;
+			color: #121212;
+			margin-bottom: 42rpx;
 		}
 		.tip-content{
 			width: 100%;
-			background-color: #FFFFFF;
-			border-radius: 20rpx;
-			text-align: center;
-			padding: 50rpx 50rpx 30rpx;
-			box-sizing: border-box;
-			image{
-				width: 80rpx;
-				height: 80rpx;
-			}
-			.act-title{
-				margin: 20rpx 0;
-				font-size: 30rpx;
-				color: #444444;
-			}
-			.tip-desc{
-				font-size: 24rpx;
-			}
+		    font-size: 30rpx;
+		    font-family: PingFang SC, PingFang SC-Bold;
+		    font-weight: 700;
+		    text-align: left;
+		    color: #121212;
+			margin-bottom: 97rpx;
 		}
 		.btns{
 			margin-top: 20rpx;
@@ -216,18 +210,19 @@
 			align-items: center;
 			justify-content: space-between;
 			view{
-				width: 45%;
-				height: 80rpx;
-				line-height: 80rpx;
+				width: 292rpx;
+				height: 88rpx;			
+				border-radius: 14rpx;
+				box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06); 
+				line-height: 88rpx;
 				text-align: center;
 				color: #FFFFFF;
-				border-radius: 30rpx;
 			}
 			.cancell{
-				background-color: #00BFFF;
+				background: #f57778;
 			}
 			.confirm-ok{
-				background-color: #0000FF;
+				background-color:#4C72EF;
 			}
 		}
 	}

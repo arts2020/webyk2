@@ -1,11 +1,7 @@
-<strong></strong><template>
-	<view style="width: 100px;height: 60px;">
-		<view :class="isselect== false ? 'itemStyle' : 'itemStyle2'" @click="selectItem">
-			{{item.val}} 
-		</view>
-		<view @click="closeItem" v-if="item.iswron == true" style="position: relative;top: -80px;left:90px; border-radius: 50%;">
-			<image style="height: 20px;width: 20px;" src="../../../../static/image/wallet/guide_word.png"></image>
-		</view>
+<template>
+	<view :class="isselect== false ? 'itemStyle' : 'itemStyle2'" @click="selectItem">
+		<text>{{item.val}} </text>
+		<image @click="closeItem" v-if="item.iswron == true" class="warn-icon" src="../../../../static/image/wallet/guide_word.png"></image>
 	</view>
 </template>
 
@@ -86,34 +82,51 @@
 	}
 </script>
 
-<style lang="scss">
-	.itemStyle {
-		font-size: 20px;
-		background-color: #f2f2f2;
-		border-radius: 10px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 50px;
-		border: 1px solid #d5d4e0;
-		width: 90px;
-		margin-bottom: 20px;
-		margin-left: 10px;
-		color: #626682;
-	}
-
-	.itemStyle2 {
-		font-size: 20px;
-		background-color: #f2f2f2;
-		border-radius: 10px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 50px;
-		border: 1px solid #d5d4e0;
-		width: 90px;
-		margin-bottom: 20px;
-		margin-left: 10px;
-		color: #c2bfc4;
-	}
+<style lang="scss" scoped>
+        .warn-icon{ 
+			width: 40rpx;
+			height: 40rpx;
+			position: absolute;
+			top: -20rpx;
+			right: -20rpx;
+		}
+		.itemStyle {
+			position: relative;
+			opacity: 1;
+			line-height: 92rpx;
+			width: fit-content;
+			height: 92rpx;
+			padding: 0 20rpx;
+			box-sizing: border-box;
+			background: #ffffff;
+			border: 3rpx solid #e7e6ed;
+			border-radius: 13rpx;
+			font-size: 36rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 500;
+			text-align: center;
+			color: #333333;
+			margin-right: 14rpx;
+			margin-bottom: 18rpx;
+		}
+		
+		.itemStyle2 {
+			position: relative;
+			opacity: 0.2;
+			line-height: 92rpx;
+			width: fit-content;
+			height: 92rpx;
+			padding: 0 20rpx;
+			box-sizing: border-box;
+			background: #ffffff;
+			border: 3rpx solid #e7e6ed;
+			border-radius: 13rpx;
+			font-size: 36rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 500;
+			text-align: center;
+			color: #333333;
+			margin-right: 14rpx;
+			margin-bottom: 18rpx;
+		}
 </style>

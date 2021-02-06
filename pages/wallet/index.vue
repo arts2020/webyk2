@@ -1,14 +1,16 @@
 <template>
 	<view class="wallet-index">
 		<uni-nav-bar v-if="hasWallet" background-color="#FAFBFF" :statusBar="true" :fixed="true" title="钱包" @clickLeft="openList">
-		<view class="icon" slot="left"><image style="width: 34rpx;height: 29rpx;margin-left: 25rpx;" src="../../static/image/index/list.png" mode=""></image></view>
+			<view class="icon" slot="left">
+				<image style="width: 34rpx;height: 29rpx;margin-left: 25rpx;" src="../../static/image/index/list.png" mode=""></image>
+			</view>
 		</uni-nav-bar>
 		<!-- 有钱包 -->
 		<view class="has-wallet" v-if="hasWallet" :style="'height:'+scrollHeight+'px'">
-			<view class="wallet" :style="'background: url('+currentWallet.bgcImg+') no-repeat center;'">
+			<view class="wallet" :style="'background: url('+currentWallet.bgcImg+') no-repeat;background-size: 100% 100%;'">
 				<view class="p1">
 					<text>{{currentWallet.name}}</text>
-					<text @click="goDetail">...</text>
+					<image @click="goDetail()" src="../../static/image/index/goin.png" mode=""></image>
 				</view>
 				<view class="p2">
 					<view class="word">{{currentWallet.addr}}</view>
@@ -35,24 +37,25 @@
 			<uni-popup type="bottom" ref="walletPop">
 				<view class="main-context">
 					<view class="top-content">
-						<view class="top-menu">
-							<uni-icons type="closeempty" size="30" @tap="closePop"></uni-icons>
-							<text>选择钱包</text>
-							<text style="color: #0000FF;" @tap="goManage">管理</text>
-						</view>
+						<uni-icons type="closeempty" size="30" @tap="closePop"></uni-icons>
+						<text>选择钱包</text>
+						<text style="color: #4c72ef;font-size: 30rpx;" @tap="goManage">管理</text>
 					</view>
 					<view class="main-content">
 						<scroll-view class="main-left" scroll-y="true">
 							<view class="nav-menu">
-								<image :src="activeObj.chaintype==-1?'../../static/image/index/hangqing-select.png':'../../static/image/index/hangqing.png'"
-								 mode="" @tap="handleChecked({chaintype:-1})"></image>
-								<image :src="activeObj.chaintype==item.chaintype?item.logo_act:item.logo" mode="" v-for="(item,index) in identity_wallets"
-								 :key="index" @tap="handleChecked(item)"></image>
+								<view class="menu-item" :class="{'activeClass':activeObj.chaintype==-1}">
+									<image src="../../static/image/index/all.png" mode="" @tap="handleChecked({chaintype:-1})"></image>
+								</view>
+								<view class="menu-item" :class="{'activeClass':activeObj.chaintype==item.chaintype}" v-for="(item,index) in identity_wallets"
+								 :key="index" @tap="handleChecked(item)">
+									<image :src="item.logo" mode=""></image>
+								</view>
 							</view>
 						</scroll-view>
 						<scroll-view class="main-right" scroll-y="true">
 							<view class="current-c" v-if="currentList.length">
-								<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url('+item.bgcImg+') no-repeat center;'"
+								<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
 								 @tap="checkedItem(item)">
 									<view class="wallet-name">
 										<text>{{item.name}}</text>
@@ -66,7 +69,7 @@
 									<text>身份钱包</text>
 								</view>
 								<view class="menu-list">
-									<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url('+item.bgcImg+') no-repeat center;'"
+									<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
 									 @tap="checkedItem(item)">
 										<view class="wallet-name">
 											<text>{{item.name}}</text>
@@ -75,13 +78,9 @@
 										<view class="wallet-addr">{{item.addr}}</view>
 									</view>
 								</view>
-								<view class="imKey">
-									<view class="top-title">imKey</view>
-									<view class="imKey-main">配对imKey硬件钱包</view>
-								</view>
 								<view class="create-import" v-if="single_wallets.length">
 									<view class="top-title">创建/导入</view>
-									<view class="list-item" @tap="checkedItem(item)" :style="'background: url('+item.bgcImg+') no-repeat center;'"
+									<view class="list-item" @tap="checkedItem(item)" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
 									 v-for="(item,index) in single_wallets" :key="index">
 										<view class="wallet-name">
 											<text>{{item.name}}</text>
@@ -137,7 +136,7 @@
 		name: "wallet",
 		data() {
 			return {
-				hasWallet: false,
+				hasWallet: true,
 				scrollHeight: 0,
 				//当前使用的钱包
 				currentWallet: {},
@@ -187,35 +186,35 @@
 				//身份钱包
 				identity_wallets: [{
 						chaintype: 1,
-						logo: "../../static/image/index/index.png",
+						logo: "../../static/image/index/eth.png",
 						logo_act: "../../static/image/index/index-select.png",
 						name: "ETH",
 						alias: "Ethereum",
 						addr: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg: "../../static/image/index/index-bg.png",
-						money: "12.54"
+						bgcImg: "../../static/image/mine/btcImg.png",
+						money:123.45
 					},
 					{
 						chaintype: 2,
-						logo: "../../static/image/index/index.png",
+						logo: "../../static/image/index/btc.png",
 						logo_act: "../../static/image/index/index-select.png",
 						name: "BTC",
 						alias: "Bitcoin",
 						addr: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg: "../../static/image/safe/powerBg.png",
-						money: "12.54"
+						bgcImg: "../../static/image/mine/ethImg.png",
+						money:123.45
 					},
 				],
-				//普通钱包
+				// 普通钱包
 				single_wallets: [{
 					chaintype: 1,
 					logo: "../../static/image/index/index.png",
 					logo_act: "../../static/image/index/index.png",
 					name: "lisa",
 					addr: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-					bgcImg: "../../static/image/index/index-bg.png",
-					money: "12.54"
-				}],
+					bgcImg: "../../static/image/mine/import-wallet.png",
+					money:123.45
+				}]
 			}
 		},
 		onShow() {
@@ -227,7 +226,6 @@
 			//根据当前钱包链的类型，筛选出该类型链下对应资产列表
 			// this.currentAsset = 
 			//判断有无钱包
-			// this.hasWallet = this.identity_wallets.length || this.single_wallets.length;
 
 
 			let _this = this;
@@ -239,7 +237,7 @@
 			});
 		},
 		methods: {
-			closePop(){
+			closePop() {
 				this.$refs.walletPop.close()
 			},
 			goAddAsset() {
@@ -282,7 +280,6 @@
 			},
 			cancell() {
 				//关闭时清除之前状态
-				this.activeObj.chaintype = -1;
 				this.$refs.walletPop.close()
 			},
 			checkedItem(item) {
@@ -320,13 +317,16 @@
 	.wallet-index {
 		width: 100%;
 		min-height: 100vh;
-        /deep/ .uni-navbar--border{
+
+		/deep/ .uni-navbar--border {
 			border: 0;
 		}
+
 		.no-wallet {
 			width: 100%;
 			height: 100%;
 			background: #ffffff;
+
 			.top-banner {
 				width: 100%;
 				height: 613rpx;
@@ -348,17 +348,20 @@
 					height: 296rpx;
 				}
 			}
-            .no-main-c{
-				 width: 100%;
-				 padding: 40rpx 35rpx 0 38rpx;
-				 box-sizing: border-box;
-				 border-radius: 20rpx;
-				 margin-top: -20rpx;
-				 background-color: #FFFFFF;
-			 }
+
+			.no-main-c {
+				width: 100%;
+				padding: 40rpx 35rpx 0 38rpx;
+				box-sizing: border-box;
+				border-radius: 20rpx;
+				margin-top: -20rpx;
+				background-color: #FFFFFF;
+			}
+
 			.tips {
 				width: 100%;
 				margin-bottom: 13rpx;
+
 				.title {
 					font-size: 42rpx;
 					font-family: PingFang SC, PingFang SC-Heavy;
@@ -376,15 +379,18 @@
 
 			.menu-nav {
 				width: 100%;
+
 				.menu-item {
 					width: 100%;
 					height: 160rpx;
 					display: flex;
 					align-items: center;
 					border-bottom: 1rpx solid #EBEBEB;
-					&:nth-child(2){
+
+					&:nth-child(2) {
 						border: 0;
 					}
+
 					.menu-icon {
 						width: 57rpx;
 						height: 50rpx;
@@ -430,6 +436,7 @@
 				padding: 20rpx 30rpx;
 				box-sizing: border-box;
 				color: #FFFFFF;
+
 				.p1 {
 					display: flex;
 					align-items: center;
@@ -441,6 +448,11 @@
 					text:nth-child(2) {
 						letter-spacing: 10rpx;
 					}
+
+					image {
+						width: 34rpx;
+						height: 34rpx;
+					}
 				}
 
 				.p2 {
@@ -450,13 +462,15 @@
 					font-size: 36rpx;
 					font-family: PingFang SC, PingFang SC-Regular;
 					font-weight: 400;
-					.word{
+
+					.word {
 						width: 270rpx;
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
 					}
-					image{
+
+					image {
 						width: 30rpx;
 						height: 30rpx;
 						margin-right: 39rpx;
@@ -477,18 +491,20 @@
 
 				.top-btn {
 					width: 100%;
-					padding: 20rpx ;
+					padding: 20rpx;
 					box-sizing: border-box;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					text{
+
+					text {
 						font-size: 30rpx;
 						font-family: PingFang SC, PingFang SC-Regular;
 						font-weight: 400;
 						color: #121212;
 					}
-					image{
+
+					image {
 						width: 38rpx;
 						height: 38rpx;
 					}
@@ -503,12 +519,13 @@
 						height: 158rpx;
 						background: #ffffff;
 						border-radius: 10rpx;
-						box-shadow: 0px 7rpx 27rpx 0rpx rgba(231,234,242,0.80); 
+						box-shadow: 0px 7rpx 27rpx 0rpx rgba(231, 234, 242, 0.80);
 						display: flex;
 						align-items: center;
-                        padding: 52rpx 27rpx 52rpx 31rpx;
+						padding: 52rpx 27rpx 52rpx 31rpx;
 						box-sizing: border-box;
 						margin-bottom: 33rpx;
+
 						.icon {
 							width: 54rpx;
 							height: 54rpx;
@@ -550,92 +567,96 @@
 		.main-context {
 			width: 100%;
 			height: 80vh;
-			background-color: #ECECEC;
-			padding: 20rpx;
-			box-sizing: border-box;
-			border-radius: 20rpx;
+			background-color: #FFFFFF;
+			border-radius: 33rpx;
 			position: relative;
 
 			.top-content {
-				width: calc(100% - 40rpx);
-				height: 60rpx;
-				position: fixed;
-				top: 20rpx;
-
-				.top-menu {
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-					font-size: 28rpx;
-					height: 60rpx;
-				}
-
+				width: 100%;
+				padding: 0 30rpx;
+				box-sizing: border-box;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				font-size: 32rpx;
+				font-family: PingFang SC, PingFang SC-Bold;
+				font-weight: 600;
+				color: #121212;
+				margin-bottom: 20rpx;
 			}
 
 			.main-content {
 				width: 100%;
-				height: 100%;
-				margin-top: 80rpx;
-				border-radius: 20rpx;
 				display: flex;
-				background-color: #F8F8F8;
+				justify-content: space-between;
 
 				.main-left {
-					width: 20%;
+					width: 122rpx;
 					height: 100%;
 
 					.nav-menu {
 						width: 100%;
 						height: 100%;
-						padding-top: 20rpx;
-						display: flex;
-						flex-direction: column;
-						align-items: center;
 
-						image {
-							width: 60rpx;
-							height: 60rpx;
-							border-radius: 50%;
-							margin-bottom: 30rpx;
+						.menu-item {
+							width: 100%;
+							height: 71rpx;
+							margin-bottom: 39rpx;
+							position: relative;
+							text-align: center;
+
+							&.activeClass::after {
+								content: '';
+								display: block;
+								width: 4rpx;
+								height: 40rpx;
+								background-color: #3981F3;
+								position: absolute;
+								top: 50%;
+								right: 0;
+								transform: translateY(-50%);
+							}
+
+							image {
+								width: 71rpx;
+								height: 71rpx;
+								border-radius: 50%;
+							}
 						}
 					}
 				}
 
 				.main-right {
-					width: 80%;
+					width: 605rpx;
 					height: 100%;
-					padding: 20rpx 40rpx 0 0;
+					padding: 0rpx 36rpx 0 0;
 					box-sizing: border-box;
 
 					.top-title {
-						font-size: 24rpx;
-						color: #8e8e8e;
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-
-						image {
-							width: 24rpx;
-							height: 24rpx;
-							border-radius: 50%;
-						}
+						margin-bottom: 22rpx;
+						font-size: 30rpx;
+						font-family: PingFang SC, PingFang SC-Regular;
+						font-weight: 500;
+						color: #121212;
 					}
 
 					.list-item {
 						width: 100%;
-						height: 120rpx;
-						background-size: 100% 100%;
+						height: 122rpx;
+						margin-bottom: 27rpx;
 						border-radius: 20rpx;
-						margin-top: 20rpx;
-						padding: 20rpx;
+						padding: 17rpx 27rpx 0 32rpx;
 						box-sizing: border-box;
+						color: #FFFFFF;
 
 						.wallet-name {
 							display: flex;
 							align-items: center;
 							justify-content: space-between;
-							font: 28rpx bold;
-							color: #FFFFFF;
+							font-size: 36rpx;
+							font-family: PingFang SC, PingFang SC-Semibold;
+							font-weight: 600;
+							line-height: 50rpx;
 
 							text:last-child {
 								letter-spacing: 10rpx;
@@ -643,29 +664,16 @@
 						}
 
 						.wallet-addr {
-							font: 24rpx;
-							color: #FFFFFF;
+							font-size: 30rpx;
+							font-family: PingFang SC, PingFang SC-Regular;
+							font-weight: 400;
+							line-height: 37rpx;
 						}
 					}
 
-					.imKey-main {
-						width: 100%;
-						height: 120rpx;
-						background: url(../../static/image/index/index-bg.png);
-						border-radius: 20rpx;
-						margin-top: 20rpx;
-						padding: 40rpx 20rpx;
-						box-sizing: border-box;
-						font: 28rpx bold;
-						color: #fefefe;
-					}
-
-					.create-import,
-					.imKey {
-						margin-top: 40rpx;
-					}
 				}
 			}
+
 		}
 	}
 </style>

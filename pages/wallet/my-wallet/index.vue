@@ -1,6 +1,6 @@
 <template>
 	<view class="wallet-index">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" right-icon="plusempty" title="管理钱包" @clickLeft="btnBack" @clickRight="goAddWallet"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="管理钱包" @clickLeft="btnBack"></uni-nav-bar>
 	    <view class="main-content">
 			<scroll-view class="main-left" scroll-y="true" >
 				<view class="nav-menu">
@@ -14,7 +14,7 @@
 			</scroll-view>
 			<scroll-view class="main-right" scroll-y="true" >
 				<view class="current-c" v-if="currentList.length">
-					<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url('+item.bgcImg+') no-repeat center;'" @tap="goDetail(item)">
+					<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
 						<view class="wallet-name">
 							<text>{{item.name}}</text>
 							<text>...</text>
@@ -28,7 +28,7 @@
 						<text @tap="goManage">管理</text>
 					</view>
 					<view class="menu-list">
-						<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url('+item.bgcImg+') no-repeat center;'" @tap="goDetail(item)">
+						<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
 							<view class="wallet-name">
 								<text>{{item.name}}</text>
 								<text>...</text>
@@ -38,17 +38,14 @@
 						<view class="add-coin" @tap="goAddCoin">
 							<view class="tip-msg">
 								<view class="tip-title">添加币种</view>
-								<view class="tip-content">
-									<view class="dot"></view>
-									<view class="content">支持EOS、TRX、CKB、KSM、FIL</view>
-								</view>
+								<view class="content">支持EOS、TRX、CKB、KSM、FIL</view>
 							</view>
-							<uni-icons type="plus" size="30" color="#444444"></uni-icons>
+							<uni-icons type="plus" size="20" color="#ffffff"></uni-icons>
 						</view>
 					</view>
 					<view class="create-import" v-if="single_wallets.length">
 						<view class="top-title">创建/导入</view>
-						<view class="list-item" @tap="goDetail(item)" :style="'background: url('+item.bgcImg+') no-repeat center;'" v-for="(item,index) in single_wallets" :key="index">
+						<view class="list-item" @tap="goDetail(item)" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'" v-for="(item,index) in single_wallets" :key="index">
 							<view class="wallet-name">
 								<text>{{item.name}}</text>
 								<text>...</text>
@@ -56,9 +53,13 @@
 							<view class="wallet-addr">{{item.addr}}</view>
 						</view>
 					</view>
-					
+
 				</view>
 			</scroll-view>
+			<view class="btn-ok" @tap="goAddWallet">
+				<uni-icons type="plusempty" size="30" color="#7C7C7C"></uni-icons>
+				<text>添加钱包</text>
+			</view>
 		</view>
 	</view>
 </template>
@@ -74,21 +75,21 @@
 				identity_wallets:[
 					{
 						chaintype:1,
-						logo:"../../../static/image/index/index.png",
+						logo:"../../../static/image/index/eth.png",
 						logo_act:"../../../static/image/index/index-select.png",
 						name:"ETH",
 						alias:"Ethereum",
 						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg:"../../../static/image/index/index-bg.png"
+						bgcImg:"../../../static/image/mine/btcImg.png"
 					},
 					{
 						chaintype:2,
-						logo:"../../../static/image/index/index.png",
+						logo:"../../../static/image/index/btc.png",
 						logo_act:"../../../static/image/index/index-select.png",
 						name:"BTC",
 						alias:"Bitcoin",
 						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg:"../../../static/image/safe/powerBg.png"
+						bgcImg:"../../../static/image/mine/ethImg.png"
 					},
 				],
 				single_wallets:[
@@ -98,7 +99,7 @@
 						logo_act:"../../../static/image/index/index.png",
 						name:"lisa",
 						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg:"../../../static/image/index/index-bg.png"
+						bgcImg:"../../../static/image/mine/import-wallet.png"
 					}
 				],
 				// 选中后钱包列表
@@ -216,10 +217,10 @@
 				padding: 36rpx 36rpx 0 0;
 				box-sizing: border-box;
 				.top-title{
-					margin-bottom: 34rpx;
+					margin-bottom: 22rpx;
 					font-size: 30rpx;
 					font-family: PingFang SC, PingFang SC-Regular;
-					font-weight: 400;
+					font-weight: 500;
 					color: #121212;
 					display: flex;
 					align-items: center;
@@ -231,73 +232,82 @@
 					}
 				}
 			    .list-item{
-					width: 100%;
-					height: 120rpx;
-					background-size: 100% 100%;
-				    border-radius: 20rpx;
-					margin-top: 34rpx;
-					padding: 20rpx;
-					box-sizing: border-box;
-					
-					.wallet-name{
-						display: flex;
-						align-items: center;
-						justify-content: space-between;
-						font: 28rpx bold;
-						color: #FFFFFF;
-						text:last-child{
-							letter-spacing: 10rpx;
-						}
-					}
-					.wallet-addr{
-						font: 24rpx;
-						color: #FFFFFF;
-					}
-				}
+			    	width: 100%;
+			    	height: 122rpx;
+			    	margin-bottom: 27rpx;
+			        border-radius: 20rpx;
+			    	padding: 17rpx 27rpx 0 32rpx;
+			    	box-sizing: border-box;
+			    	color: #FFFFFF;
+			    	.wallet-name{
+			    		display: flex;
+			    		align-items: center;
+			    		justify-content: space-between;
+			    		font-size: 36rpx;
+			    		font-family: PingFang SC, PingFang SC-Semibold;
+			    		font-weight: 600;
+			    		line-height: 50rpx;
+			    		text:last-child{
+			    			letter-spacing: 10rpx;
+			    		}
+			    	}
+			    	.wallet-addr{
+			    		font-size: 30rpx;
+			    		font-family: PingFang SC, PingFang SC-Regular;
+			    		font-weight: 400;
+			    		line-height: 37rpx;
+			    	}
+			    }
+			    
 				.add-coin{
 					width: 100%;
-					height: 120rpx;
+					height: 122rpx;
+					margin-bottom: 27rpx;
+					background: url(../../../static/image/mine/add-icon.png) no-repeat center;
+					background-size: 100% 100%;
 					border-radius: 20rpx;
-					margin-top: 20rpx;
-					padding: 20rpx;
+					padding: 17rpx 27rpx 0 32rpx;
 					box-sizing: border-box;
-					background-color: #ECECEC;
+					color: #FFFFFF;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
 					.tip-msg{
 						width: calc(100% - 80rpx);
+						font-family: PingFang SC, PingFang SC-Semibold;
+						color: #ffffff;
 						.tip-title{
-							
+							font-size: 36rpx;
+							font-weight: 600;
+							line-height: 50rpx;
 						}
-						.tip-content{
-							font-size: 24rpx;
-							color: #8e8e8e;
-							display: flex;
-							align-items: center;
-							.content{
-								overflow: hidden;
-								text-overflow: ellipsis;
-								white-space: nowrap;
-							}
+						.content{
+							font-size: 30rpx;
+							font-weight: 400;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+							line-height: 42rpx;
 						}
 					}
 				}
-				.imKey-main{
-					width: 100%;
-					height: 120rpx;
-					background: url(../../../static/image/index/index-bg.png);
-					border-radius: 20rpx;
-					margin-top: 20rpx;
-					padding: 40rpx 20rpx;
-					box-sizing: border-box;
-					font: 28rpx bold;
-					color: #fefefe;
-				}
-			    .create-import,.imKey{
-					margin-top: 40rpx;
-				}
+
 			}
+		    .btn-ok{
+		    	width: 100%;
+		    	height: 104rpx;
+				line-height: 104rpx;
+				text-align: center;
+		    	background: #ffffff;
+		    	box-shadow: 0px -3rpx 16rpx 0px rgba(0,0,0,0.06);
+				font-size: 30rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #7c7c7c;
+				position: fixed;
+				bottom: 0;
+				
+		    }
 		}
 	
 	}

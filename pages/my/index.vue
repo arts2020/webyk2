@@ -147,7 +147,8 @@
 					// 地址本  
 					this.$openPage({name: "address-list",query: {type:2}})
 				}else if(idx == 9){
-					// 语言设置
+					// 语言设置 
+					this.$openPage({name: "language-index"})
 				}else if(idx == 10){
 					// 用户协议 
 					this.$openPage({name: "user-agreement",query: {}})

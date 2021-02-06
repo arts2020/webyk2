@@ -1,12 +1,15 @@
 <template>
 	<view class="address-list">
-		<uni-nav-bar :statusBar="true" :fixed="true" left-icon="back"  title="地址本" right-icon="plusempty" @clickLeft="goBack" @clickRight="goAdd"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  title="地址本" @clickLeft="goBack">
+			<view class="add-txt" slot="right" @tap="goAdd">增加</view>
+		</uni-nav-bar>
 	    <view class="addr-list">
 	    	<view class="list-item" v-for="(item,index) in addresssList" :key="index" @click="handleChecked(item)">
 	    		<image class="icon" :src="item.logo" mode=""></image>
 	    		<view class="addr-info">
 	    			<view class="user-N">{{item.addrName}}</view>
 	    			<view class="user_addr">{{item.addrInfo}}</view>
+					<view class="bak">{{item.bak}}</view>
 	    	    </view>
 	    	</view>
 	    </view>
@@ -25,14 +28,16 @@
 						chaintype:1,
 						name:"ETH",
 						addrName:"lisa",
-						addrInfo:"djbvduoqnjfsieioqnjddsuweomaknwoqndl bsdhao"
+						addrInfo:"djbvduoqnjfsieioqnjddsuweomaknwoqndl bsdhao",
+						bak:"备注信息"
 					},
 					{
 						logo:"../../../static/image/index/btc.png",
 						chaintype:2,
 						name:"BTC",
 						addrName:"wczx",
-						addrInfo:"djbvduoqnjfsieioqnjddsuweomaknwoqndl bsdhao"
+						addrInfo:"djbvduoqnjfsieioqnjddsuweomaknwoqndl bsdhao",
+						bak:"备注信息"
 					},
 				]
 			};
@@ -82,40 +87,55 @@
 	width: 100%;
 	height: 100%;
 	min-height: 100vh;
-	background-color: #F2F2F2;
+	background-color: #FFFFFF;
+	.add-txt{
+		font-size: 30rpx;
+		font-family: PingFang SC, PingFang SC-Bold;
+		font-weight: 700;
+		color: #4c72ef;
+	}
 	.addr-list{
 		width: 100%;
-		background-color: #FFFFFF;
 		padding: 0 30rpx;
 		box-sizing: border-box;
 		.list-item{
 			width: 100%;
-			height: 160rpx;
+			height: 221rpx;
 			display: flex;
 			align-items: center;
+			border-bottom:1rpx solid #ebebeb;
 			.icon{
-				width: 90rpx;
-				height: 90rpx;
+				width: 67rpx;
+				height: 67rpx;
 				border-radius: 50%;
-				margin-right: 40rpx;
+				margin-right: 21rpx;
 			}
 			.addr-info{
-				width: calc(100% - 130rpx);
-				border-bottom: 2rpx solid #F2F2F2;
+				width: calc(100% - 143rpx);
 				.user-N{
-					font-size: 28rpx;
-					font-weight: bold;
-					color: #444444;
-					line-height: 40rpx;
+					font-size: 34rpx;
+					font-family: PingFang SC, PingFang SC-Semibold;
+					font-weight: 600;
+					color: #121212;
+					line-height: 48rpx;
 				}
 				.user_addr{
-					font-size: 26rpx;
-					color: #444444;
-					line-height: 35rpx;
+					font-size: 30rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 500;
+					color: #121212;
 					display: -webkit-box;    
 					-webkit-box-orient: vertical;    
 					-webkit-line-clamp: 2;    
-					overflow: hidden; 	
+					overflow: hidden; 
+					line-height: 42rpx;
+				}
+				.bak{
+					font-size: 26rpx;
+					font-family: PingFang SC, PingFang SC-Regular;
+					font-weight: 400;
+					color: #7c7c7c;
+					line-height: 42rpx;
 				}
 			}
 		}

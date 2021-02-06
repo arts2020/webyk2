@@ -1,49 +1,47 @@
 <template>
-	<view class="backup-info">
-     <uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="确认助记词" @clickLeft="btnBack"></uniNavBar>
-		<view style="margin-top: 20px;">
-			<label style="font-size: 16px;display: flex;margin-left: 30px;color: #007AFF;">
-				请按顺序点击助记词，以确定您正确备份。</label>
-		</view>
+	<view class="backup-sure">
+     <uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="确认助记词" @clickLeft="btnBack"></uniNavBar>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
+			<view class="top-title">
+			    请按顺序点击助记词，以确定您正确备份。
+			</view>
 			<view class="sure-content">
-				<view style="width: 100%; display: flex;justify-content: center;margin-top: 0px;">
-					<view style="width: 96%;height: 250px;background-color: #F2F2F2;border-radius: 10px;display: flex;justify-content: center;">
-						<view style="display: flex;flex-wrap: wrap;margin-top: 10px;">
-							<view v-for="item in seletItems" :key="item.index">
-								<wordItem :keyvalue="menuKey" :item='item' :closeFun="closeFun" :iswron="item.iswron"></wordItem>
-							</view>
-						</view>
-					</view>
+				<view class="top-box">
+					<wordItem v-for="item in seletItems" :key="item.index" :keyvalue="menuKey" :item='item' :closeFun="closeFun" :iswron="item.iswron"></wordItem>
 				</view>
-				<view style="width: 100%;display: flex;justify-content: center;">
-					<view style="display: flex;flex-wrap: wrap;margin-top: 10px;margin-left: -10px;justify-content: center;width: 100%;">
-						<view v-for="item in tmpwords" :key="item.index">
-							<wordItem :ref="item.idx" :item='item' :selectFun="selectFun" :isselect="item.isselect"></wordItem>
-						</view>
-					</view>
-					
+				<view class="botto-box">
+					<wordItem v-for="item in tmpwords" :key="item.index" :ref="item.idx" :item='item' :selectFun="selectFun" :isselect="item.isselect"></wordItem>
 				</view>
 			</view>
-			
 			<view @tap="btnConfirm()" class="container-login">已确认备份</view>
 		</scroll-view>
+		<uni-popup ref="popup" type="message">
+		    <uni-popup-message type="error" :message="errMsg" :duration="2000"></uni-popup-message>
+		</uni-popup>
+		<uni-popup type="center" ref="successPop">
+			<view class="success-c">
+				<image src="../../../../static/image/index/readlly.png" mode=""></image>
+			    <view>助记词正确</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
-	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
+    import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import uniPopupMessage from '@/components/uni-popup/uni-popup-message'
 	import wordItem from "./wordItem"
 	export default {
 		components: {
-			Bar,
-			wordItem
+			wordItem,
+			uniPopup,
+			uniPopupMessage
 		},
 	
 		created() {
-			let wordStr = this.dal.Wallter.m_MnemonicInfo;
-			this.words = wordStr.split(' ')
-					
+			// let wordStr = this.dal.Wallter.m_MnemonicInfo;
+			// this.words = wordStr.split(' ')
+				this.words = ["asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt']	
 			var ws = [];
 			for (var i = 0; i < this.words.length; i++) {
 				var a = {
@@ -59,6 +57,7 @@
 		
 		data() {
 			return {
+				errMsg:"",
 				scrollHeight: 0,
 				words: [],
 				seletItems: [],
@@ -97,7 +96,9 @@
 						}
 						this.isok = this.issameWord(key, val);
 						if (this.isok == false) {
-							this.util.UiUtils.showToast("助记词顺序不正确，请校对");
+							this.errMsg = '助记词顺序不正确，请校对';
+							this.$refs.popup.open()
+							// this.util.UiUtils.showToast("助记词顺序不正确，请校对");
 						}
 		
 						for (var i = 0; i < this.tmpwords.length; i++) {
@@ -139,35 +140,46 @@
 			},
 			btnConfirm() {
 				if (this.seletItems.length <= 0) {
-					this.util.UiUtils.showToast("助记词不能为空");
+					this.errMsg = '助记词不能为空';
+					this.$refs.popup.open()
+					// this.util.UiUtils.showToast("助记词不能为空");
 					return;
 				}
 				if (this.seletItems.length != this.words.length) {
-					this.util.UiUtils.showToast("助记词不正确");
+					this.errMsg = '助记词不正确';
+					this.$refs.popup.open()
+					// this.util.UiUtils.showToast("助记词不正确");
 					return;
 				}
 				for (var i = 0; i < this.seletItems.length; i++) {
 					var item = this.seletItems[i];
 					var tword = this.words[i]
 					if (item.val != tword) {
-						console.log("===item.val==", item.val)
-						console.log("===tword.val==", tword)
-						this.util.UiUtils.showToast("助记词顺序错误");
+						this.errMsg = '助记词顺序错误';
+						this.$refs.popup.open()
+						// this.util.UiUtils.showToast("助记词顺序错误");
 						return;
 					}
 				}
 			
-				uni.showModal({
-					title: this.getLocalStr("tip_title"),
-					content: "助记词正确,进入您的钱包",
-					confirmText: this.getLocalStr("btnstring_confirm"),
-					showCancel: false,
-					success: function(res) {
-						if (res.confirm) {
-							this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
-						}
-					}.bind(this)
-				});
+				// uni.showModal({
+				// 	title: this.getLocalStr("tip_title"),
+				// 	content: "助记词正确,进入您的钱包",
+				// 	confirmText: this.getLocalStr("btnstring_confirm"),
+				// 	showCancel: false,
+				// 	success: function(res) {
+				// 		if (res.confirm) {
+				// 			this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
+				// 		}
+				// 	}.bind(this)
+				// });
+				
+				// 打开成功的弹框 1s后关掉并跳转
+				this.$refs.successPop.open();
+				setTimeout(()=>{
+					this.$refs.successPop.close();
+					this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
+				},1000)
 			
 			},
 			bindTextAreaBlur: function(e) {
@@ -191,10 +203,101 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
 				}
 			});
+
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	@import "backup-info.scss"
+.backup-sure{
+	width: 100%;
+	background-color: #FFFFFF;
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
+	/deep/ .uni-popup{
+		z-index: 999;
+	}
+	/deep/ .uni-popup__error{
+		background-color: #F5777A;
+	}
+	/deep/ .uni-popup__error-text{
+		color: #FFFFFF;
+	}
+	/deep/ .uni-transition{
+		background-color: rgba(0, 0, 0, 0)!important;
+	}
+	.uni-content{
+		width: 100%;
+		padding: 50rpx 25rpx;
+		box-sizing: border-box;
+		.top-title{
+			padding-left: 30rpx;
+			box-sizing: border-box;
+			margin-bottom: 36rpx;
+			font-size: 28rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 400;
+			color: #071328;
+		}
+		.sure-content{
+			width: 100%;
+			.top-box{
+				width: 100%;
+				display: flex;
+				flex-wrap: wrap;
+				align-content: flex-start;
+				height: 480rpx;
+				background: #fafbfd;
+				border: 3rpx solid #e7e6ed;
+				border-radius: 13rpx;
+				margin-bottom: 36rpx;
+				padding: 28rpx 24rpx;
+				box-sizing: border-box;
+			}
+			.botto-box{
+				width: 100%;
+				display: flex;
+				flex-wrap: wrap;
+			}
+		}
+		.container-login{
+			width: 647rpx;
+			height: 88rpx;
+			background: #4c72ef;
+			border-radius: 14rpx;
+			box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06); 
+			line-height: 88rpx;
+			position: fixed;
+			bottom: 47rpx;
+			left: 50%;
+			transform: translateX(-50%);
+			font-size: 32rpx;
+			font-family: PingFang SC, PingFang SC-Bold;
+			font-weight: 700;
+			text-align: center;
+			color: #ffffff;
+		}
+	}
+    .success-c{
+		width: 314rpx;
+		height: 287rpx;
+		background: #10bb92;
+		border-radius: 20rpx;
+		text-align: center;
+		image{
+			width: 111rpx;
+			height: 111rpx;
+			border-radius: 50%;
+			margin: 49rpx 0 31rpx;
+		}
+		view{
+			font-size: 32rpx;
+			font-family: PingFang SC, PingFang SC-Bold;
+			font-weight: 700;
+			text-align: center;
+			color: #ffffff;
+		}
+	}
+}
 </style>

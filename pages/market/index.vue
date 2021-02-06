@@ -15,10 +15,18 @@
 						<image class="trans-icon" src="../../static/image/index/transf.png" mode=""></image>
 						<view class="select-icon">
 							<picker class="coin-picker" mode="selector" :value="coin_L" :range="coinArr" :range-key="'name'" @change="pickerChangeLeft">
-								<view class="pick-c"><image :src="coinArr[coin_L].logo" mode=""></image><text>{{coinArr[coin_L].name}}</text></view>
+								<view class="pick-c">
+									<image :src="coinArr[coin_L].logo" mode=""></image>
+									<text>{{coinArr[coin_L].name}}</text>
+									<image src="../../static/image/index/down.png" mode=""></image>
+								</view>
 							</picker>
 							<picker class="coin-picker" mode="selector" :value="coin_R" :range="coinArr" :range-key="'name'" @change="pickerChangeRight">
-								<view class="pick-c"><image :src="coinArr[coin_R].logo" mode=""></image><text>{{coinArr[coin_L].name}}</text></view>
+								<view class="pick-c">
+									<image :src="coinArr[coin_R].logo" mode=""></image>
+									<text>{{coinArr[coin_L].name}}</text>
+									<image src="../../static/image/index/down.png" mode=""></image>
+								</view>
 							</picker>
 						</view>
 					

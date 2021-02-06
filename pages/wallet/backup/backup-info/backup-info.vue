@@ -1,74 +1,22 @@
 <template>
 	<view class="backup-info">
-		
-		<uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="备份助记词" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="备份助记词" @clickLeft="btnBack"></uniNavBar>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			<view class="backup-title">请按顺序抄写助记词，确保备份正确</view>
 			<view class="backup-content">
-				<view class="backup-list">
-					<view class="list">
-						<text>1</text>
-						<view>{{words[0]}}</view>
-					</view>
-					<view class="list">
-						<text>2</text>
-						<view>{{words[1]}}</view>
-					</view>
-					<view class="list">
-						<text>3</text>
-						<view>{{words[2]}}</view>
-					</view>
-				</view>
-				<view class="backup-list">
-					<view class="list">
-						<text>4</text>
-						<view>{{words[3]}}</view>
-					</view>
-					<view class="list">
-						<text>5</text>
-						<view>{{words[4]}}</view>
-					</view>
-					<view class="list">
-						<text>6</text>
-						<view>{{words[5]}}</view>
-					</view>
-				</view>
-				<view class="backup-list">
-					<view class="list">
-						<text>7</text>
-						<view>{{words[6]}}</view>
-					</view>
-					<view class="list">
-						<text>8</text>
-						<view>{{words[7]}}</view>
-					</view>
-					<view class="list">
-						<text>9</text>
-						<view>{{words[8]}}</view>
-					</view>
-				</view>
-				<view class="backup-list">
-					<view class="list">
-						<text>10</text>
-						<view>{{words[9]}}</view>
-					</view>
-					<view class="list">
-						<text>11</text>
-						<view>{{words[10]}}</view>
-					</view>
-					<view class="list">
-						<text>12</text>
-						<view>{{words[11]}}</view>
-					</view>
+				<view class="list" v-for="(item,index) in words" :key="index">
+					<view>{{item}}</view>
+					<text>{{index+1}}</text>
+					
 				</view>
 			</view>
 			<view class="create-list">
 				<view class="tip-list">
-					<image src="../../../../static/image/notice/warn.svg" />
+					<image src="../../../../static/image/index/warning.png" />
 					<view>妥善保管助记词至隔离网络的安全地方</view>
 				</view>
 				<view class="tip-list">
-					<image src="../../../../static/image/notice/warn.svg" />
+					<image src="../../../../static/image/index/warning.png" />
 					<view>请勿将助记词联网环境下存储或分享，如相册，邮件社会应用等</view>
 				</view>
 			</view>
@@ -92,7 +40,7 @@
 		
 		data() {
 			return {
-				words: [],
+				words: ["asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt'],
 				scrollHeight: 0,
 			}
 		},

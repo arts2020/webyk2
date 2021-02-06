@@ -1,23 +1,24 @@
 <template>
 	<view class="create-index">
-		<uniNavBar :statusBar="true" :fixed="true" left-icon="back" title="备份" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="备份" @clickLeft="btnBack"></uniNavBar>
 		<view class="create-list">
 			<view class="tip-title">备份提示</view>
 			<view class="tip-cotent">获取{{str1}}等于获取钱包资产所有权</view>
+			<view class="line"></view>
 			<view class="tip-list">
-				<image src="../../../static/image/notice/warn.svg" />
+				<image src="../../../static/image/index/warning.png" />
 				<view>助记词由英文单词组成，请抄写并妥善保管</view>
 			</view>
 			<view class="tip-list">
-				<image src="../../../static/image/notice/warn.svg" />
+				<image src="../../../static/image/index/warning.png" />
 				<view>{{str2}}丢失无法找回，请务必备份{{str2}}</view>
 			</view>
 		</view>
 		<view @tap="goNext" class="container-login" >下一步</view>
 		<uni-popup type="bottom" class="tip-pop" ref="popup">
 			<view class="pop-main">
-				<image @tap="cancel" class="cancell-icon" src="../../../static/image/login/cha.png" mode=""></image>
-				<image class="noPhoto" src="../../../static/image/wallet/guide_word.png" mode=""></image>
+				<uni-icons @tap="cancell" type="closeempty" size="30" color="#000000" class="cancell-icon"></uni-icons>
+				<image class="noPhoto" src="../../../static/image/index/bak_tip.png" mode=""></image>
 				<view class="title">请勿截屏</view>
 				<view class="subTitle">请勿截屏和分享，这将可能被第三方恶意软件收集，造成资产损失</view>
 				<view class="ok_btn" @tap="btnNext">我知道了</view>
@@ -36,16 +37,17 @@
 			return {
 				//备份提示，1备份助记词  2备份keystore 3备份私钥
 				//根据不同情况显示不同提示
-				bakType:1,
+				bakType:2,
 				scrollHeight: 0,
 				str1:"",
 				str2:""
 			}
 		},
 		onLoad(option) {
+			
 			if(option.query){
 				let params = JSON.parse(option.query);
-				
+				console.log(params)
 				if(Object.keys(params).length!=0){
 					switch (params.bakType){
 						case 1:this.bakType==1;this.str1="助记词"; this.str2="助记词";
@@ -54,7 +56,7 @@
 							break;
 						case 3:this.bakType==3;this.str1="私钥和密码"; this.str2="私钥";
 							break;
-						default:this.bakType==1;this.str1="助记词"; this.str2="助记词";
+						default:
 							break;
 					}
 				}
@@ -69,17 +71,26 @@
 			goNext(){
 				this.$refs.popup.open()
 			},
-			cancel(){
+			cancell(){
 				this.$refs.popup.close()
 			},
 			btnNext:function(){
-				if(this.bakType==1){
+				// if(this.bakType==1){
+				// 	this.util.UiUtils.switchToPage("backup-info", "backup-tip",{});
+				// }else if(this.bakType==2){
+				// 	this.util.UiUtils.switchToPage("backup-keystore", "backup-tip",{});
+				// }else if(this.bakType==3){
+				// 	this.util.UiUtils.switchToPage("backup-private", "backup-tip",{});
+				// }
+				if(this.str1.includes('助记词')){
 					this.util.UiUtils.switchToPage("backup-info", "backup-tip",{});
-				}else if(this.bakType==2){
+				}else if(this.str1.includes('keystore')){
 					this.util.UiUtils.switchToPage("backup-keystore", "backup-tip",{});
-				}else if(this.bakType==3){
+				}else if(this.str1.includes('私钥')){
 					this.util.UiUtils.switchToPage("backup-private", "backup-tip",{});
 				}
+				
+				this.$refs.popup.close()
 			}
 		},
 		onShow() {
@@ -99,111 +110,122 @@
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
-	background: linear-gradient(180deg,#f2f6fa, #ffffff);
-	.safe-header{
-		width: 100%;
-		height: 44px;
-		line-height: 44px;
-		padding: 0 15px;
-		background-color: #FFFFFF;
-		display: flex;
-		align-items: center;
-		border-bottom: 5px solid rgba(0,0,0,0.04);
-		image{
-			width: 18px;
-			height: 18px;
-		}
-		text{
-			font-size: 16px;
-			font-weight: bolder;
-			color: #111111;
-			margin-left: 6px;
-		}
+	background-color: #FFFFFF;
+	/deep/ .uni-navbar--border{
+		border: 0;
 	}
 	.create-list{
-		margin: 15px;
-		background-color: #FFFFFF;
-		border-radius: 15px;
-		padding: 10px 0px 10px 15px;
-		border: 1px solid #e7e6ed;
+		width: 100%;
 		.tip-title{
-			font-size: 17px;
-			font-family: PingFang SC, PingFang SC-Heavy;
-			font-weight: bolder;
+			padding: 71rpx 0 20rpx 50rpx;
+			box-sizing: border-box;
+			font-size: 38rpx;
+			font-family: PingFang SC, PingFang SC-Semibold;
+			font-weight: 600;
+			text-align: left;
 			color: #071328;
 		}
 		.tip-cotent{
-			font-size: 14px;
+			padding: 0rpx 0 41rpx 50rpx;
+			box-sizing: border-box;
+			font-size: 28rpx;
 			font-family: PingFang SC, PingFang SC-Regular;
 			font-weight: 400;
-			color: #071328;
-			margin-top: 3px;
-			border-bottom: 1px solid #E7E6ED;
-			padding-bottom: 10px;
+			text-align: left;
+			color: #071328;           
+		}
+		.line{
+			width: 100%;
+			height: 1rpx;
+			background-color: #e7e6ed;
+			margin-bottom: 33rpx;
 		}
 		.tip-list{
+			width: 100%;
+			padding: 0 55rpx;
+			box-sizing: border-box;
 			display: flex;
 			align-items: center;
-			margin-top: 10px;
+			margin-bottom: 23rpx;
 			image{
-				width: 13px;
-				height: 13px;
-				margin-right: 6px;
+				width: 22rpx;
+				height: 22rpx;
+				margin-right: 15rpx;
 			}
 			view{
-				font-size: 13px;
+				font-size: 26rpx;
 				font-family: PingFang SC, PingFang SC-Regular;
 				font-weight: 400;
+				text-align: left;
 				color: #909090;
-				line-height: 23px;
 			}
 		}
 	}
 	.container-login {
-		width: 30%;
-		height: 36px;
-		line-height: 36px;
-		border-radius: 4px;
-		color: #FFFFFF;
+		width: 647rpx;
+		height: 88rpx;
+		line-height: 88rpx;
+		margin: 0 auto;
+		background: #4c72ef;
+		border-radius: 14rpx;
+		box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06); 
+		font-size: 32rpx;
+		font-family: PingFang SC, PingFang SC-Bold;
+		font-weight: 700;
 		text-align: center;
-		background: linear-gradient(to right, #3FA2FF, #5470FF);
-		font-size: 13px;
-		letter-spacing: 1px;
+		color: #ffffff;
 		position: fixed;
-		bottom: 10%;
-		left: 35%;
+		bottom: 47rpx;
+		left: 50%;
+		transform: translateX(-50%);
 	}
     .pop-main{
 		width: 100%;
-		background-color: #FFFFFF;
+		height: 670rpx;
+		background: #ffffff;
+		border-radius: 32rpx 32rpx 0 0;
 		position: relative;
 		text-align: center;
-		border-radius: 20rpx;
 		.cancell-icon{
 			position: absolute;
-			top: 20rpx;
-			left: 20rpx;
-			width: 40rpx;
-			height: 40rpx;
+			top: 0rpx;
+			right: 30rpx;
 		}
 		.noPhoto{
-			width: 200rpx;
+			width: 350rpx;
 			height: 200rpx;
-			margin-top: 50rpx;
+			margin: 86rpx 0 47rpx;
 		}
 		.title{
-			
+			font-size: 32rpx;
+			font-family: PingFang SC, PingFang SC-Medium;
+			font-weight: 700;
+			color: #121212;
 		}
 		.subTitle{
-			margin: 30rpx 0;
+			padding: 0 67rpx;
+			box-sizing: border-box;
+			font-size: 28rpx;
+			font-family: PingFang SC, PingFang SC-Regular;
+			font-weight: 400;
+			text-align: center;
+			color: #7c7c7c;
+			line-height: 42rpx;
 		}
 		.ok_btn{
-			width: 100%;
-			height: 80rpx;
-			line-height: 80rpx;
-			background-color: #007AFF;
-			color: #FFFFFF;
-			border-radius: 20rpx;
+			width: 647rpx;
+			height: 88rpx;
+			line-height: 88rpx;
+			opacity: 1;
+			background: #4c72ef;
+			border-radius: 14rpx;
+			box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06); 
+			font-size: 32rpx;
+			font-family: PingFang SC, PingFang SC-Bold;
+			font-weight: 700;
+			text-align: center;
+			color: #ffffff;
+			margin: 35rpx auto;
 		}
 	}
 }

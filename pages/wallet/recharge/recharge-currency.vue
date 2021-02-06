@@ -1,6 +1,6 @@
 <template>
 	<view class="recharge-currency">
-		<uni-nav-bar left-icon="back" :statusBar="true" :fixed="true" title="收款" @clickLeft="btnBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#4C72EF" color="#ffffff" left-icon="back" :statusBar="true" :fixed="true" title="收款" @clickLeft="btnBack"></uni-nav-bar>
 		<view class="main-c">
 			<view class="title">
 				扫描二维码，充值{{m_cointype}}
@@ -17,15 +17,16 @@
 				<view class="addr-title">钱包地址</view>
 				<view class="addr-info">{{m_address}}</view>
 			</view>
-            <view class="btns">
-				<view class="btn" @tap="goShare">
-					<uni-icons type="redo" size="30"></uni-icons>
-					<text>分享</text>
-				</view>
-				<view @tap="btnCopyFun()" class="btn">
-					<uni-icons type="compose" size="30"></uni-icons>
-					<text>复制</text>
-				</view>
+           
+		</view>
+		<view class="btns">
+			<view class="btn" @tap="goShare">
+				<image src="../../../static/image/index/share.png" mode=""></image>
+				<text>分享</text>
+			</view>
+			<view @tap="btnCopyFun()" class="btn">
+				<image src="../../../static/image/index/copy.png" mode=""></image>
+				<text>复制</text>
 			</view>
 		</view>
 	</view>
@@ -65,7 +66,7 @@
 				showLoading: "",
 				ifShow: true,
 				val: 'asf1v2s5fee8saccz5', // 要生成的二维码值
-				size: 360, // 二维码大小
+				size: 400, // 二维码大小
 				unit: 'upx', // 单位
 				background: '#FFFFFF', // 背景色
 				foreground: '#000000', // 前景色
