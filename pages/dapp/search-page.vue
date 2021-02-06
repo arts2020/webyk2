@@ -238,7 +238,7 @@
 				}
 			}
 		}
-
+       
 		.tip-Pop{
 			width: 100%;
 			height: 532rpx;
@@ -248,10 +248,6 @@
 			padding: 55rpx 36rpx 61rpx;
 			box-sizing: border-box;
 			position: relative;
-			/deep/ .uni-popup{
-				z-index: 999;
-			}
-			
 			.top-title{
 				font-size: 32rpx;
 				font-family: PingFang SC, PingFang SC-Bold;

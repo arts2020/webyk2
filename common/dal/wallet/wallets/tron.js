@@ -1,12 +1,17 @@
+const TronWeb = require("../../../../node_modules/tronweb")
+const bip39 = require('../../../../node_modules/bip39')
+const bip32 = require('../../../../node_modules/bip32')
+
 import Vue from 'vue'
 var vue = Vue.prototype
 
 const Tron = {
-	m_balance: 0,
-	m_reqUrl: "",
 	init: function() {
 		vue.cclog("========Tron===初始化===============")
-		this.m_reqUrl = "";
+		let HttpProvider = TronWeb.providers.HttpProvider;
+		this.m_fullNode = new HttpProvider("https://api.shasta.trongrid.io");
+		this.m_solidityNode = new HttpProvider("https://api.shasta.trongrid.io");
+		this.m_eventServer = new HttpProvider("https://api.shasta.trongrid.io");
 	},
 
 	destroy: function() {
@@ -14,7 +19,7 @@ const Tron = {
 	},
 
 	//创建身份钱包
-	async createMain(words){
+	async createMain(words) {
 		let ethwallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.TRON)
 		if (!ethwallet) {
 			ethWallet = await this.createWalletByWords(words)
@@ -22,56 +27,112 @@ const Tron = {
 		}
 	},
 	//创建普通钱包
-	async createNormal(importtype,strval){
+	async createNormal(importtype, strval) {
 		if (importtype == vue.Metadata.ImportType.WordType) {
 			let ethWallet = await this.createWalletByWords(strval)
 			ethWallet.importtype = vue.Metadata.ImportType.WordType;
 			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, ethWallet);
-		}else if(importtype == vue.Metadata.ImportType.PrivateType){
+		} else if (importtype == vue.Metadata.ImportType.PrivateType) {
 			let ethWallet = await this.createWalletByPrivateKey(strval)
 			ethWallet.importtype = vue.Metadata.ImportType.PrivateType;
 			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, ethWallet);
 		}
 	},
-	
+
 	async createWalletByWords(words) {
 		vue.cclog("========TRON===创建节点请求===============")
 		try {
-			return null;
+			let seed = await bip39.mnemonicToSeed(words)
+			const node = bip32.fromSeed(seed);
+			const child = node.derivePath(`m/44'/195'/0'/0/0`);
+			let privateKey = child.privateKey.toString('hex');
+			let publicKey = child.publicKey.toString('hex');
+			let address = TronWeb.address.fromPrivateKey(privateKey);
+
+			console.log("==22=privateKey===", privateKey)
+			console.log("==22=m_publicKey===", publicKey)
+			console.log("==22=address===", address)
+
+			return {
+				privateKey: privateKey,
+				publicKey: publicKey,
+				address: address.address
+			}
 		} catch (e) {
 			console.log("===createWalletByWords=e==", e)
 			return false;
 		}
 	},
-	
+
 	async createWalletByPrivateKey(privateKey) {
 		try {
 			console.log("==privateKey==", privateKey)
-			return null;
+			let address = TronWeb.address.fromPrivateKey(privateKey);
+			return {
+				privateKey: privateKey,
+				publicKey: null,
+				address: address.address
+			}
 		} catch (e) {
 			console.log("===createWalletByPrivateKey=e==", e)
 			return false;
 		}
 	},
 	
-	// 记录交易
-	async sendTransaction(to, amount,gas) {
-		let privateKey = vue.dal.Wallter.getPrivateKey();
-		let address = vue.dal.Wallter.getAddress();
+	async initCurrChain(){
+		let walletInfo = vue.dal.WalletMange.getCurrWallet();
+		this.m_privateKey = walletInfo.privateKey;
+		this.fromAddress = walletInfo.address;
 		
-		//TODO....
-		
-		vue.util.UiUtils.hideLoading();
-		vue.cclog("=====Tron===sendTransaction====", txid);
+		this.m_tronWeb = new TronWeb(this.m_fullNode, this.m_solidityNode, this.m_eventServer, this.m_privateKey);
 	},
 
-	getBalance: function() {
-		vue.cclog("=====Tron===this.m_balance====", this.m_balance);
-		return this.m_balance;
+	// 记录交易
+	async sendTransaction(to, amount, gas) {
+		const tradeobj = await this.m_tronWeb.transactionBuilder.sendTrx(to, amount, this.fromAddress, 1);
+		const signedtxn = await this.m_tronWeb.trx.sign(tradeobj, this.m_privateKey);
+		const receipt = await this.m_tronWeb.trx.sendRawTransaction(signedtxn);
+		console.log("====receipt===", receipt)
+		if (receipt.result && receipt.txid.length == 66) {
+			// this.addRecordList(data);
+			// this.onBalance();
+			vue.util.UiUtils.showToast("转帐已提交");
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult);
+		} else {
+			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+		}
+		vue.util.UiUtils.hideLoading();
 	},
 
 	onBalance: function() {
-		let address = vue.dal.Wallter.getAddress()
+		this.m_tronWeb.trx.getBalance(this.fromAddress).then(function(balance) {
+			console.log("====TRX==balance===", balance / Math.pow(10, 6))
+			balance = balance / Math.pow(10, 6);
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtBalance, {
+				balance: balance
+			});
+		}.bind(this));
+	},
+
+	async sendTokenTransaction(to, amount, contractAddress) {
+		let activeContract = await this.m_tronWeb.contract().at(contractAddress);
+		let receipt = await activeContract.transfer(to, amount * Math.pow(10, 6)).send();
+		// console.log("====receipt===", receipt)
+		if (receipt && receipt.length == 66) {
+			vue.util.UiUtils.showToast("转帐已提交");
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult, {
+				tx: receipt
+			});
+		} else {
+			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+
+	async onTokenBalance(to,contractAddress) {
+		let activeContract = await this.m_tronWeb.contract().at(contractAddress);
+		let balance = await activeContract.balanceOf(to).call();
+		return balance;
 	},
 };
 

@@ -85,13 +85,14 @@ const Eos = {
 		}
 	},
 	
+	async initCurrChain(){
+		let walletInfo = vue.dal.WalletMange.getCurrWallet();
+		this.m_privateKey = walletInfo.privateKey;
+		this.fromAddress = walletInfo.address;
+	},
+	
 	// 记录交易
 	async sendTransaction(to, amount,gas) {
-		let privateKey = vue.dal.Wallter.getPrivateKey();
-		let address = vue.dal.Wallter.getAddress();
-		
-		//TODO....
-		
 		vue.util.UiUtils.hideLoading();
 		vue.cclog("=====Eos===sendTransaction====", txid);
 	},
@@ -102,7 +103,7 @@ const Eos = {
 	},
 
 	onBalance: function() {
-		let address = vue.dal.Wallter.getAddress()
+		
 	},
 };
 

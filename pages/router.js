@@ -169,13 +169,15 @@ const router = new MinRouter({
 		},{
 			path:"pages/wallet/recharge/carry-over/setting-fee",
 			name: 'setting-fee'
-		},
-		,{
+		},{
 			path:"pages/wallet/add-asset",
 			name: 'add-asset'
 		},{
 			path:"pages/my/help/answer",
 			name: 'question-answer'
+		},{ 
+			path: 'pages/uielement/webview',
+			name: 'webui-webview'
 		}
 	]
 })
