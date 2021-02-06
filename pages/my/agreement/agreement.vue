@@ -2,8 +2,7 @@
 	<view class="agreement">
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="用户协议" @clickLeft="goBack"></uni-nav-bar>
 		<view class="aggr-c">
-			<view class="aggr-title">YouKey服务协议</view>
-			
+			<rich-text :nodes="content"></rich-text>
 		</view>
 	</view>
 </template>
@@ -16,7 +15,7 @@
 			noData
 		},
 		onShow() {
-			
+			this.content = uni.getLocalStr("my_aggrement");
 		},
 		data() {
 			return {
@@ -42,19 +41,11 @@
 		width: 100%;
 		padding: 22rpx 30rpx;
 		box-sizing: border-box;
-		font-size: 30rpx;
+		font-size: 28rpx;
 		font-family: PingFang SC, PingFang SC-Regular;
 		font-weight: 500;
 		text-align: left;
 		color: #333333;
-		.aggr-title{
-			font-size: 36rpx;
-			font-family: PingFang SC, PingFang SC-Bold;
-			font-weight: 700;
-			text-align: center;
-			color: #111111;
-			margin-bottom: 25rpx;
-		}
 	}
 }
 </style>

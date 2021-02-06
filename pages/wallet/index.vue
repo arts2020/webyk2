@@ -136,7 +136,7 @@
 		name: "wallet",
 		data() {
 			return {
-				hasWallet: true,
+				hasWallet: false,
 				scrollHeight: 0,
 				//当前使用的钱包
 				currentWallet: {},
