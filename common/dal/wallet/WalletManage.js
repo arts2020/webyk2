@@ -41,18 +41,46 @@ const WalletMange = {
 	},
 
 	//获得助记词
-	async getMnemonic() {
+	async () {
 		vue.cclog("=============getMnemonic============")
 		let words = this.createNewWords();
 		return words;
 	},
-
+	
+	//创建指定链的身份钱包
+	async createMainWallets(walletInfo, chains) {
+		try {
+			if (walletInfo.words && walletInfo.words.length > 0) {
+				for (let i = 0; i < chains.length; i++) {
+					let chaintype = chains[i];
+					if (chaintype == vue.entities.Metadata.ChainType.BTC) {
+						await vue.dal.Btc.createMain(walletInfo)
+					} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {
+						await vue.dal.Eos.createMain(walletInfo)
+					} else if (chaintype == vue.entities.Metadata.ChainType.ETH) {
+						await vue.dal.Eth.createMain(walletInfo)
+					} else if (chaintype == vue.entities.Metadata.ChainType.Lotus) {
+						await vue.dal.Lotus.createMain(walletInfo)
+					} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
+						await vue.dal.Tron.createMain(walletInfo)
+					}
+				}
+				return true;
+			} else {
+				console.error("==助记词无效=words===", words)
+				return false;
+			}
+		} catch (e) {
+			console.log("=createMainWallets=e==", e)
+			return false;
+		}
+	},
 	// name: "identity_name",
 	// password: this.password,
 	// tips: this.pasdTip,
 	// words:this.words,
 	// importtype:this.Metadata.ImportType.WordType
-	//创建身份钱包
+	//创建所有身份钱包
 	async createMainWallet(walletInfo) {
 		try {
 			if (walletInfo.words && walletInfo.words.length > 0) {
