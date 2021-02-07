@@ -7,7 +7,7 @@
 			<view class="line"></view>
 			<view class="tip-list">
 				<image src="../../../static/image/index/warning.png" />
-				<view>助记词由英文单词组成，请抄写并妥善保管</view>
+				<view>使用纸笔正确抄写，并保管至安全的地方</view>
 			</view>
 			<view class="tip-list">
 				<image src="../../../static/image/index/warning.png" />
@@ -39,16 +39,18 @@
 				//根据不同情况显示不同提示
 				bakType:2,
 				scrollHeight: 0,
-				str1:"",
-				str2:""
+				str1:"助记词",
+				str2:"助记词",
+				paramsObj:{}
 			}
 		},
 		onLoad(option) {
-			
 			if(option.query){
 				let params = JSON.parse(option.query);
-				console.log(params)
 				if(Object.keys(params).length!=0){
+					console.log(params)
+					this.paramsObj = params;
+					
 					switch (params.bakType){
 						case 1:this.bakType==1;this.str1="助记词"; this.str2="助记词";
 							break;
@@ -56,13 +58,11 @@
 							break;
 						case 3:this.bakType==3;this.str1="私钥和密码"; this.str2="私钥";
 							break;
-						default:
+						default:this.bakType==1;this.str1="助记词"; this.str2="助记词";
 							break;
 					}
 				}
-			}
-			
-			
+			}			
 		},
 		methods: {
 			btnBack:function(){
@@ -75,19 +75,15 @@
 				this.$refs.popup.close()
 			},
 			btnNext:function(){
-				// if(this.bakType==1){
-				// 	this.util.UiUtils.switchToPage("backup-info", "backup-tip",{});
-				// }else if(this.bakType==2){
-				// 	this.util.UiUtils.switchToPage("backup-keystore", "backup-tip",{});
-				// }else if(this.bakType==3){
-				// 	this.util.UiUtils.switchToPage("backup-private", "backup-tip",{});
-				// }
+				// 从创建钱包那边  从钱包详情那边   都传递相应的参数来到该页面，
+				// 将他们传递的参数保存在paramsObj,传递到下个页面，备份助记词，或者备份私钥或keystore 在各自相应的页面组装所需数据
+				
 				if(this.str1.includes('助记词')){
-					this.util.UiUtils.switchToPage("backup-info", "backup-tip",{});
+					this.$openPage({name:"backup-info",query:this.paramsObj});
 				}else if(this.str1.includes('keystore')){
-					this.util.UiUtils.switchToPage("backup-keystore", "backup-tip",{});
+					this.$openPage({name:"backup-keystore",query:this.paramsObj});
 				}else if(this.str1.includes('私钥')){
-					this.util.UiUtils.switchToPage("backup-private", "backup-tip",{});
+					this.$openPage({name:"backup-private",query:this.paramsObj});
 				}
 				
 				this.$refs.popup.close()

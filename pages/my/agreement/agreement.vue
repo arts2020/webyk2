@@ -9,13 +9,14 @@
 
 <script>
 	import noData from '@/components/no-data/no-data.vue'
+	import agreeAndHelp from '@/static/js/agreeAndHelp.js'
 	export default {
 		name:"agreement",
 		components:{
 			noData
 		},
 		onShow() {
-			this.content = uni.getLocalStr("my_aggrement");
+			this.content = agreeAndHelp.my_aggrement;
 		},
 		data() {
 			return {

@@ -38,25 +38,19 @@
 			uniPopupMessage
 		},
 	
-		created() {
-			// let wordStr = this.dal.Wallter.m_MnemonicInfo;
-			// this.words = wordStr.split(' ')
-				this.words = ["asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt']	
-			var ws = [];
-			for (var i = 0; i < this.words.length; i++) {
-				var a = {
-					idx: i,
-					val: this.words[i],
-					type: 1,
-				}
-				ws.push(a)
-			}
-			this.tmpwords = ws;
-			this.randomWords();
+		onLoad(option) {
+            if(option.query){
+            	let params = JSON.parse(option.query);
+            	this.paramsObj = params;
+				console.log(this.paramsObj)
+				this.onRefresh()
+            }
 		},
 		
 		data() {
 			return {
+				//之前传递下来的参数
+				paramsObj:{},
 				errMsg:"",
 				scrollHeight: 0,
 				words: [],
@@ -128,8 +122,18 @@
 			},
 			
 			onRefresh() {
-				var ws = this.dal.Wallter.getMnemonic();
-				this.words = ws.split(' ')
+				this.words = this.paramsObj.words;
+				var ws = [];
+				for (var i = 0; i < this.words.length; i++) {
+					var a = {
+						idx: i,
+						val: this.words[i],
+						type: 1,
+					}
+					ws.push(a)
+				}
+				this.tmpwords = ws;
+				this.randomWords();
 			},
 			
 			randomWords: function() {
@@ -161,26 +165,53 @@
 						return;
 					}
 				}
-			
-				// uni.showModal({
-				// 	title: this.getLocalStr("tip_title"),
-				// 	content: "助记词正确,进入您的钱包",
-				// 	confirmText: this.getLocalStr("btnstring_confirm"),
-				// 	showCancel: false,
-				// 	success: function(res) {
-				// 		if (res.confirm) {
-				// 			this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
-				// 		}
-				// 	}.bind(this)
-				// });
 				
-				// 打开成功的弹框 1s后关掉并跳转
-				this.$refs.successPop.open();
-				setTimeout(()=>{
-					this.$refs.successPop.close();
-					this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
-				},1000)
-			
+				
+                let params={}
+				if(this.dal.WalletManage.isExistWallet()){
+					//有钱包后来此页面是备份助记词
+					params = {
+						words:this.paramsObj.words,
+						name:this.paramsObj.name,
+					}
+					
+					
+				}else{
+					//没有钱包的情况下来此页面是创建钱包
+					
+					// 助记词正确后 组装需要的参数创建钱包  并打开成功的弹框 1s后关掉并跳转
+					
+					if(this.paramsObj.type){ //type为要创建的单链钱包的链类型  从创建钱包的creat-wallet这个页面传过来
+						// 创建普通钱包
+						params={
+							
+						}
+						// 调用创建普通钱包方法
+						
+						//普通钱包创建成功后跳转到钱包首页
+						this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
+					}else{
+						//创建身份钱包 成功后跳转到添加币种页
+						params = {
+							words:this.paramsObj.words,
+							name:this.paramsObj.name,
+							password:this.paramsObj.password,
+							tips:this.paramsObj.tips
+						}
+						//如果创建钱包返回true，成功
+						this.dal.WalletManage.createMainWallet(params).then(res=>{
+							if(res){	
+								this.$refs.successPop.open();
+								setTimeout(()=>{
+									this.$refs.successPop.close();
+									this.util.UiUtils.switchToPage("wallet-add-coin", "backup-info-sure",{backType:1});
+								},1000)
+							}else{
+								this.util.UiUtils.showToast("钱包创建失败");
+							}
+						})
+					}					
+				}	
 			},
 			bindTextAreaBlur: function(e) {
 				console.log(e.detail.value)

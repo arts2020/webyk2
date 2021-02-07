@@ -26,26 +26,21 @@
 </template>
 
 <script>
-	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
 	export default {
-		components: {
-			Bar
-		},
-		created() {
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtGetMnemonic, this.getMnemonic);
-		},
-		destroyed() {
-			// this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtGetMnemonic, this.getMnemonic);
-		},
-		
 		data() {
 			return {
-				words: ["asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt',"asdwc",'asdddddh','dfgrehyt'],
+				words: [],
 				scrollHeight: 0,
+				paramsObj:{}
 			}
 		},
-		onLoad() {
-			
+		onLoad(option) {
+			if(option.query){
+				let params = JSON.parse(option.query);
+				this.paramsObj = params;
+			}
+			//获取助记词
+			this.getMnemonic();
 		},
 		methods: {
 			btnBack:function(){
@@ -53,14 +48,23 @@
 			},
 			
 			btnConfirm:function(){
-				// if (!this.words || this.words.length <= 0) {
-				// 	this.util.UiUtils.showToast("助记词异常")
-				// 	return;
-				// }
-				this.util.UiUtils.switchToPage("backup-info-sure", "backup-info",{});
+				if (!this.words || this.words.length <= 0) {
+					this.util.UiUtils.showToast("助记词异常")
+					return;
+				}
+				let params ={
+					...this.paramsObj,
+					words:this.words
+				}
+				this.$openPage({name:'backup-info-sure',query:params});
 			},
-			getMnemonic(data){
-				// this.words = data.data.split(' ')
+			async getMnemonic(){
+				let res = await this.dal.WalletManage.getMnemonic();
+	            if(res){
+					 this.words = res.split(' ');
+				}else{
+					this.util.UiUtils.showToast("助记词获取失败!")
+				}
 			}
 		},
 		onShow() {
@@ -71,7 +75,6 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
 				}
 			});
-			// this.dal.Wallter.onGetMnemonic();
 		}
 	}
 </script>

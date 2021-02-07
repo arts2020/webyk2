@@ -3,14 +3,19 @@
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="选择语言" @clickLeft="btnBack">
 			<view class="save-txt" slot="right" @tap="goSave">保存</view>
 		</uni-nav-bar>
-		<radio-group @change="handleCheck">
+		<!-- <radio-group @change="handleCheck">
 			<view class="list-item" v-for="(item,index) in menuList" :key="index">
-				<text>{{item}}</text>
+				<text>{{item.value}}</text>
+				<image class="checked-icon" src="../../../static/image/mine/checked.png" mode=""></image>
 				<label>
 					<radio color="#FFFFFF" :value="index+''" :checked="active==index"/>
 				</label>
 			</view>
-		</radio-group>
+		</radio-group> -->
+		<view class="list-item" v-for="(item,index) in menuList" :key="index" @click="handleCheck(item)">
+			<text>{{item.value}}</text>
+			<image v-if="activeMenu.key==item.key" class="checked-icon" src="../../../static/image/mine/checked.png" mode=""></image>
+		</view>
 	</view>
 </template>
 
@@ -18,9 +23,14 @@
 	export default {
 		data() {
 			return {
-				active:0,
-				menuList:['简体中文','繁体中文','英文']
+				activeMenu:{
+					key:1
+				},
+				menuList:[]
 			};
+		},
+		created() {
+			this.onRefresh()
 		},
 		methods:{
 			btnBack:function(){
@@ -29,8 +39,19 @@
 			goSave(){
 				
 			},
-			handleCheck(e){
-				this.active = e.detail.value;
+			handleCheck(item){
+				this.activeMenu = item;
+			},
+			onRefresh(){
+				let langKeys = this.entities.Metadata.GameLanguage;
+				let langValues = this.getLocalStr('Language');
+				for(let key in langKeys){
+					let tempObj = {
+						key:langKeys[key],
+						value:langValues[key]
+					}
+					this.menuList.push(tempObj)
+				}
 			}
 		}
 	}
@@ -40,6 +61,9 @@
 .language{
 	width: 100%;
 	background-color: #FFFFFF;
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
 	.save-txt{
 		font-size: 30rpx;
 		font-family: PingFang SC, PingFang SC-Bold;
@@ -59,6 +83,10 @@
 			font-family: PingFang SC, PingFang SC-Regular;
 			font-weight: 600;
 			color: #121212;
+		}
+		.checked-icon{
+			width: 28rpx;
+			height: 24rpx;
 		}
 		/deep/ uni-radio .uni-radio-input{
 			border: 0;

@@ -6,28 +6,33 @@
 				<view class="top-title">钱包名称</view>
 				<view class="input-box">
 					<input type="text" placeholder-style="color:#C2C2C2;font-size:26rpx" placeholder="1-12位字符" v-model="walletName" />
+				    <uni-icons type="closeempty" size="20" v-if="walletName" @tap="clear('1')"></uni-icons>
 				</view>
 			</view>
 			<view>
-				<view class="top-title">钱包名称</view>
+				<view class="top-title">设置密码</view>
 				<view class="input-box">
-					<input @input="inputPasd" type="text" placeholder-style="color:#C2C2C2;font-size:26rpx" password placeholder="密码"
+					<input @input="inputPasd" type="text" placeholder-style="color:#C2C2C2;font-size:26rpx" password placeholder="输入密码不少于8位数"
 					 v-model="password" />
+					 <uni-icons type="closeempty" size="20" v-if="password" @tap="clear('2')"></uni-icons>
 				</view>
 				<view class="tips">{{tip_1}}</view>
 			</view>
 			<view>
-				<view class="top-title">钱包名称</view>
+				<view class="top-title">确认密码</view>
 				<view class="input-box">
 					<input @blur="reconfirm" password type="text" placeholder="重复输入密码" placeholder-style="color:#C2C2C2;font-size:26rpx"
 					 v-model="confirmPasd" />
+					 <uni-icons type="closeempty" size="20" v-if="confirmPasd" @tap="clear('3')"></uni-icons>
 				</view>
 				<view class="tips">{{tip_2}}</view>
 			</view>
 			<view>
-				<view class="top-title">钱包名称</view>
+				<view class="top-title">设置密码提示</view>
 				<view class="input-box">
 					<input type="text" placeholder="密码提示(可选)" placeholder-style="color:#C2C2C2;font-size:26rpx" v-model="pasdTip" />
+					<uni-icons type="closeempty" size="20" v-if="pasdTip" @tap="clear('4')"></uni-icons>
+					
 				</view>
 			</view>
 			<view class="btn_ok" :style="'background-color:'+btn_color" @tap="btnCreate">创建</view>
@@ -36,9 +41,10 @@
 </template>
 
 <script>
+	import uniIcon from '@/components/uni-icons/uni-icons.vue'
 	export default {
 		components: {
-
+            uniIcon
 		},
 		data() {
 			return {
@@ -52,9 +58,10 @@
 				coinObj: {}
 			}
 		},
-		onLoad(option) {
-			if (option.query) {
-				this.coinObj = JSON.parse(option.query)
+		onLoad(option) {	
+			let params = JSON.parse(option.query);
+			if (Object.keys(params).length!=0) {
+				this.coinObj = params;
 			}
 		},
 		onShow() {
@@ -77,9 +84,22 @@
 			}
 		},
 		methods: {
+			clear(str){
+				if(str=='1'){
+					this.walletName = ""
+				}else if(str=='2'){
+					this.password = '';
+					this.tip_1=""
+				}else if(str=='3'){
+					this.confirmPasd = "";
+					this.tip_2=""
+				}else if(str=='4'){
+					this.pasdTip = ""
+				}
+			},
 			reconfirm() {
 				if (this.password != this.confirmPasd) {
-					this.tip_2 = '两次密码不一致'
+					this.tip_2 = '两次密码不一致';
 				} else {
 					this.tip_2 = ''
 				}
@@ -96,21 +116,34 @@
 				this.util.UiUtils.switchBackPage();
 			},
 			btnCreate: function() {
-				// 还没有输入钱包名称和密码时点击按钮不给予操作
-				if (!(this.walletName && this.password)) {
+				// 数据校验
+				if(!this.walletName){
+					this.util.UiUtils.showToast('请输入钱包名称！');
 					return;
 				}
-
-				this.util.UiUtils.showLoading("钱包初始化...");
+				if(!this.password){
+					this.util.UiUtils.showToast('请输入密码！');
+					return;
+				}
+				if(!this.confirmPasd){
+					this.util.UiUtils.showToast('请输入确认密码！');
+					return;
+				}
+				if(this.password != this.confirmPasd){
+					this.util.UiUtils.showToast('两次密码不一致！');
+					return;
+				}
+				
+				this.util.UiUtils.showLoading("钱包初始化...",1000);
 				let params = {
 					type: this.coinObj.chaintype,
-					walletName: this.walletName,
+					name: this.walletName,
 					password: this.password,
-					pasdTip: this.pasdTip,
+					tips: this.pasdTip
 				}
-				this.util.UiUtils.switchToPage("backup-tip", "creat-wallet-wallet", {
-					
-				}, "redirectTo");
+				setTimeout(()=>{
+					this.$openPage({name:'backup-tip',query:params});
+				},)
 			}
 		},
 	}
@@ -149,12 +182,12 @@
 				margin-bottom: 34rpx;
 				display: flex;
 				align-items: center;
-				font-size: 26rpx;
-				color: #444444;
-
+				
 				uni-input {
+					width: 85%;
 					height: 60rpx;
 					margin-left: 32rpx;
+					font-size: 26rpx;
 				}
 			}
 

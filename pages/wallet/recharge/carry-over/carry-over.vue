@@ -227,7 +227,7 @@
 			},
 			//点击我知晓了
 			confirmKnow(){
-				this.$refs.pasdPop.open()
+				this.$refs.pasdPop.open();
 			},
 			cancell(e){
 				if(e==2){
@@ -240,10 +240,13 @@
 			},
 			//点击密码提示框的确定
             confirmOk(){
+				//检查密码
 				if(!this.password){
 					this.util.UiUtils.showToast("请输入密码");
 					return;
 				}
+				// 转账操作
+				
 			},
 			isETHValidAddress: function(input) {
 				if (StrUtil.isEmpty(input) || !input.startsWith("0x"))

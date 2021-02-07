@@ -28,6 +28,7 @@
 
 <script>
 	import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
+	import agreeAndHelp from '@/static/js/agreeAndHelp.js'
 	export default {
 		components: {
 			Bar
@@ -46,8 +47,8 @@
 			this.title = uni.getLocalStr("help_title");
 			this.topic1 = uni.getLocalStr("help_title_1");
 			this.topic2 = uni.getLocalStr("help_title_2");
-			this.hotList = uni.getLocalStr("help_hotQuestion");
-			this.typeList = uni.getLocalStr("help_question_kind");
+			this.hotList = agreeAndHelp.help_hotQuestion;
+			this.typeList = agreeAndHelp.help_question_kind;
 		},
 		methods: {
 			btnBack:function(){

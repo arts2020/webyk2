@@ -35,12 +35,17 @@
 		    },
 		data() {
 			return {
-				keystore:""
+				keystore:"",
+				paramsObj:{}
 			};
 		},
-		onShow() {
-			// 获取keystore
-			this.keystore = 'bsuggfenpoe55bsuggfenpoe55856sdvsd5a4s5zx5a9s856sdvsd5a4s5zx5a9s'
+		onLoad(option) {
+			if(option.query){
+				let params = JSON.parse(option.query);
+				this.paramsObj = params;
+			}
+			//获取keystore
+			// this.keystore = 
 		},
 		methods:{
 			goBack(){

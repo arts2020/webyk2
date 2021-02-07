@@ -117,7 +117,14 @@
 					//备份钱包
 					//导出keystore
 					//导出私钥
-					this.$openPage({name:"backup-tip",query:{bakType:this.exportType}});
+					this.$openPage({name:"backup-tip",
+					query:{
+						  bakType:this.exportType,
+						  // 将需要的钱包信息传递到备份提示也
+						  name:this.walletInfo.name
+					    },
+					});
+						
 				}else if(this.popType==2){
 					//修改名称
 					if(!this.newWalletName){

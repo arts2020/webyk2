@@ -238,7 +238,7 @@
 		},
 		methods: {
 			closePop() {
-				this.$refs.walletPop.close()
+				this.$refs.walletPop.close();
 			},
 			goAddAsset() {
 				this.$openPage({

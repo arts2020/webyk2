@@ -8,6 +8,7 @@
 </template>
 
 <script>
+	import agreeAndHelp from '@/static/js/agreeAndHelp.js'
 	export default {
 		data() {
 			return {
@@ -29,9 +30,9 @@
 				index = parseInt(index);
 				let list = [];
 				if(type==2){
-					list = uni.getLocalStr("help_question_kind");
+					list = agreeAndHelp.help_question_kind;
 				}else if(type==1){
-					list = uni.getLocalStr("help_hotQuestion");
+					list = agreeAndHelp.help_hotQuestion;
 				}
 				this.contentObj = list[index];
 			}
