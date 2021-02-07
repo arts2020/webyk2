@@ -30,16 +30,31 @@ const Eos = {
 		return true;
 	},
 	//创建普通钱包
-	async createNormal(importtype, strval) {
-		if (importtype == vue.entities.Metadata.ImportType.WordType) {
-			let wallet = await this.createWalletByWords(strval)
-			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
-		} else if (importtype == vue.entities.Metadata.ImportType.PrivateType) {
-			let wallet = await this.createWalletByPrivateKey(strval)
-			wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
+	async createNormal(walletInfo) {
+		if (walletInfo.importtype == vue.entities.Metadata.ImportType.WordType) {
+			let wallet = await this.createWalletByWords(walletInfo.strval)
+			if(wallet){
+				wallet.name = walletInfo.name;
+				wallet.password = walletInfo.password;
+				wallet.passwordtip = walletInfo.passwordtip;
+				wallet.chaintype = walletInfo.chaintype;
+				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
+				vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
+				return true;
+			}
+		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
+			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
+			if(wallet){
+				wallet.name = walletInfo.name;
+				wallet.password = walletInfo.password;
+				wallet.passwordtip = walletInfo.passwordtip;
+				wallet.chaintype = walletInfo.chaintype;
+				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
+				vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
+				return true;
+			}
 		}
+		return false;
 	},
 
 	async createWalletByWords(words) {
