@@ -3,7 +3,7 @@
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="添加钱包" @clickLeft="goBack"></uni-nav-bar>
 		<view class="coin-list">
 			<view class="list-item" v-for="(item,index) in coinList" :key="index" @click="handleChecked(item)">
-				<image class="icon" :src="item.logo" mode=""></image>
+				<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
 				<view class="coin-name">
 					<view class="short-N">{{item.name}}</view>
 					<view class="full_N">{{item.alias}}</view>
@@ -42,6 +42,9 @@
 <script>
 	export default {
 		name: "addWallet",
+		created() {
+			this.onRefresh()
+		},
 		data() {
 			return {
 				menuList: [{
@@ -56,28 +59,13 @@
 					},
 				],
 				activeCoin: {},
-				coinList: [{
-						chaintype: 1,
-						logo: "../../static/image/index/eth.png",
-						name: "ETH",
-						alias: "Ethereum"
-					},
-					{
-						chaintype: 2,
-						logo: "../../static/image/index/btc.png",
-						name: "BTC",
-						alias: "Btcoin"
-					},
-					{
-						chaintype: 3,
-						logo: "../../static/image/index/fil.png",
-						name: "ATOM",
-						alias: "Cosmos"
-					},
-				]
+				coinList: []
 			};
 		},
 		methods: {
+			onRefresh:function(){
+				this.coinList = this.dal.Chain.getChainList();
+			},
 			goBack: function() {
 				this.util.UiUtils.switchBackPage();
 			},

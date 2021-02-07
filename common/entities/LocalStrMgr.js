@@ -7,12 +7,14 @@ const LocalStrMgr = {
 	},
 
 	initData: function() {
-		var gameLanguage = vue.entities.Metadata.GameLanguage.CN; //dal.GameSetting.getGameLanguage();
-		if (gameLanguage === vue.entities.Metadata.GameLanguage.CN) {
+		console.log("======vue.dal.Setting=====",vue.dal.Setting.getSysLanguage())
+		let sysLanguage = vue.dal.Setting.getSysLanguage();
+		console.log("======initData==sysLanguage=====",sysLanguage)
+		if (sysLanguage === vue.entities.Metadata.GameLanguage.CN) {
 			this.addStrStruct(vue.language.LocalStrCN);
-		} else if (gameLanguage === vue.entities.Metadata.GameLanguage.EN) {
+		} else if (sysLanguage === vue.entities.Metadata.GameLanguage.EN) {
 			this.addStrStruct(vue.language.LocalStrEN);
-		} else if (gameLanguage === vue.entities.Metadata.GameLanguage.TW) {
+		} else if (sysLanguage === vue.entities.Metadata.GameLanguage.TW) {
 			this.addStrStruct(vue.language.LocalStrTW);
 		}
 	},

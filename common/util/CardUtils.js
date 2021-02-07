@@ -1644,7 +1644,7 @@ const CardUtils = {
 						info.bankCode = bankcard.bankCode;
 						info.last4Number = cardNo.substring(cardNo.length - 4, cardNo.length)
 						info.cardTypeName = this.getCardTypeName(pattern.cardType, false);
-						// var language = dal.GameSetting.getGameLanguage();
+						// var language = dal.GameSetting.getSysLanguage();
 						// if (language === entities.Metadata.GameLanguage.TW ) {
 						//     info.cardTypeName = this.getCardTypeName(pattern.cardType, true);
 						//     info.bankName = bankcard.bankName_tw;
