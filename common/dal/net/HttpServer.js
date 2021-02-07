@@ -164,7 +164,13 @@ const HttpServert = {
 		// uni.cclog("=====params==", params)
 		// uni.cclog("=====host==", host)
 		// uni.cclog("=====route.path==", route.path)
-		var url = host + route.path
+		var url = ''
+		if(route.host){
+			url = route.host + route.path
+		}else{
+			url = host + route.path
+		}
+		    
 		// uni.cclog("=====url==", url)
 		vue.shared.Http.request(url, route.method, params, code);
 	},

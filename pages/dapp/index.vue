@@ -8,11 +8,11 @@
 			</view>
 		</view>
 		<scroll-view scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
-			<view class="list-item" v-for="(item,index) in showList" :key="index" @tap="goCheck(item)">
-				<image class="icon" :src="item.logo" mode=""></image>
+			<view class="list-item" v-for="(item,index) in list" :key="index" @tap="goCheck(item)">
+				<image class="icon" :src="item.icon" mode=""></image>
 				<view class="dapp-info">
-					<view class="title">{{item.title}}</view>
-					<view class="descrip">{{item.desciption}}</view>
+					<view class="title">{{item.name}}</view>
+					<view class="descrip">{{item.community}}</view>
 				</view>
 				<image class="right-arr" src="../../static/image/index/arrow-left.png" mode=""></image>
 			</view>
@@ -39,14 +39,11 @@
 		components: {
 			Bar
 		},
-		onShow() {
-			uni.getSystemInfo({
-				success: (res) => {
-					this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
-				}
-			});
-			//页面初始时显示全部数据
-			this.showList = this.list;
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
+		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
 		},
 		data() {
 			return {
@@ -55,18 +52,29 @@
 				// 当前点击的dapp数据
 				currentDapp: {},
 				// 所有数据
-				list: [{
-						logo: "../../static/image/index/wodeshouyi.png",
-						title: "LON",
-						desciption: "LON挖矿"
-					},
-					{
-						logo: "../../static/image/index/wodeshouyi.png",
-						title: "Snapshot治理",
-						desciption: "参与所有DeFi项目的社区治理"
-					},
+				list: [
+					   {
+							icon: "../../static/image/index/wodeshouyi.png",
+							name: "LON",
+							community: "LON挖矿"
+						},
+						{
+							logo: "../../static/image/index/wodeshouyi.png",
+							name: "Snapshot治理",
+							community: "参与所有DeFi项目的社区治理"
+						},
 				],
 			}
+		},
+		onShow() {
+			uni.getSystemInfo({
+				success: (res) => {
+					this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
+				}
+			});
+			
+			//获取列表数据
+           this.dal.Dapp.onGetDapps()
 		},
 		methods: {
 			goCheck(item) {
@@ -94,8 +102,10 @@
 				})
 				//关闭弹框
 				this.$refs.popup.close()
-				//执行操作
 
+			},
+			onGetDappList(data){
+				this.list = data.data;
 			}
 		}
 	}

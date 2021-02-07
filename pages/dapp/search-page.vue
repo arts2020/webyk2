@@ -3,19 +3,20 @@
 		<bar ref="bar"></bar>
 		<view class="search-header">
 			<view class="search-frame">
-				<uni-icons type="search" class="search-icon" size="20" color="#CCD3D9" @tap="gosearch"></uni-icons>
+				<uni-icons type="search" class="search-icon" size="20" color="#CCD3D9" @tap="goSearch"></uni-icons>
 				<input type="text" placeholder-style="color: #a9b7c4;" placeholder="请输入token名称" v-model="keyword" confirm-type="search"
-				 @confirm="gosearch" />
+				 @confirm="goSearch" />
+				 <uni-icons v-if="keyword" type="closeempty" size="20" style="font-weight: 600;" color="#444444" @tap="clear"></uni-icons>
 			</view>
 			<text class="cancell-txt" @tap="btnBack">取消</text>
 		</view>
 		<scroll-view v-if="list.length" scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
 			<view class="title">搜索结果</view>
 			<view class="list-item" v-for="(item,index) in list" :key="index" @tap="goCheck(item)">
-				<image class="icon" :src="item.logo" mode=""></image>
+				<image class="icon" :src="item.icon" mode=""></image>
 				<view class="dapp-info">
-					<view class="dapp-title">{{item.title}}</view>
-					<view class="descrip">{{item.desciption}}</view>
+					<view class="dapp-title">{{item.name}}</view>
+					<view class="descrip">{{item.community}}</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -23,8 +24,8 @@
 			<view class="title">热搜</view>
 			<view class="hot-list">
 				<view class="hot-item" v-for="(item,index) in hotList" :key="index" @tap="goCheck(item)">
-					<image :src="item.logo" mode=""></image>
-					<text>{{item.title}}</text>
+					<image :src="item.icon" mode=""></image>
+					<text>{{item.name}}</text>
 				</view>
 			</view>
 		</view>
@@ -50,6 +51,12 @@
 		components: {
 			Bar
 		},
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
+		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
+		},
 		data() {
 			return {
 				scrollHeight: 0,
@@ -59,20 +66,21 @@
                    
 				],
 				//热搜列表
-				hotList: [{
-						logo: "../../static/image/index/wodeshouyi.png",
-						title: "LON",
-						desciption: "LON挖矿"
+				hotList: [
+					{
+						icon: "../../static/image/index/wodeshouyi.png",
+						name: "LON",
+						community: "LON挖矿"
 					},
 					{
-						logo: "../../static/image/index/wodeshouyi.png",
-						title: "Snapshot治理",
-						desciption: "参与所有DeFi项目的社区治理"
+						icon: "../../static/image/index/wodeshouyi.png",
+						name: "Snapshot治理",
+						community: "参与所有DeFi项目的社区治理"
 					},
 					{
-						logo: "../../static/image/index/wodeshouyi.png",
-						title: "Snapshot治理",
-						desciption: "参与所有DeFi项目的社区治理"
+						icon: "../../static/image/index/wodeshouyi.png",
+						name: "Snapshot治理",
+						community: "参与所有DeFi项目的社区治理"
 					},
 				],
 				// 当前被点击的dapp
@@ -89,6 +97,10 @@
 			});
 		},
 		methods: {
+			clear(){
+				this.keyword = "";
+				this.list = []
+			},
 			btnBack: function() {
 				this.util.UiUtils.switchToPage("dapp-index", "dapp-search", {}, "switchTab");
 			},
@@ -99,6 +111,10 @@
 			},
 			goSearch() {
 				// 拿关键词keyword进行搜索匹配
+				this.dal.Dapp.onGetDapps()
+			},
+			onGetDappList(data){
+				this.list = data.data;
 			},
 			cancell() {
 				// 取消访问
@@ -154,6 +170,7 @@
 				}
 
 				uni-input {
+					width: 80%;
 					font-size: 26rpx;
 					font-family: PingFang SC, PingFang SC-Regular;
 					font-weight: 400;

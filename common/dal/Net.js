@@ -19,6 +19,7 @@ const Net = {
 		// SocketConnectMgr.init(SocketServer);
 
 		this.host = vue.PlatformInfo.host;
+		console.log('vue.PlatformInfo.host',this.host)
 		this.count = 0;
 		return true;
 	},

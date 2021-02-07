@@ -27,12 +27,12 @@ const Routes = {
 			{code:vue.entities.RequestCode.GetRate , path:"/api/v1/getRate",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.GetAssetstate , path:"/api/v1/getAssetstate",method:"POST", islogin:false},
 			
-			// 这里以下的path路径未改
-			{code:vue.entities.RequestCode.SendTransaction , path:"/api/v1/link/sendTransaction",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.GetBalance , path:"/api/v1/link/getBalance",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.PrivateWallter , path:"/api/v1/link/privateWallter",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.MnemonicWallter , path:"/api/v1/link/mnemonicWallter",method:"POST", islogin:true},
-			{code:vue.entities.RequestCode.GetWalletValidateAddress , path:"/api/v1/link/getWalletValidateAddress",method:"POST", islogin:true},
+			{code:vue.entities.RequestCode.SendTransaction , path:"/api/v1/link/sendTransaction",method:"POST", islogin:false},
+			{code:vue.entities.RequestCode.GetBalance , path:"/api/v1/link/getBalance",method:"POST", islogin:false},
+			{code:vue.entities.RequestCode.PrivateWallter , path:"/api/v1/link/privateWallter",method:"POST", islogin:false},
+			{code:vue.entities.RequestCode.MnemonicWallter , path:"/api/v1/link/mnemonicWallter",method:"POST", islogin:false},
+			{code:vue.entities.RequestCode.GetWalletValidateAddress , path:"/api/v1/link/getWalletValidateAddress",method:"POST", islogin:false},
+		    {code:vue.entities.RequestCode.GetDappList , path:"/api/v1/getDappList",method:"POST", islogin:false,host:"http://119.8.55.19"},
 		]
 	},
 	getRoute:function(code){

@@ -132,12 +132,11 @@
 </template>
 
 <script>
-	// this.dal.WalletManage.isExistWallet()
 	export default {
 		name: "wallet",
 		data() {
 			return {
-				hasWallet: true,
+				hasWallet: this.dal.WalletManage.isExistWallet(),
 				scrollHeight: 0,
 				//当前使用的钱包
 				currentWallet: {},

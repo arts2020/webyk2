@@ -21,6 +21,7 @@ const RequestCode = {
 	PrivateWallter: 92, //
 	MnemonicWallter: 93, //
 	GetWalletValidateAddress: 94, //
+	GetDappList:95,
 }
 
 export default RequestCode
