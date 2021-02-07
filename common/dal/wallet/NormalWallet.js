@@ -32,8 +32,15 @@ const NormalWallet = {
 	//===========================普通钱包=================================
 	//增加普通钱包
 	addNormalWallet: function(chaintype, wallet) {
-		let wallets = this.getNormalWallets(chaintype)
-		let len = wallets.Length() + 1;
+		let wallets = this.getNormalWalletsByType(chaintype)
+		console.log("=addNormalWallet==wallets==",wallets)
+		for (let i = 0; i < wallets.length; i++) {
+			let item = wallets[i];
+			if (item.privateKey == wallet.privateKey) {
+				return;
+			}
+		}
+		let len = wallets.length + 1;
 		let item = {
 			idx: len,
 			chaintype: chaintype,
@@ -79,6 +86,9 @@ const NormalWallet = {
 	//获得所有普通钱包
 	getNormalWalletsByType: function(chaintype) {
 		let items = this.m_normalWallet[chaintype];
+		if(!items){
+			items = [];
+		}
 		return items;
 	},
 	

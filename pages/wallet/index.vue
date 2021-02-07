@@ -205,8 +205,8 @@
 			//根据当前钱包链的类型，筛选出该类型链下对应资产列表
 			// this.currentAsset = 
 			//判断有无钱包
-
-
+			this.hasWallet = this.dal.WalletManage.isExistWallet();
+			console.log('==this.hasWallet==',this.hasWallet)
 			let _this = this;
 			//获取高度
 			uni.getSystemInfo({

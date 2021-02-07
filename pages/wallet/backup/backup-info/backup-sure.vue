@@ -183,20 +183,36 @@
 					
 					if(this.paramsObj.type){ //type为要创建的单链钱包的链类型  从创建钱包的creat-wallet这个页面传过来
 						// 创建普通钱包
-						params={
-							
+						let params = {
+							name: this.paramsObj.name,
+							password: this.paramsObj.password,
+							passwordtip: this.paramsObj.tips,
+							strval:"invest slice federal clinic aerobic silent unhappy deposit prosper quote talent cargo",//this.paramsObj.words
+							importtype:this.entities.Metadata.ImportType.WordType,
+							chaintype:this.paramsObj.type,
 						}
-						// 调用创建普通钱包方法
 						
+						// 调用创建普通钱包方法
+						this.dal.WalletManage.createNormalWallet(params).then(res=>{
+							if(res){	
+								this.$refs.successPop.open();
+								setTimeout(()=>{
+									this.$refs.successPop.close();
+									this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
+								},1000)
+							}else{
+								this.util.UiUtils.showToast("创建单层钱包失败");
+							}
+						})
 						//普通钱包创建成功后跳转到钱包首页
-						this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
 					}else{
 						//创建身份钱包 成功后跳转到添加币种页
 						params = {
-							words:this.paramsObj.words,
-							name:this.paramsObj.name,
-							password:this.paramsObj.password,
-							tips:this.paramsObj.tips
+							name: this.paramsObj.name,
+							password: this.paramsObj.password,
+							passwordtip: this.paramsObj.tips,
+							words: "invest slice federal clinic aerobic silent unhappy deposit prosper quote talent cargo",//this.paramsObj.words,
+							importtype:this.entities.Metadata.ImportType.WordType
 						}
 						//如果创建钱包返回true，成功
 						this.dal.WalletManage.createMainWallet(params).then(res=>{
@@ -207,7 +223,7 @@
 									this.util.UiUtils.switchToPage("wallet-add-coin", "backup-info-sure",{backType:1});
 								},1000)
 							}else{
-								this.util.UiUtils.showToast("钱包创建失败");
+								this.util.UiUtils.showToast("创建身份钱包失败");
 							}
 						})
 					}					

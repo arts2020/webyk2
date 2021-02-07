@@ -72,7 +72,7 @@
 				
 				this.coinObj = JSON.parse(option.query);
 				this.chaintype = this.coinObj.chaintype;
-				
+				console.log("==this.chaintype==",this.chaintype)
 				if(this.coinObj.type == 1){
 					this.title = "助记词"
 				}else if(this.coinObj.type==2){
@@ -171,18 +171,21 @@
 				this.util.UiUtils.showLoading("钱包初始化...");
 				
 				//传参到数据层导入普通钱包，  根据助记词和私钥需要的不同参数传
+				let strval = ""
 				let importtype = this.entities.Metadata.ImportType.WordType
 				if(this.coinObj.type == 1){
 					importtype = this.entities.Metadata.ImportType.WordType
+					strval = this.words;
 				}else if(this.coinObj.type==2){
 					importtype = this.entities.Metadata.ImportType.PrivateType
+					strval = this.secretKey;
 				}
 				
 				let params = {
 					name: "",
 					password: this.password,
-					tips: this.pasdTip,
-					words:this.words,
+					passwordtip: this.pasdTip,
+					strval:strval,
 					importtype:importtype,
 					chaintype:this.chaintype
 				}
@@ -191,6 +194,8 @@
 				    console.log("========import-wallet======result===",result);
 					if(result){
 						this.util.UiUtils.switchToPage("wallet-index", "import-wallet-wallet",{},"switchTab");
+					}else{
+						this.util.UiUtils.showToast("导入钱包失败")
 					}
 				})
 			},	

@@ -83,28 +83,28 @@ const WalletMange = {
 			if (walletInfo.words && walletInfo.words.length > 0) {
 				let chaintype = vue.entities.Metadata.ChainType.BTC;
 				let ret = false;
-				
+
 				console.log("==Btc==")
 				ret = await vue.dal.Btc.createMain(walletInfo)
-				
+
 				if (ret) {
 					console.log("==Eos==")
 					chaintype = vue.entities.Metadata.ChainType.EOS;
 					ret = await vue.dal.Eos.createMain(walletInfo)
 				}
-				
+
 				if (ret) {
 					console.log("==Eth==")
 					chaintype = vue.entities.Metadata.ChainType.ETH;
 					ret = await vue.dal.Eth.createMain(walletInfo)
 				}
-				
+
 				// if (ret) {
 				// 	console.log("==Lotus==")
 				// 	chaintype = vue.entities.Metadata.ChainType.LOTUS;
 				// 	ret = await vue.dal.Lotus.createMain(walletInfo)
 				// }
-				
+
 				if (ret) {
 					console.log("==Tron==")
 					chaintype = vue.entities.Metadata.ChainType.TRON;
@@ -125,19 +125,20 @@ const WalletMange = {
 		}
 	},
 
-	//创建普通钱包
-	async createNormalWallet(chaintype, importtype, strval) {
-		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
-			await vue.dal.Btc.createNormal(importtype, strval)
-		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {
-			await vue.dal.Eos.createNormal(importtype, strval)
-		} else if (chaintype == vue.entities.Metadata.ChainType.ETH) {
-			await vue.dal.Eth.createNormal(importtype, strval)
-		} else if (chaintype == vue.entities.Metadata.ChainType.Lotus) {
-			await vue.dal.Lotus.createNormal(importtype, strval)
-		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
-			await vue.dal.Tron.createNormal(importtype, strval)
+	//创建普通钱包 chaintype, importtype, strval
+	async createNormalWallet(walletInfo) {
+		if (walletInfo.chaintype == vue.entities.Metadata.ChainType.BTC) {
+			return await vue.dal.Btc.createNormal(walletInfo)
+		} else if (walletInfo.chaintype == vue.entities.Metadata.ChainType.EOS) {
+			return await vue.dal.Eos.createNormal(walletInfo)
+		} else if (walletInfo.chaintype == vue.entities.Metadata.ChainType.ETH) {
+			return await vue.dal.Eth.createNormal(walletInfo)
+		} else if (walletInfo.chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			return await vue.dal.Lotus.createNormal(walletInfo)
+		} else if (walletInfo.chaintype == vue.entities.Metadata.ChainType.TRON) {
+			return await vue.dal.Tron.createNormal(walletInfo)
 		}
+		return false;
 	},
 
 	//创建合约钱包
@@ -159,10 +160,11 @@ const WalletMange = {
 	createNewWords: function() {
 		vue.cclog("=============createNewWords============")
 		var mnemonic = bip39.entropyToMnemonic('00000000000000000000000000000000')
-		console.log("===mnemonic===", mnemonic)
+
 		// reversible
 		console.log(bip39.mnemonicToEntropy(mnemonic))
 		var mnemonic = bip39.generateMnemonic()
+		console.log("===mnemonic===", mnemonic)
 		return mnemonic;
 	},
 
@@ -185,7 +187,7 @@ const WalletMange = {
 	isExistWallet: function() {
 		let mainWallets = vue.dal.MainWallet.getMainWallets()
 		let normalWallets = vue.dal.NormalWallet.getNormalWallets()
-		if (mainWallets.length > 0 && normalWallets.length > 0) {
+		if (mainWallets.length > 0 || normalWallets.length > 0) {
 			return true;
 		}
 		return false;
