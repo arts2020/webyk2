@@ -4,7 +4,7 @@ import App from './App'
 var cclog = {}
 uni.cclog = function() {
 	// if (process.env.NODE_ENV === 'development') {
-	// console.log(...arguments)
+	console.log(...arguments)
 	// }
 }
 

@@ -72,6 +72,17 @@ const Net = {
 		// uni.cclog("===request=====this.host=======", this.host)
 		HttpServer.request(code, params, host)
 	},
+	
+	async asyncRequest(code, params,url) {
+		var netstate = vue.util.Utils.getNetState();
+		let host = this.host;
+		// uni.cclog("===request=====host=======", host)
+		if(url){
+			host = host;
+		}
+		// uni.cclog("===request=====this.host=======", this.host)
+		return await HttpServer.asyncRequest(code, params, host)
+	},
 
 	connectSocket() {
 		uni.cclog("==net=connectSocket=======")

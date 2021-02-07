@@ -7,7 +7,7 @@ var vue = Vue.prototype
 
 const Tron = {
 	init: function() {
-		vue.cclog("========Tron===初始化===============")
+		console.log("========Tron===初始化===============")
 		let HttpProvider = TronWeb.providers.HttpProvider;
 		this.m_fullNode = new HttpProvider("https://api.shasta.trongrid.io");
 		this.m_solidityNode = new HttpProvider("https://api.shasta.trongrid.io");
@@ -27,7 +27,8 @@ const Tron = {
 			wallet.passwordtip = walletInfo.tips;
 			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
 			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.TRON, wallet);
-		}
+		}			
+		return true;
 	},
 	//创建普通钱包
 	async createNormal(importtype, strval) {
@@ -43,7 +44,7 @@ const Tron = {
 	},
 
 	async createWalletByWords(words) {
-		vue.cclog("========TRON===创建节点请求===============")
+		console.log("========TRON===创建节点请求===============")
 		try {
 			let seed = await bip39.mnemonicToSeed(words)
 			const node = bip32.fromSeed(seed);
@@ -62,7 +63,7 @@ const Tron = {
 				address: address.address
 			}
 		} catch (e) {
-			console.log("===createWalletByWords=e==", e)
+			console.log("=tron==createWalletByWords=e==", e)
 			return false;
 		}
 	},

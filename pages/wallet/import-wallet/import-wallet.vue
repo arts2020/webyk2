@@ -6,7 +6,7 @@
 				<view class="top-title">{{title}}</view>
 				<view class="input-box" style="height: 335rpx;margin-bottom: 28rpx;">
 					<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词单词，并使用空格分隔/输入明文私钥" v-model="words" />
-				</view>
+					</view>
 			</view>
 			<view v-else>
 				<view class="top-title">{{title}}</view>
@@ -68,6 +68,7 @@
 		},
 		onLoad(option) {
 			if(option.query){
+				this.chaintype = this.entities.Metadata.ChainType.ETH;
 				this.coinObj = JSON.parse(option.query);
 				if(this.coinObj.type == 1){
 					this.title = "助记词"
@@ -175,16 +176,19 @@
 				}
 				
 				let params = {
-					name: this.walletName,
+					name: "",
 					password: this.password,
 					tips: this.pasdTip,
 					words:this.words,
-					importtype:importtype
+					importtype:importtype,
+					chaintype:this.chaintype
 				}
 				
-				this.dal.WalletManage.createMainWallet(params).then(result => {
+				this.dal.WalletManage.createNormalWallet(params).then(result => {
 				    console.log("========import-wallet======result===",result);
-					this.util.UiUtils.switchToPage("wallet-index", "import-wallet-wallet",{},"switchTab");
+					if(result){
+						this.util.UiUtils.switchToPage("wallet-index", "import-wallet-wallet",{},"switchTab");
+					}
 				})
 			},	
 		},

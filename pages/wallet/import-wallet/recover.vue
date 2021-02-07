@@ -186,7 +186,12 @@
 				
 				this.dal.WalletManage.createMainWallet(params).then(result => {
 				    console.log("========createMainWallet======result===",result);
-					this.util.UiUtils.switchToPage("wallet-add-coin", "creat-wallet-status",{backType:1});
+					if(result){
+						this.util.UiUtils.switchToPage("wallet-add-coin", "creat-wallet-status",{backType:1});
+					}else{
+						this.util.UiUtils.hideLoading();
+						this.util.UiUtils.showToast("恢复身份失败")
+					}
 				})
 			},	
 		}

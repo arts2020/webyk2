@@ -5,7 +5,7 @@ var vue = Vue.prototype
 
 const Lotus = {
 	init: function() {
-		vue.cclog("======== Lotus===初始化===============")
+		console.log("======== Lotus===初始化===============")
 	},
 
 	destroy: function() {
@@ -14,14 +14,19 @@ const Lotus = {
 
 	//创建身份钱包
 	async createMain(walletInfo) {
-		let wallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.Lotus)
+		let wallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.LOTUS)
 		if (!wallet) {
 			wallet = await this.createWalletByWords(walletInfo.words)
-			wallet.password = walletInfo.password;
-			wallet.passwordtip = walletInfo.tips;
-			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
+			if(wallet){
+				wallet.password = walletInfo.password;
+				wallet.passwordtip = walletInfo.tips;
+				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
+				vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
+				return true;
+			}
+			return false;
 		}
+		return true;
 	},
 
 	//创建普通钱包
@@ -35,24 +40,28 @@ const Lotus = {
 			wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
 			vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
 		}
+		return true;
 	},
 
 	async createWalletByWords(words) {
-		vue.cclog("========LOTUS===创建节点请求===============")
+		console.log("========LOTUS===创建节点请求===============")
 		try {
 			let ret = await FileCoinUtils.mnemonicWallter(words)
 			console.log("==createWalletByWords===ret===", ret)
-			let address = "f1" + ret.data.address;
-			let privateKey = ret.data.privateKey;
-			let publicKey = ret.data.publicKey;
-
-			return {
-				privateKey: privateKey,
-				publicKey: publicKey,
-				address: address.address
+			if(ret.code == 200){
+				let address = "f1" + ret.data.address;
+				let privateKey = ret.data.privateKey;
+				let publicKey = ret.data.publicKey;
+				
+				return {
+					privateKey: privateKey,
+					publicKey: publicKey,
+					address: address.address
+				}
 			}
+			return false;
 		} catch (e) {
-			console.log("===createWalletByWords=e==", e)
+			console.log("=lotus==createWalletByWords=e==", e)
 			return false;
 		}
 	},
@@ -90,7 +99,7 @@ const Lotus = {
 		}
 
 		let ret = await FileCoinUtils.sendTransaction(this.fromAddress, to, amount);
-		vue.cclog("=====fil====sendTransaction===ret==========", ret)
+		console.log("=====fil====sendTransaction===ret==========", ret)
 		if (ret.data) {
 			console.log("==tx.length==", ret.data)
 			let tx = ret.data['/']
@@ -120,7 +129,7 @@ const Lotus = {
 	onBalance: function() {
 		FileCoinUtils.getBalance(this.fromAddress).then((balance) => {
 			balance = balance / Math.pow(10, 18) || 0;
-			vue.cclog("=====this.FileCoinUtils===balance===", balance);
+			console.log("=====this.FileCoinUtils===balance===", balance);
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtBalance, {
 				balance: balance
 			});

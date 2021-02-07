@@ -13,13 +13,14 @@ const RequestCode = {
 	ChangeCapitalPassword: 29, // 修改资金密码接口
 	CheckCapitalPassword: 30, //资金密码检测接口
 
-	GetNotice: 80, // 公告 查询接口	
-	GetNoticeInfo: 81, //公告详情
-	GetNotify: 82, // 通知 查询接口	
-	GetSwiperList: 83, //轮播图列表
 	GetAssetprice: 84, //获得币价，该币要分一下类别，自选的、市币、defi
 	GetRate: 85, //配置文件
-	GetAssetstate: 86, //全网算力
+	
+	SendTransaction: 90, //
+	GetBalance: 91, //
+	PrivateWallter: 92, //
+	MnemonicWallter: 93, //
+	GetWalletValidateAddress: 94, //
 }
 
 export default RequestCode
