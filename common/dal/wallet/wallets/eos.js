@@ -1,5 +1,6 @@
 // const ecc = require('eosjs-ecc')
 const ECKey = require('../../../../node_modules/eckey');
+const ecc = require('eosjs-ecc')
 
 import Vue from 'vue'
 var vue = Vue.prototype
@@ -8,7 +9,7 @@ const Eos = {
 	m_balance: 0,
 	m_reqUrl: "",
 	init: function() {
-		vue.cclog("========Eos===初始化===============")
+		console.log("========Eos===初始化===============")
 		this.m_reqUrl = "";
 	},
 
@@ -26,6 +27,7 @@ const Eos = {
 			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
 			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.EOS, wallet);
 		}
+		return true;
 	},
 	//创建普通钱包
 	async createNormal(importtype, strval) {
@@ -41,7 +43,7 @@ const Eos = {
 	},
 
 	async createWalletByWords(words) {
-		vue.cclog("========EOS===创建节点请求===============")
+		console.log("========EOS===创建节点请求===============")
 		try {
 			console.log("==words==", words)
 			var privateKey = ecc.seedPrivate(words);
@@ -57,7 +59,7 @@ const Eos = {
 				address: ""
 			}
 		} catch (e) {
-			console.log("===createWalletByWords=e==", e)
+			console.log("=eos==createWalletByWords=e==", e)
 			return false;
 		}
 	},
@@ -97,11 +99,11 @@ const Eos = {
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
 		vue.util.UiUtils.hideLoading();
-		vue.cclog("=====Eos===sendTransaction====", txid);
+		console.log("=====Eos===sendTransaction====", txid);
 	},
 
 	getBalance: function() {
-		vue.cclog("=====Eos===this.m_balance====", this.m_balance);
+		console.log("=====Eos===this.m_balance====", this.m_balance);
 		return this.m_balance;
 	},
 

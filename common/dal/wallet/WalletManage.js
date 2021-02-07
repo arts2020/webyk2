@@ -41,12 +41,12 @@ const WalletMange = {
 	},
 
 	//获得助记词
-	async () {
+	async getMnemonic() {
 		vue.cclog("=============getMnemonic============")
 		let words = this.createNewWords();
 		return words;
 	},
-	
+
 	//创建指定链的身份钱包
 	async createMainWallets(walletInfo, chains) {
 		try {
@@ -65,6 +65,7 @@ const WalletMange = {
 						await vue.dal.Tron.createMain(walletInfo)
 					}
 				}
+				vue.dal.MainWallet.setMainInfo(walletInfo);
 				return true;
 			} else {
 				console.error("==助记词无效=words===", words)
@@ -75,25 +76,44 @@ const WalletMange = {
 			return false;
 		}
 	},
-	// name: "identity_name",
-	// password: this.password,
-	// tips: this.pasdTip,
-	// words:this.words,
-	// importtype:this.Metadata.ImportType.WordType
+
 	//创建所有身份钱包
 	async createMainWallet(walletInfo) {
 		try {
 			if (walletInfo.words && walletInfo.words.length > 0) {
+				let chaintype = vue.entities.Metadata.ChainType.BTC;
+				let ret = false;
+				
 				console.log("==Btc==")
-				await vue.dal.Btc.createMain(walletInfo)
-				console.log("==Eos==")
-				await vue.dal.Eos.createMain(walletInfo)
-				console.log("==Eth==")
-				await vue.dal.Eth.createMain(walletInfo)
-				console.log("==Lotus==")
-				await vue.dal.Lotus.createMain(walletInfo)
-				console.log("==Tron==")
-				await vue.dal.Tron.createMain(walletInfo)
+				ret = await vue.dal.Btc.createMain(walletInfo)
+				
+				if (ret) {
+					console.log("==Eos==")
+					chaintype = vue.entities.Metadata.ChainType.EOS;
+					ret = await vue.dal.Eos.createMain(walletInfo)
+				}
+				
+				if (ret) {
+					console.log("==Eth==")
+					chaintype = vue.entities.Metadata.ChainType.ETH;
+					ret = await vue.dal.Eth.createMain(walletInfo)
+				}
+				
+				// if (ret) {
+				// 	console.log("==Lotus==")
+				// 	chaintype = vue.entities.Metadata.ChainType.LOTUS;
+				// 	ret = await vue.dal.Lotus.createMain(walletInfo)
+				// }
+				
+				if (ret) {
+					console.log("==Tron==")
+					chaintype = vue.entities.Metadata.ChainType.TRON;
+					ret = await vue.dal.Tron.createMain(walletInfo)
+				}
+				if (!ret) {
+					return false;
+				}
+				vue.dal.MainWallet.setMainInfo(walletInfo);
 				return true;
 			} else {
 				console.error("==助记词无效=words===", words)

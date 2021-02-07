@@ -5,6 +5,8 @@ const Setting = {
 	// evtCapitalPassword: "evt_CapitalPassword",
 	init: function() {
 		this.m_currLangeType = vue.entities.Metadata.GameLanguage.CN;
+		
+			console.log("=======Setting===this.m_currLangeType=========",this.m_currLangeType)
 		this.onAddListener();
 		return true;
 	},
@@ -14,7 +16,7 @@ const Setting = {
 	},
 
 	clear: function() {
-		uni.cclog("=======Setting====clear============")
+		console.log("=======Setting====clear============")
 	},
 
 	onAddListener: function() {
@@ -27,6 +29,9 @@ const Setting = {
 	},
 
 	getSysLanguage: function() {
+		if(!this.m_currLangeType){
+			this.m_currLangeType = vue.entities.Metadata.GameLanguage.CN;
+		}
 		return this.m_currLangeType
 	},
 

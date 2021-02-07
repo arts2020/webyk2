@@ -13,7 +13,7 @@ const Btc = {
 	m_reqUrl: "",
 
 	init: function() {
-		vue.cclog("========Btc===初始化===============")
+		console.log("========Btc===初始化===============")
 		this.m_reqUrl = "";
 	},
 
@@ -31,7 +31,7 @@ const Btc = {
 			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
 			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.BTC, wallet);
 		}
-		return true;
+		return wallet;
 	},
 
 	//创建普通钱包
@@ -49,15 +49,15 @@ const Btc = {
 	},
 
 	async createWalletByWords(words) {
-		vue.cclog("========Btc===创建节点请求===============")
+		console.log("========Btc===创建节点请求===============")
 		try {
 			console.log("==words==", words)
 			//设置生成测试or正式环境的钱包
 			const network = bitcoin.networks.bitcoin
-			console.log("==network==", network)
+			// console.log("==network==", network)
 			// 计算seed:
 			const seed = await bip39.mnemonicToSeed(words)
-			console.log("==seed==", seed)
+			// console.log("==seed==", seed)
 			const root = bip32.fromSeed(seed, network)
 			const path = "m/44'/0'/0'/0/0";
 			const keyPair = root.derivePath(path)
@@ -77,7 +77,7 @@ const Btc = {
 				address: address.address
 			}
 		} catch (e) {
-			console.log("===createWalletByWords=e==", e)
+			console.log("=btc==createWalletByWords=e==", e)
 			return false;
 		}
 	},
@@ -122,7 +122,7 @@ const Btc = {
 		//TODO....
 
 		vue.util.UiUtils.hideLoading();
-		vue.cclog("=====Btc===sendTransaction====", txid);
+		console.log("=====Btc===sendTransaction====", txid);
 	},
 
 	// TOKEN交易记录
@@ -132,12 +132,12 @@ const Btc = {
 
 		//TODO....
 		vue.util.UiUtils.hideLoading();
-		vue.cclog("=====Btc===sendTransaction====", txid);
+		console.log("=====Btc===sendTransaction====", txid);
 	},
 
 
 	getBalance: function() {
-		vue.cclog("=====Btc===this.m_balance====", this.m_balance);
+		console.log("=====Btc===this.m_balance====", this.m_balance);
 		return this.m_balance;
 	},
 

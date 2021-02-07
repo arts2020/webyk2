@@ -5,6 +5,7 @@ var vue = Vue.prototype
 const MainWallet = {
 	m_mainWallet: {}, //主钱包
 	m_chains: [], //主链信息
+	m_mainInfo: {}, //身份信息
 
 	init: function() {
 		uni.cclog("======MainWallet init==========")
@@ -34,7 +35,7 @@ const MainWallet = {
 	//增加身份钱包
 	addMainWallet: function(chaintype, wallet) {
 		let item = {
-			chain: chaintype,
+			chaintype: chaintype,
 			address: wallet.address,
 			privateKey: wallet.privateKey,
 			importtype: vue.entities.Metadata.ImportType.WordType,
@@ -62,12 +63,28 @@ const MainWallet = {
 
 	//获得单个身份钱包信息 
 	getMainWallet: function(chaintype) {
-		console.log('=getMainWallet=chaintype==',chaintype)
+		console.log('=getMainWallet=chaintype==', chaintype)
 		let wallet = this.m_mainWallet[chaintype];
-		if(wallet){
+		if (wallet) {
 			return wallet;
 		}
 		return null;
+	},
+	// name: "identity_name",
+	// password: this.password,
+	// tips: this.pasdTip,
+	// words:this.words,
+	// importtype:this.Metadata.ImportType.WordType
+	setMainInfo: function(mainInfo) {
+		let info = {
+			name: mainInfo.name,
+			password: mainInfo.password,
+		}
+		this.m_mainInfo = info;
+	},
+
+	getMainInfo: function() {
+		return this.m_mainInfo;
 	},
 
 	//===========================身份钱包=助记词=私钥=======================
