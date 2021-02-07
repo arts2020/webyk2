@@ -42,7 +42,6 @@
             if(option.query){
             	let params = JSON.parse(option.query);
             	this.paramsObj = params;
-				console.log(this.paramsObj)
 				this.onRefresh()
             }
 		},
@@ -51,10 +50,14 @@
 			return {
 				//之前传递下来的参数
 				paramsObj:{},
+				//错误提示
 				errMsg:"",
 				scrollHeight: 0,
+				//正确顺序的助记词数组
 				words: [],
+				// 选中的助记词
 				seletItems: [],
+				//给每个助记词添加idx构建的对象数组 打乱顺序
 				tmpwords:[],
 				menuKey: 0,
 				isok: true,
@@ -92,7 +95,6 @@
 						if (this.isok == false) {
 							this.errMsg = '助记词顺序不正确，请校对';
 							this.$refs.popup.open()
-							// this.util.UiUtils.showToast("助记词顺序不正确，请校对");
 						}
 		
 						for (var i = 0; i < this.tmpwords.length; i++) {
@@ -146,13 +148,11 @@
 				if (this.seletItems.length <= 0) {
 					this.errMsg = '助记词不能为空';
 					this.$refs.popup.open()
-					// this.util.UiUtils.showToast("助记词不能为空");
 					return;
 				}
 				if (this.seletItems.length != this.words.length) {
 					this.errMsg = '助记词不正确';
 					this.$refs.popup.open()
-					// this.util.UiUtils.showToast("助记词不正确");
 					return;
 				}
 				for (var i = 0; i < this.seletItems.length; i++) {
@@ -161,7 +161,6 @@
 					if (item.val != tword) {
 						this.errMsg = '助记词顺序错误';
 						this.$refs.popup.open()
-						// this.util.UiUtils.showToast("助记词顺序错误");
 						return;
 					}
 				}
@@ -187,33 +186,34 @@
 							name: this.paramsObj.name,
 							password: this.paramsObj.password,
 							passwordtip: this.paramsObj.tips,
-							strval:"invest slice federal clinic aerobic silent unhappy deposit prosper quote talent cargo",//this.paramsObj.words
+							strval:this.paramsObj.words.join(" "),
 							importtype:this.entities.Metadata.ImportType.WordType,
 							chaintype:this.paramsObj.type,
 						}
 						
-						// 调用创建普通钱包方法
+						// 调用创建普通钱包方法  普通钱包创建成功后跳转到钱包首页
 						this.dal.WalletManage.createNormalWallet(params).then(res=>{
 							if(res){	
 								this.$refs.successPop.open();
 								setTimeout(()=>{
 									this.$refs.successPop.close();
 									this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
-								},1000)
+								},500)
 							}else{
 								this.util.UiUtils.showToast("创建单层钱包失败");
 							}
 						})
-						//普通钱包创建成功后跳转到钱包首页
+						
 					}else{
 						//创建身份钱包 成功后跳转到添加币种页
 						params = {
 							name: this.paramsObj.name,
 							password: this.paramsObj.password,
 							passwordtip: this.paramsObj.tips,
-							words: "invest slice federal clinic aerobic silent unhappy deposit prosper quote talent cargo",//this.paramsObj.words,
+							words: this.paramsObj.words.join(" "),
 							importtype:this.entities.Metadata.ImportType.WordType
 						}
+						console.log('1233333333333333',params)
 						//如果创建钱包返回true，成功
 						this.dal.WalletManage.createMainWallet(params).then(res=>{
 							if(res){	
@@ -221,7 +221,7 @@
 								setTimeout(()=>{
 									this.$refs.successPop.close();
 									this.util.UiUtils.switchToPage("wallet-add-coin", "backup-info-sure",{backType:1});
-								},1000)
+								},500)
 							}else{
 								this.util.UiUtils.showToast("创建身份钱包失败");
 							}
@@ -233,6 +233,7 @@
 				console.log(e.detail.value)
 			},
 			
+			//打乱顺序前和打乱后该位置上是不是 同一个单词
 			issameWord: function(key, val) {
 				var skey = this.seletItems.length;
 				var tval = this.words[skey];

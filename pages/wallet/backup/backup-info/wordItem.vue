@@ -1,9 +1,9 @@
 <template>
 	<view :class="isselect== false ? 'itemStyle' : 'itemStyle2'" @click="selectItem">
 		<text>{{item.val}} </text>
-		<image @click="closeItem" v-if="item.iswron == true" class="warn-icon" src="../../../../static/image/wallet/guide_word.png"></image>
+		<image @click.stop="closeItem" v-if="item.iswron == true" class="warn-icon" src="../../../../static/image/wallet/guide_word.png"></image>
 	</view>
-</template>
+</template> 
 
 <script>
 	export default {
@@ -106,8 +106,8 @@
 			font-weight: 500;
 			text-align: center;
 			color: #333333;
-			margin-right: 14rpx;
-			margin-bottom: 18rpx;
+			margin-right: 22rpx;
+			margin-bottom: 20rpx;
 		}
 		
 		.itemStyle2 {
@@ -126,7 +126,7 @@
 			font-weight: 500;
 			text-align: center;
 			color: #333333;
-			margin-right: 14rpx;
-			margin-bottom: 18rpx;
+			margin-right: 22rpx;
+			margin-bottom: 20rpx;
 		}
 </style>
