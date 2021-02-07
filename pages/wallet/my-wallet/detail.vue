@@ -68,14 +68,9 @@
 				exportType:1,
 			};
 		},
-		onLoad(option) {
-			if(option.query){
-				let params = JSON.parse(option.query);
-				
-				if(Object.keys(params).length!=0){
-					this.walletInfo = params;
-				}
-			}
+		onShow() {
+			// 从数据层获取当前钱包信息
+			// this.walletInfo = 
 		},
 		methods:{
 			removeWallet(){

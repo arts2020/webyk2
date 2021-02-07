@@ -85,56 +85,14 @@
 		},
 		data() {
 			return {
-				currentAsset:{},
+				currentAsset:{
+					name:"ETH",
+					rmb:"12.45",
+					money:"123.65"
+				},
 				//所有交易记录
 				allList:[
 					{
-						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
-						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
-						time:"2020.11.25 21:02:39",
-						num:'0.02',
-						// 1成功 2失败
-						status:'1',
-						// 1转出 2转入
-						type:"1"
-					},
-					{
-						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
-						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
-						time:"2020.11.25 21:02:39",
-						num:'0.02',
-						// 1成功 2失败
-						status:'1',
-						// 1转出 2转入
-						type:"1"
-					},{
-						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
-						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
-						time:"2020.11.25 21:02:39",
-						num:'0.02',
-						// 1成功 2失败
-						status:'1',
-						// 1转出 2转入
-						type:"1"
-					},{
-						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
-						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
-						time:"2020.11.25 21:02:39",
-						num:'0.02',
-						// 1成功 2失败
-						status:'1',
-						// 1转出 2转入
-						type:"1"
-					},{
-						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
-						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
-						time:"2020.11.25 21:02:39",
-						num:'0.02',
-						// 1成功 2失败
-						status:'1',
-						// 1转出 2转入
-						type:"1"
-					},{
 						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
 						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
 						time:"2020.11.25 21:02:39",
@@ -229,14 +187,6 @@
 				}
 			};
 		},
-		onLoad(option) {
-			if(option.query){
-				let params = JSON.parse(option.query);
-				if(Object.keys(params).length!=0){
-					this.currentAsset = params;
-				}
-			}
-		},
 		onShow() {
 			//获取高度
 			uni.getSystemInfo({
@@ -244,16 +194,21 @@
 					this.scrollHeight = res.windowHeight - res.statusBarHeight-44-71-8-46-75;
 				}
 			});
-			
-			this.getDealData();
-		},
-		onPullDownRefresh() {
-			this.getDealData();
+			this.onRefersh();
 		},
 		methods:{
+			onRefersh(){
+				//获取交易列表
+				this.getDealData();
+				
+				//从底层数据层获取当前资产信息
+				// this.currentAsset = 
+			},
 			getDealData(){
 				//根据当前资产类型获取用户所有交易记录
 				//根据字段筛选分组为转入,转出,失败的
+				
+				
 			},
 			goBack(){
 				this.util.UiUtils.switchBackPage();
@@ -265,10 +220,10 @@
 				this.active = val;
 			},
 			goCollectCash(){
-				this.$openPage({name:"recharge-currency",query:this.currentAsset})
+				this.$openPage({name:"recharge-currency"})
 			},
 			goTransfer(){
-				this.$openPage({name:"carry-over",query:this.currentAsset})
+				this.$openPage({name:"carry-over"})
 			},
 			goDetail(item){
 				this.$openPage({name:"deal-record-detail",query:item})

@@ -55,28 +55,6 @@
 
 <script>
 	export default {
-		created() {
-			// this.onRefresh();
-			// this.getGas();
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtTransResult, this.onTransResult);
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Wallter.evtBalance, this.onRefresh);
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtCheckCapitalPassword, this.onCheckCapitalPassword);
-		},
-		destroyed() {
-			// this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtTransResult, this.onTransResult);
-			// this.util.EventUtils.removeEventCustom(this.dal.Wallter.evtBalance, this.onRefresh);
-			// this.util.EventUtils.removeEventCustom(this.dal.Setting.evtCheckCapitalPassword, this.onCheckCapitalPassword);
-		},
-		onLoad(option) {
-			if (option.query) {
-				var data = JSON.parse(option.query);
-				console.log(data)
-				this.m_asset = data;
-				if (this.m_asset.name == "filecoin") {
-					this.m_asset.name = "FIL";
-				}
-			}
-		},
 		data() {
 			return {
 				count: "",
@@ -85,7 +63,9 @@
 				password: "",
 				bak:"",
 				//当前资产信息
-				m_asset: {},
+				m_asset: {
+					name:"ETH"
+				},
 				m_balane: "",
 				//默认矿工费
 				feeInfo:{
@@ -96,6 +76,16 @@
 					time:'5分钟'
 				}
 			}
+		},
+		onShow() {
+			//获取临时地址
+			let item = this.dal.Address.getTempAddress()
+			if(Object.keys(item).length!=0){
+				this.address = item.address;
+			}
+			
+			//从数据层获取当前资产信息
+			// this.m_asset =
 		},
 		methods: {
 			goAddressList(){

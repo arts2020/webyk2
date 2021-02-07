@@ -68,6 +68,7 @@
 		},
 		onLoad(option) {
 			if(option.query){
+				console.log(option.query)
 				this.coinObj = JSON.parse(option.query);
 				if(this.coinObj.type == 1){
 					this.title = "助记词"

@@ -1,25 +1,25 @@
 <template>
 	<view class="address-detail">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="地址本" @clickLeft="goBack">
-			<view slot="right" :style="{'color':coinObj.addrInfo?'#4C72EF':'#8e8e8e'}" @tap="goSave">保存</view>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="新建地址" @clickLeft="goBack">
+			<view slot="right" :style="{'color':addressObj.address?'#4C72EF':'#8e8e8e'}" @tap="goSave">保存</view>
 		</uni-nav-bar>
 	    <view class="coin" @tap="goChioce">
-			<image class="wallet-icon" :src="coinObj.logo" mode=""></image>
-			<text>{{coinObj.name}}</text>
+			<image class="wallet-icon" :src="'../../../static/image/chain/'+addressObj.img" mode=""></image>
+			<text>{{addressObj.name}}</text>
 			<image class="right-arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="addr_info">
 			<view class="title">地址信息</view>
 			<view class="addr_description">
 				<view class="addr_item">
-					<input type="text" placeholder="请输入地址" placeholder-class="tipClass" v-model="coinObj.addrInfo" />
-					<uni-icons type="scan" size="20" color="#000000"></uni-icons>
+					<input type="text" placeholder="请输入地址" placeholder-class="tipClass" v-model="addressObj.address" />
+					<uni-icons type="scan" size="20" color="#444444" style="font-weight: 600;"></uni-icons>
 				</view>
 				<view class="addr_item">
-					<input type="text" placeholder="名称" placeholder-class="tipClass" v-model="coinObj.addrName" />
+					<input type="text" placeholder="名称" placeholder-class="tipClass" v-model="addressObj.username" />
 				</view>
 				<view class="addr_item">
-					<input type="text" placeholder="描述(选填)" placeholder-class="tipClass" v-model="coinObj.addr_bak" />
+					<input type="text" placeholder="描述(选填)" placeholder-class="tipClass" v-model="addressObj.bak" />
 				</view>
 			</view>
 		</view>
@@ -30,58 +30,48 @@
 	export default {
 		data() {
 			return {
-				coinObj:{
-					logo:'../../../static/image/index/btc.png',
-					chaintype:1,
-					name:"ETH",
-					addrInfo:"",
-					addrName:"",
-					addr_bak:""
-				},
-				
+				// 点击
+				addressObj:{}
 			};
 		},
 		onLoad(option) {
+			// 获取临时地址信息,如果从添加进来，临时地址信息只有默认链有数据，其他为空； 如果点地址列表进来获取的临时地址信息全都有
+			this.addressObj = JSON.parse(JSON.stringify(this.dal.Address.getTempAddress()));
+			// 选择的地址类型后将数据传递过来更新此处地址对象中有关链的属性数据
 			let params = JSON.parse(option.query);
+			//如果去了选择地址类型页而没有选择只是返回，或者添加地址时用了默认的地址类型，
+			//则不会有参数传递到此，params对象为空，就不会改变临时地址对象数据
 			if(Object.keys(params).length!=0){
-				this.coinObj=params;
+				console.log(params)
+				this.addressObj.chaintype = params.chaintype;
+				this.addressObj.name = params.name;
+				this.addressObj.img= params.img;
+				console.log(this.addressObj)
 			}
 		},
-		onShow() {
-			
-			// let _this = this;
-			//获取高度
-			// uni.getSystemInfo({
-			// 	success:(res)=>{
-			// 		this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
-			// 	}
-			// });
-		},		
 		methods:{
 			goBack(){
 				this.util.UiUtils.switchBackPage();
 			},
 			goSave(){
-				if(!this.coinObj.addrInfo){
+				if(!this.addressObj.address){
 					return;
 				}
-				if(!this.coinObj.addrName){
-					uni.showToast({
-						title:"名称不能为空",
-						icon:"none"
-					})
+				if(!this.addressObj.username){
+					this.util.UiUtils.showToast("名称不能为空")
 					return;
 				}
-				// this.dal.Setting.onSetAddressInfo(this.coinObj);
+				
+				this.dal.Address.saveAddress(this.addressObj)
+				
+				this.util.UiUtils.showToast("保存成功")
+				
 				setTimeout(()=>{
-					this.$openPage({name:"address-list"})
-				},1000)
+					this.$openPage({name:"address-list",gotype:"redirectTo"})
+				},500)
 			},
 			goChioce(){
-				this.$openPage({name:"address-type",query:{chaintype:this.coinObj.chaintype}})
-			},
-			onSetAddress(data){
-				vue.util.UiUtils.showToast(data.msg);
+				this.$openPage({name:"address-type",query:{chaintype:this.addressObj.chaintype},gotype:"redirectTo"})
 			}
 		}
 	}
@@ -144,11 +134,12 @@
 				padding: 0 30rpx 0 32rpx;
 				box-sizing: border-box;
 				uni-input{
-					width: 80%;
+					width: 90%;
 					font-size: 26rpx;
 					font-family: PingFang SC, PingFang SC-Regular;
 					font-weight: 400;
 					color: #121212;
+					overflow: hidden;
 				}
 				.tipClass{
 					font-size: 26rpx;

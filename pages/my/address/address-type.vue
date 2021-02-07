@@ -2,13 +2,13 @@
 	<view class="addrress-type">
 		<uni-nav-bar background-color="#FAFBFF" left-icon="back" :statusBar="true" :fixed="true" title="选择地址类型" @clickLeft="goBack"></uni-nav-bar>
 		<view class="coin-list">
-			<view class="list-item" v-for="(item,index) in coinList" :key="index" @click="handleChecked(item)">
-				<image class="icon" :src="item.logo" mode=""></image>
+			<view class="list-item" v-for="(item,index) in chainList" :key="index" @click="handleChecked(item)">
+				<image class="icon" :src="'../../../static/image/chain/'+item.img" mode=""></image>
 				<view class="coin-name">
 					<view class="short-N">{{item.name}}</view>
 					<view class="full_N">{{item.alias}}</view>
 				</view>
-				<image v-if="current_coin==item.chaintype" class="checked-icon" src="../../../static/image/mine/checked.png" mode=""></image>
+				<image v-if="item.chaintype==current_chain" class="checked-icon" src="../../../static/image/mine/checked.png" mode=""></image>
 			</view>
 		</view>
 	</view>
@@ -18,30 +18,19 @@
 	export default {
 		data() {
 			return {
-				current_coin: 1,
-				coinList: [{
-						chaintype: 1,
-						logo: "../../../static/image/index/eth.png",
-						name: "ETH",
-						alias: "Ethereum"
-					},
-					{
-						chaintype: 2,
-						logo: "../../../static/image/index/btc.png",
-						name: "BTC",
-						alias: "Btcoin"
-					},
-					{
-						chaintype: 3,
-						logo: "../../../static/image/index/fil.png",
-						name: "ATOM",
-						alias: "Cosmos"
-					},
+				current_chain: 1,
+				chainList: [
 				]
 			};
 		},
 		onLoad(option) {
 			let param = JSON.parse(option.query)
+			if(param.chaintype){
+				this.current_chain = param.chaintype;
+			}
+		},
+		onShow() {
+			this.chainList =  this.dal.Chain.getChainList();
 		},
 		methods: {
 			goBack() {

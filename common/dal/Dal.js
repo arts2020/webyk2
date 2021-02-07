@@ -1,3 +1,4 @@
+import Address from '@/common/dal/Address.js'
 import Account from "@/common/dal/Account.js"
 import Character from "@/common/dal/Character.js"
 import UserInfo from "@/common/dal/UserInfo.js"
@@ -20,6 +21,7 @@ import Lotus from "@/common/dal/wallet/wallets/lotus.js"
 import Tron from "@/common/dal/wallet/wallets/tron.js"
 
 const Dal = {
+	Address,
 	Net,
 	Logger,
 	Dapp,

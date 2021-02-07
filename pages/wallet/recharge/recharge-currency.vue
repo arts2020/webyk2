@@ -41,22 +41,20 @@
 			qrCode,
 		},
 		created() {
-			this.m_cointype = this.m_asset.name;
-			if(this.m_cointype == "filecoin"){
-				// this.val = this.dal.LotusWallter.getAddress();
-			}else{
-				// this.val = this.dal.Wallter.getAddress();
-			}
-			this.m_address = this.val;
-		},
-		onLoad(option) {
-			var data = JSON.parse(option.query);
-			this.m_asset = data;
+			//从数据层获取当前资产信息
+			// this.m_asset = 
+			
+			// 给二维码要生成的内容赋值
+			// this.val = 
+			//给地址赋值
+			// this.m_address = 
+			//给链类型赋值
+			this.m_cointype
 		},
 		data() {
 			return {
-				m_address: "",
-				m_cointype: "",
+				m_address: "asf1v2s5fee8saccz5",
+				m_cointype: "ETH",
 				//当前资产
 				m_asset:"",
 				qrR: "",
@@ -100,8 +98,8 @@
 			goShare(){
 				// #ifdef APP-PLUS
 					let params = {
-						type:"",
-						content:"",
+						type:"text",
+						content:"asdas",
 						href:""
 					}
 					 plus.share.sendWithSystem(params, function(){

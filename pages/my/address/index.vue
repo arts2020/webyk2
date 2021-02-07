@@ -5,10 +5,10 @@
 		</uni-nav-bar>
 	    <view class="addr-list">
 	    	<view class="list-item" v-for="(item,index) in addresssList" :key="index" @click="handleChecked(item)">
-	    		<image class="icon" :src="item.logo" mode=""></image>
+	    		<image class="icon" :src="'../../../static/image/chain/'+item.img" mode=""></image>
 	    		<view class="addr-info">
-	    			<view class="user-N">{{item.addrName}}</view>
-	    			<view class="user_addr">{{item.addrInfo}}</view>
+	    			<view class="user-N">{{item.username}}</view>
+	    			<view class="user_addr">{{item.address}}</view>
 					<view class="bak">{{item.bak}}</view>
 	    	    </view>
 	    	</view>
@@ -22,24 +22,7 @@
 			return {
 				// 列表页点击返回方向,1返回转账界面,2去到地址详情页
 				backType:2,
-				addresssList:[
-					{
-						logo:"../../../static/image/index/eth.png",
-						chaintype:1,
-						name:"ETH",
-						addrName:"lisa",
-						addrInfo:"djbvduoqnjfsieioqnjddsuweomaknwoqndl bsdhao",
-						bak:"备注信息"
-					},
-					{
-						logo:"../../../static/image/index/btc.png",
-						chaintype:2,
-						name:"BTC",
-						addrName:"wczx",
-						addrInfo:"djbvduoqnjfsieioqnjddsuweomaknwoqndl bsdhao",
-						bak:"备注信息"
-					},
-				]
+				addresssList:[]
 			};
 		},
 		onLoad(option) {
@@ -49,33 +32,43 @@
 			}
 		},
 		onShow() {
-			// let _this = this;
 			uni.startPullDownRefresh();
-			setTimeout(function () {
-				// this.dal.Setting.onGetAddressList();
+			this.addresssList = this.dal.Address.getAddressList();
+			setTimeout(()=>{
 				uni.stopPullDownRefresh()
-			}.bind(this), 1000);
-			//获取高度
-			// uni.getSystemInfo({
-			// 	success:(res)=>{
-			// 		this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
-			// 	}
-			// });
+			}, 1000);
+			
 		},
 		methods:{
 			goBack(){
 				this.util.UiUtils.switchBackPage();
 			},
 			goAdd(){
-				this.$openPage({name:"address-detail"})
+				//保存临时地址  设置默认链为ETH
+				let list = this.dal.Chain.getChainList();
+				let tempItem = list.find(el=>el.chaintype == this.entities.Metadata.ChainType.ETH);
+				let item = {
+					chaintype:tempItem.chaintype,
+					name:tempItem.name,
+					username:'',
+					address:'',
+					bak:'',
+					img:tempItem.img
+				}
+				this.dal.Address.saveTempAddress(item);
+				this.$openPage({name:"address-detail",gotype:"redirectTo"})
 			},
 			handleChecked(item){
-				// 1返回转账界面,2去到地址详情页
+				//保存临时地址
+				this.dal.Address.saveTempAddress(item);
+				// 1返回转账界面,2去到地址详情页  如果都不是就默认不动
 				if(this.backType==1){
 					// 跳到转账页面  转账页有之前页面传过来的参数  
-					this.goBack();
+					this.$openPage({name:"carry-over",gotype:"redirectTo"})
 				}else if(this.backType==2){
-					this.$openPage({name:"address-detail",query:item})
+					this.$openPage({name:"address-detail",gotype:"redirectTo"})
+				}else{
+					return;
 				}
 			}
 		}
@@ -120,6 +113,7 @@
 					line-height: 48rpx;
 				}
 				.user_addr{
+					word-break: break-all;
 					font-size: 30rpx;
 					font-family: PingFang SC, PingFang SC-Regular;
 					font-weight: 500;

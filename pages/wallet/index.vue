@@ -25,7 +25,7 @@
 				</view>
 				<scroll-view scroll-y="true" class="coin-list">
 					<view class="coin-item" v-for="(item,index) in currentAsset" :key="index" @tap="goDealRecord(item)">
-						<image class="icon" :src="item.img" mode=""></image>
+						<image class="icon" :src="'../../../static/image/chain/'+item.img" mode=""></image>
 						<text>{{item.name}}</text>
 						<view class="kind-asset">
 							<view class="b1">{{item.rmb}}</view>
@@ -132,46 +132,26 @@
 </template>
 
 <script>
+	// this.dal.WalletManage.isExistWallet()
 	export default {
 		name: "wallet",
 		data() {
 			return {
-				hasWallet: this.dal.WalletManage.isExistWallet(),
+				hasWallet: true,
 				scrollHeight: 0,
 				//当前使用的钱包
 				currentWallet: {},
-				currentAsset: [{
+				currentAsset: [
+					{
 						img: "../../static/image/index/btc.png",
 						name: "BTC",
-						rmb: "23.03",
+						rmb:"12.36",
 						money: "1234.65"
 					},
 					{
 						img: "../../static/image/index/btc.png",
 						name: "BTC",
-						rmb: "23.03",
-						money: "1234.65"
-					},
-					{
-						img: "../../static/image/index/btc.png",
-						name: "BTC",
-						rmb: "23.03",
-						money: "1234.65"
-					},
-					{
-						img: "../../static/image/index/btc.png",
-						name: "BTC",
-						rmb: "23.03",
-						money: "1234.65"
-					},
-					{
-						img: "../../static/image/index/btc.png",
-						name: "BTC",
-						money: "1234.65"
-					},
-					{
-						img: "../../static/image/index/btc.png",
-						name: "BTC",
+						rmb:"12.36",
 						money: "1234.65"
 					}
 				],
@@ -248,13 +228,11 @@
 			goDealRecord(item) {
 				this.$openPage({
 					name: "deal-record",
-					query: item
 				})
 			},
 			goDetail() {
 				this.$openPage({
 					name: "my-wallet-detail",
-					query: this.currentWallet
 				})
 			},
 			importWallet() {

@@ -34,6 +34,7 @@
 		},
 		onLoad(option) {
 			if(option.query){
+				console.log(option.query)
 				this.activeCoin  = JSON.parse(option.query)	
 			}
 		},
