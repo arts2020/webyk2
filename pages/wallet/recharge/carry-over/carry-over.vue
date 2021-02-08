@@ -125,7 +125,7 @@
 
 			onRefresh: function() {
 				if (this.m_asset == "eth") {
-					// this.m_balane = this.dal.Ethers.getBalance().toFixed(6);
+					// this.m_balane = this.dal.Eth.getBalance().toFixed(6);
 				} else if (this.m_asset == "usdt") {
 					// this.m_balane = this.dal.UsdtErc20.getBalance().toFixed(6);
 				} else if (this.m_asset == "btc") {

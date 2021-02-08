@@ -216,7 +216,7 @@
 			  this.currentWallet = this.identity_wallets.length?this.identity_wallets[0]:this.single_wallets[0];
 			  //根据当前钱包链的类型，筛选出该类型链下对应资产列表
 			  this.currentAsset = this.dal.ContractWallet.getContractWallets(this.currentWallet.chaintype)
-			  console.log('=====钱包和资产列表=====',this.identity_wallets,this.single_wallets,this.currentAsset)
+			  console.log('=====钱包和资产列表=====',this.currentAsset)
 			},
 			closePop() {
 				this.$refs.walletPop.close();

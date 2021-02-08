@@ -6,18 +6,19 @@ var vue = Vue.prototype
 const Chain = {
 	m_chains: [], //主链信息
 	m_assets: [], //资产信息
-	
-	m_mineChains:[],//我选择的主链
-	
+
+	m_mineChains: [], //我选择的主链
+	m_currChainType: 0, //当前链
+
 	init: function() {
 		uni.cclog("======Chain init==========")
 		this.m_chains = vue.entities.Wallets.getChains();
 		this.m_assets = vue.entities.Wallets.getAssets();
-		
-		let minechain =  vue.util.StringUtils.getUserDefaults("chain_mine_key");
+
+		let minechain = vue.util.StringUtils.getUserDefaults("chain_mine_key");
 		if (minechain && minechain.length > 0) {
 			this.m_mineChains = JSON.parse(minechain)
-		}else{
+		} else {
 			this.addMineChainInfo(vue.entities.Metadata.ChainType.ETH)
 			this.addMineChainInfo(vue.entities.Metadata.ChainType.TRON)
 		}
@@ -71,26 +72,48 @@ const Chain = {
 		}
 		return items;
 	},
-	
+
+	getAssetByAddress: function(chaintype, address) {
+		for (let i = 0; i < this.m_assets.length; i++) {
+			let asset = this.m_assets[i];
+			if (asset.chaintype == chaintype) {
+				for (let k = 0; k < asset.assets.length; k++) {
+					let item = asset.assets[k];
+					return item;
+				}
+			}
+		}
+		return null;
+	},
+
 	//===================增加我选择的主链================
-	addMineChainInfo:function(chaintype){
+	addMineChainInfo: function(chaintype) {
 		let ishave = false;
-		for(let i = 0; i < this.m_mineChains.length ;i++){
+		for (let i = 0; i < this.m_mineChains.length; i++) {
 			let type = this.m_mineChains[i]
-			if(type == chaintype){
+			if (type == chaintype) {
 				ishave = true;
 				break;
 			}
 		}
-		if(!ishave){
+		if (!ishave) {
 			this.m_mineChains.push(chaintype);
 		}
-		vue.util.StringUtils.setUserDefaults("chain_mine_key",JSON.stringify(this.m_mineChains));
+		vue.util.StringUtils.setUserDefaults("chain_mine_key", JSON.stringify(this.m_mineChains));
+	},
+
+	getMineChains: function() {
+		return this.m_mineChains;
 	},
 	
-	getMineChains:function(){
-		return this.m_mineChains;
-	}
+	//当前链
+	setCurrChainType:function(chaintype){
+		this.m_currChainType = chaintype;
+	},
 	
+	getCurrChainType:function(){
+		return this.m_currChainType;
+	}
+
 }
 export default Chain

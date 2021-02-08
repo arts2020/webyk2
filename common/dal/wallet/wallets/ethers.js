@@ -1,6 +1,6 @@
 const ethers = require("../../../../node_modules/ethers")
 const EthUtils = require('../utils/eth-utils.js').EthUtils;
-const web3 = require("../../../../node_modules/web3")
+const Web3 = require("../../../../node_modules/web3")
 
 import Vue from 'vue'
 var vue = Vue.prototype
@@ -11,6 +11,8 @@ const Ethers = {
 	init: function() {
 		console.log("=========Ethers===初始化===============",ethers)
 		this.m_reqUrl = "https://mainnet.infura.io/v3/033fa6dd066c48d99c6b43c0b6da4dd7";
+		
+		this.m_web3= new Web3(new Web3.providers.HttpProvider(this.m_reqUrl));
 	},
 
 	destroy: function() {
@@ -34,8 +36,7 @@ const Ethers = {
 	async createContract(address) {
 		let iscontract = this.isContract(address);
 		if (iscontract) {
-			vue.dal.ContractWallet.addContractWallet(vue.entities.Metadata.ChainType.ETH, address)
-			return true;
+			return await vue.dal.ContractWallet.addContractWallet(vue.entities.Metadata.ChainType.ETH, address)
 		}
 		return false;
 	},
@@ -188,9 +189,9 @@ const Ethers = {
 		})
 	},
 
-	isContract: function(address) {
-		let code = web3.eth.getCode(this.fromAddress)
-		console.log("==isContract====code===", code)
+	async isContract(address) {
+		console.log("==isContract=address==", address)
+		let code = await this.m_web3.eth.getCode(address)
 		if (code == '0x') {
 			console.log('普通账户')
 			return false;
