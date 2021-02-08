@@ -82,10 +82,10 @@
 			onRefresh:function(){
 				this.checkedTypes = [];
 				this.coinList = this.dal.Chain.getChainList();
-				this.myMainWallets = this.dal.MainWallet.getMainWallets();
-				for(let i = 0; i < this.myMainWallets.length ;i++){
-					let walletinfo = this.myMainWallets[i];
-					let item = this.coinList.find(el=>el.chaintype == walletinfo.chaintype);
+				this.myChains = this.dal.Chain.getMineChains();
+				for(let i = 0; i < this.myChains.length ;i++){
+					let chaintype = this.myChains[i];
+					let item = this.coinList.find(el=>el.chaintype == chaintype);
 					item.isdefault = true;
 					this.checkedTypes.push(item)
 				}
@@ -161,7 +161,10 @@
 				}
 	
 				// 执行完添加链的操作后跳转	
-				console.log(this.checkedTypes)
+				for(let i = 0; i < this.checkedTypes.length ;i++){
+					let ctype = this.checkedTypes[i];
+					this.dal.Chain.addMineChainInfo(ctype);
+				}
 				
 				setTimeout(()=>{					
 					this.$openPage(params);

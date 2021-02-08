@@ -65,7 +65,7 @@ const WalletMange = {
 						await vue.dal.Tron.createMain(walletInfo)
 					}
 				}
-				vue.dal.MainWallet.setMainInfo(walletInfo);
+				// vue.dal.MainWallet.setMainInfo(walletInfo);
 				return true;
 			} else {
 				console.error("==助记词无效=words===", words)
