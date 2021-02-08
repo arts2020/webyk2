@@ -23,7 +23,7 @@ const Btc = {
 
 	//创建身份钱包
 	async createMain(walletInfo) {
-		let wallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.BTC)
+		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.BTC)
 		if (!wallet) {
 			wallet = await this.createWalletByWords(walletInfo.words)
 			wallet.password = walletInfo.password;

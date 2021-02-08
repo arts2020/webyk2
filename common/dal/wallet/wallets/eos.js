@@ -19,7 +19,7 @@ const Eos = {
 
 	//创建身份钱包
 	async createMain(walletInfo) {
-		let wallet = vue.dal.MainWallet.getMainWallet(vue.entities.Metadata.ChainType.EOS)
+		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.EOS)
 		if (!wallet) {
 			wallet = await this.createWalletByWords(walletInfo.words)
 			wallet.password = walletInfo.password;

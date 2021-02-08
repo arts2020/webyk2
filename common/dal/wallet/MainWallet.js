@@ -62,7 +62,7 @@ const MainWallet = {
 	},
 
 	//获得单个身份钱包信息 
-	getMainWallet: function(chaintype) {
+	getMainWalletByType: function(chaintype) {
 		console.log('=getMainWallet=chaintype==', chaintype)
 		let wallet = this.m_mainWallet[chaintype];
 		if (wallet) {
@@ -101,7 +101,7 @@ const MainWallet = {
 
 	//获取主链私钥
 	getMainPrivate: function(chaintype) {
-		let walletInfo = this.getMainWallet(chaintype)
+		let walletInfo = this.getMainWalletByType(chaintype)
 		if (walletInfo) {
 			return walletInfo.privateKey;
 		}
@@ -111,7 +111,7 @@ const MainWallet = {
 	//私钥是否被身份钱包使用过
 	isExistWallet: function(chaintype, privateKey) {
 		let isexist = false;
-		let items = this.getMainWallet(chaintype);
+		let items = this.getMainWalletByType(chaintype);
 		for (let i = 0; i < items.length; i++) {
 			let item = items[i];
 			if (item.privateKey == privateKey) {
