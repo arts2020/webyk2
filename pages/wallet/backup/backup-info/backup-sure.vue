@@ -125,7 +125,7 @@
 			},
 			
 			onRefresh() {
-				this.words = this.paramsObj.words;
+				this.words = this.paramsObj.words.split(' ');
 				var ws = [];
 				for (var i = 0; i < this.words.length; i++) {
 					var a = {
@@ -211,7 +211,7 @@
 							name: this.paramsObj.name,
 							password: this.paramsObj.password,
 							passwordtip: this.paramsObj.tips,
-							words: this.paramsObj.words.join(" "),
+							words: this.paramsObj.words,
 							importtype:this.entities.Metadata.ImportType.WordType
 						}
 						console.log('1233333333333333',params)

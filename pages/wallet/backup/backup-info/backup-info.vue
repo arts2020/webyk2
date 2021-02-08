@@ -54,7 +54,7 @@
 				}
 				let params ={
 					...this.paramsObj,
-					words:this.words
+					words:this.words.join(' ')
 				}
 				this.$openPage({name:'backup-info-sure',query:params});
 			},
