@@ -44,6 +44,7 @@
 				let params = JSON.parse(option.query);
 				this.paramsObj = params;
 			}
+			// let walletInfo = this.dal.WalletManage.getCurrWallet();
 			//获取keystore
 			// this.keystore = 
 		},

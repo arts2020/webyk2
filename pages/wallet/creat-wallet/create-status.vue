@@ -2,7 +2,7 @@
 	<view class="create-status">
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="创建身份" @clickLeft="goBack"></uni-nav-bar>
 
-		<view class="create-main" v-if="isNext" :style="'height:'+scrollHeight+'px'">
+		<view class="create-main" v-if="isNext">
 			<view class="top-title">创建身份，你将会有身份下的多链钱包，比如ETH、BTC ...</view>
 			<view>
 				<view class="top-title">身份名</view>
@@ -39,7 +39,7 @@
 			<view class="btn_ok" :style="'background-color:'+btnCreate_color" @tap="btnCreate">创建</view>
 		</view>
 
-		<view class="aggrement" v-else :style="'height:'+scrollHeight+'px'">
+		<view class="aggrement" v-else>
 			<scroll-view scroll-y="true" class="aggr-c">
 				<rich-text :nodes="aggrement"></rich-text>
 			</scroll-view>

@@ -4,7 +4,7 @@
 	    <view class="wallet-info">
 			<view class="wallet_addr">
 				<view class="w-title" style="color: #999999;">钱包地址</view>
-				<view class="addr">{{walletInfo.addr}}</view>
+				<view class="addr">{{walletInfo.address}}</view>
 			</view>
 			<view class="wallet-Name" @click="goEdit">
 				<text class="w-title">钱包名称</text>
@@ -56,7 +56,7 @@
 			return {
 				walletInfo:{
 					name:"jugwyvda",
-					addr:"anvjiuy2945-1mf-=2koijc83bjiaov"
+					address:"anvjiuy2945-1mf-=2koijc83bjiaov"
 				},
 				ishowContent:false,
 				rightIcon:"../../../static/image/mine/arrow-left.svg",
@@ -70,7 +70,8 @@
 		},
 		onShow() {
 			// 从数据层获取当前钱包信息
-			// this.walletInfo = 
+			this.walletInfo = this.dal.WalletManage.getCurrWallet();
+			console.log(this.walletInfo)
 		},
 		methods:{
 			removeWallet(){
@@ -115,6 +116,7 @@
 					this.$openPage({name:"backup-tip",
 					query:{
 						  bakType:this.exportType,
+						  isBak:true,
 						  // 将需要的钱包信息传递到备份提示也
 						  name:this.walletInfo.name
 					    },
@@ -172,6 +174,9 @@
 				font-family: PingFang SC, PingFang SC-Regular;
 				font-weight: 400;
 				color: #121212;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 		}
 		.wallet-Name{

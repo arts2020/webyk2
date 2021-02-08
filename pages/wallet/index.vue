@@ -1,5 +1,5 @@
 <template>
-	<view class="wallet-index">
+	<view class="wallet-index">	
 		<uni-nav-bar v-if="hasWallet" background-color="#FAFBFF" :statusBar="true" :fixed="true" title="钱包" @clickLeft="openList">
 			<view class="icon" slot="left">
 				<image style="width: 34rpx;height: 29rpx;margin-left: 25rpx;" src="../../static/image/index/list.png" mode=""></image>
@@ -7,13 +7,14 @@
 		</uni-nav-bar>
 		<!-- 有钱包 -->
 		<view class="has-wallet" v-if="hasWallet" :style="'height:'+scrollHeight+'px'">
-			<view class="wallet" :style="'background: url('+currentWallet.bgcImg+') no-repeat;background-size: 100% 100%;'">
+			
+			<view class="wallet" :style="'background: url(../../static/image/chain/'+currentWallet.bgcImg+') no-repeat;background-size: 100% 100%;'">
 				<view class="p1">
 					<text>{{currentWallet.name}}</text>
 					<image @click="goDetail()" src="../../static/image/index/goin.png" mode=""></image>
 				</view>
 				<view class="p2">
-					<view class="word">{{currentWallet.addr}}</view>
+					<view class="word">{{currentWallet.address}}</view>
 					<image src="../../static/image/index/sqcode.png" mode=""></image>
 				</view>
 				<view class="p3">￥{{currentWallet.money}}</view>
@@ -23,9 +24,9 @@
 					<text>资产</text>
 					<image src="../../static/image/index/plus.png" mode="" @click="goAddAsset"></image>
 				</view>
-				<scroll-view scroll-y="true" class="coin-list">
+				<scroll-view scroll-y="true" class="coin-list" :show-scrollbar="false">
 					<view class="coin-item" v-for="(item,index) in currentAsset" :key="index" @tap="goDealRecord(item)">
-						<image class="icon" :src="'../../../static/image/chain/'+item.img" mode=""></image>
+						<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
 						<text>{{item.name}}</text>
 						<view class="kind-asset">
 							<view class="b1">{{item.rmb}}</view>
@@ -49,19 +50,19 @@
 								</view>
 								<view class="menu-item" :class="{'activeClass':activeObj.chaintype==item.chaintype}" v-for="(item,index) in identity_wallets"
 								 :key="index" @tap="handleChecked(item)">
-									<image :src="item.logo" mode=""></image>
+									<image :src="'../../static/image/chain/'+item.logo" mode=""></image>
 								</view>
 							</view>
 						</scroll-view>
 						<scroll-view class="main-right" scroll-y="true">
 							<view class="current-c" v-if="currentList.length">
-								<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
+								<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
 								 @tap="checkedItem(item)">
 									<view class="wallet-name">
 										<text>{{item.name}}</text>
 										<text>...</text>
 									</view>
-									<view class="wallet-addr">{{item.addr}}</view>
+									<view class="wallet-addr">{{item.address}}</view>
 								</view>
 							</view>
 							<view class="main-c" v-else>
@@ -69,24 +70,24 @@
 									<text>身份钱包</text>
 								</view>
 								<view class="menu-list">
-									<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
+									<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
 									 @tap="checkedItem(item)">
 										<view class="wallet-name">
 											<text>{{item.name}}</text>
 											<text>...</text>
 										</view>
-										<view class="wallet-addr">{{item.addr}}</view>
+										<view class="wallet-addr">{{item.address}}</view>
 									</view>
 								</view>
 								<view class="create-import" v-if="single_wallets.length">
 									<view class="top-title">创建/导入</view>
-									<view class="list-item" @tap="checkedItem(item)" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
+									<view class="list-item" @tap="checkedItem(item)" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
 									 v-for="(item,index) in single_wallets" :key="index">
 										<view class="wallet-name">
 											<text>{{item.name}}</text>
 											<text>...</text>
 										</view>
-										<view class="wallet-addr">{{item.addr}}</view>
+										<view class="wallet-addr">{{item.address}}</view>
 									</view>
 								</view>
 
@@ -136,7 +137,7 @@
 		name: "wallet",
 		data() {
 			return {
-				hasWallet: this.dal.WalletManage.isExistWallet(),
+				hasWallet: false,
 				scrollHeight: 0,
 				//当前使用的钱包
 				currentWallet: {},
@@ -163,50 +164,21 @@
 				//钱包管理页类型一致钱包列表
 				currentList: [],
 				//身份钱包
-				identity_wallets: [{
-						chaintype: 1,
-						logo: "../../static/image/index/eth.png",
-						logo_act: "../../static/image/index/index-select.png",
-						name: "ETH",
-						alias: "Ethereum",
-						addr: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg: "../../static/image/mine/btcImg.png",
-						money:123.45
-					},
-					{
-						chaintype: 2,
-						logo: "../../static/image/index/btc.png",
-						logo_act: "../../static/image/index/index-select.png",
-						name: "BTC",
-						alias: "Bitcoin",
-						addr: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg: "../../static/image/mine/ethImg.png",
-						money:123.45
-					},
+				identity_wallets: [
 				],
 				// 普通钱包
-				single_wallets: [{
-					chaintype: 1,
-					logo: "../../static/image/index/index.png",
-					logo_act: "../../static/image/index/index.png",
-					name: "lisa",
-					addr: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-					bgcImg: "../../static/image/mine/import-wallet.png",
-					money:123.45
-				}]
+				single_wallets: []
 			}
 		},
 		onShow() {
-			//页面显示时去获取身份钱包和普通钱包以及当前的钱包,当前钱包所对应的资产 获取所有资产链
-			// this.identity_wallets = 
-			// this.single_wallets = 
-			//当前钱包先默认拿第一个身份钱包			
-			this.currentWallet = this.identity_wallets[0];
-			//根据当前钱包链的类型，筛选出该类型链下对应资产列表
-			// this.currentAsset = 
-			//判断有无钱包
-			this.hasWallet = this.dal.WalletManage.isExistWallet();
+			//判断有无钱包  有钱包时获取钱包数据
+			if(this.dal.WalletManage.isExistWallet()){
+				//页面显示时去获取身份钱包和普通钱包以及当前的钱包,当前钱包所对应的资产 获取所有资产链
+				this.hasWallet = true;
+				this.onRefresh();
+			}
 			console.log('==this.hasWallet==',this.hasWallet)
+			
 			let _this = this;
 			//获取高度
 			uni.getSystemInfo({
@@ -216,12 +188,43 @@
 			});
 		},
 		methods: {
+			onRefresh:function(){
+			  
+			  let chains = this.dal.Chain.getChainList();
+			  
+			  // 身份钱包数据
+			  let  mineChains = this.dal.MainWallet.getMainWallets();
+			  //添加logo图标和背景图
+			  mineChains.forEach(el=>{
+				  let item = chains.find(e=>e.chaintype==el.chaintype);
+				  el.logo=item.img;
+				  el.bgcImg = item.img.split('.')[0]+'bg.png';
+			  })
+			  this.identity_wallets = mineChains;
+			  
+			  //普通钱包数据
+			  let normalWallets= this.dal.NormalWallet.getNormalWallets();
+			    //添加logo图标和背景图
+			  normalWallets.forEach(el=>{
+				  let item = chains.find(e=>e.chaintype==el.chaintype);
+				  el.logo=item.img;
+				  el.bgcImg = item.img.split('.')[0]+'bg.png';
+			  })
+			  this.single_wallets = normalWallets;			 
+			  
+			  //当前钱包默认优先拿第一个身份钱包，没有身份钱包时默认用第一个普通钱包
+			  this.currentWallet = this.identity_wallets.length?this.identity_wallets[0]:this.single_wallets[0];
+			  //根据当前钱包链的类型，筛选出该类型链下对应资产列表
+			  this.currentAsset = this.dal.ContractWallet.getContractWallets(this.currentWallet.chaintype)
+			  console.log('=====钱包和资产列表=====',this.identity_wallets,this.single_wallets,this.currentAsset)
+			},
 			closePop() {
 				this.$refs.walletPop.close();
 			},
 			goAddAsset() {
 				this.$openPage({
-					name: "add-asset"
+					name: "add-asset",
+					query:{chaintype:this.currentWallet.chaintype}
 				})
 			},
 			goDealRecord(item) {
@@ -230,6 +233,8 @@
 				})
 			},
 			goDetail() {
+				console.log('=== 当前钱包===',this.currentWallet)
+				this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype,this.currentWallet.idx)
 				this.$openPage({
 					name: "my-wallet-detail",
 				})
@@ -243,14 +248,6 @@
 				this.$openPage({
 					name: "creat-wallet-index"
 				})
-			},
-			//有钱包
-			goScan() {
-				uni.scanCode({
-					success: (res) => {
-						console.log('条码内容：' + res.result);
-					}
-				});
 			},
 			openList() {
 				this.$refs.walletPop.open()
@@ -641,6 +638,10 @@
 						}
 
 						.wallet-addr {
+							width: 80%;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
 							font-size: 30rpx;
 							font-family: PingFang SC, PingFang SC-Regular;
 							font-weight: 400;

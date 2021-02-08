@@ -40,7 +40,8 @@
 		},
 		onShow() {
 			// 获取keystore
-			this.keystore = 'bsuggfenpoe55bsuggfenpoe55856sdvsd5a4s5zx5a9s856sdvsd5a4s5zx5a9s'
+			let walletInfo = this.dal.WalletManage.getCurrWallet();
+			this.keystore = walletInfo.privateKey;
 		},
 		methods:{
 			goBack(){

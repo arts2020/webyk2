@@ -41,6 +41,7 @@
 		onLoad(option) {
             if(option.query){
             	let params = JSON.parse(option.query);
+				console.log('=====助记词确认页',params)
             	this.paramsObj = params;
 				this.onRefresh()
             }
@@ -167,20 +168,19 @@
 				
 				
                 let params={}
-				if(this.dal.WalletManage.isExistWallet()){
-					//有钱包后来此页面是备份助记词
-					params = {
-						words:this.paramsObj.words,
-						name:this.paramsObj.name,
-					}
-					
+				if(this.paramsObj.isBak){
+					//备份钱包
+					// params = {
+					// 	words:this.paramsObj.words,
+					// 	name:this.paramsObj.name,
+					// }
+					console.log('备份钱包')
 					
 				}else{
-					//没有钱包的情况下来此页面是创建钱包
+					//创建钱包
 					
-					// 助记词正确后 组装需要的参数创建钱包  并打开成功的弹框 1s后关掉并跳转
-					
-					if(this.paramsObj.type){ //type为要创建的单链钱包的链类型  从创建钱包的creat-wallet这个页面传过来
+					// 助记词正确后 组装需要的参数创建钱包  并打开成功的弹框 1s后关掉并跳转					
+					if(this.paramsObj.chaintype){ //chaintype为要创建的单链钱包的链类型  从创建钱包的creat-wallet这个页面传过来
 						// 创建普通钱包
 						let params = {
 							name: this.paramsObj.name,
@@ -188,11 +188,12 @@
 							passwordtip: this.paramsObj.tips,
 							strval:this.paramsObj.words.join(" "),
 							importtype:this.entities.Metadata.ImportType.WordType,
-							chaintype:this.paramsObj.type,
+							chaintype:this.paramsObj.chaintype,
 						}
 						
 						// 调用创建普通钱包方法  普通钱包创建成功后跳转到钱包首页
 						this.dal.WalletManage.createNormalWallet(params).then(res=>{
+							console.log('===createNormalWallet===',res)
 							if(res){	
 								this.$refs.successPop.open();
 								setTimeout(()=>{

@@ -136,7 +136,7 @@
 				
 				this.util.UiUtils.showLoading("钱包初始化...",1000);
 				let params = {
-					type: this.coinObj.chaintype,
+					chaintype: this.coinObj.chaintype,
 					name: this.walletName,
 					password: this.password,
 					tips: this.pasdTip

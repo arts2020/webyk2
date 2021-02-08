@@ -5,15 +5,16 @@
 			<view class="search-frame">
 				<uni-icons type="search" class="search-icon" size="20" color="#CCD3D9" @tap="gosearch"></uni-icons>
 				<input type="text" placeholder-style="color: #a9b7c4;" placeholder="请输入token名称" v-model="keyword" confirm-type="search" @confirm="gosearch"/>
+			    <uni-icons v-if="keyword" type="closeempty" size="20" style="font-weight: 600;" color="#444444" @tap="clear"></uni-icons>
 			</view>
 			<text class="cancell-txt" @tap="btnBack">取消</text>
 		</view>
 		<scroll-view scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
 			<view class="list-item" v-for="(item,index) in showList" :key="index" @tap="goAdd(item)">
-				<image class="icon" :src="item.logo" mode=""></image>
+				<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
 				<view class="dapp-info">
-					<view class="title">{{item.title}}</view>
-					<view class="descrip">{{item.desciption}}</view>
+					<view class="title">{{item.name}}</view>
+					<view class="descrip">{{item.contract}}</view>
 				</view>
 				<image class="right-icon" src="../../static/image/index/plus.png" mode=""></image>
 			</view>
@@ -32,9 +33,11 @@
 		data() {
 			return {
 				scrollHeight:0,
+				chaintype:1,
 				keyword:"",
-				// 全部资产的列表
-				list:[
+				currentAssetList:[],
+				// 当前链下全部资产的列表
+				allAssetList:[
 					{
 						logo:"../../static/image/index/btc.png",
 						title:"LON",
@@ -53,10 +56,16 @@
 			showList(){
 				if(this.keyword){
 					//有搜索词时根据搜索词匹配
-					return this.list.filter(el=>el.title.includes(this.keyword))
+					return this.allAssetList.filter(el=>el.name.includes(this.keyword))
 				}else{
-					return this.list;
+					return this.allAssetList;
 				}
+			}
+		},
+		onLoad(option) {
+			let params = JSON.parse(option.query);	
+			if(Object.keys(params).length!=0){
+				this.chaintype = params.chaintype
 			}
 		},
 		onShow() {
@@ -67,20 +76,33 @@
 						_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
 					}
 				});
+				
+				this.allAssetList = this.dal.Chain.getAssets(this.chaintype).assets;
+                this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.chaintype);
 			},
 			methods:{
 				btnBack:function(){
 					this.util.UiUtils.switchToPage("wallet-index", "add-asset",{},"switchTab");
 				},
-				
+				clear(){
+					this.keyword = ""
+				},
 				goSearch(){
                   // 拿关键词keyword进行搜索匹配
 				},
 				goAdd(item){
+					//当前链下我已选的资产列表
+					// 检查是否已经添加
+					let i = this.currentAssetList.findIndex(el=>el.idx==item.idx);
+					if(i!=-1){
+						// 说明已经添加过了
+						this.util.Uitils.showToast('已添加至首页资产')
+						return;
+					}
 					// 添加资产
+					this.dal.ContractWallet.addContractWallet(this.chaintype,item.contract);
+					this.util.Uitils.showToast('添加成功');
 					
-					//完成时跳转到首页
-					this.util.UiUtils.switchToPage("wallet-index", "add-asset",{},"switchTab");
 				},
 			}
 	}
@@ -116,6 +138,7 @@
 				padding-right: 20rpx;
 			}
 			uni-input{
+				width: 80%;
 				font-size: 26rpx;
 				font-family: PingFang SC, PingFang SC-Regular;
 				font-weight: 400;
@@ -145,6 +168,7 @@
 				margin-right: 22rpx;
 			}
 			.dapp-info{
+				width: 60%;				
 				font-family: PingFang SC, PingFang SC-Bold;
 				text-align: left;
 				
@@ -155,10 +179,14 @@
 					line-height: 41rpx;
 				}
 				.descrip{
+					
 					font-size: 26rpx;
 					font-weight: 400;
 					color: #8e8e8e;
 					line-height: 41rpx;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 			}
 			.right-icon{

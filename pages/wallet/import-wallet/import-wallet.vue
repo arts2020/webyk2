@@ -4,9 +4,9 @@
 		<view class="recover-main">
 			<view v-if="coinObj.type == 1">
 				<view class="top-title">{{title}}</view>
-				<view class="input-box" style="height: 335rpx;margin-bottom: 28rpx;">
+				<view class="input-box" style="height: 250rpx;">
 					<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词单词，并使用空格分隔/输入明文私钥" v-model="words" />
-					</view>
+				</view>
 			</view>
 			<view v-else>
 				<view class="top-title">{{title}}</view>
@@ -235,7 +235,8 @@
 			
 			uni-textarea{
 				width: 100%;
-				height: 335rpx;
+				height: 300rpx;
+				font-size: 28rpx;
 				padding: 36rpx 32rpx;
 				box-sizing: border-box;				
 			}

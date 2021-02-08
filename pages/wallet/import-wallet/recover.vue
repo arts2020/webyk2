@@ -2,10 +2,10 @@
 	<view class="create-status">
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="恢复身份" @clickLeft="goBack"></uni-nav-bar>
 
-		<view class="create-main" v-if="isNext" :style="'height:'+scrollHeight+'px'">
+		<view class="create-main" v-if="isNext">
 			<view>
 				<view class="top-title">恢复身份，你将会有身份下的多链钱包，比如ETH、BTC ...</view>
-				<view class="input-box" style="height: 300rpx;">
+				<view class="input-box" style="height: 250rpx;">
 					<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词并使用空格分离" v-model="words" />
 					</view>
 				</view>
@@ -35,7 +35,7 @@
 			    <view class="btn_ok" :style="'background-color:'+btnCreate_color" @tap="btnCreate">恢复身份</view>
 		</view>
 		
-		<view class="aggrement"  v-else :style="'height:'+scrollHeight+'px'">
+		<view class="aggrement"  v-else>
 			<scroll-view scroll-y="true" class="aggr-c" >
 				<rich-text :nodes="aggrement"></rich-text>
 			</scroll-view>
@@ -286,7 +286,7 @@
 			uni-textarea{
 				font-size: 26rpx;
 				width: 100%;
-				height: 335rpx;
+				height: 300rpx;
 				padding: 36rpx 32rpx;
 				box-sizing: border-box;				
 			}

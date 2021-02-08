@@ -3,6 +3,9 @@
 	height: 100%;
 	width: 100%;
 	background-color: #F5F5F5;
+	/deep/ .uni-navbar--border{
+		border: 0;
+	}
 	.wallet-manage{
 		width: 100%;
 		height: 100rpx;

@@ -50,7 +50,7 @@
 				coinList: [],
 				// 当前操纵选中的链列表
 				checkedTypes: [],
-				
+				myChains:[],
 				password:"",
 			};
 		},

@@ -6,20 +6,20 @@
 				<view class="nav-menu">
 					<view class="menu-item" :class="{'activeClass':activeObj.chaintype==-1}">
 						<image src="../../../static/image/index/all.png" mode="" @tap="handleChecked({chaintype:-1})"></image>
-					</view>
+					</view> 
 					<view class="menu-item" :class="{'activeClass':activeObj.chaintype==item.chaintype}" v-for="(item,index) in identity_wallets" :key="index" @tap="handleChecked(item)">
-						<image :src="item.logo" mode=""></image>
+						<image :src="'../../../static/image/chain/'+item.logo" mode=""></image>
 					</view>
 				</view>
 			</scroll-view>
 			<scroll-view class="main-right" scroll-y="true" >
 				<view class="current-c" v-if="currentList.length">
-					<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
+					<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
 						<view class="wallet-name">
 							<text>{{item.name}}</text>
 							<text>...</text>
 						</view>
-						<view class="wallet-addr">{{item.addr}}</view>
+						<view class="wallet-addr">{{item.address}}</view>
 					</view>
 				</view>
 				<view class="main-c" v-else>
@@ -28,12 +28,12 @@
 						<text @tap="goManage">管理</text>
 					</view>
 					<view class="menu-list">
-						<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
+						<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
 							<view class="wallet-name">
 								<text>{{item.name}}</text>
 								<text>...</text>
 							</view>
-							<view class="wallet-addr">{{item.addr}}</view>
+							<view class="wallet-addr">{{item.address}}</view>
 						</view>
 						<view class="add-coin" @tap="goAddCoin">
 							<view class="tip-msg">
@@ -45,12 +45,12 @@
 					</view>
 					<view class="create-import" v-if="single_wallets.length">
 						<view class="top-title">创建/导入</view>
-						<view class="list-item" @tap="goDetail(item)" :style="'background: url('+item.bgcImg+') no-repeat;background-size: 100% 100%;'" v-for="(item,index) in single_wallets" :key="index">
+						<view class="list-item" @tap="goDetail(item)" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" v-for="(item,index) in single_wallets" :key="index">
 							<view class="wallet-name">
 								<text>{{item.name}}</text>
 								<text>...</text>
 							</view>
-							<view class="wallet-addr">{{item.addr}}</view>
+							<view class="wallet-addr">{{item.address}}</view>
 						</view>
 					</view>
 
@@ -75,30 +75,27 @@
 				identity_wallets:[
 					{
 						chaintype:1,
-						logo:"../../../static/image/index/eth.png",
-						logo_act:"../../../static/image/index/index-select.png",
+						logo:"eth.png",
 						name:"ETH",
 						alias:"Ethereum",
-						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg:"../../../static/image/mine/btcImg.png"
+						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
+						bgcImg:"ethImg.png"
 					},
 					{
 						chaintype:2,
-						logo:"../../../static/image/index/btc.png",
-						logo_act:"../../../static/image/index/index-select.png",
+						logo:"btc.png",
 						name:"BTC",
 						alias:"Bitcoin",
-						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-						bgcImg:"../../../static/image/mine/ethImg.png"
+						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
+						bgcImg:"btcImg.png"
 					},
 				],
 				single_wallets:[
 					{
 						chaintype:1,
-						logo:"../../../static/image/index/index.png",
-						logo_act:"../../../static/image/index/index.png",
+						logo:"../../../static/image/chain/index.png",
 						name:"lisa",
-						addr:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
+						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"../../../static/image/mine/import-wallet.png"
 					}
 				],
@@ -106,17 +103,15 @@
 				currentList:[]
 			}
 		},
-		onLoad() {
-
-		},
 		onShow() {
-			uni.startPullDownRefresh();
-			setTimeout(function () {
-				// this.dal.Wallter.onGetWalletL()
-			}.bind(this), 1000);
-		},
-		onPullDownRefresh() {
-			// this.dal.Wallter.onGetWalletL()
+			let _this = this;
+			//获取高度
+			uni.getSystemInfo({
+				success(res) {
+					_this.scrollHeight = res.windowHeight - res.statusBarHeight - 44;
+				}
+			});
+			this.onRefresh();
 		},
 		methods: {
 			//添加币种
@@ -146,22 +141,35 @@
 				}
 				console.log(item.chaintype,this.single_wallets.filter(el=>el.chaintype==item.chaintype))
 			},
-			onRefresh:function(){
-
+			onRefresh:function(){			  
+			  let chains = this.dal.Chain.getChainList();
+			  
+			  // 身份钱包数据
+			  let  mineChains = this.dal.MainWallet.getMainWallets();
+			  //添加logo图标和背景图
+			  mineChains.forEach(el=>{
+				  let item = chains.find(e=>e.chaintype==el.chaintype);
+				  el.logo=item.img;
+				  el.bgcImg = item.img.split('.')[0]+'bg.png';
+			  })
+			  this.identity_wallets = mineChains;
+			  
+			  //普通钱包数据
+			  let normalWallets= this.dal.NormalWallet.getNormalWallets();
+			    //添加logo图标和背景图
+			  normalWallets.forEach(el=>{
+				  let item = chains.find(e=>e.chaintype==el.chaintype);
+				  el.logo=item.img;
+				  el.bgcImg = item.img.split('.')[0]+'bg.png';
+			  })
+			  this.single_wallets = normalWallets;	
+			  console.log('=====钱包列表=====',this.identity_wallets,this.single_wallets)
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchToPage("mine-mine", "create-wallter", {});
 			},			
 		},
-		onShow() {
-			let _this = this;
-			//获取高度
-			uni.getSystemInfo({
-				success(res) {
-					_this.scrollHeight = res.windowHeight - res.statusBarHeight - 44;
-				}
-			});
-		}
+		
 	}
 </script>
 
@@ -252,6 +260,10 @@
 			    		}
 			    	}
 			    	.wallet-addr{
+						width: 80%;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
 			    		font-size: 30rpx;
 			    		font-family: PingFang SC, PingFang SC-Regular;
 			    		font-weight: 400;
