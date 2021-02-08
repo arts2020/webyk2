@@ -7,6 +7,10 @@ const NormalWallet = {
 	
 	init: function() {
 		uni.cclog("======NormalWallet init==========")
+		let normalWallet =  vue.util.StringUtils.getUserDefaults("normal_wallets_key");
+		if (normalWallet && normalWallet.length > 0) {
+			this.m_normalWallet = JSON.parse(normalWallet)
+		}
 		this.onAddListener();
 		return true;
 	},
@@ -56,6 +60,7 @@ const NormalWallet = {
 			this.m_normalWallet[chaintype] = [];
 		}
 		this.m_normalWallet[chaintype].push(item);
+		vue.util.StringUtils.setUserDefaults("normal_wallets_key", JSON.stringify(this.m_normalWallet));
 	},
 
 	//删除普通钱包
@@ -75,7 +80,7 @@ const NormalWallet = {
 		let items = [];
 		for (let key in this.m_normalWallet) {
 			let wallets = this.m_normalWallet[key];
-			for(let i = 0; wallets.length > 0 ; i++){
+			for(let i = 0; i < wallets.length ; i++){
 				let walletinfo = wallets[i]
 				items.push(walletinfo);
 			}

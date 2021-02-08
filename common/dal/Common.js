@@ -38,11 +38,11 @@ const Common = {
 	onAddListener: function() {
 		this.onRemoveListener();
 		vue.shared.Event.attach(vue.entities.RequestCode.GetAssetprice, this.handleGetAssetprice, "dal_common", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.GetNotice, this.handleGetNotice, "dal_common", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.GetNotify, this.handleGetNotify, "dal_common", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.GetNoticeInfo, this.handleGetNoticeInfo, "dal_common", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.GetRate, this.handleGetRate, "dal_common", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.GetAssetstate, this.handleGetAssetstate, "dal_common", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.GetNotice, this.handleGetNotice, "dal_common", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.GetNotify, this.handleGetNotify, "dal_common", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.GetNoticeInfo, this.handleGetNoticeInfo, "dal_common", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.GetRate, this.handleGetRate, "dal_common", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.GetAssetstate, this.handleGetAssetstate, "dal_common", this);
 	},
 
 	onRemoveListener: function() {
@@ -127,6 +127,7 @@ const Common = {
 
 	//行情
 	onGetAssetprice: function() {
+		uni.cclog("==========onGetAssetprice=============")
 		var params = {};
 		vue.dal.Net.request(vue.entities.RequestCode.GetAssetprice, params);
 	},

@@ -4,11 +4,18 @@ var vue = Vue.prototype
 //身份钱包
 const MainWallet = {
 	m_mainWallet: {}, //主钱包
-	m_chains: [], //主链信息
 	m_mainInfo: {}, //身份信息
 
 	init: function() {
 		uni.cclog("======MainWallet init==========")
+		let maininfo =  vue.util.StringUtils.getUserDefaults("main_info_key");
+		if (maininfo && maininfo.length > 0) {
+			this.m_mainInfo = JSON.parse(maininfo)
+		}
+		let wallets =  vue.util.StringUtils.getUserDefaults("main_wallets_key");
+		if (wallets && wallets.length > 0) {
+			this.m_mainWallet = JSON.parse(wallets)
+		}
 		this.onAddListener();
 		return true;
 	},
@@ -44,6 +51,8 @@ const MainWallet = {
 			name: wallet.name, //钱包名称
 		}
 		this.m_mainWallet[chaintype] = item;
+		
+		vue.util.StringUtils.setUserDefaults("main_wallets_key", JSON.stringify(this.m_mainWallet));
 	},
 
 	//删除身份钱包
@@ -81,6 +90,7 @@ const MainWallet = {
 			password: mainInfo.password,
 		}
 		this.m_mainInfo = info;
+		vue.util.StringUtils.setUserDefaults("main_info_key", JSON.stringify(this.m_mainInfo));
 	},
 
 	getMainInfo: function() {

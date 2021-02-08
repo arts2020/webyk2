@@ -14,8 +14,13 @@ const Chain = {
 		this.m_chains = vue.entities.Wallets.getChains();
 		this.m_assets = vue.entities.Wallets.getAssets();
 		
-		this.addMineChainInfo(vue.entities.Metadata.ChainType.ETH)
-		this.addMineChainInfo(vue.entities.Metadata.ChainType.TRON)
+		let minechain =  vue.util.StringUtils.getUserDefaults("chain_mine_key");
+		if (minechain && minechain.length > 0) {
+			this.m_mineChains = JSON.parse(minechain)
+		}else{
+			this.addMineChainInfo(vue.entities.Metadata.ChainType.ETH)
+			this.addMineChainInfo(vue.entities.Metadata.ChainType.TRON)
+		}
 		this.onAddListener();
 		return true;
 	},
@@ -80,6 +85,7 @@ const Chain = {
 		if(!ishave){
 			this.m_mineChains.push(chaintype);
 		}
+		vue.util.StringUtils.setUserDefaults("chain_mine_key",JSON.stringify(this.m_mineChains));
 	},
 	
 	getMineChains:function(){

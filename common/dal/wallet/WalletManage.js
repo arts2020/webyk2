@@ -16,8 +16,14 @@ const WalletMange = {
 
 	init: function() {
 		uni.cclog("======WalletMange init==========")
-		this.m_currChainType = vue.entities.Metadata.ChainType.Normal, //当前钱包
-			this.onAddListener();
+		let currchaintype =  vue.util.StringUtils.getUserDefaults("walletmanage_currwallet_key");
+		if(currchaintype){
+			this.m_currChainType = parseInt(currchaintype)
+		}else{
+			this.m_currChainType = vue.entities.Metadata.ChainType.Normal; //当前钱包
+		}
+		
+		this.onAddListener();
 		return true;
 	},
 
@@ -214,6 +220,7 @@ const WalletMange = {
 		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
 			vue.dal.Tron.initCurrChain();
 		}
+		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_key");
 	},
 
 	getCurrWallet: function() {
