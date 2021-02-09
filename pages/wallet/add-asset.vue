@@ -101,7 +101,7 @@
 					return;
 				}
 				// 添加资产
-				this.dal.ContractWallet.addContractWallet(this.chaintype, item.contract).then(result => {
+				this.dal.ContractWallet.addContractWallet(this.chaintype, this.address, item.contract).then(result => {
 					console.log("====addContractWallet==result===", result);
 					if (result) {
 						this.util.UiUtils.showToast('添加成功');
