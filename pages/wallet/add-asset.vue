@@ -67,6 +67,7 @@
 			if (Object.keys(params).length != 0) {
 				this.chaintype = params.chaintype
 				this.address = params.address
+				this.m_idx = params.idx
 			}
 		},
 		onShow() {
@@ -79,7 +80,7 @@
 			});
 
 			this.allAssetList = this.dal.Chain.getAssets(this.chaintype).assets;
-			this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.address);
+			this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
 		},
 		methods: {
 			btnBack: function() {
@@ -101,7 +102,7 @@
 					return;
 				}
 				// 添加资产
-				this.dal.ContractWallet.addContractWallet(this.chaintype, this.address, item.contract).then(result => {
+				this.dal.ContractWallet.addContractWallet(this.chaintype, this.m_idx, this.address, item.contract).then(result => {
 					console.log("====addContractWallet==result===", result);
 					if (result) {
 						this.util.UiUtils.showToast('添加成功');
