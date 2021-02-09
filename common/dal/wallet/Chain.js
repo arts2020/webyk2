@@ -19,8 +19,8 @@ const Chain = {
 		if (minechain && minechain.length > 0) {
 			this.m_mineChains = JSON.parse(minechain)
 		} else {
-			this.addMineChainInfo(vue.entities.Metadata.ChainType.ETH)
-			this.addMineChainInfo(vue.entities.Metadata.ChainType.TRON)
+			// this.addMineChainInfo(vue.entities.Metadata.ChainType.ETH)
+			// this.addMineChainInfo(vue.entities.Metadata.ChainType.TRON)
 		}
 		this.onAddListener();
 		return true;
@@ -107,6 +107,7 @@ const Chain = {
 	},
 
 	getMineChains: function() {
+		uni.cclog("=====this.m_mineChains========",this.m_mineChains)
 		return this.m_mineChains;
 	},
 

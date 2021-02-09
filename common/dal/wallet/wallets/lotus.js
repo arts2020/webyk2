@@ -17,7 +17,7 @@ const Lotus = {
 		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.LOTUS)
 		if (!wallet) {
 			wallet = await this.createWalletByWords(walletInfo.words)
-			if(wallet){
+			if (wallet) {
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.tips;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
@@ -33,24 +33,24 @@ const Lotus = {
 	async createNormal(walletInfo) {
 		if (walletInfo.importtype == vue.entities.Metadata.ImportType.WordType) {
 			let wallet = await this.createWalletByWords(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
+				return vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
 
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
+				return vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
 
 			}
 		}
@@ -62,12 +62,13 @@ const Lotus = {
 		try {
 			let ret = await FileCoinUtils.mnemonicWallter(words)
 			console.log("==createWalletByWords===ret===", ret)
-			if(ret.code == 200){
+			if (ret.code == 200) {
 				let address = "f1" + ret.data.address;
 				let privateKey = ret.data.privateKey;
 				let publicKey = ret.data.publicKey;
-				
+
 				return {
+					words: words,
 					privateKey: privateKey,
 					publicKey: publicKey,
 					address: address.address
@@ -98,12 +99,12 @@ const Lotus = {
 		}
 	},
 
-	async initCurrChain(){
+	async initCurrChain() {
 		let walletInfo = vue.dal.WalletManage.getCurrWallet();
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 	},
-	
+
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
 		let isret = await this.isValidAddress(to);
@@ -139,7 +140,7 @@ const Lotus = {
 		}
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	onBalance: function() {
 		FileCoinUtils.getBalance(this.fromAddress).then((balance) => {
 			balance = balance / Math.pow(10, 18) || 0;
@@ -149,13 +150,13 @@ const Lotus = {
 			});
 		})
 	},
-	
+
 	async isValidAddress(address) {
 		var valid = await FileCoinUtils.getWalletValidateAddress(address);
 		console.log('=====valid==', valid)
-		if (!valid){
+		if (!valid) {
 			console.log('This is a valid address');
-		}else{
+		} else {
 			console.log('Address INVALID');
 		}
 		return valid;

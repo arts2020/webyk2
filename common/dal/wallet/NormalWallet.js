@@ -52,7 +52,7 @@ const NormalWallet = {
 		let item = {
 			idx: len,
 			chaintype: chaintype,
-			mnemonic: wallet.mnemonic,
+			words: wallet.words,
 			privateKey: wallet.privateKey,
 			address: wallet.address,
 			importtype: wallet.importtype,

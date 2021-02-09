@@ -40,8 +40,7 @@ const Tron = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
-
+				return vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
@@ -51,8 +50,7 @@ const Tron = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
-
+				return vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
 			}
 		}
 		return false;
@@ -73,9 +71,10 @@ const Tron = {
 			console.log("==22=address===", address)
 
 			return {
+				words: words,
 				privateKey: privateKey,
 				publicKey: publicKey,
-				address: address.address
+				address: address
 			}
 		} catch (e) {
 			console.log("=tron==createWalletByWords=e==", e)
