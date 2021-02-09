@@ -32,7 +32,14 @@
 		onShow() {
 			//清空之前的数据重新获取
 			this.chainList = [];
-			this.chainList =  this.dal.Chain.getChainList();
+			//添加默认图标
+			let list = this.dal.Chain.getChainList();
+			list.forEach(el=>{
+				if(!el.img){
+					el.img = 'default.png'
+				}
+			})
+			this.chainList = list;
 		},
 		methods: {
 			goBack() {

@@ -34,7 +34,14 @@
 		onShow() {
 			uni.startPullDownRefresh();
 			this.addresssList = [];
-			this.addresssList = this.dal.Address.getAddressList();
+			//添加默认图标
+			let list = this.dal.Address.getAddressList();
+			list.forEach(el=>{
+				if(!el.img){
+					el.img = 'default.png'
+				}
+			})
+			this.addresssList = list;
 			setTimeout(()=>{
 				uni.stopPullDownRefresh()
 			}, 1000);

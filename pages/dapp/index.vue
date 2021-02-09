@@ -99,6 +99,11 @@
 
 			},
 			onGetDappList(data){
+				data.data.forEach(el=>{
+					if(!el.icon){
+						el.icon = '../../static/image/chain/default.png'
+					}
+				})
 				this.list = data.data;
 			}
 		}

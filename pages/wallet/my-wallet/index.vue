@@ -19,7 +19,7 @@
 							<text>{{item.name}}</text>
 							<text>...</text>
 						</view>
-						<view class="wallet-addr">{{item.address}}</view>
+						<view class="wallet-addr">{{item.showAddress}}</view>
 					</view>
 					<noData v-show="!currentList.length"></noData>
 				</view>
@@ -34,7 +34,7 @@
 								<text>{{item.name}}</text>
 								<text>...</text>
 							</view>
-							<view class="wallet-addr">{{item.address}}</view>
+							<view class="wallet-addr">{{item.showAddress}}</view>
 						</view>
 						<view class="add-coin" @tap="goAddCoin">
 							<view class="tip-msg">
@@ -51,7 +51,7 @@
 								<text>{{item.name}}</text>
 								<text>...</text>
 							</view>
-							<view class="wallet-addr">{{item.address}}</view>
+							<view class="wallet-addr">{{item.showAddress}}</view>
 						</view>
 					</view>
 
@@ -91,7 +91,7 @@
 						img:"eth.png",
 						name:"ETH",
 						alias:"Ethereum",
-						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
+						showAddress:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"ethImg.png"
 					},
 					{
@@ -99,7 +99,7 @@
 						img:"btc.png",
 						name:"BTC",
 						alias:"Bitcoin",
-						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
+						showAddress:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"btcImg.png"
 					},
 				],
@@ -108,7 +108,7 @@
 						chaintype:1,
 						img:"../../../static/image/chain/index.png",
 						name:"lisa",
-						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
+						showAddress:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"../../../static/image/mine/import-wallet.png"
 					}
 				],
@@ -194,8 +194,9 @@
 			  //添加logo图标和背景图
 			  mineChains.forEach(el=>{
 				  let item = chains.find(e=>e.chaintype==el.chaintype);
-				  el.img=item.img;
+				  el.img=item.img || 'default.png';
 				  el.bgcImg = item.img.split('.')[0]+'bg.png';
+				  el.showAddress = el.address?el.address.substring(0,7)+'...'+el.address.substring(el.address.length-7):"no address"
 			  })
 			  this.identity_wallets = mineChains;
 			  
@@ -204,8 +205,9 @@
 			    //添加logo图标和背景图
 			  normalWallets.forEach(el=>{
 				  let item = chains.find(e=>e.chaintype==el.chaintype);
-				  el.img=item.img;
+				  el.img=item.img || 'default.png';
 				  el.bgcImg = item.img.split('.')[0]+'bg.png';
+				  el.showAddress = el.address?el.address.substring(0,7)+'...'+el.address.substring(el.address.length-7):"no address"
 			  })
 			  this.single_wallets = normalWallets;	
 			  
@@ -216,7 +218,7 @@
 					 let item = chains.find(e=>e.chaintype==el);
 					let temp = {
 						chaintype:el,
-						img:item.img
+						img:item.img ||'default.png'
 					}
 					this.m_mychains.push(temp)
 				 }

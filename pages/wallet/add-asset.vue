@@ -15,7 +15,7 @@
 				<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
 				<view class="dapp-info">
 					<view class="title">{{item.name}}</view>
-					<view class="descrip">{{item.contract}}</view>
+					<view class="descrip">{{item.showContract}}</view>
 				</view>
 				<image class="right-icon" src="../../static/image/index/plus.png" mode=""></image>
 			</view>
@@ -86,10 +86,17 @@
 				this.util.UiUtils.switchToPage("wallet-index", "add-asset", {}, "switchTab");
 			},
 			onRefersh(){
-				//清空之前并重获取
+				//清空之前并重获取  'default.png'
 				this.currentAssetList=[];
 				this.allAssetList=[];
-				this.allAssetList = this.dal.Chain.getAssets(this.chaintype).assets;
+				let list = this.dal.Chain.getAssets(this.chaintype).assets;
+				list.forEach(el=>{
+					if(!el.img){
+						el.img = 'default.png';
+						el.showContract = el.contract?el.contract.substring(0,7)+'...'+el.contract.substring(el.contract.length-7):"no contract"
+					}
+				})
+				this.allAssetList = list;
 			    this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
 			},
 			clear() {

@@ -2,17 +2,11 @@
 	<view class="recover-index">
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="导入钱包" @clickLeft="goBack"></uni-nav-bar>
 		<view class="recover-main">
-			<view v-if="coinObj.type == 1">
+			<view>
 				<view class="top-title">{{title}}</view>
 				<view class="input-box" style="height: 250rpx;">
-					<textarea placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词单词，并使用空格分隔/输入明文私钥" v-model="words" />
-				</view>
-			</view>
-			<view v-else>
-				<view class="top-title">{{title}}</view>
-				<view class="input-box" >
-					<input type="text" placeholder="私钥" placeholder-style="font-size: 26rpx;color: #C2C2C2;" v-model="secretKey"/>
-				    <uni-icons type="closeempty" size="20" v-if="secretKey" @tap="clear('1')"></uni-icons>
+					<textarea v-if="coinObj.type == 1" placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入助记词单词，并使用空格分隔/输入明文私钥" v-model="words" />
+				    <textarea v-else placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="输入私钥" v-model="secretKey" />
 				</view>
 			</view>
 			<view>

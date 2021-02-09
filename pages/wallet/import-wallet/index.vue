@@ -50,7 +50,14 @@
 		},
 		methods: {
 			onRefresh() {
-				this.coinList = this.dal.Chain.getChainList();
+				//检查是否有图标，没有就添加默认图标
+				let list = this.dal.Chain.getChainList();
+				list.forEach(el=>{
+					if(!el.img){
+						el.img = 'default.png';
+					}
+				})
+				this.coinList = list;
 				console.log("==this.coinList==", this.coinList)
 			},
 			goRecoverStatus() {

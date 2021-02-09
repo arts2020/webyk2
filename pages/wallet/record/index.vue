@@ -199,7 +199,7 @@
 		methods:{
 			onRefersh(){
 				//每次刷新数据  清空之前数据并重新获取
-				this.allList = [];
+				// this.allList = [];
 				this.rollOutList = [];
 				this.rollInList = [],
 				this.failList = [],
@@ -212,8 +212,15 @@
 			},
 			getDealData(){
 				//根据当前资产类型获取用户所有交易记录
-				//根据字段筛选分组为转入,转出,失败的
+				//处理地址  从底层获取过来的真实数据中 地址不能改，因为详情页要展示  另加属性去展示处理后的地址
+				// let list = this.allList;
+				// list.forEach(el=>{
+				// 	el.inAddr = el.inAddr?el.inAddr.substring(0,7)+'...'+el.inAddr.substring(el.inAddr.length-7):"no address"
+				// 	el.outAddr = el.outAddr?el.outAddr.substring(0,7)+'...'+el.outAddr.substring(el.outAddr.length-7):"no address"
+				// })
+				// this.allList = list;
 				
+				//根据字段筛选分组为转入,转出,失败的
 				
 			},
 			goBack(){

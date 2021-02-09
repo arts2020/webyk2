@@ -14,7 +14,7 @@
 					<image @click="goDetail()" src="../../static/image/index/goin.png" mode=""></image>
 				</view>
 				<view class="p2" @tap="goRechange">
-					<view class="word">{{currentWallet.address}}</view>
+					<view class="word">{{currentWallet.showAddress}}</view>
 					<image src="../../static/image/index/sqcode.png" mode=""></image>
 				</view>
 				<view class="p3">￥{{currentWallet.money}}</view>
@@ -62,7 +62,7 @@
 										<text>{{item.name}}</text>
 										<text>...</text>
 									</view>
-									<view class="wallet-addr">{{item.address}}</view>
+									<view class="wallet-addr">{{item.showAddress}}</view>
 								</view>
 							</view>
 							<view class="main-c" v-else>
@@ -76,7 +76,7 @@
 											<text>{{item.name}}</text>
 											<text>...</text>
 										</view>
-										<view class="wallet-addr">{{item.address}}</view>
+										<view class="wallet-addr">{{item.showAddress}}</view>
 									</view> 
 								</view>
 								<view class="create-import" v-if="single_wallets.length">
@@ -87,7 +87,7 @@
 											<text>{{item.name}}</text>
 											<text>...</text>
 										</view>
-										<view class="wallet-addr">{{item.address}}</view>
+										<view class="wallet-addr">{{item.showAddress}}</view>
 									</view>
 								</view>
 
@@ -136,7 +136,6 @@
 	export default {
 		name: "wallet",
 		created() {
-			// this.initData();
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
 		},
 		destroyed() {
@@ -175,7 +174,7 @@
 						img:"eth.png",
 						name:"ETH",
 						alias:"Ethereum",
-						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
+						showAddress:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"ethImg.png"
 					},
 				],
@@ -186,21 +185,21 @@
 						img:"btc.png",
 						name:"BTC",
 						alias:"Bitcoin",
-						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
+						showAddress:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"btcImg.png"
 					},
 				],
 				m_mychains:[]
 			}
 		},
+		onLoad() {
+			this.initData();
+			this.onRefresh();
+		},
 		onShow() {
-			//判断有无钱包  有钱包时获取钱包数据
-			if (this.dal.WalletManage.isExistWallet()) {
-				//页面显示时去获取身份钱包和普通钱包以及当前的钱包,当前钱包所对应的资产 获取所有资产链
-				this.hasWallet = true;
-				
-				this.onRefresh();
-			}
+			
+			this.initData();
+			this.onRefresh();
             
 			let _this = this;
 			//获取高度
@@ -218,6 +217,13 @@
 			},
 			
 			initData:function(){
+				//判断有无钱包  有钱包时获取钱包数据
+				if (this.dal.WalletManage.isExistWallet()) {
+					//页面显示时去获取身份钱包和普通钱包以及当前的钱包,当前钱包所对应的资产 获取所有资产链
+					this.hasWallet = true;
+				}else{return;}
+				
+				console.log('=======initData==========')
 				let chains = this.dal.Chain.getChainList();
 				//获取当前已经有的链
 				let mychains = this.dal.Chain.getMineChains();
@@ -226,7 +232,7 @@
 						 let item = chains.find(e=>e.chaintype==el);
 						let temp = {
 							chaintype:el,
-							img:item.img
+							img:item.img|| 'default.png'
 						}
 						this.m_mychains.push(temp)
 					 }
@@ -236,8 +242,9 @@
 				//添加logo图标和背景图
 				mineChains.forEach(el => {
 					let item = chains.find(e => e.chaintype == el.chaintype);
-					el.img = item.img;
+					el.img = item.img || 'default.png';
 					el.bgcImg = item.img.split('.')[0] + 'bg.png';
+					el.showAddress = el.address?el.address.substring(0,7)+'...'+el.address.substring(el.address.length-7):"no address"
 				})
 				this.identity_wallets = mineChains;
 				
@@ -246,14 +253,18 @@
 				//添加logo图标和背景图
 				normalWallets.forEach(el => {
 					let item = chains.find(e => e.chaintype == el.chaintype);
-					el.img = item.img;
+					el.img = item.img || 'default.png';
 					el.bgcImg = item.img.split('.')[0] + 'bg.png';
+					el.showAddress = el.address?el.address.substring(0,7)+'...'+el.address.substring(el.address.length-7):"no address"
 				})
 				this.single_wallets = normalWallets;
-				console.log(this.identity_wallets,this.single_wallets,this.m_mychains)
 			},
 			
-			onRefresh: function() {		
+			onRefresh: function() {
+				if (this.dal.WalletManage.isExistWallet()) {
+					//页面显示时去获取身份钱包和普通钱包以及当前的钱包,当前钱包所对应的资产 获取所有资产链
+					this.hasWallet = true;
+				}else{return;}
 				//当前钱包默认优先拿第一个身份钱包，没有身份钱包时默认用第一个普通钱包
 				this.currentWallet = this.dal.WalletManage.getCurrWallet();
 				if (!this.currentWallet) {
@@ -261,8 +272,14 @@
 					console.log('==this.currentWallet==', this.currentWallet)
 					this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				}								
-				//根据当前钱包链的类型，筛选出该类型链下对应资产列表
-				this.currentAsset = this.dal.ContractWallet.getContractWallets(this.currentWallet.idx, this.currentWallet.address)
+				//根据当前钱包链的类型，筛选出该类型链下对应的我已选择的资产列表
+				let list =  this.dal.ContractWallet.getContractWallets(this.currentWallet.idx, this.currentWallet.address)
+				 list.forEach(el=>{
+				 	if(!el.img){
+				 		el.img = 'default.png';
+				 	}
+				 })
+				 this.currentAsset = list;
 				console.log('=====钱包和资产列表=====', this.currentAsset,this.m_mychains)
 			},
 			closePop() {

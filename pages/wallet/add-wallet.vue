@@ -64,7 +64,14 @@
 		},		
 		methods: {
 			onRefresh:function(){
-				this.coinList = this.dal.Chain.getChainList();
+				//添加默认图标
+				let list = this.dal.Chain.getChainList();
+				list.forEach(el=>{
+					if(!el.img){
+						el.img = 'default.png'
+					}
+				})
+				this.coinList = list;
 			},
 			goBack: function() {
 				this.util.UiUtils.switchBackPage();

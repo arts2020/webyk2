@@ -126,7 +126,14 @@
 						alias: "Cosmos"
 					},
 				]
-				// this.assetArr = this.dal.chains.getAssets();
+				//获取所有代币列表 并添加默认图标
+				// let list = this.dal.chains.getAssets();
+				// list.forEach(el=>{
+				// 	if(!el.img){
+				// 		el.img = 'default.png'
+				// 	}
+				// })
+				// this.assetArr = list;
 			},
 			goAdd(){
 			 this.$openPage({name:"quotation-search"});	
