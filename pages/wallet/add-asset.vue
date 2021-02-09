@@ -96,13 +96,18 @@
 					let i = this.currentAssetList.findIndex(el=>el.idx==item.idx);
 					if(i!=-1){
 						// 说明已经添加过了
-						this.util.Uitils.showToast('已添加至首页资产')
+						this.util.UiUtils.showToast('已添加至首页资产')
 						return;
 					}
 					// 添加资产
-					this.dal.ContractWallet.addContractWallet(this.chaintype,item.contract);
-					this.util.Uitils.showToast('添加成功');
-					
+					this.dal.ContractWallet.addContractWallet(this.chaintype,item.contract).then(result => {
+					    console.log("========addContractWallet======result===",result);
+						if(result){
+							this.util.UiUtils.showToast('添加成功');
+						}else{
+							this.util.UiUtils.showToast("添加失败")
+						}
+					})
 				},
 			}
 	}
