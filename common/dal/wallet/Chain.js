@@ -73,13 +73,13 @@ const Chain = {
 		return items;
 	},
 
-	getAssetByAddress: function(chaintype, address) {
+	getAssetByContractAddress: function(chaintype, contractaddress) {
 		for (let i = 0; i < this.m_assets.length; i++) {
 			let asset = this.m_assets[i];
 			if (asset.chaintype == chaintype) {
 				for (let k = 0; k < asset.assets.length; k++) {
 					let item = asset.assets[k];
-					if(item.contract == address){
+					if(item.contract == contractaddress){
 						return item;
 					}
 				}

@@ -66,6 +66,7 @@
 			let params = JSON.parse(option.query);
 			if (Object.keys(params).length != 0) {
 				this.chaintype = params.chaintype
+				this.address = params.address
 			}
 		},
 		onShow() {
@@ -78,7 +79,7 @@
 			});
 
 			this.allAssetList = this.dal.Chain.getAssets(this.chaintype).assets;
-			this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.chaintype);
+			this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.address);
 		},
 		methods: {
 			btnBack: function() {

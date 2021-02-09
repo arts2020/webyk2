@@ -33,24 +33,22 @@ const ContractWallet = {
 		vue.shared.Event.removeByObserverName("dal_m_contractwallet");
 	},
 
-	getContractWallets: function(chaintype) {
+	getContractWallets: function(address) {
 		let items = [];
-		if (chaintype == vue.entities.Metadata.ChainType.ETH) {
-			for (let i = 0; i < this.m_contractWallet.length; i++) {
-				let item = this.m_contractWallet[i];
-				if (item.chaintype == chaintype) {
-					items.push(item)
-				}
+		for (let i = 0; i < this.m_contractWallet.length; i++) {
+			let item = this.m_contractWallet[i];
+			if (item.address == address) {
+				items.push(item)
 			}
 		}
 		return items;
 	},
 
-	removeContractWallet: function(chaintype, address) {
+	removeContractWallet: function(chaintype, contractaddress) {
 		if (chaintype == vue.entities.Metadata.ChainType.ETH) {
 			for (let i = 0; i < this.m_contractWallet.length; i++) {
 				let item = this.m_contractWallet[i];
-				if (item.chaintype == chaintype && item.address == address) {
+				if (item.chaintype == chaintype && item.contractaddress == contractaddress) {
 					this.m_contractWallet.splice(i, 1)
 					break;
 				}
@@ -58,42 +56,43 @@ const ContractWallet = {
 		}
 	},
 
-	async addContractWallet(chaintype, address) {
+	async addContractWallet(chaintype, address, contractaddress) {
 		if (chaintype == vue.entities.Metadata.ChainType.ETH) {
-			let iscontract = await vue.dal.Eth.isContract(address)
+			let iscontract = await vue.dal.Eth.isContract(contractaddress)
 			if (iscontract) {
-				this.addItem(chaintype, address)
+				this.addItem(chaintype, address, contractaddress)
 				return true;
 			}
 		} else {
-			this.addItem(chaintype, address)
+			this.addItem(chaintype, address, contractaddress)
 			return true;
 		}
 		return false;
 	},
 
-	addItem: function(chaintype, address) {
+	addItem: function(chaintype, address, contractaddress) {
 		let ishave = false;
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
-			if (item.chaintype == chaintype && item.address == address) {
+			if (item.address == address && item.contractaddress == contractaddress) {
 				ishave = true;
 				break;
 			}
 		}
 		if (!ishave) {
-			let item = vue.dal.Chain.getAssetByAddress(chaintype, address)
+			let item = vue.dal.Chain.getAssetByContractAddress(chaintype, contractaddress)
 			if (!item) {
 				item = {
 					chaintype: chaintype,
-					contract: address,
+					address: address,
+					contract: contractaddress,
 					img: "",
 					name: "",
 				}
-			}else{
+			} else {
 				item.chaintype = chaintype;
 			}
-			console.log("==addItem=item==",item)
+			console.log("==addItem=item==", item)
 			this.m_contractWallet.push(item)
 		}
 		vue.util.StringUtils.setUserDefaults("contract_wallets_key", JSON.stringify(this.m_contractWallet));
