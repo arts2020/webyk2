@@ -14,15 +14,16 @@
 			</scroll-view>
 			<scroll-view class="main-right" scroll-y="true" >
 				<view class="current-c" v-if="active!=-1">
-					<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
+					<view v-show="currentList.length" class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
 						<view class="wallet-name">
 							<text>{{item.name}}</text>
 							<text>...</text>
 						</view>
 						<view class="wallet-addr">{{item.address}}</view>
 					</view>
+					<noData v-show="!currentList.length"></noData>
 				</view>
-				<view class="main-c" v-else>
+				<view class="main-c" v-if="active==-1">
 					<view class="top-title">
 						<text>身份钱包</text>
 						<text @tap="goManage">管理</text>
