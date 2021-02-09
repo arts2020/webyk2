@@ -55,6 +55,7 @@ const NormalWallet = {
 			password: wallet.password,
 			passwordtip: wallet.passwordtip,
 			name: wallet.name, //钱包名称
+			money: 0,
 		}
 		if (this.m_normalWallet[chaintype] == null) {
 			this.m_normalWallet[chaintype] = [];

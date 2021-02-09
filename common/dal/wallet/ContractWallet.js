@@ -89,6 +89,7 @@ const ContractWallet = {
 					contract: contractaddress,
 					img: "",
 					name: "",
+					money: 0,
 				}
 			} else {
 				item.chaintype = chaintype;

@@ -4,7 +4,7 @@ import Vue from 'vue'
 var vue = Vue.prototype
 
 //钱包管理器
-const WalletMange = {
+const WalletManage = {
 	m_currChainType: 1, //当前钱包
 	m_currWalletIdx: 0, //当前普通钱包ID
 	m_currMainWallet: null,
@@ -16,7 +16,7 @@ const WalletMange = {
 	evtTransResult: "EVT_TRANSRESULT",
 
 	init: function() {
-		uni.cclog("======WalletMange init==========")
+		uni.cclog("======WalletManage init==========")
 		let currchaintype = vue.util.StringUtils.getUserDefaults("walletmanage_currwallet_key");
 		if (currchaintype) {
 			this.m_currChainType = parseInt(currchaintype)
@@ -37,7 +37,7 @@ const WalletMange = {
 		this.m_currMainWallet = null;
 		this.m_currNormalWallet = null;
 		vue.util.StringUtils.removeUserDefaults("walletmanage_currwallet_key");
-		uni.cclog("======WalletMange clear==========")
+		uni.cclog("======WalletManage clear==========")
 	},
 
 	onAddListener: function() {
@@ -243,4 +243,4 @@ const WalletMange = {
 	},
 
 }
-export default WalletMange
+export default WalletManage

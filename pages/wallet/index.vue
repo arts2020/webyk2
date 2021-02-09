@@ -135,6 +135,13 @@
 <script>
 	export default {
 		name: "wallet",
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.WalletMange.evtBalance, this.onRefresh);
+		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.WalletMange.evtBalance, this.onRefresh);
+		},
+		
 		data() {
 			return {
 				hasWallet: false,
@@ -190,8 +197,13 @@
 					name: "recharge-currency"
 				})
 			},
+			
+			initData:function(){
+				
+			},
+			
 			onRefresh: function() {
-
+				
 				let chains = this.dal.Chain.getChainList();
 
 				// 身份钱包数据
