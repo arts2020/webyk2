@@ -40,8 +40,8 @@ const Tron = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
-				return true;
+				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
+
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
@@ -51,8 +51,8 @@ const Tron = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
-				return true;
+				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
+
 			}
 		}
 		return false;
@@ -116,7 +116,7 @@ const Tron = {
 			// this.addRecordList(data);
 			// this.onBalance();
 			vue.util.UiUtils.showToast("转帐已提交");
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult);
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult);
 		} else {
 			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
 		}
@@ -127,7 +127,7 @@ const Tron = {
 		this.m_tronWeb.trx.getBalance(this.fromAddress).then(function(balance) {
 			console.log("====TRX==balance===", balance / Math.pow(10, 6))
 			balance = balance / Math.pow(10, 6);
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtBalance, {
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance, {
 				balance: balance
 			});
 		}.bind(this));
@@ -139,7 +139,7 @@ const Tron = {
 		// console.log("====receipt===", receipt)
 		if (receipt && receipt.length == 66) {
 			vue.util.UiUtils.showToast("转帐已提交");
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult, {
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				tx: receipt
 			});
 		} else {

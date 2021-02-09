@@ -1,5 +1,5 @@
 <template>
-	<view class="wallet-index">	
+	<view class="wallet-index">
 		<uni-nav-bar v-if="hasWallet" background-color="#FAFBFF" :statusBar="true" :fixed="true" title="钱包" @clickLeft="openList">
 			<view class="icon" slot="left">
 				<image style="width: 34rpx;height: 29rpx;margin-left: 25rpx;" src="../../static/image/index/list.png" mode=""></image>
@@ -7,7 +7,7 @@
 		</uni-nav-bar>
 		<!-- 有钱包 -->
 		<view class="has-wallet" v-if="hasWallet" :style="'height:'+scrollHeight+'px'">
-			
+
 			<view class="wallet" :style="'background: url(../../static/image/chain/'+currentWallet.bgcImg+') no-repeat;background-size: 100% 100%;'">
 				<view class="p1">
 					<text>{{currentWallet.name}}</text>
@@ -135,23 +135,29 @@
 <script>
 	export default {
 		name: "wallet",
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.WalletMange.evtBalance, this.onRefresh);
+		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.WalletMange.evtBalance, this.onRefresh);
+		},
+		
 		data() {
 			return {
 				hasWallet: false,
 				scrollHeight: 0,
 				//当前使用的钱包
 				currentWallet: {},
-				currentAsset: [
-					{
+				currentAsset: [{
 						img: "../../static/image/index/btc.png",
 						name: "BTC",
-						rmb:"12.36",
+						rmb: "12.36",
 						money: "1234.65"
 					},
 					{
 						img: "../../static/image/index/btc.png",
 						name: "BTC",
-						rmb:"12.36",
+						rmb: "12.36",
 						money: "1234.65"
 					}
 				],
@@ -164,20 +170,19 @@
 				//钱包管理页类型一致钱包列表
 				currentList: [],
 				//身份钱包
-				identity_wallets: [
-				],
+				identity_wallets: [],
 				// 普通钱包
 				single_wallets: []
 			}
 		},
 		onShow() {
 			//判断有无钱包  有钱包时获取钱包数据
-			if(this.dal.WalletManage.isExistWallet()){
+			if (this.dal.WalletManage.isExistWallet()) {
 				//页面显示时去获取身份钱包和普通钱包以及当前的钱包,当前钱包所对应的资产 获取所有资产链
 				this.hasWallet = true;
 				this.onRefresh();
 			}
-			
+
 			let _this = this;
 			//获取高度
 			uni.getSystemInfo({
@@ -187,38 +192,50 @@
 			});
 		},
 		methods: {
-			goRechange(){
-				this.$openPage({name:"recharge-currency"})
+			goRechange() {
+				this.$openPage({
+					name: "recharge-currency"
+				})
 			},
-			onRefresh:function(){
+			
+			initData:function(){
+				
+			},
+			
+			onRefresh: function() {
+				
+				let chains = this.dal.Chain.getChainList();
 
-			  let chains = this.dal.Chain.getChainList();
-			  
-			  // 身份钱包数据
-			  let  mineChains = this.dal.MainWallet.getMainWallets();
-			  //添加logo图标和背景图
-			  mineChains.forEach(el=>{
-				  let item = chains.find(e=>e.chaintype==el.chaintype);
-				  el.logo=item.img;
-				  el.bgcImg = item.img.split('.')[0]+'bg.png';
-			  })
-			  this.identity_wallets = mineChains;
-			  
-			  //普通钱包数据
-			  let normalWallets= this.dal.NormalWallet.getNormalWallets();
-			    //添加logo图标和背景图
-			  normalWallets.forEach(el=>{
-				  let item = chains.find(e=>e.chaintype==el.chaintype);
-				  el.logo=item.img;
-				  el.bgcImg = item.img.split('.')[0]+'bg.png';
-			  })
-			  this.single_wallets = normalWallets;			 
-			  
-			  //当前钱包默认优先拿第一个身份钱包，没有身份钱包时默认用第一个普通钱包
-			  this.currentWallet = this.identity_wallets.length?this.identity_wallets[0]:this.single_wallets[0];
-			  //根据当前钱包链的类型，筛选出该类型链下对应资产列表
-			  this.currentAsset = this.dal.ContractWallet.getContractWallets(this.currentWallet.chaintype)
-			  console.log('=====钱包和资产列表=====',this.currentAsset)
+				// 身份钱包数据
+				let mineChains = this.dal.MainWallet.getMainWallets();
+				//添加logo图标和背景图
+				mineChains.forEach(el => {
+					let item = chains.find(e => e.chaintype == el.chaintype);
+					el.logo = item.img;
+					el.bgcImg = item.img.split('.')[0] + 'bg.png';
+				})
+				this.identity_wallets = mineChains;
+
+				//普通钱包数据
+				let normalWallets = this.dal.NormalWallet.getNormalWallets();
+				//添加logo图标和背景图
+				normalWallets.forEach(el => {
+					let item = chains.find(e => e.chaintype == el.chaintype);
+					el.logo = item.img;
+					el.bgcImg = item.img.split('.')[0] + 'bg.png';
+				})
+				this.single_wallets = normalWallets;
+
+				//当前钱包默认优先拿第一个身份钱包，没有身份钱包时默认用第一个普通钱包
+				this.currentWallet = this.dal.WalletManage.getCurrWallet();
+				if (!this.currentWallet) {
+					this.currentWallet = this.identity_wallets.length ? this.identity_wallets[0] : this.single_wallets[0];
+					console.log('==this.currentWallet==', this.currentWallet)
+					this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
+				}
+				//根据当前钱包链的类型，筛选出该类型链下对应资产列表
+				this.currentAsset = this.dal.ContractWallet.getContractWallets(this.currentWallet.idx, this.currentWallet.address)
+				console.log('=====钱包和资产列表=====', this.currentAsset)
 			},
 			closePop() {
 				this.$refs.walletPop.close();
@@ -226,7 +243,9 @@
 			goAddAsset() {
 				this.$openPage({
 					name: "add-asset",
-					query:{chaintype:this.currentWallet.chaintype}
+					query: {
+						chaintype: this.currentWallet.chaintype
+					}
 				})
 			},
 			goDealRecord(item) {
@@ -235,8 +254,8 @@
 				})
 			},
 			goDetail() {
-				console.log('=== 当前钱包===',this.currentWallet)
-				this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype,this.currentWallet.idx)
+				console.log('=== 当前钱包===', this.currentWallet)
+				this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				this.$openPage({
 					name: "my-wallet-detail",
 				})
@@ -265,7 +284,8 @@
 					// 根据点击的链类型获取资产 
 					// this.currentAsset = 
 				}
-				this.currentWallet = item;
+				this.dal.WalletManage.setCurrWallet(item.chaintype, item.idx)
+				// this.currentWallet = item;
 				this.$refs.walletPop.close()
 			},
 			//去到管理钱包

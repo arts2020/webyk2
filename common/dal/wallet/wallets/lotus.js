@@ -39,8 +39,8 @@ const Lotus = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
-				return true;
+				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
+
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
@@ -50,8 +50,8 @@ const Lotus = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
-				return true;
+				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.Lotus, wallet);
+
 			}
 		}
 		return false;
@@ -83,7 +83,7 @@ const Lotus = {
 	async createWalletByPrivateKey(privateKey) {
 		try {
 			let ret = await FileCoinUtils.privateWallter(privateKey)
-			console.log("=fil=recoveryWalletMange==ret===", ret)
+			console.log("=fil=recoveryWalletManage==ret===", ret)
 			let address = "f1" + ret.data.address;
 			let privateKey = ret.data.privateKey;
 			let publicKey = ret.data.publicKey;
@@ -122,18 +122,18 @@ const Lotus = {
 			if (tx && tx.length == 62) {
 				this.onBalance();
 				vue.util.UiUtils.showToast("转帐已提交");
-				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult, {
+				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 					tx: tx
 				});
 			} else {
 				vue.util.UiUtils.showToast("转帐失败，您的余额不变");
-				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult, {
+				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 					tx: false
 				});
 			}
 		} else {
 			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult, {
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				tx: false
 			});
 		}
@@ -144,7 +144,7 @@ const Lotus = {
 		FileCoinUtils.getBalance(this.fromAddress).then((balance) => {
 			balance = balance / Math.pow(10, 18) || 0;
 			console.log("=====this.FileCoinUtils===balance===", balance);
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtBalance, {
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance, {
 				balance: balance
 			});
 		})

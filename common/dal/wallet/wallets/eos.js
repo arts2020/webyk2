@@ -39,8 +39,8 @@ const Eos = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
-				return true;
+				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
+
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
@@ -50,8 +50,7 @@ const Eos = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
-				return true;
+				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
 			}
 		}
 		return false;

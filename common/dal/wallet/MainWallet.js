@@ -50,6 +50,7 @@ const MainWallet = {
 			password: wallet.password,
 			passwordtip: wallet.passwordtip, //密码提示
 			name: wallet.name, //钱包名称
+			money: 0,
 		}
 		this.m_mainWallet[chaintype] = item;
 		
