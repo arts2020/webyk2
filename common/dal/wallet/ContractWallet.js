@@ -17,12 +17,12 @@ const ContractWallet = {
 
 	destroy: function() {
 		this.onRemoveListener();
-		this.clear();
 	},
 
 	clear: function() {
 		uni.cclog("======ContractWallet clear==========")
 		this.m_mainWallet = {};
+		vue.util.StringUtils.removeUserDefaults("contract_wallets_key");
 	},
 
 	onAddListener: function() {
@@ -93,7 +93,7 @@ const ContractWallet = {
 			}else{
 				item.chaintype = chaintype;
 			}
-
+			console.log("==addItem=item==",item)
 			this.m_contractWallet.push(item)
 		}
 		vue.util.StringUtils.setUserDefaults("contract_wallets_key", JSON.stringify(this.m_contractWallet));

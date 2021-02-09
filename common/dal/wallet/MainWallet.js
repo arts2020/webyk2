@@ -22,12 +22,13 @@ const MainWallet = {
 
 	destroy: function() {
 		this.onRemoveListener();
-		this.clear();
 	},
 
 	clear: function() {
 		uni.cclog("======MainWallet clear==========")
 		this.m_mainWallet = {};
+		vue.util.StringUtils.removeUserDefaults("main_info_key");
+		vue.util.StringUtils.removeUserDefaults("main_wallets_key");
 	},
 
 	onAddListener: function() {

@@ -99,7 +99,7 @@ const Tron = {
 	},
 	
 	async initCurrChain(){
-		let walletInfo = vue.dal.WalletMange.getCurrWallet();
+		let walletInfo = vue.dal.WalletManage.getCurrWallet();
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 		

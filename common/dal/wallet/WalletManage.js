@@ -36,6 +36,7 @@ const WalletMange = {
 	clear: function() {
 		this.m_currMainWallet = null;
 		this.m_currNormalWallet = null;
+		vue.util.StringUtils.removeUserDefaults("walletmanage_currwallet_key");
 		uni.cclog("======WalletMange clear==========")
 	},
 
@@ -215,10 +216,13 @@ const WalletMange = {
 		this.m_currWalletIdx = idx;
 		this.m_currWallet = null;
 		if (idx == 0) { //身份钱包
-			this.m_currWallet = vue.dal.MainWallet.getMainWallet(chaintype)
+			this.m_currWallet = vue.dal.MainWallet.getMainWalletByType(chaintype)
 		} else { //普通钱包
 			this.m_currWallet = vue.dal.NormalWallet.getNormalWallet(chaintype, idx)
 		}
+		console.log("==chaintype==",chaintype)
+		console.log("==idx==",idx)
+		console.log("==this.m_currWallet==",this.m_currWallet)
 		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
 			vue.dal.Btc.initCurrChain();
 		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {

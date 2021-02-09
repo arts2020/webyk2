@@ -28,13 +28,13 @@ const Chain = {
 
 	destroy: function() {
 		this.onRemoveListener();
-		this.clear();
 	},
 
 	clear: function() {
 		uni.cclog("======Chain clear==========")
 		this.m_mainWallet = {};
 		this.m_mnemonic = "";
+		vue.util.StringUtils.removeUserDefaults("chain_mine_key");
 	},
 
 	onAddListener: function() {
@@ -79,7 +79,9 @@ const Chain = {
 			if (asset.chaintype == chaintype) {
 				for (let k = 0; k < asset.assets.length; k++) {
 					let item = asset.assets[k];
-					return item;
+					if(item.contract == address){
+						return item;
+					}
 				}
 			}
 		}
@@ -88,6 +90,8 @@ const Chain = {
 
 	//===================增加我选择的主链================
 	addMineChainInfo: function(chaintype) {
+		console.log('==this.m_mineChains==',this.m_mineChains)
+		console.log('==chaintype==',chaintype)
 		let ishave = false;
 		for (let i = 0; i < this.m_mineChains.length; i++) {
 			let type = this.m_mineChains[i]
@@ -105,13 +109,13 @@ const Chain = {
 	getMineChains: function() {
 		return this.m_mineChains;
 	},
-	
+
 	//当前链
-	setCurrChainType:function(chaintype){
+	setCurrChainType: function(chaintype) {
 		this.m_currChainType = chaintype;
 	},
-	
-	getCurrChainType:function(){
+
+	getCurrChainType: function() {
 		return this.m_currChainType;
 	}
 

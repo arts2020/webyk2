@@ -83,6 +83,9 @@
 				this.checkedTypes = [];
 				this.coinList = this.dal.Chain.getChainList();
 				this.myChains = this.dal.Chain.getMineChains();
+				
+				console.log("==this.coinList==",this.coinList)
+				console.log("==this.myChains==",this.myChains)
 				for(let i = 0; i < this.myChains.length ;i++){
 					let chaintype = this.myChains[i];
 					let item = this.coinList.find(el=>el.chaintype == chaintype);
@@ -162,8 +165,8 @@
 	
 				// 执行完添加链的操作后跳转	
 				for(let i = 0; i < this.checkedTypes.length ;i++){
-					let ctype = this.checkedTypes[i];
-					this.dal.Chain.addMineChainInfo(ctype);
+					let item = this.checkedTypes[i];
+					this.dal.Chain.addMineChainInfo(item.chaintype);
 				}
 				
 				setTimeout(()=>{					
