@@ -39,7 +39,7 @@ const Eos = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
+				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
 				return true;
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
@@ -50,7 +50,7 @@ const Eos = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
+				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.EOS, wallet);
 				return true;
 			}
 		}

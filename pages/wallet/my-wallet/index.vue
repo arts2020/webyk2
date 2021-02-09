@@ -4,11 +4,11 @@
 	    <view class="main-content">
 			<scroll-view class="main-left" scroll-y="true" >
 				<view class="nav-menu">
-					<view class="menu-item" :class="{'activeClass':activeObj.chaintype==-1}">
-						<image src="../../../static/image/index/all.png" mode="" @tap="handleChecked({chaintype:-1})"></image>
+					<view class="menu-item" :class="{'activeClass':active==-1}">
+						<image src="../../../static/image/index/all.png" mode="" @tap="handleChecked(-1)"></image>
 					</view> 
-					<view class="menu-item" :class="{'activeClass':activeObj.chaintype==item.chaintype}" v-for="(item,index) in identity_wallets" :key="index" @tap="handleChecked(item)">
-						<image :src="'../../../static/image/chain/'+item.logo" mode=""></image>
+					<view class="menu-item" :class="{'activeClass':active==item.chaintype}" v-for="(item,index) in m_mychains" :key="index" @tap="handleChecked(item.chaintype)">
+						<image :src="'../../../static/image/chain/'+item.img" mode=""></image>
 					</view>
 				</view>
 			</scroll-view>
@@ -60,6 +60,16 @@
 				<uni-icons type="plusempty" size="30" color="#7C7C7C"></uni-icons>
 				<text>添加钱包</text>
 			</view>
+		    <uni-popup type="bottom" ref="selectPop">
+				<view class="statusPop">
+					<view class="top-menu">
+						<view class="top-title">添加身份</view>
+						<view class="menu" @tap="goCreate">创建</view>
+						<view class="menu" @tap="goImport">导入</view>
+					</view>
+					<view class="botto-btn" @tap="cancell">取消</view>
+				</view>
+			</uni-popup>
 		</view>
 	</view>
 </template>
@@ -69,13 +79,11 @@
 		data() {
 			return {
 				scrollHeight: 0,
-				activeObj:{
-					chaintype:-1,
-				},
+				active:-1,
 				identity_wallets:[
 					{
 						chaintype:1,
-						logo:"eth.png",
+						img:"eth.png",
 						name:"ETH",
 						alias:"Ethereum",
 						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
@@ -83,7 +91,7 @@
 					},
 					{
 						chaintype:2,
-						logo:"btc.png",
+						img:"btc.png",
 						name:"BTC",
 						alias:"Bitcoin",
 						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
@@ -93,14 +101,16 @@
 				single_wallets:[
 					{
 						chaintype:1,
-						logo:"../../../static/image/chain/index.png",
+						img:"../../../static/image/chain/index.png",
 						name:"lisa",
 						address:"ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 						bgcImg:"../../../static/image/mine/import-wallet.png"
 					}
 				],
 				// 选中后钱包列表
-				currentList:[]
+				currentList:[],
+				//左侧已经有的链
+				m_mychains:[]
 			}
 		},
 		onShow() {
@@ -114,36 +124,67 @@
 			this.onRefresh();
 		},
 		methods: {
+			cancell(){
+				this.$refs.selectPop.close()
+			},
+			goCreate(){
+				this.$refs.selectPop.close()
+				this.$openPage({name:"creat-wallet-status"})
+			},
+			goImport(){
+				this.$refs.selectPop.close()
+				this.$openPage({
+					name: "import-wallet-recover"
+				})
+			},
 			//添加币种
 			goAddCoin(){
-				this.util.UiUtils.switchToPage("wallet-add-coin", "creat-wallet-status",{backType:3});
+				if(this.identity_wallets.length){
+					//有身份
+					this.util.UiUtils.switchToPage("wallet-add-coin", "creat-wallet-status",{backType:3});
+				}else{
+					// 没有身份时去导入或创建身份
+					this.$refs.selectPop.open()
+				}
 			},
 			//去到管理身份界面
             goManage(){
-				this.$openPage({name:"status-wallet-index"})
+				if(this.identity_wallets.length){
+					this.$openPage({name:"status-wallet-index"})
+				}else{
+					this.$refs.selectPop.open()
+				}
 			},
 			// 去到钱包详情界面，钱包详情界面 身份钱包和普通钱包有区别，进行状态控制
 			goDetail(item){
 				console.log('=== 当前钱包===',item)
-				this.dal.WalletManage.setCurrWallet(item.chaintype,item.idx);
+				if(item.idx){
+					this.dal.WalletManage.setCurrWallet(item.chaintype,item.idx);
+				}else{
+					this.dal.WalletManage.setCurrWallet(item.chaintype,0);
+				}
 				this.$openPage({name:"my-wallet-detail"})
 			},
 			// 去添加钱包
 			goAddWallet(){
 				this.$openPage({name:"wallet-add-wallet"})
 			},			
-			handleChecked(item){
+			handleChecked(chaintype){
 			    this.currentList = [];		
-				this.activeObj = item;
-				if(item.chaintype!=-1){
+				this.active = chaintype;
+				if(chaintype!=-1){
 					// 选中主链中一种,加入活动列表,并从普通钱包列表中筛选该类型的普通钱包加入活动列表
-					let list = this.single_wallets.filter(el=>el.chaintype==item.chaintype);
-					list.unshift(item);
-					this.currentList = list;
+					let list1 = this.single_wallets.filter(el=>el.chaintype==chaintype);
+					let list2 = this.identity_wallets.filter(el=>el.chaintype==chaintype);
+					
+					this.currentList = [...list2,...list1];
 				}
-				console.log(item.chaintype,this.single_wallets.filter(el=>el.chaintype==item.chaintype))
 			},
-			onRefresh:function(){			  
+			onRefresh:function(){	
+			 this.identity_wallets = [];
+			 this.single_wallets=[];
+			 this.m_mychains = [];
+			 this.currentList = [];
 			  let chains = this.dal.Chain.getChainList();
 			  
 			  // 身份钱包数据
@@ -151,7 +192,7 @@
 			  //添加logo图标和背景图
 			  mineChains.forEach(el=>{
 				  let item = chains.find(e=>e.chaintype==el.chaintype);
-				  el.logo=item.img;
+				  el.img=item.img;
 				  el.bgcImg = item.img.split('.')[0]+'bg.png';
 			  })
 			  this.identity_wallets = mineChains;
@@ -161,11 +202,24 @@
 			    //添加logo图标和背景图
 			  normalWallets.forEach(el=>{
 				  let item = chains.find(e=>e.chaintype==el.chaintype);
-				  el.logo=item.img;
+				  el.img=item.img;
 				  el.bgcImg = item.img.split('.')[0]+'bg.png';
 			  })
 			  this.single_wallets = normalWallets;	
-			  console.log('=====钱包列表=====',this.identity_wallets,this.single_wallets)
+			  
+			  //获取当前已经有的链
+			  let mychains = this.dal.Chain.getMineChains();
+			  mychains.forEach(el=>{
+				 if(typeof el != 'object'){
+					 let item = chains.find(e=>e.chaintype==el);
+					let temp = {
+						chaintype:el,
+						img:item.img
+					}
+					this.m_mychains.push(temp)
+				 }
+			  })
+			  console.log('=====钱包列表=====',this.identity_wallets,this.single_wallets,this.m_mychains)
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchToPage("mine-mine", "create-wallter", {});
@@ -322,6 +376,42 @@
 				bottom: 0;
 				
 		    }
+		    .statusPop{
+				width: 100%;
+				.top-title{
+					font-size: 30rpx;
+					color: #121212;
+					line-height: 80rpx;
+					text-align: center;
+				}
+				.top-menu{
+					width: 100%;
+					border-radius: 10rpx 10rpx 0 0;
+					background-color: #FFFFFF;
+					margin-bottom: 30rpx;
+					.menu{
+						width: 100%;
+						height: 110rpx;
+						line-height: 110rpx;
+						text-align: center;
+						color: #0000FF;
+						font-size: 28rpx;
+						&:nth-child(2){
+							border-bottom: 1rpx solid #F2F2F2;
+						}
+					}
+				}
+				.botto-btn{
+					width: 100%;
+					height: 110rpx;
+					line-height: 110rpx;
+					text-align: center;
+					color: #808080;
+					font-size: 28rpx;
+					background-color: #FFFFFF;
+					border-radius: 10rpx 10rpx 0 0;
+				}
+			}
 		}
 	
 	}

@@ -186,7 +186,7 @@
 							name: this.paramsObj.name,
 							password: this.paramsObj.password,
 							passwordtip: this.paramsObj.tips,
-							strval:this.paramsObj.words.join(" "),
+							strval:this.paramsObj.words,
 							importtype:this.entities.Metadata.ImportType.WordType,
 							chaintype:this.paramsObj.chaintype,
 						}

@@ -1,7 +1,11 @@
 <template>
 	<view class="wallet-detail">
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="钱包详情" @clickLeft="goBack"></uni-nav-bar>
-	    <view class="wallet-info">
+	    <view class="status-info" v-if="!walletInfo.idx">
+			<image :src="'../../../static/image/chain/'+walletInfo.img" mode=""></image>
+			<text>{{walletInfo.name}}</text>
+		</view>
+		<view class="wallet-info">
 			<view class="wallet_addr">
 				<view class="w-title" style="color: #999999;">钱包地址</view>
 				<view class="addr">{{walletInfo.address}}</view>
@@ -32,7 +36,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="dele_btn" @tap="removeWallet">移除</view>
+		<view class="dele_btn" @tap="removeWallet" v-if="walletInfo.idx">移除</view>
 		<uni-popup type="center" ref="pasdPop" class="pasdTip">
 			<view class="main-content">
 				<view class="title">{{popType==1?'请输入密码':"钱包名称"}}</view>
@@ -58,6 +62,7 @@
 					name:"jugwyvda",
 					address:"anvjiuy2945-1mf-=2koijc83bjiaov"
 				},
+				statusInfo:{},
 				ishowContent:false,
 				rightIcon:"../../../static/image/mine/arrow-left.svg",
 				password:"",
@@ -76,6 +81,11 @@
 		methods:{
 			removeWallet(){
 				//删除钱包
+				this.dal.NormalWallet.deleteNormalWallet(this.walletInfo.chaintype,this.walletInfo.idx);
+				this.util.UiUtils.showToast('移除成功')
+				setTimeout(()=>{
+					this.$openPage({name:"my-wallet-index",gotype:"redirectTo"});
+				},1000)
 			},
 			goBack(){
 				this.util.UiUtils.switchBackPage();
@@ -155,6 +165,22 @@
 		font-family: PingFang SC, PingFang SC-Regular;
 		font-weight: 400;
 		color: #121212;
+	}
+	.status-info{
+		width: calc(100% - 72rpx);
+		height: 108rpx;
+		margin: 20rpx auto 27rpx;
+		padding: 0rpx 27rpx;
+		box-sizing: border-box;
+		background-color: #FFFFFF;
+		border-radius: 10rpx;
+		display: flex;
+		align-items: center;
+		image{
+			width: 65rpx;
+			height: 65rpx;
+			margin-right: 30rpx;
+		}
 	}
 	.wallet-info{
 		width: calc(100% - 72rpx);

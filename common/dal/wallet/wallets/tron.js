@@ -40,7 +40,7 @@ const Tron = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
+				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
 				return true;
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
@@ -51,7 +51,7 @@ const Tron = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
+				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.TRON, wallet);
 				return true;
 			}
 		}
