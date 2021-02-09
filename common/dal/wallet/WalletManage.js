@@ -12,6 +12,7 @@ const WalletManage = {
 	m_currWallet: null,
 
 	evtBalance: "EVT_BALANCE",
+	evtToKenBalance: "EVT_evtToKenBalance",
 	evtCreateWallter: "EVT_CREATE_WALLTER",
 	evtTransResult: "EVT_TRANSRESULT",
 
@@ -220,9 +221,9 @@ const WalletManage = {
 		} else { //普通钱包
 			this.m_currWallet = vue.dal.NormalWallet.getNormalWallet(chaintype, idx)
 		}
-		console.log("==chaintype==",chaintype)
-		console.log("==idx==",idx)
-		console.log("==this.m_currWallet==",this.m_currWallet)
+		console.log("==chaintype==", chaintype)
+		console.log("==idx==", idx)
+		console.log("==this.m_currWallet==", this.m_currWallet)
 		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
 			vue.dal.Btc.initCurrChain();
 		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {
@@ -242,5 +243,47 @@ const WalletManage = {
 		return this.m_currWallet;
 	},
 
+	//========================交易相关======================
+	async sendTransaction(to, amount, gas) {
+
+	},
+
+	async sendTokenTransaction(to, amount, gas, contractAddress) {
+
+	},
+
+	getBalance: function() {
+		let balance = 0;
+		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
+			balance = vue.dal.Btc.getBalance();
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
+			balance = vue.dal.Eos.getBalance();
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
+			balance = vue.dal.Eth.getBalance();
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			balance = vue.dal.Lotus.getBalance();
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
+			balance = vue.dal.Tron.getBalance();
+		}
+		return balance;
+	},
+
+	onBalance: function(contractaddresss) {
+		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
+			vue.dal.Btc.onTokenBalance(contractaddresss);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
+			vue.dal.Eos.onTokenBalance(contractaddresss);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
+			vue.dal.Eth.onTokenBalance(contractaddresss);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			vue.dal.Lotus.onTokenBalance(contractaddresss);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
+			vue.dal.Tron.onTokenBalance(contractaddresss);
+		}
+	},
+
+	onTokenBalance: function(contractAddress) {
+
+	},
 }
 export default WalletManage

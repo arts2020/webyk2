@@ -9,10 +9,10 @@ const Ethers = {
 	m_balance: 0,
 	m_reqUrl: "",
 	init: function() {
-		console.log("=========Ethers===初始化===============",ethers)
+		console.log("=========Ethers===初始化===============", ethers)
 		this.m_reqUrl = "https://mainnet.infura.io/v3/b732128135d54960807f9ed6d480a58a";
-		
-		this.m_web3= new Web3(new Web3.providers.HttpProvider(this.m_reqUrl));
+
+		this.m_web3 = new Web3(new Web3.providers.HttpProvider(this.m_reqUrl));
 	},
 
 	destroy: function() {
@@ -45,7 +45,7 @@ const Ethers = {
 	async createNormal(walletInfo) {
 		if (walletInfo.importtype == vue.entities.Metadata.ImportType.WordType) {
 			let wallet = await this.createWalletByWords(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
@@ -55,7 +55,7 @@ const Ethers = {
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
@@ -68,7 +68,7 @@ const Ethers = {
 	},
 
 	async createWalletByWords(words) {
-		console.log("========ETH===创建节点请求===============",words)
+		console.log("========ETH===创建节点请求===============", words)
 		try {
 			//根据助记词找回钱包信息
 			// var monic = "peace mouse scrap chase order guess volume unit riot save reopen nation"
@@ -168,19 +168,20 @@ const Ethers = {
 		return this.m_balance;
 	},
 
-	onBalance: function(addresss) {
-		EthUtils.getETHBalanceAsync(this.fromAddress, this.m_reqUrl).then((balance) => {
+	async onBalance(addresss) {
+		await EthUtils.getETHBalanceAsync(this.fromAddress, this.m_reqUrl).then((balance) => {
 			console.log("=====this.Ethers===balance====", balance);
 			this.m_balance = balance;
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		})
 	},
 
-	onTokenBalance: function(contractAddress) {
-		EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((balance) => {
-			console.log("=====this.m_usdtErc20===balance===", balance);
-			this.m_balance = balance;
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance, {
+	async onTokenBalance(contractAddress) {
+		await EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((balance) => {
+			console.log("=====contractAddress===", contractAddress);
+			console.log("=====contractAddress===balance===", balance);
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtToKenBalance, {
+				contractAddress: contractAddress,
 				balance: balance
 			});
 		})

@@ -38,13 +38,17 @@ const NormalWallet = {
 	addNormalWallet: function(chaintype, wallet) {
 		let wallets = this.getNormalWalletsByType(chaintype)
 		console.log("=addNormalWallet==wallets==", wallets)
+		let maxid = 0;
 		for (let i = 0; i < wallets.length; i++) {
 			let item = wallets[i];
 			if (item.privateKey == wallet.privateKey) {
 				return false;
 			}
+			if(item.idx > maxid){
+				maxid = item.idx;
+			}
 		}
-		let len = wallets.length + 1;
+		let len = maxid + 1;
 		let item = {
 			idx: len,
 			chaintype: chaintype,

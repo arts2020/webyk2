@@ -8,11 +8,11 @@ const MainWallet = {
 
 	init: function() {
 		uni.cclog("======MainWallet init==========")
-		let maininfo =  vue.util.StringUtils.getUserDefaults("main_info_key");
+		let maininfo = vue.util.StringUtils.getUserDefaults("main_info_key");
 		if (maininfo && maininfo.length > 0) {
 			this.m_mainInfo = JSON.parse(maininfo)
 		}
-		let wallets =  vue.util.StringUtils.getUserDefaults("main_wallets_key");
+		let wallets = vue.util.StringUtils.getUserDefaults("main_wallets_key");
 		if (wallets && wallets.length > 0) {
 			this.m_mainWallet = JSON.parse(wallets)
 		}
@@ -43,6 +43,7 @@ const MainWallet = {
 	//增加身份钱包
 	addMainWallet: function(chaintype, wallet) {
 		let item = {
+			idx: 0,
 			chaintype: chaintype,
 			address: wallet.address,
 			privateKey: wallet.privateKey,
@@ -53,7 +54,7 @@ const MainWallet = {
 			money: 0,
 		}
 		this.m_mainWallet[chaintype] = item;
-		
+
 		vue.util.StringUtils.setUserDefaults("main_wallets_key", JSON.stringify(this.m_mainWallet));
 	},
 
