@@ -37,7 +37,7 @@ const ContractWallet = {
 		let items = [];
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
-			if (item.address == address && item.idx = idx) {
+			if (item.address == address && item.idx == idx) {
 				items.push(item)
 			}
 		}
