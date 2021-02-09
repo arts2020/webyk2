@@ -97,35 +97,35 @@ const WalletMange = {
 
 				if (ret) {
 					console.log("==Eos==")
-					this.dal.Chain.addMineChainInfo(chaintype);
+					vue.dal.Chain.addMineChainInfo(chaintype);
 					chaintype = vue.entities.Metadata.ChainType.EOS;
 					ret = await vue.dal.Eos.createMain(walletInfo)
 				}
 
 				if (ret) {
 					console.log("==Eth==")
-					this.dal.Chain.addMineChainInfo(chaintype);
+					vue.dal.Chain.addMineChainInfo(chaintype);
 					chaintype = vue.entities.Metadata.ChainType.ETH;
 					ret = await vue.dal.Eth.createMain(walletInfo)
 				}
 
 				// if (ret) {
 				// 	console.log("==Lotus==")
-				// 	this.dal.Chain.addMineChainInfo(chaintype);
+				// 	vue.dal.Chain.addMineChainInfo(chaintype);
 				// 	chaintype = vue.entities.Metadata.ChainType.LOTUS;
 				// 	ret = await vue.dal.Lotus.createMain(walletInfo)
 				// }
 
 				if (ret) {
 					console.log("==Tron==")
-					this.dal.Chain.addMineChainInfo(chaintype);
+					vue.dal.Chain.addMineChainInfo(chaintype);
 					chaintype = vue.entities.Metadata.ChainType.TRON;
 					ret = await vue.dal.Tron.createMain(walletInfo)
 				}
 				if (!ret) {
 					return false;
 				}
-				this.dal.Chain.addMineChainInfo(chaintype);
+				vue.dal.Chain.addMineChainInfo(chaintype);
 				vue.dal.MainWallet.setMainInfo(walletInfo);
 				return true;
 			} else {
@@ -153,7 +153,7 @@ const WalletMange = {
 			isok = await vue.dal.Tron.createNormal(walletInfo)
 		}
 		if (isok) {
-			this.dal.Chain.addMineChainInfo(walletInfo.chaintype);
+			vue.dal.Chain.addMineChainInfo(walletInfo.chaintype);
 		}
 		return isok;
 	},

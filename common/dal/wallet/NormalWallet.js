@@ -41,7 +41,7 @@ const NormalWallet = {
 		for (let i = 0; i < wallets.length; i++) {
 			let item = wallets[i];
 			if (item.privateKey == wallet.privateKey) {
-				return;
+				return false;
 			}
 		}
 		let len = wallets.length + 1;
@@ -61,6 +61,7 @@ const NormalWallet = {
 		}
 		this.m_normalWallet[chaintype].push(item);
 		vue.util.StringUtils.setUserDefaults("normal_wallets_key", JSON.stringify(this.m_normalWallet));
+		return true;
 	},
 
 	//删除普通钱包

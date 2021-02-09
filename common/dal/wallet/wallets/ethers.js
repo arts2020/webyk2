@@ -10,7 +10,7 @@ const Ethers = {
 	m_reqUrl: "",
 	init: function() {
 		console.log("=========Ethers===初始化===============",ethers)
-		this.m_reqUrl = "https://mainnet.infura.io/v3/033fa6dd066c48d99c6b43c0b6da4dd7";
+		this.m_reqUrl = "https://mainnet.infura.io/v3/b732128135d54960807f9ed6d480a58a";
 		
 		this.m_web3= new Web3(new Web3.providers.HttpProvider(this.m_reqUrl));
 	},
@@ -51,8 +51,7 @@ const Ethers = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.ETH, wallet);
-				return true;
+				return vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.ETH, wallet);
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
@@ -62,8 +61,7 @@ const Ethers = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.ETH, wallet);
-				return true;
+				return vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.ETH, wallet);
 			}
 		}
 		return false;
@@ -130,7 +128,7 @@ const Ethers = {
 			console.log("=====Ethers===sendTransaction===1=", txid);
 			vue.util.UiUtils.showToast("转帐已提交");
 
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult, {
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				tx: txid
 			});
 		} else {
@@ -142,7 +140,6 @@ const Ethers = {
 	},
 
 	async sendTokenTransaction(to, amount, gas, contractAddress) {
-
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
 		console.log("===pedings=", pedings)
 		console.log("===this.fromAddress=", this.fromAddress)
@@ -153,12 +150,12 @@ const Ethers = {
 		if (txid && txid.length == 66) {
 			this.onTokenBalance(contractAddress);
 			vue.util.UiUtils.showToast("转帐已提交");
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult, {
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				tx: txid
 			});
 		} else {
 			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtTransResult, {
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				tx: false
 			});
 		}
@@ -171,11 +168,11 @@ const Ethers = {
 		return this.m_balance;
 	},
 
-	onBalance: function() {
+	onBalance: function(addresss) {
 		EthUtils.getETHBalanceAsync(this.fromAddress, this.m_reqUrl).then((balance) => {
 			console.log("=====this.Ethers===balance====", balance);
 			this.m_balance = balance;
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtBalance);
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		})
 	},
 
@@ -183,7 +180,7 @@ const Ethers = {
 		EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((balance) => {
 			console.log("=====this.m_usdtErc20===balance===", balance);
 			this.m_balance = balance;
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletMange.evtBalance, {
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance, {
 				balance: balance
 			});
 		})
