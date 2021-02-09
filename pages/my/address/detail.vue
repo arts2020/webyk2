@@ -13,7 +13,7 @@
 			<view class="addr_description">
 				<view class="addr_item">
 					<input type="text" placeholder="请输入地址" placeholder-class="tipClass" v-model="addressObj.address" />
-					<uni-icons type="scan" size="20" color="#444444" style="font-weight: 600;"></uni-icons>
+					<uni-icons type="scan" size="20" color="#444444" style="font-weight: 600;" @tap="goScan"></uni-icons>
 				</view>
 				<view class="addr_item">
 					<input type="text" placeholder="名称" placeholder-class="tipClass" v-model="addressObj.username" />
@@ -50,8 +50,16 @@
 			}
 		},
 		methods:{
+			goScan(){
+				uni.scanCode({
+				    success:(res)=>{
+				        this.addressObj.address = res.result;
+				    }
+				});
+			},
 			goBack(){
-				this.util.UiUtils.switchBackPage();
+				// this.util.UiUtils.switchBackPage();
+				this.$openPage({name:"address-list",gotype:"redirectTo"})
 			},
 			goSave(){
 				if(!this.addressObj.address){

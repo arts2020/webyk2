@@ -13,7 +13,7 @@
 					<text>{{currentWallet.name}}</text>
 					<image @click="goDetail()" src="../../static/image/index/goin.png" mode=""></image>
 				</view>
-				<view class="p2">
+				<view class="p2" @tap="goRechange">
 					<view class="word">{{currentWallet.address}}</view>
 					<image src="../../static/image/index/sqcode.png" mode=""></image>
 				</view>
@@ -177,7 +177,6 @@
 				this.hasWallet = true;
 				this.onRefresh();
 			}
-			console.log('==this.hasWallet==',this.hasWallet)
 			
 			let _this = this;
 			//获取高度
@@ -188,8 +187,11 @@
 			});
 		},
 		methods: {
+			goRechange(){
+				this.$openPage({name:"recharge-currency"})
+			},
 			onRefresh:function(){
-			  
+
 			  let chains = this.dal.Chain.getChainList();
 			  
 			  // 身份钱包数据

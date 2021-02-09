@@ -79,15 +79,12 @@
 </template>
 
 <script>
-	// import Bar from '@/components/uni-status-bar/uni-status-bar.vue';
 	import noData from '@/components/no-data/no-data.vue';
 	export default {
 		components: {
-			// Bar,
 			noData
 		},
 		created() {
-			// this.util.UiUtils.showLoading("")
 			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
 		    let _this = this;
 		    uni.startPullDownRefresh();
@@ -98,9 +95,7 @@
 		    		_this.scrollHeight = res.windowHeight - res.statusBarHeight - 54-60;
 		    	}
 		    });
-			setTimeout(function () {
-				this.dal.Common.onGetAssetprice();
-			}.bind(this), 1000);
+			this.dal.Common.onGetAssetprice();
 		},
 		
 		destroyed() {
@@ -122,31 +117,8 @@
 				ishow_defi:false,
 			}
 		},
-		// onLoad() {
-		// 	console.log("====onGetAssetprice===onLoad===")
-			
-		// },
-		// onShow() {
-		// 	console.log("====onGetAssetprice===onShow===")
-		// 	let _this = this;
-		// 	uni.startPullDownRefresh();
-		// 	setTimeout(function () {
-		// 		this.dal.Common.onGetAssetprice();
-		// 	}.bind(this), 1000);
-		// 	//获取高度
-		// 	uni.getSystemInfo({
-		// 		success(res) {
-					
-		// 			_this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
-		// 		}
-		// 	});
-		// },
 		onPullDownRefresh() {
 			this.dal.Common.onGetAssetprice();
-			// this.onRefresh();
-			// setTimeout(function () {
-			// 	uni.stopPullDownRefresh();
-			// }, 1000);
 		},
 		
 		methods: {

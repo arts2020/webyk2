@@ -61,7 +61,7 @@
 				activeCoin: {},
 				coinList: []
 			};
-		},
+		},		
 		methods: {
 			onRefresh:function(){
 				this.coinList = this.dal.Chain.getChainList();
@@ -99,7 +99,6 @@
 	.addWallet {
 		width: 100%;
 		background-color: #FFFFFF;
-
 		/deep/ .uni-navbar--border {
 			border: 0;
 		}

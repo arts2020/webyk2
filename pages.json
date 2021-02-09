@@ -4,9 +4,6 @@
 			"path": "pages/wallet/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#efefef",
-				"backgroundColor": "#efefef",
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -64,10 +61,6 @@
 			"path": "pages/dapp/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#F8F8F8",
-				"backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -76,10 +69,6 @@
 			"path": "pages/market/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#F8F8F8",
-				"backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -88,10 +77,6 @@
 			"path": "pages/my/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "我的",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#F8F8F8",
-				"backgroundColor": "#F8F8F8",
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -100,9 +85,6 @@
 			"path": "pages/my/visit/visit",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#efefef",
-				"backgroundColor": "#efefef",
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -184,9 +166,6 @@
 			"path": "pages/my/about-us/about-us",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#efefef",
-				"backgroundColor": "#efefef",
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -195,9 +174,6 @@
 			"path": "pages/my/help/help",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#efefef",
-				"backgroundColor": "#efefef",
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -206,10 +182,7 @@
 			"path": "pages/market/quotation/quotation",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#F8F8F8",
-				"backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -218,10 +191,6 @@
 			"path": "pages/market/quotation/search-page",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#F8F8F8",
-				"backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -232,10 +201,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -247,10 +212,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -261,10 +222,6 @@
             "style" :                                                                                    
             {
               "navigationStyle": "custom",
-              "navigationBarTextStyle": "black",
-              "navigationBarBackgroundColor": "#F8F8F8",
-              "backgroundColor": "#F8F8F8",
-              "enablePullDownRefresh": true,
               "app-plus": {
               	"titleNView": true //禁用原生导航栏，APP和H5可用
               }
@@ -276,10 +233,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -291,10 +244,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -305,10 +254,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -319,10 +264,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -333,10 +274,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -347,10 +284,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -361,10 +294,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -376,10 +305,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -390,10 +315,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -404,10 +325,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -419,10 +336,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -433,10 +346,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -447,10 +356,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -461,10 +366,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -475,10 +376,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -489,10 +386,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -503,10 +396,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -518,10 +407,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -532,10 +417,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -545,10 +426,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -559,10 +436,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -575,10 +448,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -589,10 +458,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -603,10 +468,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -618,10 +479,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -632,10 +489,6 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true,
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }
@@ -646,10 +499,9 @@
             "style" :                                                                                    
             {
                 "navigationStyle": "custom",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#F8F8F8",
-                "backgroundColor": "#F8F8F8",
-                "enablePullDownRefresh": true
+				"app-plus": {
+					"titleNView": true //禁用原生导航栏，APP和H5可用
+				}
             }
             
         }
@@ -659,10 +511,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
@@ -674,10 +522,6 @@
             "style" :                                                                                    
             {
                "navigationStyle": "custom",
-               "navigationBarTextStyle": "black",
-               "navigationBarBackgroundColor": "#F8F8F8",
-               "backgroundColor": "#F8F8F8",
-               "enablePullDownRefresh": true,
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }

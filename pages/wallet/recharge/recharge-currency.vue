@@ -41,22 +41,12 @@
 			qrCode,
 		},
 		created() {
-			//从数据层获取当前资产信息
-			// this.m_asset = 
-			
-			// 给二维码要生成的内容赋值
-			// this.val = 
-			//给地址赋值
-			// this.m_address = 
-			//给链类型赋值
-			this.m_cointype
+			this.onRefersh();
 		},
 		data() {
 			return {
 				m_address: "asf1v2s5fee8saccz5",
 				m_cointype: "ETH",
-				//当前资产
-				m_asset:"",
 				qrR: "",
 				cid: "",
 				usingComponents: "",
@@ -80,6 +70,17 @@
 		methods: {
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
+			},
+			onRefersh(){
+				//从数据层获取当前钱包信息
+				let m_wallet = this.dal.WalletManage.getCurrWallet();
+				
+				// 给二维码要生成的内容赋值
+				this.val = m_wallet.address;
+				//给地址赋值
+				this.m_address = m_wallet.address;
+				//给链类型赋值
+				this.m_cointype = m_wallet.name;
 			},
 			btnSavePic:function(){
 				this.$refs['qrcode']._saveCode();
