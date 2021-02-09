@@ -216,13 +216,13 @@
 
 				//当前钱包默认优先拿第一个身份钱包，没有身份钱包时默认用第一个普通钱包
 				this.currentWallet = this.dal.WalletManage.getCurrWallet();
-				if(!this.currentWallet){
-					this.currentWallet = this.identity_wallets.length?this.identity_wallets[0]:this.single_wallets[0];
-					console.log('==this.currentWallet==',this.currentWallet)
+				if (!this.currentWallet) {
+					this.currentWallet = this.identity_wallets.length ? this.identity_wallets[0] : this.single_wallets[0];
+					console.log('==this.currentWallet==', this.currentWallet)
 					this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				}
 				//根据当前钱包链的类型，筛选出该类型链下对应资产列表
-				this.currentAsset = this.dal.ContractWallet.getContractWallets(this.currentWallet.address)
+				this.currentAsset = this.dal.ContractWallet.getContractWallets(this.currentWallet.idx, this.currentWallet.address)
 				console.log('=====钱包和资产列表=====', this.currentAsset)
 			},
 			closePop() {
