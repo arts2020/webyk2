@@ -36,6 +36,7 @@
 				scrollHeight: 0,
 				chaintype: 1,
 				keyword: "",
+				m_idx:"",
 				currentAssetList: [],
 				// 当前链下全部资产的列表
 				allAssetList: [{
@@ -78,13 +79,18 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight - 44;
 				}
 			});
-
-			this.allAssetList = this.dal.Chain.getAssets(this.chaintype).assets;
-			this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
+            this.onRefersh()
 		},
 		methods: {
 			btnBack: function() {
 				this.util.UiUtils.switchToPage("wallet-index", "add-asset", {}, "switchTab");
+			},
+			onRefersh(){
+				//清空之前并重获取
+				this.currentAssetList=[];
+				this.allAssetList=[];
+				this.allAssetList = this.dal.Chain.getAssets(this.chaintype).assets;
+			    this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
 			},
 			clear() {
 				this.keyword = ""

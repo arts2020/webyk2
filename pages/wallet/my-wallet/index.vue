@@ -13,7 +13,7 @@
 				</view>
 			</scroll-view>
 			<scroll-view class="main-right" scroll-y="true" >
-				<view class="current-c" v-if="currentList.length">
+				<view class="current-c" v-if="active!=-1">
 					<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
 						<view class="wallet-name">
 							<text>{{item.name}}</text>
@@ -40,7 +40,7 @@
 								<view class="tip-title">添加币种</view>
 								<view class="content">支持EOS、TRX、CKB、KSM、FIL</view>
 							</view>
-							<uni-icons type="plus" size="20" color="#ffffff"></uni-icons>
+							<uni-icons type="plus" size="20" color="#c2c2c2"></uni-icons>
 						</view>
 					</view>
 					<view class="create-import" v-if="single_wallets.length">
@@ -75,7 +75,11 @@
 </template>
 
 <script>
+	import noData from '@/components/no-data/no-data.vue';
 	export default {
+		components:{
+			noData
+		},
 		data() {
 			return {
 				scrollHeight: 0,
@@ -158,11 +162,7 @@
 			// 去到钱包详情界面，钱包详情界面 身份钱包和普通钱包有区别，进行状态控制
 			goDetail(item){
 				console.log('=== 当前钱包===',item)
-				if(item.idx){
-					this.dal.WalletManage.setCurrWallet(item.chaintype,item.idx);
-				}else{
-					this.dal.WalletManage.setCurrWallet(item.chaintype,0);
-				}
+				this.dal.WalletManage.setCurrWallet(item.chaintype,item.idx);
 				this.$openPage({name:"my-wallet-detail"})
 			},
 			// 去添加钱包
@@ -176,8 +176,9 @@
 					// 选中主链中一种,加入活动列表,并从普通钱包列表中筛选该类型的普通钱包加入活动列表
 					let list1 = this.single_wallets.filter(el=>el.chaintype==chaintype);
 					let list2 = this.identity_wallets.filter(el=>el.chaintype==chaintype);
-					
+					console.log(list1,list2)
 					this.currentList = [...list2,...list1];
+					console.log(this.currentList)
 				}
 			},
 			onRefresh:function(){	
@@ -331,22 +332,22 @@
 					width: 100%;
 					height: 122rpx;
 					margin-bottom: 27rpx;
-					background: url(../../../static/image/mine/add-icon.png) no-repeat center;
+					background: url(../../../static/image/chain/addCoin.png) no-repeat center;
 					background-size: 100% 100%;
 					border-radius: 20rpx;
 					padding: 17rpx 27rpx 0 32rpx;
 					box-sizing: border-box;
-					color: #FFFFFF;
+					
 					display: flex;
 					align-items: center;
 					justify-content: space-between;
 					.tip-msg{
 						width: calc(100% - 80rpx);
 						font-family: PingFang SC, PingFang SC-Semibold;
-						color: #ffffff;
+						color: #7c7c7c;
 						.tip-title{
 							font-size: 36rpx;
-							font-weight: 600;
+							font-weight: 400;
 							line-height: 50rpx;
 						}
 						.content{
@@ -356,6 +357,7 @@
 							text-overflow: ellipsis;
 							white-space: nowrap;
 							line-height: 42rpx;
+							color: #c2c2c2;
 						}
 					}
 				}

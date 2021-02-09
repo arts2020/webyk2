@@ -16,6 +16,7 @@
 			noData
 		},
 		onShow() {
+			this.content = '';
 			this.content = agreeAndHelp.my_aggrement;
 		},
 		data() {

@@ -95,7 +95,7 @@
 		    		_this.scrollHeight = res.windowHeight - res.statusBarHeight - 54-60;
 		    	}
 		    });
-			this.dal.Common.onGetAssetprice();
+			this.onRefersh()
 		},
 		
 		destroyed() {
@@ -111,17 +111,22 @@
 					return val > 0 ? '#61C0A0;' : '#E46866;'
 				},
 				active:1,
-				haveData:true,
+				haveData:false,
 				ishow_selfC:false,
 				ishow_market:true,
 				ishow_defi:false,
 			}
 		},
 		onPullDownRefresh() {
-			this.dal.Common.onGetAssetprice();
+			this.onRefersh()
 		},
 		
 		methods: {
+			onRefersh(){
+				//清空之前数据重新获取
+				this.m_marketList = []
+				this.dal.Common.onGetAssetprice();
+			},
 			goAdd(){
 			 this.$openPage({name:"quotation-search"});	
 			},

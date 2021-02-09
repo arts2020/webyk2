@@ -198,6 +198,12 @@
 		},
 		methods:{
 			onRefersh(){
+				//每次刷新数据  清空之前数据并重新获取
+				this.allList = [];
+				this.rollOutList = [];
+				this.rollInList = [],
+				this.failList = [],
+				
 				//获取交易列表
 				this.getDealData();
 				

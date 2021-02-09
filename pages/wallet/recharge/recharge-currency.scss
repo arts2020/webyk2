@@ -7,7 +7,6 @@
 	}
 	.main-c{
 		width: calc(100% - 72rpx);
-		height: 705rpx;
 		margin: 150rpx auto 22rpx;
 		padding: 39rpx 32rpx 50rpx;
 		box-sizing: border-box;
@@ -31,6 +30,8 @@
 			width: 100%;			
 			.addr-info{
 				color: #999999;
+				word-break: break-all;
+				height: fit-content;
 			}
 		}
 		

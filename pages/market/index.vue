@@ -14,17 +14,17 @@
 					<view class="transf-content">
 						<image class="trans-icon" src="../../static/image/index/transf.png" mode=""></image>
 						<view class="select-icon">
-							<picker class="coin-picker" mode="selector" :value="coin_L" :range="coinArr" :range-key="'name'" @change="pickerChangeLeft">
+							<picker class="coin-picker" mode="selector" :value="coin_L" :range="assetArr" :range-key="'name'" @change="pickerChangeLeft">
 								<view class="pick-c">
-									<image :src="coinArr[coin_L].logo" mode=""></image>
-									<text>{{coinArr[coin_L].name}}</text>
+									<image :src="'../../static/image/chain/'+assetArr[coin_L].img" mode=""></image>
+									<text>{{assetArr[coin_L].name}}</text>
 									<image src="../../static/image/index/down.png" mode=""></image>
 								</view>
 							</picker>
-							<picker class="coin-picker" mode="selector" :value="coin_R" :range="coinArr" :range-key="'name'" @change="pickerChangeRight">
+							<picker class="coin-picker" mode="selector" :value="coin_R" :range="assetArr" :range-key="'name'" @change="pickerChangeRight">
 								<view class="pick-c">
-									<image :src="coinArr[coin_R].logo" mode=""></image>
-									<text>{{coinArr[coin_L].name}}</text>
+									<image :src="'../../static/image/chain/'+assetArr[coin_R].img" mode=""></image>
+									<text>{{assetArr[coin_L].name}}</text>
 									<image src="../../static/image/index/down.png" mode=""></image>
 								</view>
 							</picker>
@@ -40,7 +40,7 @@
 						</view>
 					
 						<view class="rate-fee">
-							<view class="rate">汇率 1{{coinArr[coin_L].name}}=={{coinArr[coin_R].name}}</view>
+							<view class="rate">汇率 1{{assetArr[coin_L].name}}=={{assetArr[coin_R].name}}</view>
 						    <view class="fee">手续费 0.3%</view>
 						</view>
 					</view>
@@ -75,6 +75,11 @@
 					this.scrollHeight = res.windowHeight - res.statusBarHeight-54;
 				}
 			});
+			this.onRefersh();
+		},
+		onPullDownRefresh() {
+			this.onRefersh();
+			uni.stopPullDownRefresh()
 		},
 		data(){
 			return{
@@ -82,16 +87,16 @@
 				// ishow:true,
 				scrollHeight:0,
 				// 全部代币数组
-				coinArr:[
+				assetArr:[
 					{
 						chaintype: 2,
-						logo: "../../static/image/index/btc.png",
+						img: "btc.png",
 						name: "BTC",
 						alias: "Btcoin"
 					},
 					{
 						chaintype: 3,
-						logo: "../../static/image/index/fil.png",
+						img: "fil.png",
 						name: "ATOM",
 						alias: "Cosmos"
 					},
@@ -103,6 +108,26 @@
 			}
 		},
 		methods:{
+			onRefersh(){
+				// 清空之前数据
+				this.assetArr = [];
+				// 重新获取获取所有资产
+				this.assetArr = [
+					{
+						chaintype: 2,
+						img: "btc.png",
+						name: "BTC",
+						alias: "Btcoin"
+					},
+					{
+						chaintype: 3,
+						img: "fil.png",
+						name: "ATOM",
+						alias: "Cosmos"
+					},
+				]
+				// this.assetArr = this.dal.chains.getAssets();
+			},
 			goAdd(){
 			 this.$openPage({name:"quotation-search"});	
 			},
@@ -111,15 +136,6 @@
 			},
 			updateMenu(val){
 				this.active = val;
-				// this.$nextTick(()=>{
-				// 	setTimeout(()=>{
-				// 		if(val==0){
-				// 			this.ishow = true;
-				// 		}else if(val==1){
-				// 			this.ishow=false;
-				// 		}
-				// 	},50)
-				// })
 			},
 			pickerChangeLeft(e){
 				this.coin_L = e.target.value

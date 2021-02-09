@@ -45,8 +45,18 @@
 	export default {
 		data() {
 			return {
-				isFailed:false
+				isFailed:false,
+				//交易信息
+				recordInfo:{
+					
+				}
 			};
+		},
+		onLoad(option) {
+			let params = JSON.parse(option.query)
+			if(Object.keys(params).length!=0){
+				this.recordInfo = params;
+			}
 		},
 		methods:{
 			goBack(){

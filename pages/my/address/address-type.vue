@@ -30,6 +30,8 @@
 			}
 		},
 		onShow() {
+			//清空之前的数据重新获取
+			this.chainList = [];
 			this.chainList =  this.dal.Chain.getChainList();
 		},
 		methods: {

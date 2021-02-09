@@ -33,6 +33,7 @@
 		},
 		onShow() {
 			uni.startPullDownRefresh();
+			this.addresssList = [];
 			this.addresssList = this.dal.Address.getAddressList();
 			setTimeout(()=>{
 				uni.stopPullDownRefresh()

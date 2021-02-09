@@ -53,30 +53,24 @@
 				currentDapp: {},
 				// 所有数据
 				list: [
-					   {
-							icon: "../../static/image/index/wodeshouyi.png",
-							name: "LON",
-							community: "LON挖矿"
-						},
-						{
-							logo: "../../static/image/index/wodeshouyi.png",
-							name: "Snapshot治理",
-							community: "参与所有DeFi项目的社区治理"
-						},
 				],
 			}
 		},
 		onShow() {
+			this.onRefersh();
 			uni.getSystemInfo({
 				success: (res) => {
 					this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
 				}
 			});
-			
-			//获取列表数据
-           this.dal.Dapp.onGetDapps()
 		},
 		methods: {
+			onRefersh(){
+				this.list = [];
+				this.currentDapp = {};
+				//获取列表数据
+				this.dal.Dapp.onGetDapps()
+			},
 			goCheck(item) {
 				// 打开访问说明
 				this.currentDapp = item;
