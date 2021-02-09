@@ -219,7 +219,7 @@
 					this.m_mychains.push(temp)
 				 }
 			  })
-			  console.log('=====钱包列表=====',this.identity_wallets,this.single_wallets,this.m_mychains)
+			  console.log('=====钱包列表=====',this.identity_wallets,this.single_wallets,this.dal.Chain.getMineChains())
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchToPage("mine-mine", "create-wallter", {});

@@ -136,10 +136,10 @@
 	export default {
 		name: "wallet",
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.WalletMange.evtBalance, this.onRefresh);
+			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
 		},
 		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.WalletMange.evtBalance, this.onRefresh);
+			this.util.EventUtils.removeEventCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
 		},
 		
 		data() {
@@ -181,7 +181,7 @@
 				this.hasWallet = true;
 				this.onRefresh();
 			}
-
+            
 			let _this = this;
 			//获取高度
 			uni.getSystemInfo({
@@ -202,12 +202,24 @@
 			},
 			
 			onRefresh: function() {
+
 				this.identity_wallets = [];
 				this.single_wallets=[];
 				this.m_mychains = [];
 				this.currentList = [];
 				let chains = this.dal.Chain.getChainList();
-
+                //获取当前已经有的链
+                let mychains = this.dal.Chain.getMineChains();
+                mychains.forEach(el=>{
+                	 if(typeof el != 'object'){
+                		 let item = chains.find(e=>e.chaintype==el);
+                		let temp = {
+                			chaintype:el,
+                			img:item.img
+                		}
+                		this.m_mychains.push(temp)
+                	 }
+                })
 				// 身份钱包数据
 				let mineChains = this.dal.MainWallet.getMainWallets();
 				//添加logo图标和背景图
@@ -236,22 +248,10 @@
 					this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				}
 				
-				//获取当前已经有的链
-				let mychains = this.dal.Chain.getMineChains();
-				mychains.forEach(el=>{
-								 if(typeof el != 'object'){
-									 let item = chains.find(e=>e.chaintype==el);
-									let temp = {
-										chaintype:el,
-										img:item.img
-									}
-									this.m_mychains.push(temp)
-								 }
-				})
 				
 				//根据当前钱包链的类型，筛选出该类型链下对应资产列表
 				this.currentAsset = this.dal.ContractWallet.getContractWallets(this.currentWallet.idx, this.currentWallet.address)
-				console.log('=====钱包和资产列表=====', this.currentAsset)
+				console.log('=====钱包和资产列表=====', this.currentAsset,this.m_mychains)
 			},
 			closePop() {
 				this.$refs.walletPop.close();
