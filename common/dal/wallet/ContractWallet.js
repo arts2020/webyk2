@@ -30,10 +30,12 @@ const ContractWallet = {
 	},
 
 	onRemoveListener: function() {
-		vue.shared.Event.removeByObserverName("dal_m_contractwallet");
+		vue.shared.Event.removeByObserverName("dal_contractwallet");
 	},
 
 	getContractWallets: function(idx, address) {
+		console.log("=getContractWallets=idx==", idx)
+		console.log("==address==", address)
 		let items = [];
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
@@ -71,6 +73,7 @@ const ContractWallet = {
 	},
 
 	addItem: function(chaintype, idx, address, contractaddress) {
+			console.log("==addItem=idx==", idx)
 		let ishave = false;
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
@@ -92,7 +95,10 @@ const ContractWallet = {
 					money: 0,
 				}
 			} else {
+				item.idx = idx;
+				item.address = address;
 				item.chaintype = chaintype;
+				item.money = 0;
 			}
 			console.log("==addItem=item==", item)
 			this.m_contractWallet.push(item)

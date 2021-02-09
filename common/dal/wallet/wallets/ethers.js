@@ -84,6 +84,7 @@ const Ethers = {
 			let address = wallet.address;
 
 			return {
+				words: words,
 				privateKey: privateKey,
 				publicKey: publicKey,
 				address: address
@@ -168,10 +169,10 @@ const Ethers = {
 		return this.m_balance;
 	},
 
-	async onBalance(addresss) {
+	async onBalance() {
 		await EthUtils.getETHBalanceAsync(this.fromAddress, this.m_reqUrl).then((balance) => {
 			console.log("=====this.Ethers===balance====", balance);
-			this.m_balance = balance;
+			vue.dal.WalletManage.setCurrWalletMoney(balance)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		})
 	},

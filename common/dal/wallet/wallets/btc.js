@@ -44,7 +44,7 @@ const Btc = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.WordType;
-				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.BTC, wallet);
+				return vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.BTC, wallet);
 
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
@@ -55,7 +55,7 @@ const Btc = {
 				wallet.passwordtip = walletInfo.passwordtip;
 				wallet.chaintype = walletInfo.chaintype;
 				wallet.importtype = vue.entities.Metadata.ImportType.PrivateType;
-				return vue.dal.NomalWallet.addNormalWallet(vue.entities.Metadata.ChainType.BTC, wallet);
+				return vue.dal.NormalWallet.addNormalWallet(vue.entities.Metadata.ChainType.BTC, wallet);
 			}
 		}
 		return true;
