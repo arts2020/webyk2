@@ -90,8 +90,8 @@
 				this.$openPage({
 					name: "webui-webview",
 					query: {
-						url: "http://uniswap.token.im/#/pool?locale=zh-CN&utm_source=imtoken",
-						title: "用户协议"
+						url: this.currentDapp.app_url,
+						title: this.currentDapp.name
 					}
 				})
 				//关闭弹框

@@ -91,18 +91,7 @@
 					money:"123.65"
 				},
 				//所有交易记录
-				allList:[
-					{
-						outAddr:"bduaieuw3284sd0dddddf929dvsvv",
-						inAddr:"cdsv55ew8z5x6e8f9as15z4s8a9v1f",
-						time:"2020.11.25 21:02:39",
-						num:'0.02',
-						// 1成功 2失败
-						status:'1',
-						// 1转出 2转入
-						type:"1"
-					},
-				],
+				allList:[],
 				//转出的
 				rollOutList:[],
 				//转入的

@@ -187,6 +187,7 @@ const Ethers = {
 			console.log('====priceInfo.balance==',balance)
 			console.log('====configinfo.value==',configinfo.value)
 			let rmb = priceInfo.price_usd * balance * configinfo.value;
+			console.log("==rmb==",rmb)
 			vue.dal.WalletManage.setCurrWalletMoney(balance, rmb)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		})

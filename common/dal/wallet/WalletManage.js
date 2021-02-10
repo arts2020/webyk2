@@ -249,7 +249,7 @@ const WalletManage = {
 	setCurrWalletMoney: function(money,rmb) {
 		console.log("=====setCurrWalletMoney=====", money)
 		this.m_currWallet.money = money;
-		this.m_currWallet.rmb = money * rmb;
+		this.m_currWallet.rmb = rmb;
 	},
 
 	getCurrWallet: function() {
