@@ -338,8 +338,9 @@
 				this.$refs.walletPop.close()
 			},
 			checkedItem(item) {
+				this.dal.Chain.setCurrChainType(item.chaintype);
 				this.dal.WalletManage.setCurrWallet(item.chaintype, item.idx);
-
+					
 				this.$refs.walletPop.close()
 				this.onRefresh();
 			},

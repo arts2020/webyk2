@@ -85,7 +85,7 @@
 			noData
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
+			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetPrice);
 		    let _this = this;
 		    uni.startPullDownRefresh();
 		    //获取高度
@@ -99,7 +99,7 @@
 		},
 		
 		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetprice);
+			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetPrice);
 		},
 		data() {
 			return {
@@ -125,7 +125,7 @@
 			onRefersh(){
 				//清空之前数据重新获取
 				this.m_marketList = []
-				this.dal.Common.onGetAssetprice();
+				this.dal.Common.onGetAssetPrice();
 			},
 			goAdd(){
 			 this.$openPage({name:"quotation-search"});	
@@ -144,14 +144,14 @@
 					},50)
 				})
 			},
-			onGetAssetprice:function(data){
+			onGetAssetPrice:function(data){
 				uni.stopPullDownRefresh();
 				function rankFun(a,b){
 					return a.rank - b.rank
 				}
 				data.data.sort(rankFun)
 				this.m_marketList = data.data;
-				this.m_configitem = this.dal.Common.onGetRateInfo("exchange_key");
+				this.m_configitem = this.dal.Common.onGetConfigInfo("exchange_key");
 				if(this.m_marketList.length == 0){
 					this.haveData = false
 				}else{	

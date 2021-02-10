@@ -7,15 +7,16 @@ const Wallets = {
 	
 	init:function(){
 		this.chains = [
-			{chaintype:vue.entities.Metadata.ChainType.ETH , img:"eth.png", name:'ETH', alias:'Ethereum' , isaddassets:true},
-			{chaintype:vue.entities.Metadata.ChainType.BTC , img:"btc.png", name:'BTC',alias:'Bitcoin' , isaddassets:false},
-			{chaintype:vue.entities.Metadata.ChainType.TRON , img:"tron.png", name:'TRON',alias:'TRON', isaddassets:false},
-			{chaintype:vue.entities.Metadata.ChainType.LOTUS , img:"fil.png",name:'FIL', alias:'Filecoin', isaddassets:false},
-			{chaintype:vue.entities.Metadata.ChainType.EOS , img:"eos.png",name:'EOS', alias:'Enterprise Operation System', isaddassets:false},
+			{chaintype:vue.entities.Metadata.ChainType.ETH , img:"eth.png", name:'ETH', alias:'Ethereum' },
+			{chaintype:vue.entities.Metadata.ChainType.BTC , img:"btc.png", name:'BTC',alias:'Bitcoin' },
+			{chaintype:vue.entities.Metadata.ChainType.TRON , img:"tron.png", name:'TRON',alias:'TRON'},
+			{chaintype:vue.entities.Metadata.ChainType.LOTUS , img:"fil.png",name:'FIL', alias:'Filecoin'},
+			{chaintype:vue.entities.Metadata.ChainType.EOS , img:"eos.png",name:'EOS', alias:'Enterprise Operation System'},
 		]
 		
 		this.assets = [{
 				chaintype:vue.entities.Metadata.ChainType.ETH,
+				isgas:true,
 				assets:[
 					{idx:0 , img:"eth.png", name:'ETH', contract:"",isshow:true},
 					{idx:1 , img:"lon.png", name:'LON', contract:"0x0000000000095413afC295d19EDeb1Ad7B71c952",isshow:false},
@@ -30,12 +31,14 @@ const Wallets = {
 				]
 			},{
 				chaintype:vue.entities.Metadata.ChainType.BTC,
+				isgas:true,
 				assets:[
 					{idx:0 , img:"btc.png", name:'BTC', contract:"",isshow:true},
 					{idx:1 , img:"usdt.png", name:'USDT', contract:"",isshow:false}
 				]
 			},{
 				chaintype:vue.entities.Metadata.ChainType.TRON,
+				isgas:false,
 				assets:[
 					{idx:0 , img:"trx.png", name:'TRX', contract:"",isshow:true},
 					{idx:1 , img:"usdt.png", name:'USDT', contract:"TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",isshow:false},
@@ -53,11 +56,13 @@ const Wallets = {
 				]
 			},{
 				chaintype:vue.entities.Metadata.ChainType.LOTUS,
+				isgas:true,
 				assets:[
 					{idx:0 , img:"fil.png", name:'FIL', contract:"",isshow:true},
 				]
 			},{
 				chaintype:vue.entities.Metadata.ChainType.EOS,
+				isgas:false,
 				assets:[
 					{idx:0 , img:"eos.png", name:'EOS', contract:"",isshow:true},
 				]

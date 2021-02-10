@@ -38,98 +38,21 @@ const Common = {
 	onAddListener: function() {
 		this.onRemoveListener();
 		vue.shared.Event.attach(vue.entities.RequestCode.GetAssetprice, this.handleGetAssetprice, "dal_common", this);
-		// vue.shared.Event.attach(vue.entities.RequestCode.GetNotice, this.handleGetNotice, "dal_common", this);
-		// vue.shared.Event.attach(vue.entities.RequestCode.GetNotify, this.handleGetNotify, "dal_common", this);
-		// vue.shared.Event.attach(vue.entities.RequestCode.GetNoticeInfo, this.handleGetNoticeInfo, "dal_common", this);
-		// vue.shared.Event.attach(vue.entities.RequestCode.GetRate, this.handleGetRate, "dal_common", this);
-		// vue.shared.Event.attach(vue.entities.RequestCode.GetAssetstate, this.handleGetAssetstate, "dal_common", this);
+		vue.shared.Event.attach(vue.entities.RequestCode.GetConfig, this.handleGetConfig, "dal_common", this);
 	},
 
 	onRemoveListener: function() {
 		vue.shared.Event.removeByObserverName("dal_common");
 	},
-	// 添加代币为自选
+	//添加代币为自选
 	
 	//行情中搜索代币
-	
-	//通知 首页
-	onGetNotify: function() {
-		var params = {};
-		vue.dal.Net.request(vue.entities.RequestCode.GetNotify, params);
-	},
-
-	handleGetNotify: function(packetIn) {
-		uni.cclog("==========handleGetNotify==========packetIn====", packetIn)
-		if (packetIn.pktin.code == 200) {
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetNotify, {
-				data: packetIn.pktin.data
-			});
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
-
-	//通知/公告
-	onGetNotice: function(type) {
-		var params = {
-			type: type + 1
-		};
-		vue.dal.Net.request(vue.entities.RequestCode.GetNotice, params);
-	},
-
-	handleGetNotice: function(packetIn) {
-		uni.cclog("==========handleGetNotice==========packetIn====", packetIn)
-		if (packetIn.pktin.code == 200) {
-			this.m_notices = packetIn.pktin.data;
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetNotice);
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
-	
-	getNoitces:function(){
-		return this.m_notices;
-	},
-	
-	getNoitceInfo:function(id){
-		console.log("====getNoitceInfo===",id)
-		console.log("====this.m_notices===",this.m_notices)
-		for(let i = 0; i < this.m_notices.length;i++){
-			let item = this.m_notices[i];
-		console.log("====getNoitceInfo=item==",item)
-			if(item.id == id){
-				return item;
-			}
-		}
-		return null;
-	},
-	//公告详情
-	onGetNoticeInfo: function(id) {
-		var params = {
-			notice_id: id
-		};
-		vue.dal.Net.request(vue.entities.RequestCode.GetNoticeInfo, params);
-	},
-
-	handleGetNoticeInfo: function(packetIn) {
-		uni.cclog("==========handleGetNoticeInfo==========packetIn====", packetIn)
-		if (packetIn.pktin.code == 200) {
-			vue.util.EventUtils.dispatchEventCustom(this.GetNoticeInfo, {
-				data: packetIn.pktin.data
-			});
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
 
 	//行情
-	onGetAssetprice: function() {
-		uni.cclog("==========onGetAssetprice=============")
+	onGetAssetPrice: function() {
+		uni.cclog("==========onGetAssetPrice=============")
 		var params = {};
-		vue.dal.Net.request(vue.entities.RequestCode.GetAssetprice, params);
+		vue.dal.Net.request(vue.entities.RequestCode.GetAssetPrice, params);
 	},
 
 	handleGetAssetprice: function(packetIn) {
@@ -159,14 +82,14 @@ const Common = {
 	},
 	
 	//配置表
-	onGetRate: function() {
+	onGetConfig: function() {
 		// uni.cclog("==========onGetRate=============")
 		var params = {};
-		vue.dal.Net.request(vue.entities.RequestCode.GetRate, params);
+		vue.dal.Net.request(vue.entities.RequestCode.GetConfig, params);
 	},
 	
-	handleGetRate: function(packetIn) {
-		uni.cclog("==========handleGetRate==========packetIn====", packetIn)
+	handleGetConfig: function(packetIn) {
+		uni.cclog("==========handleGetConfig==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
 			for(let i = 0; i < packetIn.pktin.data.length; i++){
 				let item = packetIn.pktin.data[i];
@@ -179,42 +102,14 @@ const Common = {
 		vue.util.UiUtils.hideLoading();
 	},
 	
-	onGetRateInfo:function(key){
+	onGetConfigInfo:function(key){
 		let item = this.m_PoolConfig[key];
-		uni.cclog("=======onGetRateInfo=======this.m_PoolConfig====", this.m_PoolConfig)
-		uni.cclog("=======onGetRateInfo=======key====", key)
-		uni.cclog("=======onGetRateInfo=======key====", key)
+		uni.cclog("=======onGetConfigInfo=======this.m_PoolConfig====", this.m_PoolConfig)
+		uni.cclog("=======onGetConfigInfo=======key====", key)
+		uni.cclog("=======onGetConfigInfo=======key====", key)
 		return item;
 	},
-	
-	//全网状态表
-	onGetAssetstate: function() {
-		uni.cclog("==========onGetAssetstate=============")
-		var params = {};
-		vue.dal.Net.request(vue.entities.RequestCode.GetAssetstate, params);
-	},
-	
-	handleGetAssetstate: function(packetIn) {
-		// uni.cclog("==========handleGetAssetstate==========packetIn====", packetIn)
-		if (packetIn.pktin.code == 200) {
-			this.m_AssetState = packetIn.pktin.data;
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetAssetstate);
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
-	
-	onGetAssetstateInfo:function(asset){
-		// uni.cclog("=======onGetAssetstate=======asset====", asset)
-		for(let i = 0; i < this.m_AssetState.length;i++){
-			let it = this.m_AssetState[i];
-			if(it.asset.toLocaleLowerCase() == asset){
-				return it;
-			}
-		}
-		return null;
-	}
+
 	//全网算力
 	//挖掘盈利能力API
 	//http://www.coinwarz.com/v1/api/profitability/?apikey=YOUR_API_KEY&algo=all
