@@ -58,7 +58,12 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
 				}
 			});
-	       
+	       this.info.version = this.dal.Common.onGetConfigInfo('app_version').value;
+		   this.info.website = this.dal.Common.onGetConfigInfo('app_website').value
+		   this.info.twitter = this.dal.Common.onGetConfigInfo('app_connect_twitter').value
+		   this.info.forum = this.dal.Common.onGetConfigInfo('app_connect_forum').value
+		   this.info.wechat = this.dal.Common.onGetConfigInfo('app_connect_wechat').value
+		   
 		}
 	}
 </script>
