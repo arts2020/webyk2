@@ -275,6 +275,7 @@
 				if (!this.currentWallet) {
 					this.currentWallet = this.identity_wallets.length ? this.identity_wallets[0] : this.single_wallets[0];
 					console.log('==this.currentWallet==', this.currentWallet)
+					this.dal.Chain.setCurrChainType(this.currentWallet.chaintype);
 					this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				}
 				//根据当前钱包链的类型，筛选出该类型链下对应的我已选择的资产列表
