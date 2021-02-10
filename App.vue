@@ -16,10 +16,8 @@
 			//数据层数据模型初始化 
 			this.dal.init();
 			
-			this.dal.Common.onGetConfig();
-			this.dal.Common.onCommonConfig();	
 			// this.dal.Account.onAutoLogin();
-		
+			this.dal.onLoginSuccess();
 			// this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetRate, this.onGetRate);
 		},
 	

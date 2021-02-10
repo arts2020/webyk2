@@ -117,14 +117,14 @@ const Ethers = {
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 	},
-	
+
 	//GAS费
-	async getGasPrice(){
+	async getGasPrice() {
 		let res = await EthUtils.getGasPriceAsync2();
-		console.log("===res=",res)
+		console.log("===res=", res)
 		return res;
 	},
-	
+
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
@@ -179,7 +179,15 @@ const Ethers = {
 	async onBalance() {
 		await EthUtils.getETHBalanceAsync(this.fromAddress, this.m_reqUrl).then((balance) => {
 			console.log("=====this.Ethers===balance====", balance);
-			vue.dal.WalletManage.setCurrWalletMoney(balance)
+
+			let priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
+			let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
+			
+			console.log('====priceInfo.price_usd==',priceInfo.price_usd)
+			console.log('====priceInfo.balance==',balance)
+			console.log('====configinfo.value==',configinfo.value)
+			let rmb = priceInfo.price_usd * balance * configinfo.value;
+			vue.dal.WalletManage.setCurrWalletMoney(balance, rmb)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		})
 	},
@@ -188,8 +196,8 @@ const Ethers = {
 		await EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((balance) => {
 			console.log("=====contractAddress===", contractAddress);
 			console.log("=====contractAddress===balance===", balance);
-			
-			vue.dal.ContractWallet.setContractMoney(this.fromAddress,contractAddress,balance)
+
+			vue.dal.ContractWallet.setContractMoney(this.fromAddress, contractAddress, balance)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtToKenBalance, {
 				contractAddress: contractAddress,
 				balance: balance
