@@ -126,11 +126,16 @@ const Btc = {
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 	},
-
+	
+	//GAS费
+	async getGasPrice(){
+		return false;
+	},
+	
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
-		let privateKey = vue.dal.Wallter.getPrivateKey();
-		let address = vue.dal.Wallter.getAddress();
+		let privateKey = vue.dal.WalletManage.getPrivateKey();
+		let address = vue.dal.WalletManage.getAddress();
 
 		//TODO....
 
@@ -140,8 +145,8 @@ const Btc = {
 
 	// TOKEN交易记录
 	async sendTokenTransaction(to, amount, gas) {
-		let privateKey = vue.dal.Wallter.getPrivateKey();
-		let address = vue.dal.Wallter.getAddress();
+		let privateKey = vue.dal.WalletManage.getPrivateKey();
+		let address = vue.dal.WalletManage.getAddress();
 
 		//TODO....
 		vue.util.UiUtils.hideLoading();
@@ -155,7 +160,7 @@ const Btc = {
 	},
 
 	onBalance: function() {
-		let address = vue.dal.Wallter.getAddress()
+		let address = vue.dal.WalletManage.getAddress()
 	},
 };
 

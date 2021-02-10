@@ -61,15 +61,15 @@
 			
 			let url = "";
 			if (this.PlatformInfo.platform === this.entities.Metadata.PlatForm.ANDROID) {
-				url = this.dal.Common.onGetRateInfo("appload_android_url").value;
+				url = this.dal.Common.onGetConfigInfo("appload_android_url").value;
 			}else if (this.PlatformInfo.platform === this.entities.Metadata.PlatForm.IOS) {
-				url = this.dal.Common.onGetRateInfo("appload_ios_url").value;
+				url = this.dal.Common.onGetConfigInfo("appload_ios_url").value;
 			}else if (this.PlatformInfo.platform === this.entities.Metadata.PlatForm.H5_IOS) {
-				url = this.dal.Common.onGetRateInfo("appload_ios_url").value;
+				url = this.dal.Common.onGetConfigInfo("appload_ios_url").value;
 			}else if (this.PlatformInfo.platform === this.entities.Metadata.PlatForm.H5_ANDROID) {
-				url = this.dal.Common.onGetRateInfo("appload_android_url").value;
+				url = this.dal.Common.onGetConfigInfo("appload_android_url").value;
 			}else{
-				url = this.dal.Common.onGetRateInfo("appload_android_url").value;
+				url = this.dal.Common.onGetConfigInfo("appload_android_url").value;
 			}
 			this.val = url
 		},

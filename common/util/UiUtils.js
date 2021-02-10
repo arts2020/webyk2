@@ -225,17 +225,17 @@ const UiUtils = {
 		let apploadurl = "";
 		let v = ""
 		if (vue.PlatformInfo.platform === vue.entities.Metadata.PlatForm.ANDROID) {
-			v = vue.dal.Common.onGetRateInfo("appload_android_url").ext1;
-			apploadurl = vue.dal.Common.onGetRateInfo("appload_android_url").value;
+			v = vue.dal.Common.onGetConfigInfo("appload_android_url").ext1;
+			apploadurl = vue.dal.Common.onGetConfigInfo("appload_android_url").value;
 		} else if (vue.PlatformInfo.platform === vue.entities.Metadata.PlatForm.IOS) {
-			v = vue.dal.Common.onGetRateInfo("appload_ios_url").ext1;
-			apploadurl = vue.dal.Common.onGetRateInfo("appload_ios_url").value;
+			v = vue.dal.Common.onGetConfigInfo("appload_ios_url").ext1;
+			apploadurl = vue.dal.Common.onGetConfigInfo("appload_ios_url").value;
 		} else if (vue.PlatformInfo.platform === vue.entities.Metadata.PlatForm.H5_IOS) {
-			v = vue.dal.Common.onGetRateInfo("appload_ios_url").ext1;
-			apploadurl = vue.dal.Common.onGetRateInfo("appload_ios_url").value;
+			v = vue.dal.Common.onGetConfigInfo("appload_ios_url").ext1;
+			apploadurl = vue.dal.Common.onGetConfigInfo("appload_ios_url").value;
 		} else if (vue.PlatformInfo.platform === vue.entities.Metadata.PlatForm.H5_ANDROID) {
-			v = vue.dal.Common.onGetRateInfo("appload_android_url").ext1;
-			apploadurl = vue.dal.Common.onGetRateInfo("appload_android_url").value;
+			v = vue.dal.Common.onGetConfigInfo("appload_android_url").ext1;
+			apploadurl = vue.dal.Common.onGetConfigInfo("appload_android_url").value;
 		}
 
 		let vsn = vsn_curr.split('.')

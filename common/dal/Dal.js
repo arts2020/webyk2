@@ -46,8 +46,7 @@ const Dal = {
 		Net.init()
 	},
 	onLoginSuccess: function() {
-		Common.onGetAssetstate();
-		Common.onGetAssetprice();
+		Common.onGetAssetPrice();
 	}
 }
 export default Dal

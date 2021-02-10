@@ -117,7 +117,14 @@ const Ethers = {
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 	},
-
+	
+	//GAS费
+	async getGasPrice(){
+		let res = await EthUtils.getGasPriceAsync2();
+		console.log("===res=",res)
+		return res;
+	},
+	
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)

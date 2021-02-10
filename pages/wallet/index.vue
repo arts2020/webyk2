@@ -171,14 +171,7 @@
 				//钱包管理页类型一致钱包列表
 				currentList: [],
 				//身份钱包
-				identity_wallets: [{
-					chaintype: 1,
-					img: "eth.png",
-					name: "ETH",
-					alias: "Ethereum",
-					showAddress: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-					bgcImg: "ethImg.png"
-				}, ],
+				identity_wallets: [],
 				// 普通钱包
 				single_wallets: [{
 					chaintype: 2,
@@ -272,6 +265,7 @@
 				if (!this.currentWallet) {
 					this.currentWallet = this.identity_wallets.length ? this.identity_wallets[0] : this.single_wallets[0];
 					console.log('==this.currentWallet==', this.currentWallet)
+					this.dal.Chain.setCurrChainType(this.currentWallet.chaintype);
 					this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				}
 				//根据当前钱包链的类型，筛选出该类型链下对应的我已选择的资产列表  默认将当前钱包放在第一个显示
@@ -353,8 +347,9 @@
 				this.$refs.walletPop.close()
 			},
 			checkedItem(item) {
+				this.dal.Chain.setCurrChainType(item.chaintype);
 				this.dal.WalletManage.setCurrWallet(item.chaintype, item.idx);
-
+					
 				this.$refs.walletPop.close()
 				this.onRefresh();
 			},

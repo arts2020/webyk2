@@ -16,7 +16,7 @@
 			//数据层数据模型初始化 
 			this.dal.init();
 			
-			this.dal.Common.onGetRate();
+			this.dal.Common.onGetConfig();
 				
 			// this.dal.Account.onAutoLogin();
 		
