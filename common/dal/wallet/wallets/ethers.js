@@ -181,6 +181,8 @@ const Ethers = {
 		await EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((balance) => {
 			console.log("=====contractAddress===", contractAddress);
 			console.log("=====contractAddress===balance===", balance);
+			
+			vue.dal.ContractWallet.setContractMoney(this.fromAddress,contractAddress,balance)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtToKenBalance, {
 				contractAddress: contractAddress,
 				balance: balance
