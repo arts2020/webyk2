@@ -11,13 +11,14 @@
 			<text class="cancell-txt" @tap="btnBack">取消</text>
 		</view>
 		<scroll-view scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
-			<view class="list-item" v-for="(item,index) in showList" :key="index" @tap="goAdd(item)">
+			<view class="list-item" v-for="(item,index) in showList" :key="index">
 				<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
 				<view class="dapp-info">
 					<view class="title">{{item.name}}</view>
 					<view class="descrip">{{item.showContract}}</view>
 				</view>
-				<image class="right-icon" src="../../static/image/index/plus.png" mode=""></image>
+				<image v-if="item.isCollect" class="right-icon" src="../../static/image/index/bianjiwancheng.png" mode=""></image>
+				<image @tap="goAdd(item)" v-else class="right-icon" src="../../static/image/index/plus.png" mode=""></image>
 			</view>
 		</scroll-view>
 
@@ -89,15 +90,31 @@
 				//清空之前并重获取  'default.png'
 				this.currentAssetList=[];
 				this.allAssetList=[];
+				this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
 				let list = this.dal.Chain.getAssets(this.chaintype).assets;
-				list.forEach(el=>{
+			
+				for(let i=0;i<list.length;i++){
+					let el = list[i]
+					//isshow为true的删掉不显示，为false的要显示
+					if(el.isshow){
+						list.splice(i,1);
+						continue;
+					}
 					if(!el.img){
 						el.img = 'default.png';
-						el.showContract = el.contract?el.contract.substring(0,7)+'...'+el.contract.substring(el.contract.length-7):"no contract"
 					}
-				})
+					
+					if(this.currentAssetList.some(e=>e.name == el.name)){
+						el.isCollect = true;
+					}else{
+						el.isCollect = false;
+					}
+					
+					el.showContract = el.contract?el.contract.substring(0,7)+'...'+el.contract.substring(el.contract.length-7):"no contract";
+					
+				}
+				console.log(this.currentAssetList,list)
 				this.allAssetList = list;
-			    this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
 			},
 			clear() {
 				this.keyword = ""
@@ -105,6 +122,11 @@
 			goSearch() {
 				// 拿关键词keyword进行搜索匹配
 			},
+			// cancellCollect(item){
+			// 	//取消自选
+			// 	this.dal.ContractWallet.removeContractWallet(this.chaintype, this.m_idx, item.contract);
+			// 	this.onRefersh()
+			// },
 			goAdd(item) {
 				//当前链下我已选的资产列表
 				// 检查是否已经添加
@@ -119,6 +141,7 @@
 					console.log("====addContractWallet==result===", result);
 					if (result) {
 						this.util.UiUtils.showToast('添加成功');
+						this.onRefersh()
 					} else {
 						this.util.UiUtils.showToast("添加失败")
 					}

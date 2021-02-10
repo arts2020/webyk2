@@ -17,7 +17,7 @@
 					<view class="word">{{currentWallet.showAddress}}</view>
 					<image src="../../static/image/index/sqcode.png" mode=""></image>
 				</view>
-				<view class="p3">￥{{currentWallet.money}}</view>
+				<view class="p3">￥{{currentWallet.allRmb}}</view>
 			</view>
 			<view class="asset">
 				<view class="top-btn">
@@ -29,8 +29,8 @@
 						<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
 						<text>{{item.name}}</text>
 						<view class="kind-asset">
-							<view class="b1">{{item.rmb}}</view>
-							<view class="b2">￥{{item.money}}</view>
+							<view class="b1">{{item.money}}</view>
+							<view class="b2">￥{{item.rmb}}</view>
 						</view>
 					</view>
 				</scroll-view>
@@ -188,12 +188,9 @@
 					showAddress: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
 					bgcImg: "btcImg.png"
 				}, ],
-				m_mychains: []
+				m_mychains: [],
+				chains:[]
 			}
-		},
-		onLoad() {
-			// this.initData();
-			// this.onRefresh();
 		},
 		onShow() {
 
@@ -225,12 +222,12 @@
 				}
 
 				console.log('=======initData==========')
-				let chains = this.dal.Chain.getChainList();
+				this.chains = this.dal.Chain.getChainList();
 				//获取当前已经有的链
 				let mychains = this.dal.Chain.getMineChains();
 				mychains.forEach(el => {
 					if (typeof el != 'object') {
-						let item = chains.find(e => e.chaintype == el);
+						let item = this.chains.find(e => e.chaintype == el);
 						let temp = {
 							chaintype: el,
 							img: item.img || 'default.png'
@@ -242,7 +239,7 @@
 				let mineChains = this.dal.MainWallet.getMainWallets();
 				//添加logo图标和背景图
 				mineChains.forEach(el => {
-					let item = chains.find(e => e.chaintype == el.chaintype);
+					let item = this.chains.find(e => e.chaintype == el.chaintype);
 					el.img = item.img || 'default.png';
 					el.bgcImg = item.img.split('.')[0] + 'bg.png';
 					el.showAddress = el.address ? el.address.substring(0, 7) + '...' + el.address.substring(el.address.length - 7) :
@@ -254,7 +251,7 @@
 				let normalWallets = this.dal.NormalWallet.getNormalWallets();
 				//添加logo图标和背景图
 				normalWallets.forEach(el => {
-					let item = chains.find(e => e.chaintype == el.chaintype);
+					let item = this.chains.find(e => e.chaintype == el.chaintype);
 					el.img = item.img || 'default.png';
 					el.bgcImg = item.img.split('.')[0] + 'bg.png';
 					el.showAddress = el.address ? el.address.substring(0, 7) + '...' + el.address.substring(el.address.length - 7) :
@@ -277,17 +274,34 @@
 					console.log('==this.currentWallet==', this.currentWallet)
 					this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				}
-				//根据当前钱包链的类型，筛选出该类型链下对应的我已选择的资产列表
+				//根据当前钱包链的类型，筛选出该类型链下对应的我已选择的资产列表  默认将当前钱包放在第一个显示
 				let list = this.dal.ContractWallet.getContractWallets(this.currentWallet.idx, this.currentWallet.address)
+				
+				//添加当前链的代币
+				let temp = JSON.parse(JSON.stringify(this.currentWallet))
+				let item = this.chains.find(el=>el.chaintype==temp.chaintype);
+				temp.name = item.name;
+				list.unshift(temp)
+				
+				//计算总人民币
+				let sum = 0
 				list.forEach(el => {
 					if (!el.img) {
 						el.img = 'default.png';
 					}
+					sum+=el.rmb;
 				})
+				this.currentWallet.allRmb = sum;
 				this.currentAsset = list;
-				console.log('=====钱包和资产列表=====', this.currentAsset, this.m_mychains)
+				console.log('=====钱包和资产列表=====',list, this.currentAsset, this.m_mychains)
 			},
 			onTokenBalance: function() {
+				if (this.dal.WalletManage.isExistWallet()) {
+					//页面显示时去获取身份钱包和普通钱包以及当前的钱包,当前钱包所对应的资产 获取所有资产链
+					this.hasWallet = true;
+				} else {
+					return;
+				}
 				for (let i = 0; i < this.currentAsset.length; i++) {
 					let item = this.currentAsset[i];
 					console.log("===item=", item)
@@ -311,6 +325,7 @@
 			goDealRecord(item) {
 				this.$openPage({
 					name: "deal-record",
+					query:item
 				})
 			},
 			goDetail() {

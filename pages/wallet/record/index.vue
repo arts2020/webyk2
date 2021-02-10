@@ -2,8 +2,8 @@
 	<view class="deal-record">
 		<uni-nav-bar backgroundColor="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="currentAsset.name" @clickLeft="goBack"></uni-nav-bar>
 	    <view class="coin-info">
-			<view class="title">{{currentAsset.rmb}}</view>
-			<view class="subTitle">≈ ￥ {{currentAsset.money}}</view>
+			<view class="title">{{currentAsset.money}}</view>
+			<view class="subTitle">≈ ￥ {{currentAsset.rmb}}</view>
 		</view>
 		<view class="deal-list">
 			<view class="nav-menu">
@@ -86,7 +86,7 @@
 		data() {
 			return {
 				currentAsset:{
-					name:"333",
+					name:"ETH",
 					rmb:"12.452",
 					money:"123.65"
 				},
@@ -119,6 +119,13 @@
 					return status==2?'../../../static/image/index/deal-fail.png':type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png';
 				}
 			};
+		},
+		onLoad(option) {
+			let params = JSON.parse(option.query);			
+			if(Object.keys(params).length!=0){
+				console.log(params)
+				this.currentAsset = params;
+			}
 		},
 		onShow() {
 			//获取高度
@@ -166,10 +173,10 @@
 				this.active = val;
 			},
 			goCollectCash(){
-				this.$openPage({name:"recharge-currency"})
+				this.$openPage({name:"recharge-currency",query:this.currentAsset})
 			},
 			goTransfer(){
-				this.$openPage({name:"carry-over"})
+				this.$openPage({name:"carry-over",query:this.currentAsset})
 			},
 			goDetail(item){
 				this.$openPage({name:"deal-record-detail",query:item})

@@ -40,11 +40,9 @@
 			Bar,
 			qrCode,
 		},
-		created() {
-			this.onRefersh();
-		},
 		data() {
 			return {
+				m_currentAsset:{},
 				m_address: "asf1v2s5fee8saccz5",
 				m_cointype: "ETH",
 				qrR: "",
@@ -67,20 +65,26 @@
 				src: '' // 二维码生成后的图片地址或base64
 			};
 		},
+		onLoad(option) {
+			let params = JSON.parse(option.query);
+			if(Object.keys(params).length!=0){
+				this.m_currentAsset = params;
+			}
+		},
+		onShow() {
+			this.onRefersh()
+		},
 		methods: {
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
 			},
-			onRefersh(){
-				//从数据层获取当前钱包信息
-				let m_wallet = this.dal.WalletManage.getCurrWallet();
-				
+			onRefersh(){				
 				// 给二维码要生成的内容赋值
-				this.val = m_wallet.address;
+				this.val = this.m_currentAsset.address;
 				//给地址赋值
-				this.m_address = m_wallet.address;
+				this.m_address = this.m_currentAsset.address;
 				//给链类型赋值
-				this.m_cointype = m_wallet.name;
+				this.m_cointype = this.m_currentAsset.name;
 			},
 			btnSavePic:function(){
 				this.$refs['qrcode']._saveCode();

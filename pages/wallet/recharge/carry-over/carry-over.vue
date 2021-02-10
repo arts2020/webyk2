@@ -5,7 +5,7 @@
 		<view class="carry-addr">
 			<view class="carry-title">收款地址</view>
 			<view class="addr">
-				<input type="text" :placeholder="m_asset.name+'地址'" v-model="address" placeholder-class="tipClass" />
+				<input type="text" placeholder="输入或粘贴钱包地址" v-model="address" placeholder-class="tipClass" />
 				<image src="../../../../static/image/index/address.png" mode="" @tap="goAddressList"></image>
 			</view>
 		</view>
@@ -25,10 +25,10 @@
 		</view>
 		<view class="fee" @tap="goSetting">
 			<text>矿工费</text>
-			<view class="fee-info">
+			<!-- <view class="fee-info">
 				<view class="coin">{{count}}{{m_asset.name}}</view>
 				<view class="rmb">￥{{rmb}}</view>
-			</view>
+			</view> -->
 			<image src="../../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="confirm-ok" @click="btnConfirm">转账</view>
@@ -78,6 +78,13 @@
 				}
 			}
 		},
+		onLoad(option) {
+			let params = JSON.parse(option.query);
+			if(Object.keys(params).length!=0){
+				console.log("=====当前代币信息========",params)
+				this.m_asset = params;
+			}
+		},
 		onShow() {
 			//获取临时地址
 			let item = this.dal.Address.getTempAddress()
@@ -98,13 +105,12 @@
 				})
 			},
 			goSetting() {
-				let params = {
-					coinType: this.m_asset.name,
-					...this.feeInfo
-				}
 				this.$openPage({
 					name: "setting-fee",
-					query: params
+					query: {
+						chaintype:this.m_asset.chaintype,
+						name:this.m_asset.name
+					}
 				})
 			},
 			btnBack: function() {

@@ -5,13 +5,13 @@
 			<view class="top-box">
 				<text>矿工费</text>
 				<view class="fee-desc">
-					<view class="coin">{{currentFee.coin}}{{currentFee.coinType}}</view>
+					<view class="coin">{{currentFee.money}}{{currentFee.name}}</view>
 					<view class="rmb">￥{{currentFee.rmb}}</view>
 				</view>
 				<image src="../../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 			<view class="botto-box">
-				Gas Price(59.00 GWEI)*Gas(21,000)
+				{{currentFee.unitPrice}}*{{workload}}
 			</view>
 		</view>
 		<view class="setting-rate">
@@ -19,12 +19,12 @@
 			<view class="setting-content">
 				<view @tap="handleCheck(index)" class="list-item" v-for="(item,index) in menuList" :key="index">
 					<view class="info">
-						<view class="p1">{{item.name}}</view>
-						<view class="p2">{{item.value}}</view>
+						<view class="p1">{{item.title}}</view>
+						<view class="p2">{{item.unitPrice}}</view>
 					</view>
 					<text><{{item.time}}</text>
-				    <uni-icons v-if="activeIndex==index" type="checkmarkempty" color="#009A80" size="25"></uni-icons>
-				    <view v-else style="width: 50rpx;height: 50rpx;"></view>
+					<image class="check-icon" v-if="activeIndex==index" src="../../../../static/image/mine/checked.png" mode=""></image>
+				    <view v-else style="width: 24rpx;height: 28rpx;"></view>
 				</view>
 			</view>
 		</view>
@@ -36,55 +36,31 @@
 	export default {
 		data() {
 			return {
+				chaintype:1,
+				name:'',
 				//当前选中项
-				currentFee:{},
+				currentFee:{
+					money:'',
+					rmb:'',
+					unitPrice:"",
+				},
+				workload:0,
 				//选中的选项下标
 				activeIndex:0,
-				menuList:[
-					{
-						value:'89.00GWEI',
-						name: "较快",
-						time:'5分钟',
-						coin:"0.004500",
-						rmb:"39.28",
-					},
-					{
-						value:'75.00GWEI',
-						name: "快速",
-						time:'2分钟',
-						coin:"0.004500",
-						rmb:"39.28",
-					},
-					{
-						value:'50.00GWEI',
-						name: "一般",
-						time:'5分钟',
-						coin:"0.004500",
-						rmb:"39.28",
-					},
-					{
-						value:'47.00GWEI',
-						name: "缓慢",
-						time:'30分钟',
-						coin:"0.004500",
-						rmb:"39.28",
-					}
-				]
+				menuList:[],
 			};
 		},
 		onLoad(option) {
-			if(option.query){
-				
+			if(option.query){				
 				let params = JSON.parse(option.query);
 				if(Object.keys(params).length!=0){
-					this.currentFee = params;
-					this.menuList.forEach((el,index)=>{
-						if(el.name==params.name){
-							this.activeIndex=index;
-						}
-					})
+					this.chaintype = params.chaintype;
+					this.name = params.name
 				}
 			}
+		},
+		onShow() {
+			this.onRefersh();
 		},
 		methods:{
 			handleCheck(index){
@@ -96,7 +72,37 @@
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
-			},			
+			},
+	        onRefersh(){
+				// 根据链的类型获取矿工费数据
+				this.workload='256';
+				this.menuList=[
+					{
+						//每次交易需付的
+						unitPrice:'89.00GWEI',
+						title: "较快",
+						time:'0.5分钟',
+					},
+					{
+						//每次交易需付的
+						unitPrice:'89.00GWEI',
+						title: "快速",
+						time:'2分钟',
+					},
+					{
+						//每次交易需付的
+						unitPrice:'89.00GWEI',
+						title: "一般",
+						time:'5分钟',
+					},
+					{
+						//每次交易需付的
+						unitPrice:'89.00GWEI',
+						title: "缓慢",
+						time:'30分钟',
+					}
+				]
+			}
 		}
 	}
 </script>
@@ -186,6 +192,10 @@
 					font-weight: 400;
 					color: #c2c2c2;
 					margin-right: 31rpx;
+				}
+				.check-icon{
+					width: 24rpx;
+					height: 28rpx;
 				}
 				.info{
 					font-family: PingFang SC, PingFang SC-Regular;
