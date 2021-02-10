@@ -3,6 +3,7 @@ const RequestCode = {
 	GetDappList: 50,
 	GetDappDetail:51,//dapp详情
 	GetConfig: 52, //APP配置文件
+	GetContract: 53, //代币列表
 	
 	GetAssetPrice: 64, //获得币价行情
 	GetDefi:65,//defi价格
