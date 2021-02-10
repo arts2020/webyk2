@@ -167,8 +167,14 @@ const router = new MinRouter({
 			path:"pages/wallet/recharge/recharge-currency",
 			name: 'recharge-currency'
 		},{
-			path:"pages/wallet/recharge/carry-over/setting-fee",
-			name: 'setting-fee'
+			path:"pages/wallet/setting/eth",
+			name: 'setting-ETH-fee'
+		},{
+			path:"pages/wallet/setting/btc",
+			name: 'setting-BTC-fee'
+		},{
+			path:"pages/wallet/setting/fil",
+			name: 'setting-FIL-fee'
 		},{
 			path:"pages/wallet/add-asset",
 			name: 'add-asset'

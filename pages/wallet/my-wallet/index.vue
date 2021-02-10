@@ -14,7 +14,7 @@
 			</scroll-view>
 			<scroll-view class="main-right" scroll-y="true" >
 				<view class="current-c" v-if="active!=-1">
-					<view v-show="currentList.length" class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
+					<view v-show="currentList.length" class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'" @tap="goDetail(item)">
 						<view class="wallet-name">
 							<text>{{item.name}}</text>
 							<text>...</text>
@@ -29,7 +29,7 @@
 						<text @tap="goManage">管理</text>
 					</view>
 					<view class="menu-list">
-						<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" @tap="goDetail(item)">
+						<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'" @tap="goDetail(item)">
 							<view class="wallet-name">
 								<text>{{item.name}}</text>
 								<text>...</text>
@@ -46,7 +46,7 @@
 					</view>
 					<view class="create-import" v-if="single_wallets.length">
 						<view class="top-title">创建/导入</view>
-						<view class="list-item" @tap="goDetail(item)" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'" v-for="(item,index) in single_wallets" :key="index">
+						<view class="list-item" @tap="goDetail(item)" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'" v-for="(item,index) in single_wallets" :key="index">
 							<view class="wallet-name">
 								<text>{{item.name}}</text>
 								<text>...</text>

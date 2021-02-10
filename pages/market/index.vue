@@ -5,7 +5,7 @@
 			<view :class="active==0?'menu active-index':'menu'" @tap="updateMenu(0)">交易</view>
 			<view :class="active==1?'menu active-index':'menu'" @tap="updateMenu(1)">行情</view>
 			
-			<uni-icons v-if="active==1" type="search" class="search-icon" size="20" color="#000000" @tap="goAdd"></uni-icons>
+			<!-- <uni-icons v-if="active==1" type="search" class="search-icon" size="20" color="#000000" @tap="goAdd"></uni-icons> -->
 		</view>
 		<swiper :style="{ height: scrollHeight + 'px' }" @change="swiperChange" :current="active">
 			<swiper-item>
@@ -49,7 +49,7 @@
 			</swiper-item>
 			<swiper-item>
 				<!-- 行情  :scrollHeight="scrollHeight" :m_marketList="m_marketList" :m_configitem="m_configitem" :haveData="haveData" :noData="noData"-->
-				<Quotation class="quotation-content"/>
+				<Quotation class="quotation-content" />
 			</swiper-item>
 			
 		</swiper>
@@ -68,6 +68,18 @@
 			Quotation,
 			uniIcons
 		},
+		// created() {
+		// 	this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.getAssetPrice);
+		// 	this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetDefi, this.getDefi);
+		// 	this.onRefersh()		   
+		// },
+		// destroyed() {
+		// 	this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetDefi, this.getDefi);
+		// 	this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetPrice);
+		// },
+		// onPullDownRefresh() {
+		// 	this.onRefersh()
+		// },
 		onShow() {
 			//获取高度
 			uni.getSystemInfo({
@@ -104,13 +116,11 @@
 				coin_L:0,
 				coin_R:0,
 				output_num:"",
-				input_num:""
+				input_num:"",
 			}
 		},
 		methods:{
 			onRefersh(){
-				// 清空之前数据
-				this.assetArr = [];
 				// 重新获取获取所有资产
 				this.assetArr = [
 					{
@@ -126,14 +136,6 @@
 						alias: "Cosmos"
 					},
 				]
-				//获取所有代币列表 并添加默认图标
-				// let list = this.dal.chains.getAssets();
-				// list.forEach(el=>{
-				// 	if(!el.img){
-				// 		el.img = 'default.png'
-				// 	}
-				// })
-				// this.assetArr = list;
 			},
 			goAdd(){
 			 this.$openPage({name:"quotation-search"});	

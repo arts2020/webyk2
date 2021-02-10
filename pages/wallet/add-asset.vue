@@ -38,6 +38,8 @@
 				chaintype: 1,
 				keyword: "",
 				m_idx:"",
+				showList:[],
+				//我已选的资产
 				currentAssetList: [],
 				// 当前链下全部资产的列表
 				allAssetList: [{
@@ -55,14 +57,7 @@
 			};
 		},
 		computed: {
-			showList() {
-				if (this.keyword) {
-					//有搜索词时根据搜索词匹配
-					return this.allAssetList.filter(el => el.name.includes(this.keyword))
-				} else {
-					return this.allAssetList;
-				}
-			}
+		
 		},
 		onLoad(option) {
 			let params = JSON.parse(option.query);
@@ -90,6 +85,7 @@
 				//清空之前并重获取  'default.png'
 				this.currentAssetList=[];
 				this.allAssetList=[];
+				
 				this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
 				let list = this.dal.Chain.getAssets(this.chaintype).assets;
 			
@@ -115,18 +111,32 @@
 				}
 				console.log(this.currentAssetList,list)
 				this.allAssetList = list;
+				this.showList = list;
+				
 			},
 			clear() {
-				this.keyword = ""
+				this.keyword = "";
+				this.showList = list;
 			},
-			goSearch() {
-				// 拿关键词keyword进行搜索匹配
+			async goSearch() {
+				
+				if(this.chaintype==1){
+					//ETH
+					let res = await this.dal.Eth.isContract(this.keyword)
+				}else if(this.chaintype==2){
+					//以后其他的
+				}
+
+				if(res){
+					//地址有效   先再app已有的代币中找
+					this.showList = this.allAssetList.filter(el=>el.contract==this.keyword)
+					if(this.showList.length==0){
+						
+					}
+				}else{
+					this.util.UiUtils.showToast('地址无效');
+				}
 			},
-			// cancellCollect(item){
-			// 	//取消自选
-			// 	this.dal.ContractWallet.removeContractWallet(this.chaintype, this.m_idx, item.contract);
-			// 	this.onRefersh()
-			// },
 			goAdd(item) {
 				//当前链下我已选的资产列表
 				// 检查是否已经添加

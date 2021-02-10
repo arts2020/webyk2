@@ -476,16 +476,6 @@
             
         }
         ,{
-            "path" : "pages/wallet/recharge/carry-over/setting-fee",
-            "style" :                                                                                    
-            {
-                "navigationStyle": "custom",
-                "app-plus": {
-                	"titleNView": true //禁用原生导航栏，APP和H5可用
-                }
-            }
-            
-        },{
             "path" : "pages/uielement/webview",
             "style" :                                                                                    
             {
@@ -526,6 +516,39 @@
                "app-plus": {
                	"titleNView": true //禁用原生导航栏，APP和H5可用
                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/wallet/setting/eth",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom",
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        }
+        ,{
+            "path" : "pages/wallet/setting/btc",
+            "style" :                                                                                    
+            {
+               "navigationStyle": "custom",
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        }
+        ,{
+            "path" : "pages/wallet/setting/fil",
+            "style" :                                                                                    
+            {
+                "navigationStyle": "custom",
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
             }
             
         }

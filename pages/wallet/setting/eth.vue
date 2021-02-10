@@ -5,25 +5,25 @@
 			<view class="top-box">
 				<text>矿工费</text>
 				<view class="fee-desc">
-					<view class="coin">{{currentFee.money}}{{currentFee.name}}</view>
+					<view class="coin">{{currentFee.money}}{{name}}</view>
 					<view class="rmb">￥{{currentFee.rmb}}</view>
 				</view>
-				<image src="../../../../static/image/mine/arrow-left.svg" mode=""></image>
+				<image src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 			<view class="botto-box">
-				{{currentFee.unitPrice}}*{{workload}}
+				Gas Price（{{currentFee.unitPrice}} GWEI)* Gas ({{workload}})
 			</view>
 		</view>
 		<view class="setting-rate">
-			<view class="title">矿工费率</view>
+			<view class="title">Gas Price</view>
 			<view class="setting-content">
 				<view @tap="handleCheck(index)" class="list-item" v-for="(item,index) in menuList" :key="index">
 					<view class="info">
 						<view class="p1">{{item.title}}</view>
-						<view class="p2">{{item.unitPrice}}</view>
+						<view class="p2">{{item.unitPrice}}&nbsp;&nbsp;GWEI</view>
 					</view>
-					<text><{{item.time}}</text>
-					<image class="check-icon" v-if="activeIndex==index" src="../../../../static/image/mine/checked.png" mode=""></image>
+					<text><{{item.time}}分钟</text>
+					<image class="check-icon" v-if="activeIndex==index" src="../../../static/image/mine/checked.png" mode=""></image>
 				    <view v-else style="width: 24rpx;height: 28rpx;"></view>
 				</view>
 			</view>
@@ -65,6 +65,9 @@
 		methods:{
 			handleCheck(index){
 				this.activeIndex = index;
+				this.currentFee.unitPrice = this.menuList[index].unitPrice;
+				this.currentFee.money = this.menuList[index].unitPrice * this.workload;
+				this.currentFee.rmb = 46.85;
 			},
 			btnConfirm(){
 				//点击确定回到转账页
@@ -79,29 +82,35 @@
 				this.menuList=[
 					{
 						//每次交易需付的
-						unitPrice:'89.00GWEI',
-						title: "较快",
-						time:'0.5分钟',
+						unitPrice:'199.00',
+						title: "最快",
+						time:'0.5',
 					},
 					{
 						//每次交易需付的
-						unitPrice:'89.00GWEI',
+						unitPrice:'148.00',
 						title: "快速",
-						time:'2分钟',
+						time:'2',
 					},
 					{
 						//每次交易需付的
-						unitPrice:'89.00GWEI',
+						unitPrice:'117.00',
 						title: "一般",
-						time:'5分钟',
+						time:'5',
 					},
 					{
 						//每次交易需付的
-						unitPrice:'89.00GWEI',
+						unitPrice:'115.00',
 						title: "缓慢",
-						time:'30分钟',
+						time:'30',
 					}
 				]
+			    
+				//刚进入默认拿第一个的
+				this.currentFee.unitPrice = this.menuList[0].unitPrice;
+			    this.currentFee.money = this.menuList[0].unitPrice * this.workload;
+				this.currentFee.rmb = 46.85;
+			    
 			}
 		}
 	}
@@ -117,7 +126,7 @@
 		border: 0;
 	}
 	.fee-info{
-		height: 177rpx;
+		height: 200rpx;
 		background: #ffffff;
 		border-radius: 10rpx;
 		width: calc(100% - 72rpx);
@@ -127,7 +136,7 @@
 		.top-box{
 			border-bottom: 1rpx solid #E7E6ED;
 			width:100%;
-			height: 106rpx;
+			height: 130rpx;
 			display: flex;
 			align-items: center;
 			font-size: 30rpx;

@@ -17,7 +17,7 @@
 			this.dal.init();
 			
 			this.dal.Common.onGetConfig();
-				
+			this.dal.Common.onCommonConfig();	
 			// this.dal.Account.onAutoLogin();
 		
 			// this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetRate, this.onGetRate);

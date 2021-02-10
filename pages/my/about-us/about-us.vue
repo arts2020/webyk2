@@ -58,6 +58,7 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
 				}
 			});
+	       
 		}
 	}
 </script>

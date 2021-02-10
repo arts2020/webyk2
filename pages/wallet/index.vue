@@ -8,7 +8,7 @@
 		<!-- 有钱包 -->
 		<view class="has-wallet" v-if="hasWallet" :style="'height:'+scrollHeight+'px'">
 
-			<view class="wallet" :style="'background: url(../../static/image/chain/'+currentWallet.bgcImg+') no-repeat;background-size: 100% 100%;'">
+			<view class="wallet" :style="'background: url(../../static/image/chain/'+currentWallet.bgcImg+') no-repeat center;background-size: 100% 100%;'">
 				<view class="p1">
 					<text>{{currentWallet.name}}</text>
 					<image @click="goDetail()" src="../../static/image/index/goin.png" mode=""></image>
@@ -22,7 +22,7 @@
 			<view class="asset">
 				<view class="top-btn">
 					<text>资产</text>
-					<image src="../../static/image/index/plus.png" mode="" @click="goAddAsset"></image>
+					<image v-if="m_chain.isaddassets" src="../../static/image/index/plus.png" mode="" @click="goAddAsset"></image>
 				</view>
 				<scroll-view scroll-y="true" class="coin-list" :show-scrollbar="false">
 					<view class="coin-item" v-for="(item,index) in currentAsset" :key="index" @tap="goDealRecord(item)">
@@ -55,8 +55,8 @@
 							</view>
 						</scroll-view>
 						<scroll-view class="main-right" scroll-y="true">
-							<view class="current-c" v-if="currentList.length">
-								<view class="list-item" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
+							<view class="current-c" v-if="active!=-1">
+								<view class="list-item" v-show="currentList.length" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'"
 								 @tap="checkedItem(item)">
 									<view class="wallet-name">
 										<text>{{item.name}}</text>
@@ -64,13 +64,14 @@
 									</view>
 									<view class="wallet-addr">{{item.showAddress}}</view>
 								</view>
+								<no-data v-show="!currentList.length"></no-data>
 							</view>
 							<view class="main-c" v-else>
 								<view class="top-title">
 									<text>身份钱包</text>
 								</view>
 								<view class="menu-list">
-									<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
+									<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'"
 									 @tap="checkedItem(item)">
 										<view class="wallet-name">
 											<text>{{item.name}}</text>
@@ -81,7 +82,7 @@
 								</view>
 								<view class="create-import" v-if="single_wallets.length">
 									<view class="top-title">创建/导入</view>
-									<view class="list-item" @tap="checkedItem(item)" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat;background-size: 100% 100%;'"
+									<view class="list-item" @tap="checkedItem(item)" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'"
 									 v-for="(item,index) in single_wallets" :key="index">
 										<view class="wallet-name">
 											<text>{{item.name}}</text>
@@ -133,12 +134,15 @@
 </template>
 
 <script>
+	import noData from '@/components/no-data/no-data.vue';
 	export default {
 		name: "wallet",
+		components:{
+			noData
+		},
 		created() {
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtToKenBalance, this.onRefresh);
-
 		},
 		destroyed() {
 			this.util.EventUtils.removeEventCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
@@ -173,19 +177,21 @@
 				//身份钱包
 				identity_wallets: [],
 				// 普通钱包
-				single_wallets: [{
-					chaintype: 2,
-					img: "btc.png",
-					name: "BTC",
-					alias: "Bitcoin",
-					showAddress: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-					bgcImg: "btcImg.png"
-				}, ],
+				single_wallets: [ ],
 				m_mychains: [],
-				chains:[]
+				//所有链
+				chains:[],
+				//当前链的信息
+				m_chain:{},
+				//汇率配置
+				configInfo:{
+					value:''
+				}
 			}
 		},
 		onShow() {
+           // 清空之前数据
+		   Object.assign(this.$data, this.$options.data());
 
 			this.initData();
 			this.onRefresh();
@@ -260,6 +266,7 @@
 				} else {
 					return;
 				}
+				this.configInfo = this.dal.Common.onNewGetConfigInfo('exchange_key');
 				//当前钱包默认优先拿第一个身份钱包，没有身份钱包时默认用第一个普通钱包
 				this.currentWallet = this.dal.WalletManage.getCurrWallet();
 				if (!this.currentWallet) {
@@ -268,6 +275,9 @@
 					this.dal.Chain.setCurrChainType(this.currentWallet.chaintype);
 					this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				}
+				//
+				this.m_chain = this.dal.Chain.getChainInfo(this.currentWallet.chaintype);
+				console.log("当前链的基础信息",this.m_chain)
 				//根据当前钱包链的类型，筛选出该类型链下对应的我已选择的资产列表  默认将当前钱包放在第一个显示
 				let list = this.dal.ContractWallet.getContractWallets(this.currentWallet.idx, this.currentWallet.address)
 				
@@ -280,14 +290,18 @@
 				//计算总人民币
 				let sum = 0
 				list.forEach(el => {
+					//币兑换人民币					
 					if (!el.img) {
 						el.img = 'default.png';
 					}
-					sum+=el.rmb;
+					sum+=el.rmb || 0;
 				})
 				this.currentWallet.allRmb = sum;
 				this.currentAsset = list;
-				console.log('=====钱包和资产列表=====',list, this.currentAsset, this.m_mychains)
+				console.log('=====钱包和资产列表=====',this.configInfo,list, this.currentAsset, this.m_mychains)
+			},
+			getCommonConfig(data){
+				console.log(data)
 			},
 			onTokenBalance: function() {
 				if (this.dal.WalletManage.isExistWallet()) {

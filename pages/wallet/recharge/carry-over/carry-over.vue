@@ -23,7 +23,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="fee" @tap="goSetting">
+		<view class="fee" @tap="goSetting" v-if="m_chain.isgas">
 			<text>矿工费</text>
 			<!-- <view class="fee-info">
 				<view class="coin">{{count}}{{m_asset.name}}</view>
@@ -67,6 +67,8 @@
 				m_asset: {
 					name: "ETH"
 				},
+				//当前链
+				m_chain:{},
 				m_balane: 0,
 				//默认矿工费
 				feeInfo: {
@@ -91,9 +93,8 @@
 			if (Object.keys(item).length != 0) {
 				this.address = item.address;
 			}
-
-			//从数据层获取当前资产信息
-			// this.m_asset =
+			this.m_chain = this.dal.Chain.getAssets(this.m_asset.chaintype);
+			console.log('==========当前链============',this.m_chain)
 		},
 		methods: {
 			goAddressList() {
@@ -105,8 +106,9 @@
 				})
 			},
 			goSetting() {
+				let chain = this.dal.Chain.getChainInfo(this.m_asset.chaintype)
 				this.$openPage({
-					name: "setting-fee",
+					name: 'setting-'+chain.name+'-fee',
 					query: {
 						chaintype:this.m_asset.chaintype,
 						name:this.m_asset.name
