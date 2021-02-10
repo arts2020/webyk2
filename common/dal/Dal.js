@@ -48,7 +48,8 @@ const Dal = {
 	onLoginSuccess: function() {
 		Common.onGetAssetPrice();
 		Common.onGetConfig();
-		Common.onCommonConfig();	
+		Common.onCommonConfig();
+		Common.onGetTokenList();
 	}
 }
 export default Dal

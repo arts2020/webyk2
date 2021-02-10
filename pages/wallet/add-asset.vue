@@ -32,6 +32,7 @@
 		components: {
 			Bar
 		},
+		
 		data() {
 			return {
 				scrollHeight: 0,
@@ -109,7 +110,7 @@
 					el.showContract = el.contract?el.contract.substring(0,7)+'...'+el.contract.substring(el.contract.length-7):"no contract";
 					
 				}
-				console.log(this.currentAssetList,list)
+		
 				this.allAssetList = list;
 				this.showList = list;
 				

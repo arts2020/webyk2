@@ -54,6 +54,7 @@ const Common = {
 
 		vue.shared.Event.attach(vue.entities.RequestCode.Transfer, this.handleTransfer, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetTransferList, this.handleGetTransferList, "dal_common", this);
+	    vue.shared.Event.attach(vue.entities.RequestCode.GetTokenList, this.handleGetTokenList, "dal_common", this);
 	},
 
 	onRemoveListener: function() {
@@ -268,14 +269,17 @@ const Common = {
 	handleGetTokenList: function(packetIn) {
 		uni.cclog("==========handleGetTokenList==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
-			this.m_userRecords = packetIn.pktin.data.list;
+			this.m_userRecords = packetIn.pktin.data;
+			console.log('==============================',this.m_userRecords)
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenList);
 		} else {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
 		}
 		vue.util.UiUtils.hideLoading();
 	},
-	
+	onGetTokenListData: function() {
+		return this.m_userRecords;
+	},
 	//代币明细接口
 	onGetTokenDetail: function() {
 		var params = {};
