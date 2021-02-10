@@ -23,7 +23,7 @@ const UserInfo = {
 	
 	onAddListener: function() {
 		this.onRemoveListener();
-		vue.shared.Event.attach(vue.entities.RequestCode.GetUserInfo, this.handleGetUserInfo, "dal_userinfo", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.GetUserInfo, this.handleGetUserInfo, "dal_userinfo", this);
 	},
 
 	onRemoveListener: function() {

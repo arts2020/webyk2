@@ -44,11 +44,11 @@ const Account = {
 
 	onAddListener: function() {
 		this.onRemoveListener();
-		vue.shared.Event.attach(vue.entities.RequestCode.GetCaptcha, this.handleGetCaptcha, "dal_account", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.Login, this.handleLogin, "dal_account", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.LogOut, this.handleLogOut, "dal_account", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.Register, this.handleRegister, "dal_account", this);
-		vue.shared.Event.attach(vue.entities.RequestCode.Forget, this.handleForget, "dal_account", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.GetCaptcha, this.handleGetCaptcha, "dal_account", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.Login, this.handleLogin, "dal_account", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.LogOut, this.handleLogOut, "dal_account", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.Register, this.handleRegister, "dal_account", this);
+		// vue.shared.Event.attach(vue.entities.RequestCode.Forget, this.handleForget, "dal_account", this);
 	},
 
 	onRemoveListener: function() {
