@@ -12,7 +12,7 @@
 				<image class="icon" :src="item.icon" mode=""></image>
 				<view class="dapp-info">
 					<view class="title">{{item.name}}</view>
-					<view class="descrip">{{item.community}}</view>
+					<view class="descrip">{{item.short_desc}}</view>
 				</view>
 				<image class="right-arr" src="../../static/image/index/arrow-left.png" mode=""></image>
 			</view>
