@@ -7,10 +7,10 @@
 			</view>
 			<view class="sure-content">
 				<view class="top-box">
-					<wordItem v-for="item in seletItems" :key="item.index" :keyvalue="menuKey" :item='item' :closeFun="closeFun" :iswron="item.iswron"></wordItem>
+					<wordItem v-for="item in seletItems" :keyvalue="menuKey" :item='item' :closeFun="closeFun" :iswron="item.iswron"></wordItem>
 				</view>
 				<view class="botto-box">
-					<wordItem v-for="item in tmpwords" :key="item.index" :ref="item.idx" :item='item' :selectFun="selectFun" :isselect="item.isselect"></wordItem>
+					<wordItem v-for="item in tmpwords"  :ref="item.idx" :item='item' :selectFun="selectFun" :isselect="item.isselect"></wordItem>
 				</view>
 			</view>
 			<view @tap="btnConfirm()" class="container-login">已确认备份</view>
