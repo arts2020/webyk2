@@ -107,7 +107,7 @@ const Lotus = {
 	
 	//GAS费
 	async getGasPrice(){
-		let res = await EthUtils.getGasPriceAsync2();
+		let res = await FileCoinUtils.GetGasPrice();
 		console.log("===res=",res)
 		return res;
 	},

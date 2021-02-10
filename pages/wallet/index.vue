@@ -171,23 +171,9 @@
 				//钱包管理页类型一致钱包列表
 				currentList: [],
 				//身份钱包
-				identity_wallets: [{
-					chaintype: 1,
-					img: "eth.png",
-					name: "ETH",
-					alias: "Ethereum",
-					showAddress: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-					bgcImg: "ethImg.png"
-				}, ],
+				identity_wallets: [],
 				// 普通钱包
-				single_wallets: [{
-					chaintype: 2,
-					img: "btc.png",
-					name: "BTC",
-					alias: "Bitcoin",
-					showAddress: "ajdbiaeuudiiiiiiaaan ldjsn cjhf",
-					bgcImg: "btcImg.png"
-				}, ],
+				single_wallets: [],
 				m_mychains: []
 			}
 		},

@@ -47,7 +47,7 @@ const FileCoinUtils = {
 	},
 	
 	async getGasPrice(){
-		await vue.dal.Net.asyncRequest(vue.entities.RequestCode.GetGasPrice, pdata);
+		await vue.dal.Net.asyncRequest(vue.entities.RequestCode.GetFilGasPrice, pdata);
 		console.log("=getGasPrice=ret=",ret)
 		return ret;
 	},

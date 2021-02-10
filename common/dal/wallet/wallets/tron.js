@@ -89,7 +89,7 @@ const Tron = {
 			return {
 				privateKey: privateKey,
 				publicKey: null,
-				address: address.address
+				address: address
 			}
 		} catch (e) {
 			console.log("===createWalletByPrivateKey=e==", e)

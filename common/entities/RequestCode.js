@@ -13,7 +13,7 @@ const RequestCode = {
 	PrivateWallter: 92, //
 	MnemonicWallter: 93, //
 	GetWalletValidateAddress: 94, //
-	GetGasPrice: 95,
+	GetFilGasPrice: 95,//获取FIL矿工费
 }
 
 export default RequestCode

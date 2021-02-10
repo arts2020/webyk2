@@ -200,6 +200,12 @@ const WalletManage = {
 		}
 		return vue.Metadata.WalletType.UnKnow;
 	},
+	
+	getGasPrice:function(){
+		if(this.m_currWallet.chaintype){
+			
+		}
+	},
 
 	//判断是否开通钱包
 	isExistWallet: function() {
