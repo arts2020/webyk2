@@ -46,6 +46,7 @@ const ContractWallet = {
 			let item = this.m_contractWallet[i];
 			if (item.address == address && item.contract == contractaddress) {
 				item.money = money;
+				item.rmb = money * 6.45;
 			}
 		}
 	},
