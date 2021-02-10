@@ -236,9 +236,12 @@ const WalletManage = {
 			vue.dal.Tron.initCurrChain();
 		}
 		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_key");
+		
+		this.onBalance();
 	},
 	
 	setCurrWalletMoney:function(money){
+		console.log("=====setCurrWalletMoney=====", money)
 		this.m_currWallet.money = money;
 	},
 
@@ -287,16 +290,17 @@ const WalletManage = {
 	},
 
 	onTokenBalance: function(contractAddress) {
+		console.log('==contractAddress==',contractAddress)
 		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
-			vue.dal.Btc.onTokenBalance(contractaddresss);
+			vue.dal.Btc.onTokenBalance(contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
-			vue.dal.Eos.onTokenBalance(contractaddresss);
+			vue.dal.Eos.onTokenBalance(contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
-			vue.dal.Eth.onTokenBalance(contractaddresss);
+			vue.dal.Eth.onTokenBalance(contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
-			vue.dal.Lotus.onTokenBalance(contractaddresss);
+			vue.dal.Lotus.onTokenBalance(contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
-			vue.dal.Tron.onTokenBalance(contractaddresss);
+			vue.dal.Tron.onTokenBalance(contractAddress);
 		}
 	},
 }

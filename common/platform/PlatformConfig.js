@@ -41,7 +41,7 @@ var PlatformConfig = {
 			platform: platform,
 			devtype: devtype,
 			urlParams: {from: 0},
-			host: "http://hupool.com", //当前正在用的域名 http://8.210.62.53
+			host: "http://119.8.55.19", //当前正在用的域名 http://8.210.62.53
 			testhost: "http://127.0.0.1:7300", //开发环境使用的域名
 		}
 		return this.channelInfo

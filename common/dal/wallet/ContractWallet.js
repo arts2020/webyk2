@@ -11,6 +11,14 @@ const ContractWallet = {
 		if (wallets && wallets.length > 0) {
 			this.m_contractWallet = JSON.parse(wallets)
 		}
+		if (this.m_contractWallet) {
+			for (let i = 0; i < this.m_contractWallet.length; i++) {
+				let item = this.m_contractWallet[i];
+				if (item) {
+					item.money = 0;
+				}
+			}
+		}
 		this.onAddListener();
 		return true;
 	},
@@ -31,6 +39,25 @@ const ContractWallet = {
 
 	onRemoveListener: function() {
 		vue.shared.Event.removeByObserverName("dal_contractwallet");
+	},
+
+	setContractMoney: function(address, contractaddress, money) {
+		for (let i = 0; i < this.m_contractWallet.length; i++) {
+			let item = this.m_contractWallet[i];
+			if (item.address == address && item.contract == contractaddress) {
+				item.money = money;
+			}
+		}
+	},
+	
+	getContractMoney: function(address, contractaddress) {
+		for (let i = 0; i < this.m_contractWallet.length; i++) {
+			let item = this.m_contractWallet[i];
+			if (item.address == address && item.contractaddress == contractaddress) {
+				return item;
+			}
+		}
+		return null;
 	},
 
 	getContractWallets: function(idx, address) {
@@ -73,7 +100,7 @@ const ContractWallet = {
 	},
 
 	addItem: function(chaintype, idx, address, contractaddress) {
-			console.log("==addItem=idx==", idx)
+		console.log("==addItem=idx==", idx)
 		let ishave = false;
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];

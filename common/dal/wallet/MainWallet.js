@@ -16,6 +16,10 @@ const MainWallet = {
 		if (wallets && wallets.length > 0) {
 			this.m_mainWallet = JSON.parse(wallets)
 		}
+		for (let key in this.m_mainWallet) {
+			let item = this.m_mainWallet[key];
+			item.money = 0;
+		}
 		this.onAddListener();
 		return true;
 	},

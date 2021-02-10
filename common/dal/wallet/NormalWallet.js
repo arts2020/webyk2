@@ -10,7 +10,13 @@ const NormalWallet = {
 		if (normalWallet && normalWallet.length > 0) {
 			this.m_normalWallet = JSON.parse(normalWallet)
 		}
-		uni.cclog("======NormalWallet init==========", this.m_normalWallet)
+		for (let key in this.m_normalWallet) {
+			let wallets = this.m_normalWallet[key];
+			for (let i = 0; i < wallets.length; i++) {
+				let walletinfo = wallets[i]
+				walletinfo.money = 0;
+			}
+		}
 		this.onAddListener();
 		return true;
 	},
