@@ -160,6 +160,8 @@
 				// })
 				// this.allList = list;
 				
+				this.dal.Common.onGetTransferList()
+				
 				//根据字段筛选分组为转入,转出,失败的
 				
 			},

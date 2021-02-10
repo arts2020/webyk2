@@ -46,8 +46,12 @@ const Common = {
 		this.onRemoveListener();
 		vue.shared.Event.attach(vue.entities.RequestCode.GetAssetPrice, this.handleGetAssetprice, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetConfig, this.handleGetConfig, "dal_common", this);
+
 	    vue.shared.Event.attach(vue.entities.RequestCode.GetDefi, this.handleGetDefi, "dal_common", this);
 	    vue.shared.Event.attach(vue.entities.RequestCode.GetCommonConfig, this.handleGetCommonConfig, "dal_common", this);
+
+		vue.shared.Event.attach(vue.entities.RequestCode.Transfer, this.handleTransfer, "dal_common", this);
+		vue.shared.Event.attach(vue.entities.RequestCode.GetTransferList, this.handleGetTransferList, "dal_common", this);
 	},
 
 	onRemoveListener: function() {
@@ -68,11 +72,12 @@ const Common = {
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetAssetprice, {
 				data: packetIn.pktin.data
 			});
-		}else{
+		} else {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
 		}
 		vue.util.UiUtils.hideLoading();
 	},
+
 	// GetDefi
 	onGetDefi: function() {
 		uni.cclog("==========onGetAssetPrice=============")
@@ -104,6 +109,20 @@ const Common = {
 		return null;
 	},
 	
+
+	getAssetpriceInfo: function(asset) {
+		if (asset == "filecoin") {
+			asset = "fil"
+		}
+		for (let i = 0; i < this.m_AssetPriceItems.length; i++) {
+			let item = this.m_AssetPriceItems[i];
+			if (item.symbol.toLocaleLowerCase() == asset) {
+				return item;
+			}
+		}
+		return null;
+	},
+
 	//配置表
 	onGetConfig: function() {
 		// uni.cclog("==========onGetRate=============")
@@ -157,6 +176,102 @@ const Common = {
     	uni.cclog("=======onGetConfigInfo=======key====", key)
     	return item;
     },
+
+	handleGetConfig: function(packetIn) {
+		uni.cclog("==========handleGetConfig==========packetIn====", packetIn)
+		if (packetIn.pktin.code == 200) {
+			for (let i = 0; i < packetIn.pktin.data.length; i++) {
+				let item = packetIn.pktin.data[i];
+				this.m_PoolConfig[item.config_key] = item;
+			}
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetRate);
+		} else {
+			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+
+	onGetConfigInfo: function(key) {
+		let item = this.m_PoolConfig[key];
+		uni.cclog("=======onGetConfigInfo=======this.m_PoolConfig====", this.m_PoolConfig)
+		uni.cclog("=======onGetConfigInfo=======key====", key)
+		uni.cclog("=======onGetConfigInfo=======key====", key)
+		return item;
+	},
+
+	//转账
+	onTransfer: function(walletidx, idx, contractasset, fromaddress, to, amount, tx) {
+		let currWallet = vue.dal.WalletManage.getCurrWallet()
+		var params = {
+			walletidx: walletidx, //钱包ID
+			asset: asset, //币种 eth/lotus/btc/eos/tron
+			contractaddress: contractaddress,//代币地址
+			contractasset: contractasset, //代币 USDT
+			fromaddress: fromaddress,
+			to: to,
+			amount: amount, //金额
+			tx: tx, //交易HASH
+		};
+		vue.dal.Net.request(vue.entities.RequestCode.Transfer, params);
+	},
+
+	handleTransfer: function(packetIn) {
+		uni.cclog("==========handleTransfer==========packetIn====", packetIn)
+		if (packetIn.pktin.code == 200) {
+			vue.util.EventUtils.dispatchEventCustom(this.evtTransfer);
+		} else {
+			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+
+	//交易记录（转账记录）
+	onGetTransferList: function(walletidx, idx, contractaddress) {
+		var params = {
+			walletidx: walletidx,
+			idx: idx,
+			contractaddress: contractaddress
+		};
+		vue.dal.Net.request(vue.entities.RequestCode.GetTransferList, params);
+	},
+
+	handleGetTransferList: function(packetIn) {
+		uni.cclog("==========handleGetTransferList==========packetIn====", packetIn)
+		if (packetIn.pktin.code == 200) {
+			this.m_userRecords = packetIn.pktin.data.list;
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetTransferList);
+		} else {
+			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+
+	GetTransferList: function(asset) {
+		console.log("==asset=", asset)
+		let items = []
+		for (let i = 0; i < this.m_userRecords.length; i++) {
+			let item = this.m_userRecords[i];
+			console.log("==item.asset=", item.asset)
+			if (item.asset.toLocaleLowerCase() == asset) {
+				if (item.type == 1) {
+					item.remark = "挖矿奖励"
+				} else if (item.type == 2) {
+					item.remark = "充币"
+				} else if (item.type == 3) {
+					item.remark = "转账"
+				} else if (item.type == 4) {
+					item.remark = "提币"
+				}
+				item.unit = item.asset;
+				items.push(item);
+			}
+		}
+
+		function sortFun(a, b) {
+			return b.id - a.id;
+		}
+		return items.sort(sortFun);
+	},
 	//全网算力
 	//挖掘盈利能力API
 	//http://www.coinwarz.com/v1/api/profitability/?apikey=YOUR_API_KEY&algo=all
