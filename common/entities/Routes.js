@@ -12,6 +12,9 @@ const Routes = {
 			{code:vue.entities.RequestCode.GetContract , path:"/api/v1/getContract",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.GetConfig , path:"/api/v1/getConfig",method:"POST", islogin:false},
 			
+			{code:vue.entities.RequestCode.Transfer , path:"/api/v1/transfer",method:"POST", islogin:false},
+			{code:vue.entities.RequestCode.GetTransferList , path:"/api/v1/getTransferList",method:"POST", islogin:false},
+			
 			{code:vue.entities.RequestCode.GetAssetPrice , path:"/api/v1/web/getAssetPrive",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.GetDefi , path:"/api/v1/web/getDefi",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.GetCommonConfig , path:"/api/v1/web/getConfig",method:"POST", islogin:false},
