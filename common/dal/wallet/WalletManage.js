@@ -246,10 +246,10 @@ const WalletManage = {
 		this.onBalance();
 	},
 
-	setCurrWalletMoney: function(money) {
+	setCurrWalletMoney: function(money,rmb) {
 		console.log("=====setCurrWalletMoney=====", money)
 		this.m_currWallet.money = money;
-		this.m_currWallet.rmb = money * 6.48;
+		this.m_currWallet.rmb = money * rmb;
 	},
 
 	getCurrWallet: function() {

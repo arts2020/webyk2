@@ -82,7 +82,7 @@
 			noData
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.getAssetPrice);
+			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetPrice, this.getAssetPrice);
 			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetDefi, this.getDefi);
 		   
 			let _this = this;
@@ -98,7 +98,7 @@
 		
 		destroyed() {
 			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetDefi, this.getDefi);
-			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.getAssetPrice);
+			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetPrice, this.getAssetPrice);
 		},
 		data() {
 			return {

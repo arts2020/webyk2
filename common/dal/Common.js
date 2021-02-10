@@ -4,22 +4,24 @@ var vue = Vue.prototype
 const Common = {
 	evtGetNotify: "EVT_evtGetNotify",
 	evtGetNotice: "EVT_evtGetNotice",
-	
-	evtGetAssetprice: "EVT_evtGetAssetprice",
-	evtGetDefi:"EVT_evtGetDefi",
-	
-	evtGetRate:"EVT_evtGetRate",
-	evtGetCommonConfig:"EVT_evtGetCommonConfig",
-	
-	evtGetAssetstate:"EVT_evtGetAssetstate",
-	
+
+	evtGetAssetPrice: "EVT_evtGetAssetPrice",
+	evtGetDefi: "EVT_evtGetDefi",
+
+	evtGetConfig: "EVT_evtGetConfig",
+	evtGetCommonConfig: "EVT_evtGetCommonConfig",
+
+	evtGetAssetstate: "EVT_evtGetAssetstate",
+	evtGetTokenList: "EVT_evtGetTokenList",
+	evtGetTokenDetail: "EVT_evtGetTokenDetail",
+
 	init: function() {
 		uni.cclog("======Common init==========")
 		this.m_AssetpriceList = {};
 		this.m_DefiPriceItems = {};
 		this.m_PoolConfig = {};
-		this.m_newPoolConfig = {};
-		this.m_notices = []; 
+		this.m_commonConfig = {};
+		this.m_notices = [];
 		this.m_AssetState = [];
 		this.m_AssetPriceItems = [];
 		this.onAddListener();
@@ -47,8 +49,8 @@ const Common = {
 		vue.shared.Event.attach(vue.entities.RequestCode.GetAssetPrice, this.handleGetAssetprice, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetConfig, this.handleGetConfig, "dal_common", this);
 
-	    vue.shared.Event.attach(vue.entities.RequestCode.GetDefi, this.handleGetDefi, "dal_common", this);
-	    vue.shared.Event.attach(vue.entities.RequestCode.GetCommonConfig, this.handleGetCommonConfig, "dal_common", this);
+		vue.shared.Event.attach(vue.entities.RequestCode.GetDefi, this.handleGetDefi, "dal_common", this);
+		vue.shared.Event.attach(vue.entities.RequestCode.GetCommonConfig, this.handleGetCommonConfig, "dal_common", this);
 
 		vue.shared.Event.attach(vue.entities.RequestCode.Transfer, this.handleTransfer, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetTransferList, this.handleGetTransferList, "dal_common", this);
@@ -69,7 +71,37 @@ const Common = {
 		uni.cclog("==========handleGetAssetprice==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
 			this.m_AssetPriceItems = packetIn.pktin.data;
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetAssetprice, {
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetAssetPrice, {
+				data: packetIn.pktin.data
+			});
+		} else {
+			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	getAssetPriceInfo:function(asset){
+		for(let i = 0; i < this.m_AssetPriceItems.length; i++){
+			let item = this.m_AssetPriceItems[i];
+			if(item.symbol.toLowerCase() == asset.toLowerCase()){
+				return item;
+			}
+		}
+		return null;
+	},
+	
+	// GetDefi
+	onGetDefi: function() {
+		uni.cclog("==========onGetAssetPrice=============")
+		var params = {};
+		vue.dal.Net.request(vue.entities.RequestCode.GetDefi, params);
+	},
+	
+	handleGetDefi(packetIn) {
+		uni.cclog("==========handleGetDefi==========packetIn====", packetIn)
+		if (packetIn.pktin.code == 200) {
+			this.m_DefiPriceItems = packetIn.pktin.data;
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetDefi, {
 				data: packetIn.pktin.data
 			});
 		} else {
@@ -78,104 +110,12 @@ const Common = {
 		vue.util.UiUtils.hideLoading();
 	},
 
-	// GetDefi
-	onGetDefi: function() {
-		uni.cclog("==========onGetAssetPrice=============")
-		var params = {};
-		vue.dal.Net.request(vue.entities.RequestCode.GetDefi, params);
-	},
-	handleGetDefi(packetIn){
-		uni.cclog("==========handleGetDefi==========packetIn====", packetIn)
-		if (packetIn.pktin.code == 200) {
-			this.m_DefiPriceItems = packetIn.pktin.data;
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetDefi, {
-				data: packetIn.pktin.data
-			});
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
-	getAssetpriceInfo:function(asset){
-		if(asset == "filecoin"){
-			asset = "fil"
-		}
-		for(let i = 0; i < this.m_AssetPriceItems.length; i++){
-			let item = this.m_AssetPriceItems[i];
-			if(item.symbol.toLocaleLowerCase() == asset){
-				return item;
-			}
-		}
-		return null;
-	},
-	
-
-	getAssetpriceInfo: function(asset) {
-		if (asset == "filecoin") {
-			asset = "fil"
-		}
-		for (let i = 0; i < this.m_AssetPriceItems.length; i++) {
-			let item = this.m_AssetPriceItems[i];
-			if (item.symbol.toLocaleLowerCase() == asset) {
-				return item;
-			}
-		}
-		return null;
-	},
-
 	//配置表
 	onGetConfig: function() {
 		// uni.cclog("==========onGetRate=============")
 		var params = {};
 		vue.dal.Net.request(vue.entities.RequestCode.GetConfig, params);
 	},
-	
-	handleGetConfig: function(packetIn) {
-		uni.cclog("==========handleGetConfig==========packetIn====", packetIn)
-		if (packetIn.pktin.code == 200) {
-			for(let i = 0; i < packetIn.pktin.data.length; i++){
-				let item = packetIn.pktin.data[i];
-				this.m_PoolConfig[item.config_key] = item;
-			}
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetRate);
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
-	onCommonConfig: function() {
-		// uni.cclog("==========onGetRate=============")
-		var params = {};
-		vue.dal.Net.request(vue.entities.RequestCode.GetCommonConfig, params);
-	},
-	
-	handleGetCommonConfig: function(packetIn) {
-		uni.cclog("==========handleCommonConfig==========packetIn====", packetIn)
-		if (packetIn.pktin.code == 200) {
-			for(let i = 0; i < packetIn.pktin.data.length; i++){
-				let item = packetIn.pktin.data[i];
-				this.m_newPoolConfig[item.config_key] = item;
-			}
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetCommonConfig);
-		}else{
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
-		}
-		vue.util.UiUtils.hideLoading();
-	},
-	onGetConfigInfo:function(key){
-		let item = this.m_PoolConfig[key];
-		uni.cclog("=======onGetConfigInfo=======this.m_PoolConfig====", this.m_PoolConfig)
-		uni.cclog("=======onGetConfigInfo=======key====", key)
-		uni.cclog("=======onGetConfigInfo=======key====", key)
-		return item;
-	},
-    onNewGetConfigInfo:function(key){
-    	let item = this.m_newPoolConfig[key];
-    	uni.cclog("=======onGetConfigInfo=======this.m_PoolConfig====", this.m_PoolConfig)
-    	uni.cclog("=======onGetConfigInfo=======key====", key)
-    	uni.cclog("=======onGetConfigInfo=======key====", key)
-    	return item;
-    },
 
 	handleGetConfig: function(packetIn) {
 		uni.cclog("==========handleGetConfig==========packetIn====", packetIn)
@@ -184,7 +124,54 @@ const Common = {
 				let item = packetIn.pktin.data[i];
 				this.m_PoolConfig[item.config_key] = item;
 			}
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetRate);
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetConfig);
+		} else {
+			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	onGetConfigInfo: function(key) {
+		let item = this.m_PoolConfig[key];
+		uni.cclog("=======onGetConfigInfo====", item)
+		return item;
+	},
+	
+	onCommonConfig: function() {
+		// uni.cclog("==========onGetRate=============")
+		var params = {};
+		vue.dal.Net.request(vue.entities.RequestCode.GetCommonConfig, params);
+	},
+
+	handleGetCommonConfig: function(packetIn) {
+		uni.cclog("==========handleCommonConfig==========packetIn====", packetIn)
+		if (packetIn.pktin.code == 200) {
+			for (let i = 0; i < packetIn.pktin.data.length; i++) {
+				let item = packetIn.pktin.data[i];
+				this.m_commonConfig[item.config_key] = item;
+			}
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetCommonConfig);
+		} else {
+			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	onGetCommonConfigInfo: function(key) {
+		let item = this.m_commonConfig[key];
+		uni.cclog("=======this.m_commonConfig=======", this.m_commonConfig)
+		uni.cclog("=======onGetCommonConfigInfo=======", item)
+		return item;
+	},
+
+	handleGetConfig: function(packetIn) {
+		uni.cclog("==========handleGetConfig==========packetIn====", packetIn)
+		if (packetIn.pktin.code == 200) {
+			for (let i = 0; i < packetIn.pktin.data.length; i++) {
+				let item = packetIn.pktin.data[i];
+				this.m_PoolConfig[item.config_key] = item;
+			}
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetConfig);
 		} else {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
 		}
@@ -205,7 +192,7 @@ const Common = {
 		var params = {
 			walletidx: walletidx, //钱包ID
 			asset: asset, //币种 eth/lotus/btc/eos/tron
-			contractaddress: contractaddress,//代币地址
+			contractaddress: contractaddress, //代币地址
 			contractasset: contractasset, //代币 USDT
 			fromaddress: fromaddress,
 			to: to,
@@ -226,10 +213,9 @@ const Common = {
 	},
 
 	//交易记录（转账记录）
-	onGetTransferList: function(walletidx, idx, contractaddress) {
+	onGetTransferList: function(walletidx, contractaddress) {
 		var params = {
 			walletidx: walletidx,
-			idx: idx,
 			contractaddress: contractaddress
 		};
 		vue.dal.Net.request(vue.entities.RequestCode.GetTransferList, params);
@@ -272,6 +258,41 @@ const Common = {
 		}
 		return items.sort(sortFun);
 	},
+
+	//代币列表接口
+	onGetTokenList: function() {
+		var params = {};
+		vue.dal.Net.request(vue.entities.RequestCode.GetTokenList, params);
+	},
+
+	handleGetTokenList: function(packetIn) {
+		uni.cclog("==========handleGetTokenList==========packetIn====", packetIn)
+		if (packetIn.pktin.code == 200) {
+			this.m_userRecords = packetIn.pktin.data.list;
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenList);
+		} else {
+			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	//代币明细接口
+	onGetTokenDetail: function() {
+		var params = {};
+		vue.dal.Net.request(vue.entities.RequestCode.GetTokenDetail, params);
+	},
+
+	handleGetTokenDetail: function(packetIn) {
+		uni.cclog("==========handleGetTokenDetail==========packetIn====", packetIn)
+		if (packetIn.pktin.code == 200) {
+			this.m_userRecords = packetIn.pktin.data.list;
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenDetail);
+		} else {
+			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+
 	//全网算力
 	//挖掘盈利能力API
 	//http://www.coinwarz.com/v1/api/profitability/?apikey=YOUR_API_KEY&algo=all

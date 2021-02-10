@@ -248,6 +248,7 @@
 
 				//普通钱包数据
 				let normalWallets = this.dal.NormalWallet.getNormalWallets();
+				console.log("==normalWallets==",normalWallets)
 				//添加logo图标和背景图
 				normalWallets.forEach(el => {
 					let item = this.chains.find(e => e.chaintype == el.chaintype);
@@ -266,7 +267,7 @@
 				} else {
 					return;
 				}
-				this.configInfo = this.dal.Common.onNewGetConfigInfo('exchange_key');
+				this.configInfo = this.dal.Common.onGetCommonConfigInfo('exchange_key');
 				//当前钱包默认优先拿第一个身份钱包，没有身份钱包时默认用第一个普通钱包
 				this.currentWallet = this.dal.WalletManage.getCurrWallet();
 				if (!this.currentWallet) {
