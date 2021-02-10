@@ -1,11 +1,12 @@
 <template>
 	<view class="carry-over">
-		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" :title="m_asset.name+'转账'" @clickLeft="btnBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" :title="m_asset.name+'转账'"
+		 @clickLeft="btnBack"></uni-nav-bar>
 		<view class="carry-addr">
 			<view class="carry-title">收款地址</view>
-		    <view class="addr">
-				<input type="text" :placeholder="m_asset.name+'地址'" v-model="address" placeholder-class="tipClass"/>
-			    <image src="../../../../static/image/index/address.png" mode="" @tap="goAddressList"></image>
+			<view class="addr">
+				<input type="text" :placeholder="m_asset.name+'地址'" v-model="address" placeholder-class="tipClass" />
+				<image src="../../../../static/image/index/address.png" mode="" @tap="goAddressList"></image>
 			</view>
 		</view>
 		<view class="carry-count">
@@ -14,14 +15,14 @@
 			</view>
 			<view class="count">
 				<view class="input-count">
-					<input type="text" placeholder="0" placeholder-class="tipClass-2" v-model="count"/>
+					<input type="text" placeholder="0" placeholder-class="tipClass-2" v-model="count" />
 				</view>
 				<view class="bak">
 					<text>备注</text>
-					<input type="text"  v-model="bak"/>
+					<input type="text" v-model="bak" />
 				</view>
 			</view>
-		</view>		
+		</view>
 		<view class="fee" @tap="goSetting">
 			<text>矿工费</text>
 			<view class="fee-info">
@@ -31,7 +32,7 @@
 			<image src="../../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="confirm-ok" @click="btnConfirm">转账</view>
-	    <uni-popup type="bottom" ref="tipPop">
+		<uni-popup type="bottom" ref="tipPop">
 			<view class="tip-content">
 				<uni-icons @click="cancell(1)" type="closeempty" color="#444444" size="30" class="close-icon"></uni-icons>
 				<view class="tip-title">风险提示</view>
@@ -58,45 +59,53 @@
 		data() {
 			return {
 				count: "",
-				rmb:"0.124",
+				rmb: "0.124",
 				address: "",
 				password: "",
-				bak:"",
+				bak: "",
 				//当前资产信息
 				m_asset: {
-					name:"ETH"
+					name: "ETH"
 				},
-				m_balane: "",
+				m_balane: 0,
 				//默认矿工费
-				feeInfo:{
-					coin:"0.004500",
-					rmb:"39.28",
-					value:'89.00GWEI',
+				feeInfo: {
+					coin: "0.004500",
+					rmb: "39.28",
+					value: '89.00GWEI',
 					name: "快速",
-					time:'5分钟'
+					time: '5分钟'
 				}
 			}
 		},
 		onShow() {
 			//获取临时地址
 			let item = this.dal.Address.getTempAddress()
-			if(Object.keys(item).length!=0){
+			if (Object.keys(item).length != 0) {
 				this.address = item.address;
 			}
-			
+
 			//从数据层获取当前资产信息
 			// this.m_asset =
 		},
 		methods: {
-			goAddressList(){
-				this.$openPage({name:"address-list",query:{type:1}})
-			},
-			goSetting(){
-				let params = {
-					  coinType:this.m_asset.name,
-					  ...this.feeInfo
+			goAddressList() {
+				this.$openPage({
+					name: "address-list",
+					query: {
+						type: 1
 					}
-				this.$openPage({name:"setting-fee",query:params})
+				})
+			},
+			goSetting() {
+				let params = {
+					coinType: this.m_asset.name,
+					...this.feeInfo
+				}
+				this.$openPage({
+					name: "setting-fee",
+					query: params
+				})
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
@@ -107,7 +116,6 @@
 				this.util.UiUtils.showToast("请使用手机操作")
 				return;
 				// #endif
-
 				// console.log("==this.PlatformInfo==",this.PlatformInfo)
 				uni.scanCode({ //示例, 扫码后赋值
 					success: function(res) {
@@ -144,11 +152,11 @@
 			},
 			//点击转账
 			btnConfirm() {
-             // 对地址数量和矿工费进行校验并打开风险提示框
-			 
-			// 	if (!this.util.UiUtils.getIsCanTrans()) {
-			// 		return;
-			// 	}
+				// 对地址数量和矿工费进行校验并打开风险提示框
+
+				// 	if (!this.util.UiUtils.getIsCanTrans()) {
+				// 		return;
+				// 	}
 
 				let address = this.address.replace(new RegExp(/( )/g), "");
 				let count = this.count.replace(new RegExp(/( )/g), "");
@@ -170,68 +178,62 @@
 					this.util.UiUtils.showToast("请输入转出的数额")
 					return;
 				}
-				// if (this.gas.length <= 0) {
-				// 	this.util.UiUtils.showToast("请输入矿工费")
-				// 	return;
-				// }
-			// 	let sum = count * 1 + this.gas / 100000 * 1;
-			// 	if (this.m_balane < sum) {
-			// 		this.util.UiUtils.showToast(this.m_asset + "可用余额不足")
-			// 		return;
-			// 	}
+				if (this.gas.length <= 0) {
+					this.util.UiUtils.showToast("请输入矿工费")
+					return;
+				}
+				let sum = count * 1 + this.gas / 100000 * 1;
+				if (this.m_balane < sum) {
+					this.util.UiUtils.showToast(this.m_asset + "可用余额不足")
+					return;
+				}
 
-			// 	let selfAddress = this.dal.Wallter.getAddress().toLowerCase();
-			// 	if (address.toLowerCase() == selfAddress) {
-			// 		this.util.UiUtils.showToast("不允许对自己进行转帐")
-			// 		return;
-			// 	}
-			// 	uni.showModal({
-			// 		title: this.getLocalStr("tip_title"),
-			// 		content: "您确定要转帐吗？",
-			// 		confirmText: this.getLocalStr("btnstring_confirm"),
-			// 		showCancel: true,
-			// 		success: function(res) {
-			// 			if (res.confirm) {
-			// 				this.util.UiUtils.showLoading("");
-			// 				this.dal.Setting.onCheckCapitalPassword(password);
-			// 			}
-			// 		}.bind(this)
-			// 	});
-			// },
-			// onCheckCapitalPassword: function(data) {
-			// 	this.util.UiUtils.showLoading("");
-			// 	let val = this.gas;
-			// 	let gas = parseInt(val) * Math.pow(10, 8);
-			// 	gas = '0x' + parseInt(gas).toString(16);
+				let walletInfo = this.dal.WalletManage.getCurrWallet();
+				if (address.toLowerCase() == walletInfo.address) {
+					this.util.UiUtils.showToast("不允许对自己进行转帐")
+					return;
+				}
+				uni.showModal({
+					title: this.getLocalStr("tip_title"),
+					content: "您确定要转帐吗？",
+					confirmText: this.getLocalStr("btnstring_confirm"),
+					showCancel: true,
+					success: function(res) {
+						if (res.confirm) {
+							this.util.UiUtils.showLoading("");
+							this.dal.Setting.onCheckCapitalPassword(password);
+						}
+					}.bind(this)
+				});
+			},
+			
+			onCheckCapitalPassword: function(data) {
+				this.util.UiUtils.showLoading("");
+				let val = this.gas;
+				let gas = parseInt(val) * Math.pow(10, 8);
+				gas = '0x' + parseInt(gas).toString(16);
 
-			// 	if (this.m_asset == "eth") {
-			// 		this.dal.Ethers.sendTransaction(this.address, this.count, gas)
-			// 	} else if (this.m_asset == "usdt") {
-			// 		this.dal.UsdtErc20.sendTransaction(this.address, this.count, gas)
-			// 	} else if (this.m_asset == "btc") {
-			// 		this.dal.BtcWallter.sendTransaction(this.address, this.count, gas)
-			// 	} else if (this.m_asset == "filecoin") {
-			// 		this.dal.FileCoinWallter.sendTransaction(this.address, this.count, gas)
-			// 	}
-			this.$refs.tipPop.open();
+				this.dal.WalletManage.sendTransaction(this.address, this.count, gas)
+
+				this.$refs.tipPop.open();
 			},
 			//点击我知晓了
-			confirmKnow(){
+			confirmKnow() {
 				this.$refs.pasdPop.open();
 			},
-			cancell(e){
-				if(e==2){
+			cancell(e) {
+				if (e == 2) {
 					this.password = "";
 					this.$refs.pasdPop.close();
 					this.$refs.tipPop.close();
-				}else if(e==1){
+				} else if (e == 1) {
 					this.$refs.tipPop.close();
 				}
 			},
 			//点击密码提示框的确定
-            confirmOk(){
+			confirmOk() {
 				//检查密码
-				if(!this.password){
+				if (!this.password) {
 					this.util.UiUtils.showToast("请输入密码");
 					return;
 				}
@@ -249,5 +251,4 @@
 
 <style lang="scss">
 	@import 'carry-over.scss';
-	
 </style>

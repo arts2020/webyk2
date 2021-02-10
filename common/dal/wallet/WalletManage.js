@@ -236,13 +236,14 @@ const WalletManage = {
 			vue.dal.Tron.initCurrChain();
 		}
 		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_key");
-		
+
 		this.onBalance();
 	},
-	
-	setCurrWalletMoney:function(money){
+
+	setCurrWalletMoney: function(money) {
 		console.log("=====setCurrWalletMoney=====", money)
 		this.m_currWallet.money = money;
+		this.m_currWallet.rmb = money * 6.48;
 	},
 
 	getCurrWallet: function() {
@@ -252,11 +253,31 @@ const WalletManage = {
 
 	//========================交易相关======================
 	async sendTransaction(to, amount, gas) {
-
+		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
+			await vue.dal.Btc.sendTransaction(to, amount, gas);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
+			await vue.dal.Eos.sendTransaction(to, amount, gas);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
+			await vue.dal.Eth.sendTransaction(to, amount, gas);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			await vue.dal.Lotus.sendTransaction(to, amount, gas);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
+			await vue.dal.Tron.sendTransaction(to, amount, gas);
+		}
 	},
 
-	async sendTokenTransaction(to, amount, gas, contractAddress) {
-
+	async sendTokenTransaction(to, amount, contractAddress, gas) {
+		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
+			await vue.dal.Btc.sendTokenTransaction(to, amount, gas, contractAddress);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
+			await vue.dal.Eos.sendTokenTransaction(to, amount, gas, contractAddress);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
+			await vue.dal.Eth.sendTokenTransaction(to, amount, gas, contractAddress);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			await vue.dal.Lotus.sendTokenTransaction(to, amount, gas, contractAddress);
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
+			await vue.dal.Tron.sendTokenTransaction(to, amount, gas, contractAddress);
+		}
 	},
 
 	getBalance: function() {
@@ -290,7 +311,7 @@ const WalletManage = {
 	},
 
 	onTokenBalance: function(contractAddress) {
-		console.log('==contractAddress==',contractAddress)
+		console.log('==contractAddress==', contractAddress)
 		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
 			vue.dal.Btc.onTokenBalance(contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
