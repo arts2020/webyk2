@@ -141,9 +141,9 @@ const Common = {
 	},
 
 	//交易记录（转账记录）
-	onGetTransferList: function(walletidx, asset, idx, contractasset) {
+	onGetTransferList: function(walletidx, idx, contractaddress) {
 		var params = {
-			walletidx: idx,
+			walletidx: walletidx,
 			idx: idx,
 			contractaddress: contractaddress
 		};
