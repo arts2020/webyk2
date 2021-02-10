@@ -479,7 +479,9 @@
             "path" : "pages/uielement/webview",
             "style" :                                                                                    
             {
-                "navigationStyle": "custom",
+				"navigationBarBackgroundColor": "#375efe",
+				"backgroundColor": "#375efe",
+                // "navigationStyle": "custom",
                 "app-plus": {
                 	"titleNView": true //禁用原生导航栏，APP和H5可用
                 }

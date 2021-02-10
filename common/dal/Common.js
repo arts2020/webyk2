@@ -2,19 +2,18 @@ import Vue from 'vue'
 var vue = Vue.prototype
 
 const Common = {
-	evtGetNotify: "EVT_evtGetNotify",
-	evtGetNotice: "EVT_evtGetNotice",
+	evtGetTransferList: "EVT_evtGetTransferList",
 
 	evtGetAssetPrice: "EVT_evtGetAssetPrice",
 	evtGetDefi: "EVT_evtGetDefi",
 
 	evtGetConfig: "EVT_evtGetConfig",
 	evtGetCommonConfig: "EVT_evtGetCommonConfig",
-
+	
 	evtGetAssetstate: "EVT_evtGetAssetstate",
 	evtGetTokenList: "EVT_evtGetTokenList",
 	evtGetTokenDetail: "EVT_evtGetTokenDetail",
-
+	
 	init: function() {
 		uni.cclog("======Common init==========")
 		this.m_AssetpriceList = {};
