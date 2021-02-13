@@ -122,7 +122,16 @@ const Ethers = {
 	async getGasPrice() {
 		let res = await EthUtils.getGasPriceAsync2();
 		console.log("===res=", res)
-		return res;
+		let average = {unitPrice: res.average/10,title: "正常",time: res.avgWait};
+		let fast = {unitPrice: res.fast/10,title: "快速",time: res.fastWait + 1.5};
+		let fasttest = {unitPrice: res.fastest/10,title: "最快",time: res.fastestWait};
+		let safelow = {unitPrice: res.safeLow/10,title: "缓慢",time: res.safeLowWait + 15};
+		let items = [];
+		items.push(fasttest);
+		items.push(fast);
+		items.push(average);
+		items.push(safelow);
+		return items;
 	},
 
 	// 记录交易
@@ -177,18 +186,12 @@ const Ethers = {
 	},
 
 	async onBalance() {
+		console.log("==3333===this.m_reqUrl====", this.m_reqUrl);
 		await EthUtils.getETHBalanceAsync(this.fromAddress, this.m_reqUrl).then((balance) => {
+			console.log("=====this.fromAddress====", this.fromAddress);
 			console.log("=====this.Ethers===balance====", balance);
 
-			let priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
-			let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
-
-			console.log('====priceInfo.price_usd==', priceInfo.price_usd)
-			console.log('====priceInfo.balance==', balance)
-			console.log('====configinfo.value==', configinfo.value)
-			let rmb = priceInfo.price_usd * balance * configinfo.value;
-			console.log("==rmb==", rmb)
-			vue.dal.WalletManage.setCurrWalletMoney(balance, rmb)
+			vue.dal.WalletManage.setCurrWalletMoney(balance)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		})
 	},
