@@ -1,7 +1,7 @@
 <template>
 	<view class="carry-over">
-		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" :title="m_asset.name+'转账'"
-		 @clickLeft="btnBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" right-icon="scan" :title="m_asset.name+'转账'"
+		 @clickLeft="btnBack" @clickRight="btnScan"></uni-nav-bar>
 		<view class="carry-addr">
 			<view class="carry-title">收款地址</view>
 			<view class="addr">

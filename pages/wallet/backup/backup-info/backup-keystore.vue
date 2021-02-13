@@ -1,6 +1,6 @@
 <template>
 	<view class="backup-keystore">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="导出keystore" @clickLeft="goBack"></uni-nav-bar>	    
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="导出助记词" @clickLeft="goBack"></uni-nav-bar>	    
 		<view class="box">
 			<view class="p1">离线保存</view>
 			<view class="p2">切勿保存至邮箱，记事本，网盘，聊天工具等，非常危险</view>
@@ -15,9 +15,9 @@
 			<view class="p2">建议使用密码管理工具管理</view>
 		</view>
 		<view class="box">
-			<view class="p2">{{keystore}}</view>
+			<view class="p2">{{words}}</view>
 		</view>
-		<view class="copy_btn" @tap="goCopy">复制keystore</view>
+		<view class="copy_btn" @tap="goCopy">复制助记词</view>
 		<uni-popup ref="popup" type="message">
 		    <uni-popup-message type="success" message="复制成功" :duration="2000"></uni-popup-message>
 		</uni-popup>
@@ -44,9 +44,9 @@
 				let params = JSON.parse(option.query);
 				this.paramsObj = params;
 			}
-			// let walletInfo = this.dal.WalletManage.getCurrWallet();
-			//获取keystore
-			// this.keystore = 
+			let walletInfo = this.dal.WalletManage.getCurrWallet();
+			//获取
+			this.words  = walletInfo.words; 
 		},
 		methods:{
 			goBack(){

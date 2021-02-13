@@ -168,69 +168,62 @@
 					}
 				}
 				
+				this.util.UiUtils.showLoading("钱包初始化...",500);
 				
                 let params={}
-				if(this.paramsObj.isBak){
-					//备份钱包
-					// params = {
-					// 	words:this.paramsObj.words,
-					// 	name:this.paramsObj.name,
-					// }
-					console.log('备份钱包')
+				
+				//创建钱包
+					
+				// 助记词正确后 组装需要的参数创建钱包  并打开成功的弹框 1s后关掉并跳转					
+				if(this.paramsObj.chaintype){ //chaintype为要创建的单链钱包的链类型  从创建钱包的creat-wallet这个页面传过来
+					// 创建普通钱包
+					let params = {
+						name: this.paramsObj.name,
+						password: this.paramsObj.password,
+						passwordtip: this.paramsObj.tips,
+						strval:this.paramsObj.words,
+						importtype:this.entities.Metadata.ImportType.WordType,
+						chaintype:this.paramsObj.chaintype,
+					}
+					
+					// 调用创建普通钱包方法  普通钱包创建成功后跳转到钱包首页
+					this.dal.WalletManage.createNormalWallet(params).then(res=>{
+						console.log('===createNormalWallet===',res)
+						if(res){	
+							this.$refs.successPop.open();
+							setTimeout(()=>{
+								this.$refs.successPop.close();
+								this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
+							},500)
+						}else{
+							this.util.UiUtils.showToast("创建单层钱包失败");
+						}
+					})
 					
 				}else{
-					//创建钱包
-					
-					// 助记词正确后 组装需要的参数创建钱包  并打开成功的弹框 1s后关掉并跳转					
-					if(this.paramsObj.chaintype){ //chaintype为要创建的单链钱包的链类型  从创建钱包的creat-wallet这个页面传过来
-						// 创建普通钱包
-						let params = {
-							name: this.paramsObj.name,
-							password: this.paramsObj.password,
-							passwordtip: this.paramsObj.tips,
-							strval:this.paramsObj.words,
-							importtype:this.entities.Metadata.ImportType.WordType,
-							chaintype:this.paramsObj.chaintype,
+					//创建身份钱包 成功后跳转到添加币种页
+					params = {
+						name: this.paramsObj.name,
+						password: this.paramsObj.password,
+						passwordtip: this.paramsObj.tips,
+						words: this.paramsObj.words,
+						importtype:this.entities.Metadata.ImportType.WordType
+					}
+					console.log('1233333333333333',params)
+					//如果创建钱包返回true，成功
+					this.dal.WalletManage.createMainWallet(params).then(res=>{
+						if(res){	
+							this.$refs.successPop.open();
+							setTimeout(()=>{
+								this.$refs.successPop.close();
+								this.util.UiUtils.switchToPage("wallet-add-coin", "backup-info-sure",{backType:1});
+							},500)
+						}else{
+							this.util.UiUtils.showToast("创建身份钱包失败");
 						}
-						
-						// 调用创建普通钱包方法  普通钱包创建成功后跳转到钱包首页
-						this.dal.WalletManage.createNormalWallet(params).then(res=>{
-							console.log('===createNormalWallet===',res)
-							if(res){	
-								this.$refs.successPop.open();
-								setTimeout(()=>{
-									this.$refs.successPop.close();
-									this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
-								},500)
-							}else{
-								this.util.UiUtils.showToast("创建单层钱包失败");
-							}
-						})
-						
-					}else{
-						//创建身份钱包 成功后跳转到添加币种页
-						params = {
-							name: this.paramsObj.name,
-							password: this.paramsObj.password,
-							passwordtip: this.paramsObj.tips,
-							words: this.paramsObj.words,
-							importtype:this.entities.Metadata.ImportType.WordType
-						}
-						console.log('1233333333333333',params)
-						//如果创建钱包返回true，成功
-						this.dal.WalletManage.createMainWallet(params).then(res=>{
-							if(res){	
-								this.$refs.successPop.open();
-								setTimeout(()=>{
-									this.$refs.successPop.close();
-									this.util.UiUtils.switchToPage("wallet-add-coin", "backup-info-sure",{backType:1});
-								},500)
-							}else{
-								this.util.UiUtils.showToast("创建身份钱包失败");
-							}
-						})
-					}					
-				}	
+					})
+				}					
+				
 			},
 			bindTextAreaBlur: function(e) {
 				console.log(e.detail.value)

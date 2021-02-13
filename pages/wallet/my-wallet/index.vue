@@ -1,7 +1,7 @@
 <template>
 	<view class="wallet-index">
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="管理钱包" @clickLeft="btnBack"></uni-nav-bar>
-	    <view class="main-content">
+	    <view class="main-content" :style="{ height: scrollHeight + 'px' }">
 			<scroll-view class="main-left" scroll-y="true" >
 				<view class="nav-menu">
 					<view class="menu-item" :class="{'activeClass':active==-1}">
@@ -123,7 +123,7 @@
 			//获取高度
 			uni.getSystemInfo({
 				success(res) {
-					_this.scrollHeight = res.windowHeight - res.statusBarHeight - 44;
+					_this.scrollHeight = res.windowHeight - res.statusBarHeight - 44 - 52;
 				}
 			});
 			this.onRefresh();
@@ -244,7 +244,6 @@
 		}
 		.main-content{
 			width: 100%;
-			height: 100%;
 			display: flex;
 			justify-content: space-between;
 			.main-left{

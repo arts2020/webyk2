@@ -48,17 +48,21 @@
 			if(option.query){
 				let params = JSON.parse(option.query);
 				if(Object.keys(params).length!=0){
-					console.log(params)
-					this.paramsObj = params;
 					
+					this.paramsObj = params;
+					if(params.bakType){
+						this.bakType = params.bakType;
+					}else{
+						this.bakType = 1;
+					}
 					switch (params.bakType){
-						case 1:this.bakType==1;this.str1="助记词"; this.str2="助记词";
+						case 1:this.str1="助记词"; this.str2="助记词";
 							break;
-						case 2:this.bakType==2;this.str1="keystore和密码"; this.str2="keystore";
+						case 2:this.str1="助记词"; this.str2="助记词";
 							break;
-						case 3:this.bakType==3;this.str1="私钥和密码"; this.str2="私钥";
+						case 3:this.str1="私钥和密码"; this.str2="私钥";
 							break;
-						default:this.bakType==1;this.str1="助记词"; this.str2="助记词";
+						default:this.str1="助记词"; this.str2="助记词";
 							break;
 					}
 				}
@@ -77,12 +81,12 @@
 			btnNext:function(){
 				// 从创建钱包那边  从钱包详情那边   都传递相应的参数来到该页面，
 				// 将他们传递的参数保存在paramsObj,传递到下个页面，备份助记词，或者备份私钥或keystore 在各自相应的页面组装所需数据
-				
-				if(this.str1.includes('助记词')){
+				console.log(this.bakType)
+				if(this.bakType==1){
 					this.$openPage({name:"backup-info",query:this.paramsObj});
-				}else if(this.str1.includes('keystore')){
+				}else if(this.bakType==2){
 					this.$openPage({name:"backup-keystore",query:this.paramsObj});
-				}else if(this.str1.includes('私钥')){
+				}else if(this.bakType==3){
 					this.$openPage({name:"backup-private",query:this.paramsObj});
 				}
 				

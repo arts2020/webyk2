@@ -649,7 +649,7 @@
 			width: 100%;
 			height: 80vh;
 			background-color: #FFFFFF;
-			border-radius: 33rpx;
+			border-radius: 33rpx 33rpx 0 0;
 			position: relative;
 
 			.top-content {
@@ -668,6 +668,7 @@
 
 			.main-content {
 				width: 100%;
+				height: calc(80vh - 228rpx);
 				display: flex;
 				justify-content: space-between;
 

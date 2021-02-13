@@ -16,21 +16,17 @@
 				<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 		</view>
-		<view class="wallet-bak" @click="goBak">
-			<text class="w-title">备份钱包</text>
-			<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
-		</view>
 		<view class="wallet-mode">
 			<view class="title-item">
-				<text>高级模式</text>
+				<text>备份钱包</text>
 				<image class="right-icon" :src="rightIcon" mode="" @tap="changeContent"></image>
 			</view>
 			<view class="type-list" v-if="ishowContent">
 				<view class="type-item" @tap="goExport(2)">
-					<text>导出keystore</text>
+					<text>导出助记词</text>
 					<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
-				<view class="type-item" @tap="goExport(3)">
+				<view class="type-item" @tap="goExport(3)"> 
 					<text>导出私钥</text>
 					<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
@@ -102,11 +98,6 @@
 				this.popType = 2;
 				this.$refs.pasdPop.open()
 			},
-			goBak(){
-				this.popType = 1;
-				this.exportType = 1;
-				this.$refs.pasdPop.open();
-			},
 			cancell(){
 				this.password = "";
 				this.newWalletName="";
@@ -120,13 +111,17 @@
 						this.util.UiUtils.showToast('密码不能为空')
 						return;
 					}
+					if(this.password!= this.walletInfo.password){
+						this.util.UiUtils.showToast('密码不正确');
+						this.password =""
+						return;
+					}
 					//备份钱包
 					//导出keystore
 					//导出私钥
 					this.$openPage({name:"backup-tip",
 					query:{
 						  bakType:this.exportType,
-						  isBak:true,
 						  // 将需要的钱包信息传递到备份提示也
 						  name:this.walletInfo.name
 					    },
@@ -145,9 +140,22 @@
 				this.$refs.pasdPop.close();
 			},
 			goExport(e){
-              this.exportType=e;
-			  this.popType = 1;
-			  this.$refs.pasdPop.open();
+				// 1助记词  3私钥
+				if(e==2){
+					if(!this.walletInfo.words){
+						this.util.UiUtils.showToast("当前钱包没有助记词");
+						return;
+					}
+				}else if(e==3){
+					if(!this.walletInfo.privateKey){
+						this.util.UiUtils.showToast("当前钱包没有私钥");
+						return;
+					}
+				} 
+				
+				this.exportType=e;
+				this.popType = 1;
+				this.$refs.pasdPop.open();
 			},
 		}
 	}

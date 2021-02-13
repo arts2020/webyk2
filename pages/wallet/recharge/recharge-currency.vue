@@ -42,8 +42,9 @@
 		},
 		data() {
 			return {
+				currentWallet:{},
 				m_currentAsset:{},
-				m_address: "asf1v2s5fee8saccz5",
+				m_address: "",
 				m_cointype: "ETH",
 				qrR: "",
 				cid: "",
@@ -51,7 +52,7 @@
 				loadingText: "",
 				showLoading: "",
 				ifShow: true,
-				val: 'asf1v2s5fee8saccz5', // 要生成的二维码值
+				val: '', // 要生成的二维码值
 				size: 400, // 二维码大小
 				unit: 'upx', // 单位
 				background: '#FFFFFF', // 背景色
@@ -78,15 +79,17 @@
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
 			},
-			onRefersh(){				
+			onRefersh(){	
+				this.currentWallet = this.dal.WalletManage.getCurrWallet();
 				// 给二维码要生成的内容赋值
-				this.val = this.m_currentAsset.address;
+				this.val = this.currentWallet.address;
 				//给地址赋值
-				this.m_address = this.m_currentAsset.address;
+				this.m_address = this.currentWallet.address;
 				//给链类型赋值
-				this.m_cointype = this.m_currentAsset.name;
+				let m_chain = this.dal.Chain.getChainInfo(this.currentWallet.chaintype);
+				this.m_cointype = this.m_currentAsset.name?this.m_currentAsset.name:m_chain.name;
 			},
-			btnSavePic:function(){
+			btnSavePic:function(){ 
 				this.$refs['qrcode']._saveCode();
 			},
 			btnCopyFun: function() {
