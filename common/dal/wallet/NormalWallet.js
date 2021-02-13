@@ -42,6 +42,7 @@ const NormalWallet = {
 	//===========================普通钱包=================================
 	//增加普通钱包
 	addNormalWallet: function(chaintype, wallet) {
+		console.log("=addNormalWallet==wallet==", wallet)
 		let wallets = this.getNormalWalletsByType(chaintype)
 		console.log("=addNormalWallet==wallets==", wallets)
 		let maxid = 0;
@@ -70,6 +71,8 @@ const NormalWallet = {
 		if (this.m_normalWallet[chaintype] == null) {
 			this.m_normalWallet[chaintype] = [];
 		}
+		
+		console.log("=addNormalWallet==item==", item)
 		this.m_normalWallet[chaintype].push(item);
 		vue.util.StringUtils.setUserDefaults("normal_wallets_key", JSON.stringify(this.m_normalWallet));
 		return true;

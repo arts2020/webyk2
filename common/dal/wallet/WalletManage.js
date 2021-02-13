@@ -200,10 +200,10 @@ const WalletManage = {
 		}
 		return vue.Metadata.WalletType.UnKnow;
 	},
-	
-	getGasPrice:function(){
-		if(this.m_currWallet.chaintype){
-			
+
+	getGasPrice: function() {
+		if (this.m_currWallet.chaintype) {
+
 		}
 	},
 
@@ -241,12 +241,12 @@ const WalletManage = {
 		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
 			vue.dal.Tron.initCurrChain();
 		}
-		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_key");
+		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_key", chaintype);
 
 		this.onBalance();
 	},
 
-	setCurrWalletMoney: function(money,rmb) {
+	setCurrWalletMoney: function(money, rmb) {
 		console.log("=====setCurrWalletMoney=====", money)
 		this.m_currWallet.money = money;
 		this.m_currWallet.rmb = rmb;
