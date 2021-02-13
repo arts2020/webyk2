@@ -138,6 +138,7 @@
 						this.util.UiUtils.showToast('钱包名称不能为空')
 						return;
 					}
+					
 				}
 				this.password = "";
 				this.newWalletName="";

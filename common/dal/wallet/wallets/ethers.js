@@ -182,12 +182,12 @@ const Ethers = {
 
 			let priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
 			let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
-			
-			console.log('====priceInfo.price_usd==',priceInfo.price_usd)
-			console.log('====priceInfo.balance==',balance)
-			console.log('====configinfo.value==',configinfo.value)
+
+			console.log('====priceInfo.price_usd==', priceInfo.price_usd)
+			console.log('====priceInfo.balance==', balance)
+			console.log('====configinfo.value==', configinfo.value)
 			let rmb = priceInfo.price_usd * balance * configinfo.value;
-			console.log("==rmb==",rmb)
+			console.log("==rmb==", rmb)
 			vue.dal.WalletManage.setCurrWalletMoney(balance, rmb)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		})
@@ -195,7 +195,7 @@ const Ethers = {
 
 	async onTokenBalance(contractAddress) {
 		await EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((balance) => {
-			console.log("=====contractAddress===", contractAddress);
+			console.log("===11==contractAddress===", contractAddress);
 			console.log("=====contractAddress===balance===", balance);
 
 			vue.dal.ContractWallet.setContractMoney(this.fromAddress, contractAddress, balance)
@@ -208,14 +208,21 @@ const Ethers = {
 
 	async isContract(address) {
 		console.log("==isContract=address==", address)
-		let code = await this.m_web3.eth.getCode(address)
-		if (code == '0x') {
-			console.log('普通账户')
+		try {
+			let code = await this.m_web3.eth.getCode(address)
+			if (code == '0x') {
+				console.log('普通账户')
+				return false;
+			} else {
+				console.log('合约账户')
+				return true;
+			}
+		} catch (ex) {
+			console.log("===请输入有效的地址===")
+			// vue.util.UiUtils.showToast("请输入有效的地址");
 			return false;
-		} else {
-			console.log('合约账户')
-			return true;
 		}
+
 	}
 };
 
