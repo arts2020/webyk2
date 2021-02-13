@@ -314,7 +314,11 @@
 				for (let i = 0; i < this.currentAsset.length; i++) {
 					let item = this.currentAsset[i];
 					console.log("===item=", item)
-					this.dal.WalletManage.onTokenBalance(item.contract)
+					if(item.idx == 0){
+						this.dal.WalletManage.onBalance(item.contract)
+					}else{
+						this.dal.WalletManage.onTokenBalance(item.contract)
+					}
 				}
 			},
 

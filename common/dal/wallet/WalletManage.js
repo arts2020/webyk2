@@ -317,7 +317,7 @@ const WalletManage = {
 	},
 
 	onTokenBalance: function(contractAddress) {
-		console.log('==contractAddress==', contractAddress)
+		console.log('==333=contractAddress==', contractAddress)
 		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
 			vue.dal.Btc.onTokenBalance(contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
