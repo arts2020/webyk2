@@ -1,6 +1,6 @@
 <template>
 	<view :class="isselect== false ? 'itemStyle' : 'itemStyle2'" @click="selectItem">
-		<text>{{item.val}} </text>
+		<text>{{item.val}}</text>
 		<image @click.stop="closeItem" v-if="item.iswron == true" class="warn-icon" src="../../../../static/image/wallet/guide_word.png"></image>
 	</view>
 </template> 
@@ -18,9 +18,7 @@
 			},
 			item: {
 				type: Object,
-				default: {
-
-				},
+				default:()=>{},
 			},
 
 			iswron: {
@@ -36,7 +34,6 @@
 		model: {
 			prop: 'isselect',
 		},
-		
 		watch: {
 			isselect(val) {
 				this.cclog("=====watch=isselect====22===")
