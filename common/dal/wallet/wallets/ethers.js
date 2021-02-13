@@ -186,18 +186,12 @@ const Ethers = {
 	},
 
 	async onBalance() {
+		console.log("==3333===this.m_reqUrl====", this.m_reqUrl);
 		await EthUtils.getETHBalanceAsync(this.fromAddress, this.m_reqUrl).then((balance) => {
+			console.log("=====this.fromAddress====", this.fromAddress);
 			console.log("=====this.Ethers===balance====", balance);
 
-			let priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
-			let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
-
-			console.log('====priceInfo.price_usd==', priceInfo.price_usd)
-			console.log('====priceInfo.balance==', balance)
-			console.log('====configinfo.value==', configinfo.value)
-			let rmb = priceInfo.price_usd * balance * configinfo.value;
-			console.log("==rmb==", rmb)
-			vue.dal.WalletManage.setCurrWalletMoney(balance, rmb)
+			vue.dal.WalletManage.setCurrWalletMoney(balance)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		})
 	},

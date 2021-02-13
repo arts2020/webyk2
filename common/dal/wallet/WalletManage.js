@@ -19,8 +19,13 @@ const WalletManage = {
 	init: function() {
 		uni.cclog("======WalletManage init==========")
 		let currchaintype = vue.util.StringUtils.getUserDefaults("walletmanage_currwallet_key");
+		let idx = vue.util.StringUtils.getUserDefaults("walletmanage_currwallet_idx_key");
 		if (currchaintype) {
 			this.m_currChainType = parseInt(currchaintype)
+			this.m_currWalletIdx = parseInt(idx)
+			console.log("==2=this.m_currChainType====", this.m_currChainType)
+			console.log("==3=this.m_currWalletIdx====", this.m_currWalletIdx)
+			this.setCurrWallet(this.m_currChainType, this.m_currWalletIdx)
 		} else {
 			this.m_currChainType = vue.entities.Metadata.ChainType.Normal; //当前钱包
 		}
@@ -38,6 +43,7 @@ const WalletManage = {
 		this.m_currMainWallet = null;
 		this.m_currNormalWallet = null;
 		vue.util.StringUtils.removeUserDefaults("walletmanage_currwallet_key");
+		vue.util.StringUtils.removeUserDefaults("walletmanage_currwallet_idx_key");
 		uni.cclog("======WalletManage clear==========")
 	},
 
@@ -202,7 +208,7 @@ const WalletManage = {
 	},
 
 	getGasPrice: function() {
-		console.log("==this.m_currWallet.chaintype==",this.m_currWallet.chaintype)
+		console.log("==this.m_currWallet.chaintype==", this.m_currWallet.chaintype)
 		let res = {}
 		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
 			res = vue.dal.Btc.getGasPrice();
@@ -230,6 +236,7 @@ const WalletManage = {
 
 	//设置当前钱包
 	setCurrWallet: function(chaintype, idx) {
+		console.log("==setCurrWallet=333333333=", chaintype)
 		this.m_currChainType = chaintype;
 		this.m_currWalletIdx = idx;
 		this.m_currWallet = null;
@@ -253,6 +260,7 @@ const WalletManage = {
 			vue.dal.Tron.initCurrChain();
 		}
 		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_key", chaintype);
+		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_idx_key", idx);
 
 		this.onBalance();
 	},
@@ -260,11 +268,18 @@ const WalletManage = {
 	setCurrWalletMoney: function(money, rmb) {
 		console.log("=====setCurrWalletMoney=====", money)
 		this.m_currWallet.money = money;
-		this.m_currWallet.rmb = rmb;
 	},
 
 	getCurrWallet: function() {
 		console.log("=====getCurrWallet=====", this.m_currWallet)
+		let priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
+		let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
+		if (configinfo && priceInfo) {
+			let rmb = priceInfo.price_usd * this.m_currWallet.money * configinfo.value;
+			console.log("==rmb==", rmb)
+			this.m_currWallet.rmb = rmb;
+		}
+
 		return this.m_currWallet;
 	},
 

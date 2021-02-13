@@ -161,7 +161,9 @@ const EthUtils = {
 			id: "1"
 		}
 		let ret = await HttpUtils.request(url, "POST", pdata);
-
+		console.log("===getETHBalanceAsync=======address===",address)
+		console.log("===getETHBalanceAsync=========url=",url)
+		console.log("===getETHBalanceAsync==========",ret)
 		if (ret.id != '1' || ret.hasOwnProperty('error')) {
 			return false;
 		}

@@ -13,18 +13,19 @@ const HttpServert = {
 		this._components.push(vue.dal.Logger); // 			
 		this._components.push(vue.dal.Dapp); // 			
 		this._components.push(vue.dal.Address); // 			
-		
-		this._components.push(vue.dal.Common); // 			
-		this._components.push(vue.dal.Chain); //	
-		this._components.push(vue.dal.MainWallet); // /
-		this._components.push(vue.dal.NormalWallet); // 	 		
-		this._components.push(vue.dal.ContractWallet); // 	 		
+		this._components.push(vue.dal.Common); // 					 		
 
 		this._components.push(vue.dal.Btc); // 
 		this._components.push(vue.dal.Eos); // 
 		this._components.push(vue.dal.Eth); // 
 		this._components.push(vue.dal.Lotus); // 
-		this._components.push(vue.dal.Tron); // 
+		this._components.push(vue.dal.Tron); // 	
+		
+		this._components.push(vue.dal.Chain); //	
+		this._components.push(vue.dal.ContractWallet); //
+		this._components.push(vue.dal.MainWallet); // /
+		this._components.push(vue.dal.NormalWallet); // 	 		
+		this._components.push(vue.dal.WalletManage); // 
 	
 		this.initComps();
 

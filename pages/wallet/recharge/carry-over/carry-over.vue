@@ -174,10 +174,7 @@
 					this.util.UiUtils.showToast("请输入转出的地址")
 					return;
 				}
-				if (!this.dal.Wallter.isValidAddress(address)) {
-					this.util.UiUtils.showToast("请输入正确的地址")
-					return;
-				}
+				
 				if (this.m_balane <= 0) {
 					this.util.UiUtils.showToast(this.m_asset + "可用余额不足")
 					return;
