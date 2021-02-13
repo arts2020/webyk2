@@ -12,6 +12,7 @@ const HttpServert = {
 		this._components.push(vue.dal.Character); // 个人
 		this._components.push(vue.dal.Logger); // 			
 		this._components.push(vue.dal.Dapp); // 			
+		this._components.push(vue.dal.Address); // 			
 		
 		this._components.push(vue.dal.Common); // 			
 		this._components.push(vue.dal.Chain); //	

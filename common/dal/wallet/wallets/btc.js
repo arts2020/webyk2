@@ -153,14 +153,17 @@ const Btc = {
 		console.log("=====Btc===sendTransaction====", txid);
 	},
 
-
 	getBalance: function() {
 		console.log("=====Btc===this.m_balance====", this.m_balance);
 		return this.m_balance;
 	},
-
-	onBalance: function() {
-		let address = vue.dal.WalletManage.getAddress()
+	
+	async onTokenBalance(contractAddress) {
+		
+	},
+	
+	async onBalance() {
+		return 0;//let address = vue.dal.WalletManage.getAddress()
 	},
 };
 
