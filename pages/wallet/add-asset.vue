@@ -4,11 +4,11 @@
 		<view class="search-header">
 			<view class="search-frame">
 				<uni-icons type="search" class="search-icon" size="20" color="#CCD3D9" @tap="goSearch"></uni-icons>
-				<input type="text" placeholder-style="color: #a9b7c4;" placeholder="请输入token名称" v-model="keyword" confirm-type="search"
+				<input type="text" placeholder-style="color: #a9b7c4;" :placeholder="dapp_search_placeholder" v-model="keyword" confirm-type="search"
 				 @confirm="goSearch" />
 				<uni-icons v-if="keyword" type="closeempty" size="20" style="font-weight: 600;" color="#444444" @tap="clear"></uni-icons>
 			</view>
-			<text class="cancell-txt" @tap="btnBack">取消</text>
+			<text class="cancell-txt" @tap="btnBack">{{btnstring_cancle}}</text>
 		</view>
 		<scroll-view scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
 			<view class="list-item" v-for="(item,index) in showList" :key="index">
@@ -57,9 +57,6 @@
 
 			};
 		},
-		computed: {
-		
-		},
 		onLoad(option) {
 			let params = JSON.parse(option.query);
 			if (Object.keys(params).length != 0) {
@@ -67,6 +64,7 @@
 				this.address = params.address
 				this.m_idx = params.idx
 			}
+			this.initword();
 		},
 		onShow() {
 			let _this = this;
@@ -79,6 +77,10 @@
             this.onRefersh()
 		},
 		methods: {
+			initword(){
+			    this.dapp_search_placeholder = this.getLocalStr("dapp_search_placeholder");
+			    this.btnstring_cancle = this.getLocalStr("btnstring_cancle");
+			},
 			btnBack: function() {
 				this.util.UiUtils.switchToPage("wallet-index", "add-asset", {}, "switchTab");
 			},
@@ -88,15 +90,15 @@
 				this.allAssetList=[];
 				
 				this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
-				let list = this.dal.Chain.getAssets(this.chaintype).assets;
+				let list = this.dal.Common.onGetTokenListData()||[];
 			
 				for(let i=0;i<list.length;i++){
 					let el = list[i]
 					//isshow为true的删掉不显示，为false的要显示
-					if(el.isshow){
-						list.splice(i,1);
-						continue;
-					}
+					// if(el.isshow){
+					// 	list.splice(i,1);
+					// 	continue;
+					// }
 					if(!el.img){
 						el.img = 'default.png';
 					}
@@ -120,10 +122,10 @@
 				this.showList = list;
 			},
 			async goSearch() {
-				
+				let res  = ''
 				if(this.chaintype==1){
 					//ETH
-					let res = await this.dal.Eth.isContract(this.keyword)
+					res = await this.dal.Eth.isContract(this.keyword)
 				}else if(this.chaintype==2){
 					//以后其他的
 				}
@@ -131,9 +133,6 @@
 				if(res){
 					//地址有效   先再app已有的代币中找
 					this.showList = this.allAssetList.filter(el=>el.contract==this.keyword)
-					if(this.showList.length==0){
-						
-					}
 				}else{
 					this.util.UiUtils.showToast('地址无效');
 				}

@@ -4,9 +4,9 @@
 		<view class="search-header">
 			<view class="search-frame">
 				<uni-icons type="search" class="search-icon" size="20" color="#CCD3D9" @tap="gosearch"></uni-icons>
-				<input type="text" placeholder="请输入token名称" v-model="keyword" confirm-type="search" @confirm="gosearch" placeholder-style="color: #a9b7c4;"/>
+				<input type="text" :placeholder="dapp_search_placeholder" v-model="keyword" confirm-type="search" @confirm="gosearch" placeholder-style="color: #a9b7c4;"/>
 			</view>
-			<text class="cancell-txt" @tap="btnBack">取消</text>
+			<text class="cancell-txt" @tap="btnBack">{{btnstring_cancle}}</text>
 		</view>
 		<view class="serach-content">
 			<view class="content-list" v-if="hasData">
@@ -59,10 +59,9 @@
 				]
 			};
 		},
-		created() {
-		},
-		destroyed() {
-		},
+        onLoad() {
+        	this.initword()
+        },
 		onShow() {
 			let _this = this;
 			//获取高度
@@ -73,6 +72,10 @@
 			});
 		},
 		methods:{
+			initword(){
+			    this.dapp_search_placeholder = this.getLocalStr("dapp_search_placeholder");
+			    this.btnstring_cancle = this.getLocalStr("btnstring_cancle");
+			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},

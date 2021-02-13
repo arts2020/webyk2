@@ -1,23 +1,23 @@
 <template>
 	<view class="about-us">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="关于我们" @clickLeft="btnBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="about_us_title" @clickLeft="btnBack"></uni-nav-bar>
 		<view class="banner">
 			<image src="../../../static/image/mine/logo.png" />
 		    <view class="youkey">YouKey</view>
 			<view class="currentVersion">
-				当前版本：{{info.version}}
+				{{about_us_str1}}：{{info.version}}
 			</view>
 		</view>
 		<view class="about-menu">
-			<text>官网</text>
+			<text>{{about_us_str2}}</text>
 			<text>{{info.website}}</text>
 		</view>
 		<view class="about-menu">
-			<text>论坛</text>
+			<text>{{about_us_str3}}</text>
 			<text>{{info.forum}}</text>
 		</view>
 		<view class="about-menu">
-			<text>微信公众号</text>
+			<text>{{about_us_str4}}</text>
 			<text>{{info.wechat}}</text>
 		</view>
 		<view class="about-menu">
@@ -45,7 +45,17 @@
 				}
 			}
 		},
+		onLoad() {
+			this.initword()
+		},
 		methods:{
+			initword(){
+				this.about_us_title = this.getLocalStr("about_us_title");
+				this.about_us_str1 = this.getLocalStr("about_us_str1");
+				this.about_us_str2 = this.getLocalStr("about_us_str2");
+				this.about_us_str3 = this.getLocalStr("about_us_str3");
+				this.about_us_str4 = this.getLocalStr("about_us_str4");
+			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},
@@ -58,11 +68,11 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight -44;
 				}
 			});
-	       this.info.version = this.dal.Common.onGetConfigInfo('app_version').value;
-		   this.info.website = this.dal.Common.onGetConfigInfo('app_website').value
-		   this.info.twitter = this.dal.Common.onGetConfigInfo('app_connect_twitter').value
-		   this.info.forum = this.dal.Common.onGetConfigInfo('app_connect_forum').value
-		   this.info.wechat = this.dal.Common.onGetConfigInfo('app_connect_wechat').value
+	       this.info.version = this.dal.Common.onGetConfigInfo('app_version')?this.dal.Common.onGetConfigInfo('app_version').value:"no data";
+		   this.info.website = this.dal.Common.onGetConfigInfo('app_website')?this.dal.Common.onGetConfigInfo('app_website').value:"no data"
+		   this.info.twitter = this.dal.Common.onGetConfigInfo('app_connect_twitter')?this.dal.Common.onGetConfigInfo('app_connect_twitter').value:"no data"
+		   this.info.forum = this.dal.Common.onGetConfigInfo('app_connect_forum')?this.dal.Common.onGetConfigInfo('app_connect_forum').value:"no data"
+		   this.info.wechat = this.dal.Common.onGetConfigInfo('app_connect_wechat')?this.dal.Common.onGetConfigInfo('app_connect_wechat').value:"no data"
 		   
 		}
 	}

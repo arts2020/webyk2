@@ -44,9 +44,9 @@
 			}
 		},
 		onLoad() {
-			this.title = uni.getLocalStr("help_title");
-			this.topic1 = uni.getLocalStr("help_title_1");
-			this.topic2 = uni.getLocalStr("help_title_2");
+			this.title = this.getLocalStr("help_title");
+			this.topic1 = this.getLocalStr("help_title_1");
+			this.topic2 = this.getLocalStr("help_title_2");
 			this.hotList = agreeAndHelp.help_hotQuestion;
 			this.typeList = agreeAndHelp.help_question_kind;
 		},

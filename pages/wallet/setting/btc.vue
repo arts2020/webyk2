@@ -1,9 +1,9 @@
 <template>
 	<view class="setting-fee">
-		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" title="矿工费设置" @clickLeft="btnBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" :title="seeting_fee_title" @clickLeft="btnBack"></uni-nav-bar>
 	    <view class="fee-info">
 			<view class="top-box">
-				<text>矿工费</text>
+				<text>{{seeting_fee_str1}}</text>
 				<view class="fee-desc">
 					<view class="coin">{{currentFee.money}}{{name}}</view>
 					<view class="rmb">￥{{currentFee.rmb}}</view>
@@ -15,20 +15,20 @@
 			</view>
 		</view>
 		<view class="setting-rate">
-			<view class="title">矿工费率</view>
+			<view class="title">{{seeting_fee_str2}}</view>
 			<view class="setting-content">
 				<view @tap="handleCheck(index)" class="list-item" v-for="(item,index) in menuList" :key="index">
 					<view class="info">
 						<view class="p1">{{item.title}}</view>
 						<view class="p2">{{item.unitPrice}}&nbsp;&nbsp;sat/b</view>
 					</view>
-					<text><{{item.time}}分钟</text>
+					<text><{{item.time}}{{seeting_fee_str3}}</text>
 					<image class="check-icon" v-if="activeIndex==index" src="../../../static/image/mine/checked.png" mode=""></image>
 				    <view v-else style="width: 24rpx;height: 28rpx;"></view>
 				</view>
 			</view>
 		</view>
-	    <view class="confirm-ok" @click="btnConfirm">确定</view>
+	    <view class="confirm-ok" @click="btnConfirm">{{btnstring_confirm}}</view>
 	</view>
 </template>
 
@@ -58,11 +58,19 @@
 					this.name = params.name
 				}
 			}
+			this.initword()
 		},
 		onShow() {
 			this.onRefersh();
 		},
 		methods:{
+			initword(){
+				this.btnstring_confirm = this.getLocalStr("btnstring_confirm")
+				this.seeting_fee_str1 = this.getLocalStr("seeting_fee_str1")
+				this.seeting_fee_str2 = this.getLocalStr("seeting_fee_str2")
+				this.seeting_fee_str3 = this.getLocalStr("seeting_fee_str3")
+				this.seeting_fee_title = this.getLocalStr("seeting_fee_title")
+			},
 			handleCheck(index){
 				this.activeIndex = index;
 				this.currentFee.unitPrice = this.menuList[index].unitPrice;

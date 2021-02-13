@@ -1,6 +1,6 @@
 <template>
 	<view class="wallet-index">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="管理钱包" @clickLeft="btnBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="wallet_title_str1" @clickLeft="btnBack"></uni-nav-bar>
 	    <view class="main-content" :style="{ height: scrollHeight + 'px' }">
 			<scroll-view class="main-left" scroll-y="true" >
 				<view class="nav-menu">
@@ -25,8 +25,8 @@
 				</view>
 				<view class="main-c" v-if="active==-1">
 					<view class="top-title">
-						<text>身份钱包</text>
-						<text @tap="goManage">管理</text>
+						<text>{{wallet_title_str2}}</text>
+						<text @tap="goManage">{{btnstring_manage}}</text>
 					</view>
 					<view class="menu-list">
 						<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'" @tap="goDetail(item)">
@@ -38,14 +38,14 @@
 						</view>
 						<view class="add-coin" @tap="goAddCoin">
 							<view class="tip-msg">
-								<view class="tip-title">添加币种</view>
-								<view class="content">支持EOS、TRX、CKB、KSM、FIL</view>
+								<view class="tip-title">{{wallet_title_str3}}</view>
+								<view class="content">{{wallet_title_str4}}</view>
 							</view>
 							<uni-icons type="plus" size="20" color="#c2c2c2"></uni-icons>
 						</view>
 					</view>
 					<view class="create-import" v-if="single_wallets.length">
-						<view class="top-title">创建/导入</view>
+						<view class="top-title">{{btnstring_create}}/{{btnstring_import}}</view>
 						<view class="list-item" @tap="goDetail(item)" :style="'background: url(../../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'" v-for="(item,index) in single_wallets" :key="index">
 							<view class="wallet-name">
 								<text>{{item.name}}</text>
@@ -59,16 +59,16 @@
 			</scroll-view>
 			<view class="btn-ok" @tap="goAddWallet">
 				<uni-icons type="plusempty" size="30" color="#7C7C7C"></uni-icons>
-				<text>添加钱包</text>
+				<text>{{wallet_title_str6}}</text>
 			</view>
 		    <uni-popup type="bottom" ref="selectPop">
 				<view class="statusPop">
 					<view class="top-menu">
-						<view class="top-title">添加身份</view>
-						<view class="menu" @tap="goCreate">创建</view>
-						<view class="menu" @tap="goImport">导入</view>
+						<view class="top-title">{{wallet_title_str5}}</view>
+						<view class="menu" @tap="goCreate">{{btnstring_create}}</view>
+						<view class="menu" @tap="goImport">{{btnstring_import}}</view>
 					</view>
-					<view class="botto-btn" @tap="cancell">取消</view>
+					<view class="botto-btn" @tap="cancell">{{btnstring_cancle}}</view>
 				</view>
 			</uni-popup>
 		</view>
@@ -118,6 +118,9 @@
 				m_mychains:[]
 			}
 		},
+		onLoad() {
+			this.initword();
+		},
 		onShow() {
 			let _this = this;
 			//获取高度
@@ -129,6 +132,19 @@
 			this.onRefresh();
 		},
 		methods: {
+			initword(){
+				this.btnstring_cancle = this.getLocalStr("btnstring_cancle");
+				this.btnstring_create = this.getLocalStr("btnstring_create");
+				this.btnstring_import = this.getLocalStr("btnstring_import");
+				this.btnstring_manage = this.getLocalStr("btnstring_manage");
+				
+				this.wallet_title_str1 = this.getLocalStr("wallet_title_str1");
+				this.wallet_title_str2 = this.getLocalStr("wallet_title_str2");
+				this.wallet_title_str3 = this.getLocalStr("wallet_title_str3");
+				this.wallet_title_str4 = this.getLocalStr("wallet_title_str4");
+				this.wallet_title_str5 = this.getLocalStr("wallet_title_str5");
+				this.wallet_title_str6 = this.getLocalStr("wallet_title_str6");
+			},
 			cancell(){
 				this.$refs.selectPop.close()
 			},

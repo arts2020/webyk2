@@ -268,7 +268,7 @@ const Common = {
 	handleGetTokenList: function(packetIn) {
 		uni.cclog("==========handleGetTokenList==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
-			this.m_userRecords = packetIn.pktin.data;
+			this.m_tokenList = packetIn.pktin.data;
 			console.log('==============================',this.m_userRecords)
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenList);
 		} else {
@@ -277,7 +277,7 @@ const Common = {
 		vue.util.UiUtils.hideLoading();
 	},
 	onGetTokenListData: function() {
-		return this.m_userRecords;
+		return this.m_tokenList;
 	},
 	//代币明细接口
 	onGetTokenDetail: function() {
@@ -288,8 +288,9 @@ const Common = {
 	handleGetTokenDetail: function(packetIn) {
 		uni.cclog("==========handleGetTokenDetail==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
-			this.m_userRecords = packetIn.pktin.data.list;
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenDetail);
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenDetail,{
+				data: packetIn.pktin.data
+			});
 		} else {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
 		}

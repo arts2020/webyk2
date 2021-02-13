@@ -1,6 +1,6 @@
 <template>
 	<view class="wallet-index">
-		<uni-nav-bar v-if="hasWallet" background-color="#FAFBFF" :statusBar="true" :fixed="true" title="钱包" @clickLeft="openList">
+		<uni-nav-bar v-if="hasWallet" background-color="#FAFBFF" :statusBar="true" :fixed="true" :title="wallet_index_title" @clickLeft="openList">
 			<view class="icon" slot="left">
 				<image style="width: 34rpx;height: 29rpx;margin-left: 25rpx;" src="../../static/image/index/list.png" mode=""></image>
 			</view>
@@ -21,7 +21,7 @@
 			</view>
 			<view class="asset">
 				<view class="top-btn">
-					<text>资产</text>
+					<text>{{wallet_index_asset}}</text>
 					<image v-if="m_chain.isaddassets" src="../../static/image/index/plus.png" mode="" @click="goAddAsset"></image>
 				</view>
 				<scroll-view scroll-y="true" class="coin-list" :show-scrollbar="false">
@@ -39,8 +39,8 @@
 				<view class="main-context">
 					<view class="top-content">
 						<uni-icons type="closeempty" size="30" @tap="closePop"></uni-icons>
-						<text>选择钱包</text>
-						<text style="color: #4c72ef;font-size: 30rpx;" @tap="goManage">管理</text>
+						<text>{{wallet_title_str7}}</text>
+						<text style="color: #4c72ef;font-size: 30rpx;" @tap="goManage">{{btnstring_manage}}</text>
 					</view>
 					<view class="main-content">
 						<scroll-view class="main-left" scroll-y="true">
@@ -68,7 +68,7 @@
 							</view>
 							<view class="main-c" v-else>
 								<view class="top-title">
-									<text>身份钱包</text>
+									<text>{{wallet_title_str2}}</text>
 								</view>
 								<view class="menu-list">
 									<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'"
@@ -81,7 +81,7 @@
 									</view>
 								</view>
 								<view class="create-import" v-if="single_wallets.length">
-									<view class="top-title">创建/导入</view>
+									<view class="top-title">{{btnstring_create}}/{{btnstring_import}}</view>
 									<view class="list-item" @tap="checkedItem(item)" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'"
 									 v-for="(item,index) in single_wallets" :key="index">
 										<view class="wallet-name">
@@ -102,28 +102,28 @@
 		<!-- 没有钱包 -->
 		<view class="no-wallet" v-else>
 			<view class="top-banner">
-				<view class="top-word">多链钱包，资产自我掌控</view>
+				<view class="top-word">{{wallet_index_nodata_str1}}</view>
 				<image class="bannerImg" src="../../static/image/index/top-banner.png" mode=""></image>
 			</view>
 			<view class="no-main-c">
 				<view class="tips">
-					<view class="title">数字资产钱包</view>
-					<view class="tip-content">支持BTC、ETH、EOS、TRX、FIL ...</view>
+					<view class="title">{{wallet_index_nodata_str2}}</view>
+					<view class="tip-content">{{wallet_title_str4}} ...</view>
 				</view>
 				<view class="menu-nav">
 					<view class="menu-item" @tap="importWallet">
 						<image class="menu-icon" src="../../static/image/index/hsWallet.png" mode=""></image>
 						<view class="menu-msg">
-							<view class="msg-title">我有钱包</view>
-							<view class="msg-subT">导入钱包</view>
+							<view class="msg-title">{{wallet_index_nodata_str3}}</view>
+							<view class="msg-subT">{{wallet_index_nodata_str4}}</view>
 						</view>
 						<image class="right_arr" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 					</view>
 					<view class="menu-item" @tap="createWallet">
 						<image class="menu-icon" src="../../static/image/index/noWallet.png" mode=""></image>
 						<view class="menu-msg">
-							<view class="msg-title">我没有钱包</view>
-							<view class="msg-subT">创建钱包</view>
+							<view class="msg-title">{{wallet_index_nodata_str5}}</view>
+							<view class="msg-subT">{{wallet_index_nodata_str6}}</view>
 						</view>
 						<image class="right_arr" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 					</view>
@@ -141,6 +141,7 @@
 			noData
 		},
 		created() {
+			this.initword();
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtToKenBalance, this.onRefresh);
 		},
@@ -205,6 +206,24 @@
 			});
 		},
 		methods: {
+			initword(){
+			    this.btnstring_manage = this.getLocalStr("btnstring_manage");
+				this.wallet_index_title = this.getLocalStr("wallet_index_title");
+				this.wallet_title_str2 = this.getLocalStr("wallet_title_str2");
+				this.wallet_index_asset = this.getLocalStr("wallet_index_asset");
+				this.wallet_title_str7 = this.getLocalStr("wallet_title_str7");
+				this.btnstring_create = this.getLocalStr("btnstring_create");
+				this.btnstring_import = this.getLocalStr("btnstring_import");
+				this.wallet_index_asset = this.getLocalStr("wallet_index_asset");
+				
+				this.wallet_title_str4 = this.getLocalStr("wallet_title_str4");
+				this.wallet_index_nodata_str1 = this.getLocalStr("wallet_index_nodata_str1");
+				this.wallet_index_nodata_str2 = this.getLocalStr("wallet_index_nodata_str2");
+				this.wallet_index_nodata_str3 = this.getLocalStr("wallet_index_nodata_str3");
+				this.wallet_index_nodata_str4 = this.getLocalStr("wallet_index_nodata_str4");
+				this.wallet_index_nodata_str5 = this.getLocalStr("wallet_index_nodata_str5");
+				this.wallet_index_nodata_str6 = this.getLocalStr("wallet_index_nodata_str6");
+			},
 			goRechange() {
 				this.$openPage({
 					name: "recharge-currency"

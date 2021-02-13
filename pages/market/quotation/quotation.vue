@@ -2,21 +2,21 @@
 	<view class="quotation-index">
 		<view class="prodect-title">
 			<!-- <view :class="active==0?'pro active-index':'pro'" @tap="updateMenu(0)">自选</view> -->
-			<view :class="active==1?'pro active-index':'pro'" @tap="updateMenu(1)">市值</view>
+			<view :class="active==1?'pro active-index':'pro'" @tap="updateMenu(1)">{{mark_index_title_3}}</view>
 			<view :class="active==2?'pro active-index':'pro'" @tap="updateMenu(2)">DeFi</view>
 		</view>
 		<view class="quotation-info">
 			<view class="info-title" v-if="active==0">
-				成交量
+				{{mark_index_title_6}}
 			</view>
 			<view class="info-title" v-else>
-				市值
+				{{mark_index_title_3}}
 			</view>
 			<view class="info-title">
-				价格(¥)
+				{{mark_index_title_4}}(¥)
 			</view>
 			<view class="info-title">
-				24H涨幅
+				{{mark_index_title_5}}
 			</view>
 		</view> 
 		<!-- <scroll-view v-if="active==0" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
@@ -36,7 +36,7 @@
 				</view>
 			</view>
 			<view class="nodata_add" @tap="goAdd">
-				添加
+				{{btnstring_add}}
 			</view>
 		</scroll-view> -->
 		<scroll-view v-if="active==1" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">	
@@ -96,6 +96,7 @@
 		    	}
 		    });
 			this.onRefersh()
+			this.initWord()
 		},
 		
 		destroyed() {
@@ -129,6 +130,14 @@
 		},
 		
 		methods: {
+			initWord(){
+				//获取所有中文文字
+				this.mark_index_title_3 = this.getLocalStr("mark_index_title_3");
+				this.mark_index_title_4 = this.getLocalStr("mark_index_title_4");
+			    this.mark_index_title_5 = this.getLocalStr("mark_index_title_5");
+				this.mark_index_title_6 = this.getLocalStr("mark_index_title_6");
+				this.btnstring_add = this.getLocalStr("btnstring_add")
+			},
 			onRefersh(){
 				//清空之前数据重新获取
 				this.m_marketList = [];

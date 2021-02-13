@@ -2,8 +2,8 @@
 	<view class="market-index">
 		<bar ref="bar"></bar>
 		<view class="nav-menu">
-			<view :class="active==0?'menu active-index':'menu'" @tap="updateMenu(0)">交易</view>
-			<view :class="active==1?'menu active-index':'menu'" @tap="updateMenu(1)">行情</view>
+			<view :class="active==0?'menu active-index':'menu'" @tap="updateMenu(0)">{{mark_index_title_1}}</view>
+			<view :class="active==1?'menu active-index':'menu'" @tap="updateMenu(1)">{{mark_index_title_2}}</view>
 			
 			<!-- <uni-icons v-if="active==1" type="search" class="search-icon" size="20" color="#000000" @tap="goAdd"></uni-icons> -->
 		</view>
@@ -32,19 +32,19 @@
 					
 						<view class="selsect-num">
 							<view>
-								<input type="text" v-model="output_num" placeholder-style="color:#c2c2c2" placeholder="转出数量"/>
+								<input type="text" v-model="output_num" placeholder-style="color:#c2c2c2" :placeholder="mark_trans_str1"/>
 							</view>
 							<view>
-								<input type="text" v-model="input_num" placeholder-style="color:#c2c2c2" placeholder="收到数量" value="收到数量" />
+								<input type="text" v-model="input_num" placeholder-style="color:#c2c2c2" :placeholder="mark_trans_str2"  />
 							</view>
 						</view>
 					
 						<view class="rate-fee">
-							<view class="rate">汇率 1{{assetArr[coin_L].name}}=={{assetArr[coin_R].name}}</view>
-						    <view class="fee">手续费 0.3%</view>
+							<view class="rate">{{mark_trans_str3}} 1{{assetArr[coin_L].name}}=={{assetArr[coin_R].name}}</view>
+						    <view class="fee">{{mark_trans_str4}} 0.3%</view>
 						</view>
 					</view>
-					<view class="btn-ok">立即兑换</view>
+					<view class="btn-ok">{{btnstring_change}}</view>
 				</view>
 			</swiper-item>
 			<swiper-item>
@@ -68,18 +68,9 @@
 			Quotation,
 			uniIcons
 		},
-		// created() {
-		// 	this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetAssetprice, this.getAssetPrice);
-		// 	this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetDefi, this.getDefi);
-		// 	this.onRefersh()		   
-		// },
-		// destroyed() {
-		// 	this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetDefi, this.getDefi);
-		// 	this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetAssetprice, this.onGetAssetPrice);
-		// },
-		// onPullDownRefresh() {
-		// 	this.onRefersh()
-		// },
+		onLoad() {
+			this.initWord()
+		},
 		onShow() {
 			//获取高度
 			uni.getSystemInfo({
@@ -98,7 +89,6 @@
 				active:1,
 				// ishow:true,
 				scrollHeight:0,
-				// 全部代币数组
 				assetArr:[
 					{
 						chaintype: 2,
@@ -120,6 +110,16 @@
 			}
 		},
 		methods:{
+			initWord(){
+				//获取所有中文文字  mark_trans_str1
+				this.mark_index_title_1 = this.getLocalStr("mark_index_title_1");
+				this.mark_index_title_2 = this.getLocalStr("mark_index_title_2");
+				this.mark_trans_str1 = this.getLocalStr("mark_trans_str1");
+				this.mark_trans_str2 = this.getLocalStr("mark_trans_str2");
+				this.mark_trans_str3 = this.getLocalStr("mark_trans_str3");
+				this.mark_trans_str4 = this.getLocalStr("mark_trans_str4");
+				this.btnstring_change = this.getLocalStr("btnstring_change");
+			},
 			onRefersh(){
 				// 重新获取获取所有资产
 				this.assetArr = [

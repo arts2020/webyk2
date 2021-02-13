@@ -1,6 +1,6 @@
 <template>
 	<view class="addWallet">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="添加钱包" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="wallet_title_str6" @clickLeft="goBack"></uni-nav-bar>
 		<view class="coin-list">
 			<view class="list-item" v-for="(item,index) in coinList" :key="index" @click="handleChecked(item)">
 				<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
@@ -18,13 +18,13 @@
 				<view class="creat-wallet" @tap="goCreate">
 					<image class="icon" src="../../static/image/index/creat-wallet.png" mode=""></image>
 					<view class="coin-name">
-						<view class="short-N">创建钱包</view>
-						<view class="full_N">还未拥有钱包</view>
+						<view class="short-N">{{wallet_index_nodata_str6}}</view>
+						<view class="full_N">{{wallet_index_nodata_str7}}</view>
 					</view>
 					<image class="checked-icon" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
 				<view class="menu-list">
-					<view class="menu-title">导入钱包</view>
+					<view class="menu-title">{{wallet_index_nodata_str4}}</view>
 					<view @tap="goRecover(index)" class="list-item" v-for="(item,index) in menuList" :key="index" @click="handleChecked(item)">
 						<image class="icon" :src="item.logo" mode=""></image>
 						<view class="coin-name">
@@ -43,19 +43,20 @@
 	export default {
 		name: "addWallet",
 		created() {
+			this.initword();
 			this.onRefresh()
 		},
 		data() {
 			return {
 				menuList: [{
 						logo: "../../static/image/index/word.png",
-						title: "助记词",
-						subTitle: "助记词由单词组成，以空格隔开"
+						title: '',
+						subTitle: ""
 					},
 					{
 						logo: "../../static/image/index/privateword.png",
-						title: "私钥",
-						subTitle: "明文私钥字符"
+						title: "",
+						subTitle: ""
 					},
 				],
 				activeCoin: {},
@@ -63,6 +64,21 @@
 			};
 		},		
 		methods: {
+			initword(){
+			    this.wallet_title_str6 = this.getLocalStr("wallet_title_str6");
+				this.wallet_index_nodata_str4 = this.getLocalStr("wallet_index_nodata_str4");
+				this.wallet_index_nodata_str6 = this.getLocalStr("wallet_index_nodata_str6");
+				this.wallet_index_nodata_str7 = this.getLocalStr("wallet_index_nodata_str7");
+				this.wallet_title_str8 = this.getLocalStr("wallet_title_str8");
+				this.wallet_title_str9 = this.getLocalStr("wallet_title_str9");
+				this.wallet_title_str10 = this.getLocalStr("wallet_title_str10");
+				this.wallet_title_str11 = this.getLocalStr("wallet_title_str11");
+				
+				this.menuList[0].title = this.wallet_title_str8;
+				this.menuList[0].subTitle = this.wallet_title_str9;
+				this.menuList[1].title = this.wallet_title_str10;
+				this.menuList[1].subTitle = this.wallet_title_str11;
+			},
 			onRefresh:function(){
 				//添加默认图标
 				let list = this.dal.Chain.getChainList();

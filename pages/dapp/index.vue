@@ -19,13 +19,12 @@
 		</scroll-view>
 		<uni-popup type="bottom" ref="popup">
 			<view class="tip-Pop">
-				<view class="top-title">访问说明</view>
-				<view class="tip-content">
-					你正在访问第三方DApp，你在第三方DApp上的使用行为将适用于第三方DApp的《用户协议》和《隐私政策,有第三方DApp直接想你承担责任。
+				<view class="top-title">{{dapp_tip_title}}</view>
+				<view class="tip-content">{{dapp_tip_content}}
 				</view>
 				<view class="btns">
-					<view class="cancell" @tap="cancell">退出</view>
-					<view class="confirm-ok" @tap="confirm">确认</view>
+					<view class="cancell" @tap="cancell">{{btnstring_logout}}</view>
+					<view class="confirm-ok" @tap="confirm">{{btn_confirms}}</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -58,6 +57,8 @@
 		},
 		onLoad() {
 			this.onRefersh();
+			
+			this.initWord()
 		},
 		onShow() {
 			uni.getSystemInfo({
@@ -70,6 +71,13 @@
 			this.onRefersh();
 		},
 		methods: {
+			initWord(){
+				//获取所有中文文字
+				this.btn_confirms = this.getLocalStr("btnstring_confirm");
+				this.btnstring_logout = this.getLocalStr("btnstring_logout");
+				this.dapp_tip_title = this.getLocalStr("dapp_tip_title");
+				this.dapp_tip_content = this.getLocalStr("dapp_tip_content");
+			},
 			onRefersh(){
 				this.list = [];
 				this.currentDapp = {};

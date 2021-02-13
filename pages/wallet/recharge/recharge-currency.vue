@@ -1,6 +1,6 @@
 <template>
-	<view class="recharge-currency">
-		<uni-nav-bar background-color="#4C72EF" color="#ffffff" left-icon="back" :statusBar="true" :fixed="true" title="收款" @clickLeft="btnBack"></uni-nav-bar>
+	<view class="recharge-currency" :style="'background-color:'+bgcolor">
+		<uni-nav-bar :background-color="bgcolor" color="#ffffff" left-icon="back" :statusBar="true" :fixed="true" title="收款" @clickLeft="btnBack"></uni-nav-bar>
 		<view class="main-c">
 			<view class="title">
 				扫描二维码，充值{{m_cointype}}
@@ -42,6 +42,7 @@
 		},
 		data() {
 			return {
+				bgcolor:"",
 				currentWallet:{},
 				m_currentAsset:{},
 				m_address: "",
@@ -88,6 +89,21 @@
 				//给链类型赋值
 				let m_chain = this.dal.Chain.getChainInfo(this.currentWallet.chaintype);
 				this.m_cointype = this.m_currentAsset.name?this.m_currentAsset.name:m_chain.name;
+				//根据链的类型选背景色
+				switch (this.currentWallet.chaintype){
+					case 1:this.bgcolor='#4C72EF';
+						break;
+					case 2:this.bgcolor='#FE9E02';
+						break;
+					case 3:this.bgcolor='#F57778';
+						break;
+					case 4:this.bgcolor='#42C1CA';
+						break;
+					case 5:this.bgcolor='#3A3556';
+						break;
+					default:this.bgcolor = '#4C72EF'
+						break;
+				}
 			},
 			btnSavePic:function(){ 
 				this.$refs['qrcode']._saveCode();

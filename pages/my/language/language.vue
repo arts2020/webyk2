@@ -13,7 +13,9 @@
 <script>
 	export default {
 		created() {
-				this.onRefresh();
+		  this.initword()
+	      this.onRefresh();
+				
 		},
 		data() {
 			return {
@@ -22,6 +24,10 @@
 			};
 		},
 		methods: {
+			initword(){
+				this.Language_CN = this.getLocalStr('Language_CN')
+				this.Language_EN = this.getLocalStr('Language_EN')
+			},
 			onRefresh: function() {
 				this.menuList = [];
 				for (let i = this.entities.Metadata.GameLanguage.CN; i <= this.entities.Metadata.GameLanguage.EN; i++) {
@@ -29,9 +35,9 @@
 						type: i
 					}
 					if (i == this.entities.Metadata.GameLanguage.CN) {
-						item.name = "简体中文"
+						item.name = this.Language_CN
 					} else if (i == this.entities.Metadata.GameLanguage.EN) {
-						item.name = "英文"
+						item.name = this.Language_EN
 					}
 					this.menuList.push(item);
 				}
@@ -43,6 +49,7 @@
 			goSave() {
 				console.log("=this.active==",this.active)
 				this.dal.Setting.setSysLanguage(this.active)
+				this.$openPage({name:"mine-mine",gotype:"switchTab"})
 			},
 			handleCheck(e) {
 				console.log("=e==",e)

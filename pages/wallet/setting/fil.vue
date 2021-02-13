@@ -55,11 +55,19 @@
 					this.name = params.name
 				}
 			}
+			this.initword()
 		},
 		onShow() {
 			this.onRefersh();
 		},
 		methods:{
+			initword(){
+				this.btnstring_confirm = this.getLocalStr("btnstring_confirm")
+				this.seeting_fee_str1 = this.getLocalStr("seeting_fee_str1")
+				this.seeting_fee_str2 = this.getLocalStr("seeting_fee_str2")
+				this.seeting_fee_str3 = this.getLocalStr("seeting_fee_str3")
+				this.seeting_fee_title = this.getLocalStr("seeting_fee_title")
+			},
 			handleCheck(index){
 				this.activeIndex = index;
 				this.currentFee.unitPrice = this.menuList[index].unitPrice;

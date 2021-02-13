@@ -1,7 +1,7 @@
 <template>
 	<view class="address-list">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  title="地址本" @clickLeft="goBack">
-			<view class="add-txt" slot="right" @tap="goAdd">增加</view>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  :title="address_title" @clickLeft="goBack">
+			<view class="add-txt" slot="right" @tap="goAdd">{{btnstring_add}}</view>
 		</uni-nav-bar>
 	    <view class="addr-list">
 	    	<view class="list-item" v-for="(item,index) in addresssList" :key="index" @click="handleChecked(item)">
@@ -32,6 +32,7 @@
 				this.backType  = params.type || 2;
 				this.chaintype = params.chaintype
 			}
+			this.initword()
 		},
 		onShow() {
 			uni.startPullDownRefresh();
@@ -55,6 +56,10 @@
 			
 		},
 		methods:{
+			initword(){
+				this.address_title = this.getLocalStr("address_title");
+				this.btnstring_add = this.getLocalStr("btnstring_add");
+			},
 			goBack(){
 				this.util.UiUtils.switchBackPage();
 			},

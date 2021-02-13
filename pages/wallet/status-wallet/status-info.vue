@@ -1,24 +1,24 @@
 <template>
 	<view class="status-info">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="身份信息" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="walllet_status_title" @clickLeft="goBack"></uni-nav-bar>
 	     <view class="identityID">
-			 <view class="p1">身份ID</view>
+			 <view class="p1">{{walllet_status_ID}}</view>
 			 <view class="p2">{{statusInfo.identityId}}</view>
 		 </view>
 		 <view class="statusName" @tap="goChange">
-			 <text>身份名</text>
+			 <text>{{walllet_status_name}}</text>
 			 <text>{{statusInfo.name}}</text>
 			 <image src="../../../static/image/index/arrow-left.png" mode=""></image>
 		 </view>
 		 <uni-popup type="center" ref="pasdPop" class="pasdTip">
 		 	<view class="main-content">
-		 		<view class="title">修改身份名</view>
+		 		<view class="title">{{walllet_status_name_update}}</view>
 		 		<view class="input-box">
 		 			<input type="text" :placeholder="oldStatusName" v-model="newStatusName" />
 		 		</view>
 		 		<view class="btns">
-		 			<view class="cancell" @click="cancell">取消</view>
-		 			<view class="ok" @click="confirmOk">确定</view>
+		 			<view class="cancell" @click="cancell">{{btnstring_cancle}}</view>
+		 			<view class="ok" @click="confirmOk">{{btnstring_confirm}}</view>
 		 		</view>
 		 	</view>
 		 </uni-popup>
@@ -37,7 +37,19 @@
 				newStatusName:""
 			};
 		},
+		onLoad(option) {
+			// this.statusInfo = JSON.parse(option.query)
+			this.initword()
+		},
 		methods:{
+			initword(){
+				this.btnstring_cancle = this.getLocalStr("btnstring_cancle");
+				this.btnstring_confirm = this.getLocalStr("btnstring_confirm");
+				this.walllet_status_name_update = this.getLocalStr("walllet_status_name_update");
+				this.walllet_status_name = this.getLocalStr("walllet_status_name");
+				this.walllet_status_ID = this.getLocalStr("walllet_status_ID");
+				this.walllet_status_title = this.getLocalStr("walllet_status_title");
+			},
 			goBack(){
 				this.util.UiUtils.switchBackPage();
 			},

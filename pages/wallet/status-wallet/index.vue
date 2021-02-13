@@ -1,38 +1,38 @@
 <template>
 	<view class="status-manage">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  title="管理身份钱包"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  :title="wallet_status_str1"  @clickLeft="goBack"></uni-nav-bar>
 	    <view class="main-c" :style="'height:'+scrollHeight+'px'">
 			<view class="statusInfo" @tap="checkStatus">
-				<text>{{statusInfo.statusName}}</text>
-				<image class="avatar" :src="statusInfo.avatar" mode=""></image>
+				<text>{{statusInfo.name}}</text>
+				<image class="avatar" :src="'../../../static/image/chain/'+statusInfo.img" mode=""></image>
 				<image class="right-arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 			<view class="bak_wallet" @tap="goBak">
 				<view class="top-c">
-					<text>备份钱包</text>
-					<text v-if="isBak">已备份</text>
-					<text v-else>未备份</text>
+					<text>{{wallet_detail_str4}}</text>
+					<!-- <text v-if="isBak">已备份</text>
+					<text v-else>未备份</text> -->
 					<image class="right-arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
-				<view class="botto-c">备份钱包以使将来恢复身份钱包下的多币资产</view>
+				<view class="botto-c">{{wallet_status_str2}}</view>
 			</view>
 			<view class="add-coin" @tap="goAddCoin">
 				<view class="info">
-					<view class="title">添加币种</view>
-					<view class="subtitle">支持EOS,CKB,BCH,LTC,DOT,FIL</view>
+					<view class="title">{{wallet_title_str3}}</view>
+					<view class="subtitle">{{wallet_title_str4}}</view>
 				</view>
 				<image class="right-arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 		</view>
 		<uni-popup type="center" ref="pasdPop" class="pasdTip">
 			<view class="main-content">
-				<view class="title">请输入密码</view>
+				<view class="title">{{pasd_title}}</view>
 				<view class="input-box">
-					<input type="text" placeholder="密码" password v-model="password" />
+					<input type="text" :placeholder="pasd_title" password v-model="password" />
 				</view>
 				<view class="btns">
-					<view class="cancell" @click="cancell">取消</view>
-					<view class="ok" @click="confirmOk">确定</view>
+					<view class="cancell" @click="cancell">{{btnstring_cancle}}</view>
+					<view class="ok" @click="confirmOk">{{btnstring_confirm}}</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -45,13 +45,17 @@
 		data() {
 			return {
 				statusInfo:{
-					avatar:"../../../static/image/head/2.png",
-					statusName:"asdfzx"
+					img:"../../../static/image/head/2.png",
+					name:"asdfzx"
 				},
 				scrollHeight:0,
 				isBak:false,
 				password:""
 			};
+		},
+		onLoad() {
+			this.statusInfo = this.dal.WalletManage.getCurrWallet();
+			this.initword()
 		},
 		onShow() {
 			let _this = this;
@@ -63,6 +67,19 @@
 			});
 		},
 		methods:{
+			initword(){				
+				this.wallet_detail_str4 = this.getLocalStr("wallet_detail_str4");
+				this.wallet_title_str3 = this.getLocalStr("wallet_title_str3");
+				this.wallet_status_str2 = this.getLocalStr("wallet_status_str2");
+				this.wallet_status_str1 = this.getLocalStr("wallet_status_str1");
+				this.wallet_title_str4 = this.getLocalStr("wallet_title_str4");
+				
+				this.pasd_title = this.getLocalStr("pasd_title")
+				this.pasd_err_blank = this.getLocalStr("pasd_err_blank")
+				this.pasd_err_tip = this.getLocalStr("pasd_err_tip")
+				this.btnstring_confirm = this.getLocalStr("btnstring_confirm")
+				this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
+			},
 			goBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},
@@ -77,14 +94,19 @@
 			},
 			confirmOk(){
 				if(!this.password){
-					this.util.UiUtils.showToast('密码不能为空')
+					this.util.UiUtils.showToast(this.pasd_err_blank)
 					return;
 				}
 				
+				if(this.password!= this.statusInfo.password){
+					this.util.UiUtils.showToast(this.pasd_err_tip);
+					this.password =""
+					return;
+				}
 				//检查输入密码是否正确，正确则跳转到备份页，否则给与密码不对提示
 				this.password="";
 				this.$refs.pasdPop.close()
-				this.$openPage({name:"backup-tip"});
+				this.$openPage({name:"backup-keystore",query:this.paramsObj});
 			},
 			cancell(){
 				this.password="";
@@ -138,7 +160,7 @@
 				align-items: center;
 				background-color: #FFFFFF;
 				.right-arr{
-					margin-left:30rpx;
+					margin-left:auto;
 				}
 				text:first-child{
 					margin-right: auto;
@@ -169,6 +191,9 @@
 			display: flex;
 			align-items: center;
 			background-color: #FFFFFF;
+			.right-arr{
+				margin-left: auto;
+			}
 			.info{
 				width: 80%;
 				font-family: PingFang SC, PingFang SC-Regular;

@@ -1,48 +1,48 @@
 <template>
 	<view class="wallet-detail">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="钱包详情" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="wallet_detail_str1" @clickLeft="goBack"></uni-nav-bar>
 	    <view class="status-info" v-if="!walletInfo.idx">
 			<image :src="'../../../static/image/chain/'+walletInfo.img" mode=""></image>
 			<text>{{walletInfo.name}}</text>
 		</view>
 		<view class="wallet-info">
 			<view class="wallet_addr">
-				<view class="w-title" style="color: #999999;">钱包地址</view>
+				<view class="w-title" style="color: #999999;">{{wallet_detail_str2}}</view>
 				<view class="addr">{{walletInfo.address}}</view>
 			</view>
 			<view class="wallet-Name" @click="goEdit">
-				<text class="w-title">钱包名称</text>
+				<text class="w-title">{{wallet_detail_str3}}</text>
 				<text class="w-name">{{walletInfo.name}}</text>
 				<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 		</view>
 		<view class="wallet-mode">
 			<view class="title-item">
-				<text>备份钱包</text>
+				<text>{{wallet_detail_str4}}</text>
 				<image class="right-icon" :src="rightIcon" mode="" @tap="changeContent"></image>
 			</view>
 			<view class="type-list" v-if="ishowContent">
 				<view class="type-item" @tap="goExport(2)">
-					<text>导出助记词</text>
+					<text>{{wallet_detail_str5}}</text>
 					<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
 				<view class="type-item" @tap="goExport(3)"> 
-					<text>导出私钥</text>
+					<text>{{wallet_detail_str6}}</text>
 					<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
 			</view>
 		</view>
-		<view class="dele_btn" @tap="removeWallet" v-if="walletInfo.idx">移除</view>
+		<view class="dele_btn" @tap="removeWallet" v-if="walletInfo.idx">{{btnstring_remove}}</view>
 		<uni-popup type="center" ref="pasdPop" class="pasdTip">
 			<view class="main-content">
-				<view class="title">{{popType==1?'请输入密码':"钱包名称"}}</view>
+				<view class="title">{{popType==1?pasd_title:wallet_detail_str7}}</view>
 				<view class="input-box">
-					<input v-if="popType==1" type="text" password placeholder="密码" v-model="password" />
+					<input v-if="popType==1" type="text" password :placeholder="pasd_title" v-model="password" />
 				    <input v-if="popType==2" type="text" :placeholder="walletInfo.name" v-model="newWalletName" />
 				</view>
 				<view class="btns">
-					<view class="cancell" @click="cancell">取消</view>
-					<view class="ok" @click="confirmOk">确定</view>
+					<view class="cancell" @click="cancell">{{btnstring_cancle}}</view>
+					<view class="ok" @click="confirmOk">{{btnstring_confirm}}</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -69,16 +69,38 @@
 				exportType:1,
 			};
 		},
+		onLoad() {
+			this.initword()
+		},
 		onShow() {
 			// 从数据层获取当前钱包信息
 			this.walletInfo = this.dal.WalletManage.getCurrWallet();
 			console.log(this.walletInfo)
 		},
 		methods:{
+			initword(){
+				this.wallet_detail_str1 = this.getLocalStr("wallet_detail_str1");
+				this.wallet_detail_str2 = this.getLocalStr("wallet_detail_str2")
+				this.wallet_detail_str3 = this.getLocalStr("wallet_detail_str3")
+				this.wallet_detail_str4 = this.getLocalStr("wallet_detail_str4")
+				this.wallet_detail_str5 = this.getLocalStr("wallet_detail_str5")
+				this.wallet_detail_str6 = this.getLocalStr("wallet_detail_str6")
+				this.wallet_detail_str7 = this.getLocalStr("wallet_detail_str7")
+				this.wallet_detail_str8 = this.getLocalStr("wallet_detail_str8")
+				this.wallet_detail_str9 = this.getLocalStr("wallet_detail_str9")
+				this.wallet_detail_str10 = this.getLocalStr("wallet_detail_str10")
+				this.wallet_detail_str11 = this.getLocalStr("wallet_detail_str11")
+				this.btnstring_remove = this.getLocalStr("btnstring_remove")
+				this.btnstring_confirm = this.getLocalStr("btnstring_confirm")
+				this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
+				this.pasd_title = this.getLocalStr("pasd_title")
+				this.pasd_err_blank = this.getLocalStr("pasd_err_blank")
+				this.pasd_err_tip = this.getLocalStr("pasd_err_tip")
+			},
 			removeWallet(){
 				//删除钱包
 				this.dal.NormalWallet.deleteNormalWallet(this.walletInfo.chaintype,this.walletInfo.idx);
-				this.util.UiUtils.showToast('移除成功')
+				this.util.UiUtils.showToast(this.wallet_detail_str11)
 				setTimeout(()=>{
 					this.$openPage({name:"my-wallet-index",gotype:"redirectTo"});
 				},1000)
@@ -108,11 +130,11 @@
 					//备份钱包 导出keystore或者私钥
 					//检查密码是否为空
 					if(!this.password){
-						this.util.UiUtils.showToast('密码不能为空')
+						this.util.UiUtils.showToast(this.pasd_err_blank)
 						return;
 					}
 					if(this.password!= this.walletInfo.password){
-						this.util.UiUtils.showToast('密码不正确');
+						this.util.UiUtils.showToast(this.pasd_err_tip);
 						this.password =""
 						return;
 					}
@@ -130,7 +152,7 @@
 				}else if(this.popType==2){
 					//修改名称
 					if(!this.newWalletName){
-						this.util.UiUtils.showToast('钱包名称不能为空')
+						this.util.UiUtils.showToast(this.wallet_detail_str8)
 						return;
 					}
 					
@@ -143,12 +165,12 @@
 				// 1助记词  3私钥
 				if(e==2){
 					if(!this.walletInfo.words){
-						this.util.UiUtils.showToast("当前钱包没有助记词");
+						this.util.UiUtils.showToast(this.wallet_detail_str9);
 						return;
 					}
 				}else if(e==3){
 					if(!this.walletInfo.privateKey){
-						this.util.UiUtils.showToast("当前钱包没有私钥");
+						this.util.UiUtils.showToast(this.wallet_detail_str10);
 						return;
 					}
 				} 

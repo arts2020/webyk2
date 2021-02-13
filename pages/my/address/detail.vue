@@ -1,7 +1,7 @@
 <template>
 	<view class="address-detail">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="新建地址" @clickLeft="goBack">
-			<view slot="right" :style="{'color':addressObj.address?'#4C72EF':'#8e8e8e'}" @tap="goSave">保存</view>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="address_detail_title" @clickLeft="goBack">
+			<view slot="right" :style="{'color':addressObj.address?'#4C72EF':'#8e8e8e'}" @tap="goSave">{{btnstring_save}}</view>
 		</uni-nav-bar>
 	    <view class="coin" @tap="goChioce">
 			<image class="wallet-icon" :src="'../../../static/image/chain/'+addressObj.img" mode=""></image>
@@ -9,17 +9,17 @@
 			<image class="right-arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="addr_info">
-			<view class="title">地址信息</view>
+			<view class="title">{{address_detail_str1}}</view>
 			<view class="addr_description">
 				<view class="addr_item">
-					<textarea style="height: 80rpx;" type="text" placeholder="请输入地址" placeholder-class="tipClass" v-model="addressObj.address" />
+					<textarea style="height: 80rpx;" type="text" :placeholder="address_detail_str2" placeholder-class="tipClass" v-model="addressObj.address" />
 					<uni-icons type="scan" size="20" color="#444444" style="font-weight: 600;" @tap="goScan"></uni-icons>
 				</view>
 				<view class="addr_item">
-					<input type="text" placeholder="名称" placeholder-class="tipClass" v-model="addressObj.username" />
+					<input type="text" :placeholder="address_detail_str3" placeholder-class="tipClass" v-model="addressObj.username" />
 				</view>
 				<view class="addr_item">
-					<input type="text" placeholder="描述(选填)" placeholder-class="tipClass" v-model="addressObj.bak" />
+					<input type="text" :placeholder="address_detail_str4" placeholder-class="tipClass" v-model="addressObj.bak" />
 				</view>
 			</view>
 		</view>
@@ -35,6 +35,7 @@
 			};
 		},
 		onLoad(option) {
+			this.initword();
 			// 获取临时地址信息,如果从添加进来，临时地址信息只有默认链有数据，其他为空； 如果点地址列表进来获取的临时地址信息全都有
 			this.addressObj = JSON.parse(JSON.stringify(this.dal.Address.getTempAddress()));
 			// 选择的地址类型后将数据传递过来更新此处地址对象中有关链的属性数据
@@ -50,6 +51,14 @@
 			}
 		},
 		methods:{
+			initword(){
+				this.btnstring_save = this.getLocalStr("btnstring_save");
+				this.address_detail_title = this.getLocalStr("address_detail_title");
+				this.address_detail_str1 = this.getLocalStr("address_detail_str1");
+				this.address_detail_str2 = this.getLocalStr("address_detail_str2");
+				this.address_detail_str3 = this.getLocalStr("address_detail_str3");
+				this.address_detail_str4 = this.getLocalStr("address_detail_str4");
+			},
 			goScan(){
 				uni.scanCode({
 				    success:(res)=>{

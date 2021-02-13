@@ -1,6 +1,6 @@
 <template>
 	<view class="add-coin">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="添加币种" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="wallet_title_str3" @clickLeft="goBack"></uni-nav-bar>
 		<scroll-view scroll-y="true" class="coin-list" :style="'height:'+scrollHeight+'px'">
 			<!-- 之前该身份下已经存在的币种不可再选页不可取消  该处value应为字符串要不会有警告-->
 			
@@ -16,18 +16,18 @@
 			</view>
 		</scroll-view>
 		<view class="confirm_btn">
-			<view class="tips">请添加身份钱包下的币种(多选)</view>
-			<view class="btn" style="background-color:#4c72ef" @tap="btnConfirmAdd">确定</view>
+			<view class="tips">{{wallet_title_str12}}</view>
+			<view class="btn" style="background-color:#4c72ef" @tap="btnConfirmAdd">{{btnstring_confirm}}</view>
 		</view>
 	    <uni-popup type="center" ref="pasdPop" class="pasdTip">
 	    	<view class="main-content">
-	    		<view class="title">请输入密码</view>
+	    		<view class="title">{{pasd_title}}</view>
 	    		<view class="input-box">
-	    			<input type="text" password placeholder="密码" v-model="password" />
+	    			<input type="text" password :placeholder="pasd_title" v-model="password" />
 	    		</view>
 	    		<view class="btns">
-	    			<view class="cancell" @click="cancell">取消</view>
-	    			<view class="ok" @click="confirmOk">确定</view>
+	    			<view class="cancell" @click="cancell">{{btnstring_cancle}}</view>
+	    			<view class="ok" @click="confirmOk">{{btnstring_confirm}}</view>
 	    		</view>
 	    	</view>
 	    </uni-popup>
@@ -60,6 +60,7 @@
 				console.log("=params====",params)
 				this.backType = params.param.backType;
 			}
+			this.initword()
 		},
 		onShow() {
 			//获取高度
@@ -79,6 +80,15 @@
 			}
 		},
 		methods: {
+			initword(){
+			    this.btnstring_confirm = this.getLocalStr("btnstring_confirm")
+			    this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
+			    this.pasd_title = this.getLocalStr("pasd_title")
+			    this.pasd_err_blank = this.getLocalStr("pasd_err_blank")
+			    this.pasd_err_tip = this.getLocalStr("pasd_err_tip")
+				this.wallet_title_str3 = this.getLocalStr("wallet_title_str3")
+				this.wallet_title_str12 = this.getLocalStr("wallet_title_str12")
+			},
 			onRefresh:function(){
 				this.checkedTypes = [];
 				//添加默认图标
@@ -133,7 +143,7 @@
 				if(this.backType==3||this.backType==4){
 					//检查密码是否为空
 					if(!this.password){
-						this.util.UiUtils.showToast('密码不能为空')
+						this.util.UiUtils.showToast(this.pasd_err_blank)
 						return;
 					}
 					//检查输入密码是否正确，正确则-关闭弹框---跳转，否则给与密码不对提示
@@ -142,7 +152,7 @@
 				}
 				
 				if(this.checkedTypes.length==0){
-					this.util.UiUtils.showToast('请至少选择一个币种')
+					
 					return;
 				}
 				

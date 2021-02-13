@@ -1,6 +1,6 @@
 <template>
 	<view class="addrress-type">
-		<uni-nav-bar background-color="#FAFBFF" left-icon="back" :statusBar="true" :fixed="true" title="选择地址类型" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" left-icon="back" :statusBar="true" :fixed="true" :title="address_select_type" @clickLeft="goBack"></uni-nav-bar>
 		<view class="coin-list">
 			<view class="list-item" v-for="(item,index) in chainList" :key="index" @click="handleChecked(item)">
 				<image class="icon" :src="'../../../static/image/chain/'+item.img" mode=""></image>
@@ -28,6 +28,7 @@
 			if(param.chaintype){
 				this.current_chain = param.chaintype;
 			}
+			this.initword();
 		},
 		onShow() {
 			//清空之前的数据重新获取
@@ -42,6 +43,9 @@
 			this.chainList = list;
 		},
 		methods: {
+			initword(){
+				this.address_select_type = this.getLocalStr("address_select_type")
+			},
 			goBack() {
 				this.$openPage({
 					name: "address-detail",

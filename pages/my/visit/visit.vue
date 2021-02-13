@@ -1,6 +1,6 @@
 <template>
 	<view class="visit-index">
-        <uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="分享" @clickLeft="btnBack"></uni-nav-bar>
+        <uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="share_title" @clickLeft="btnBack"></uni-nav-bar>
 		<view class="visit-content" :style="'height:'+scrollHeight+'px'">
 			<view class="visit-erweima">
 				<tki-qrcode ref="qrcode" :cid="cid" :val="val" :size="size" :unit="unit" :background="background" :foreground="foreground"
@@ -8,17 +8,17 @@
 				 :usingComponents="usingComponents" :showLoading="showLoading" :loadingText="loadingText" @result="resultImg" />
 			</view>
 			<view class="btn-list">
-				<view class="btn" @tap="shareWechat">
+				<!-- <view class="btn" @tap="shareWechat">
 					<image src="../../../static/image/mine/wechat.png" mode=""></image>
 					<view class="btn-title">微信</view>
-				</view>
+				</view> -->
 				<view class="btn" @click="shareClick">
 					<image src="../../../static/image/mine/share-icon.png" mode=""></image>
-					<view class="btn-title">分享</view>
+					<view class="btn-title">{{share_title}}</view>
 				</view>
 				<view class="btn" @click="btnSavePic">
 					<image src="../../../static/image/mine/savePic.png" mode=""></image>
-					<view class="btn-title">保存成图片</view>
+					<view class="btn-title">{{share_save_picture}}</view>
 				</view>
 			</view>
 		</view>
@@ -71,10 +71,15 @@
 			}else{
 				url = this.dal.Common.onGetConfigInfo("appload_android_url").value;
 			}
-			this.val = url
+			this.val = url;
+			this.initword()
 		},
 		
 		methods: {
+			initword(){
+				this.share_title = this.getLocalStr("share_title");
+				this.share_save_picture = this.getLocalStr("share_save_picture");
+			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
 			},

@@ -1,6 +1,6 @@
 <template>
 	<view class="agreement">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="用户协议" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="aggrement_title" @clickLeft="goBack"></uni-nav-bar>
 		<view class="aggr-c">
 			<rich-text :nodes="content"></rich-text>
 		</view>
@@ -18,6 +18,7 @@
 		onShow() {
 			this.content = '';
 			this.content = agreeAndHelp.my_aggrement;
+			this.initword()
 		},
 		data() {
 			return {
@@ -25,6 +26,9 @@
 			};
 		},
 		methods:{
+			initword(){
+				this.aggrement_title = this.getLocalStr('aggrement_title')
+			},
 			goBack(){
 				this.util.UiUtils.switchBackPage();
 			},

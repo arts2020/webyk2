@@ -4,14 +4,14 @@
 		<view class="search-header">
 			<view class="search-frame">
 				<uni-icons type="search" class="search-icon" size="20" color="#CCD3D9" @tap="goSearch"></uni-icons>
-				<input type="text" placeholder-style="color: #a9b7c4;" placeholder="请输入token名称" v-model="keyword" confirm-type="search"
+				<input type="text" placeholder-style="color: #a9b7c4;" :placeholder="dapp_search_placeholder" v-model="keyword" confirm-type="search"
 				 @confirm="goSearch" />
 				 <uni-icons v-if="keyword" type="closeempty" size="20" style="font-weight: 600;" color="#444444" @tap="clear"></uni-icons>
 			</view>
 			<text class="cancell-txt" @tap="btnBack">取消</text>
 		</view>
 		<scroll-view v-if="list.length" scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
-			<view class="title">搜索结果</view>
+			<view class="title">{{title_result}}</view>
 			<view class="list-item" v-for="(item,index) in list" :key="index" @tap="goCheck(item)">
 				<image class="icon" :src="item.icon" mode=""></image>
 				<view class="dapp-info">
@@ -21,7 +21,7 @@
 			</view>
 		</scroll-view>
 		<view class="hotSearch" v-if="hotList.length">
-			<view class="title">热搜</view>
+			<view class="title">{{title_hot}}</view>
 			<view class="hot-list">
 				<view class="hot-item" v-for="(item,index) in hotList" :key="index" @tap="goCheck(item)">
 					<image :src="item.icon" mode=""></image>
@@ -31,13 +31,12 @@
 		</view>
 		<uni-popup type="bottom" ref="popup">
 			<view class="tip-Pop">
-				<view class="top-title">访问说明</view>
-				<view class="tip-content">
-					你正在访问第三方DApp，你在第三方DApp上的使用行为将适用于第三方DApp的《用户协议》和《隐私政策,有第三方DApp直接想你承担责任。
+				<view class="top-title">{{dapp_tip_title}}</view>
+				<view class="tip-content">{{dapp_tip_content}}
 				</view>
 				<view class="btns">
-					<view class="cancell" @tap="cancell">退出</view>
-					<view class="confirm-ok" @tap="confirm">确认</view>
+					<view class="cancell" @tap="cancell">{{btnstring_logout}}</view>
+					<view class="confirm-ok" @tap="confirm">{{btn_confirms}}</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -71,6 +70,7 @@
 		onLoad() {
 		  this.allDapp = this.dal.Dapp.getAllDapp();
 		  this.hotList - this.dal.Dapp.getHotDapp();
+		  this.initWord()
 		},
 		onShow() {
 			let _this = this;
@@ -82,6 +82,17 @@
 			});
 		},
 		methods: {
+			initWord(){
+				//获取所有中文文字
+				this.dapp_search_placeholder = this.getLocalStr("dapp_search_placeholder");
+				this.btnstring_cancle = this.getLocalStr("btnstring_cancle");
+				this.title_hot = this.getLocalStr("title_hot");
+				this.title_result = this.getLocalStr("title_result");
+				this.dapp_tip_title = this.getLocalStr("dapp_tip_title");
+				this.dapp_tip_content = this.getLocalStr("dapp_tip_content");
+				this.btn_confirms = this.getLocalStr("btnstring_confirm");
+				this.btnstring_logout = this.getLocalStr("btnstring_logout");
+			},
 			clear(){
 				this.keyword = "";
 				this.list = []

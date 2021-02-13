@@ -1,6 +1,6 @@
 <template>
 	<view class="setting-fee">
-		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" title="矿工费设置" @clickLeft="btnBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" :title="seeting_fee_title" @clickLeft="btnBack"></uni-nav-bar>
 		<view class="fee-info">
 			<view class="top-box">
 				<text>矿工费</text>
@@ -30,7 +30,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="confirm-ok" @click="btnConfirm">确定</view>
+		<view class="confirm-ok" @click="btnConfirm">{{btnstring_confirm}}</view>
 	</view>
 </template>
 
@@ -60,11 +60,19 @@
 					this.name = params.name
 				}
 			}
+			this.initword()
 		},
 		onShow() {
 			this.onRefersh();
 		},
 		methods: {
+			initword(){
+				this.btnstring_confirm = this.getLocalStr("btnstring_confirm")
+				this.seeting_fee_str1 = this.getLocalStr("seeting_fee_str1")
+				this.seeting_fee_str2 = this.getLocalStr("seeting_fee_str2")
+				this.seeting_fee_str3 = this.getLocalStr("seeting_fee_str3")
+				this.seeting_fee_title = this.getLocalStr("seeting_fee_title")
+			},
 			handleCheck(index) {
 				let priceInfo = this.dal.Common.getAssetPriceInfo("ETH");
 				let configinfo = this.dal.Common.onGetCommonConfigInfo("exchange_key");
