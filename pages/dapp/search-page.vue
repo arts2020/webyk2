@@ -16,11 +16,11 @@
 				<image class="icon" :src="item.icon" mode=""></image>
 				<view class="dapp-info">
 					<view class="dapp-title">{{item.name}}</view>
-					<view class="descrip">{{item.community}}</view>
+					<view class="descrip">{{item.short_desc}}</view>
 				</view>
 			</view>
 		</scroll-view>
-		<view class="hotSearch">
+		<view class="hotSearch" v-if="hotList.length">
 			<view class="title">热搜</view>
 			<view class="hot-list">
 				<view class="hot-item" v-for="(item,index) in hotList" :key="index" @tap="goCheck(item)">
@@ -51,12 +51,6 @@
 		components: {
 			Bar
 		},
-		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
-		},
-		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
-		},
 		data() {
 			return {
 				scrollHeight: 0,
@@ -67,25 +61,16 @@
 				],
 				//热搜列表
 				hotList: [
-					{
-						icon: "../../static/image/index/wodeshouyi.png",
-						name: "LON",
-						community: "LON挖矿"
-					},
-					{
-						icon: "../../static/image/index/wodeshouyi.png",
-						name: "Snapshot治理",
-						community: "参与所有DeFi项目的社区治理"
-					},
-					{
-						icon: "../../static/image/index/wodeshouyi.png",
-						name: "Snapshot治理",
-						community: "参与所有DeFi项目的社区治理"
-					},
+					
 				],
 				// 当前被点击的dapp
-				currentDapp: {}
+				currentDapp: {},
+				allDapp:[]
 			};
+		},
+		onLoad() {
+		  this.allDapp = this.dal.Dapp.getAllDapp();
+		  this.hotList - this.dal.Dapp.getHotDapp();
 		},
 		onShow() {
 			let _this = this;
@@ -111,15 +96,13 @@
 			},
 			goSearch() {
 				// 拿关键词keyword进行搜索匹配
-				this.dal.Dapp.onGetDapps()
-			},
-			onGetDappList(data){
-				data.data.forEach(el=>{
+				let arr = this.allDapp.filter(el=>el.name.includes(this.keyword))
+				arr.forEach(el=>{
 					if(!el.icon){
 						el.icon = '../../static/image/chain/default.png'
 					}
 				})
-				this.list = data.data;
+				this.list = arr;
 			},
 			cancell() {
 				// 取消访问
@@ -127,9 +110,15 @@
 			},
 			confirm() {
 				// 确认访问
+				this.$openPage({
+					name: "webui-webview",
+					query: {
+						url: this.currentDapp.app_url,
+						title: this.currentDapp.name
+					}
+				})
 				//关闭弹框
 				this.$refs.popup.close()
-				//执行操作
 
 			}
 		}

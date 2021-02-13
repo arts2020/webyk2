@@ -5,7 +5,7 @@
 		<view class="carry-addr">
 			<view class="carry-title">收款地址</view>
 			<view class="addr">
-				<input type="text" placeholder="输入或粘贴钱包地址" v-model="address" placeholder-class="tipClass" />
+				<textarea type="text" placeholder="输入或粘贴钱包地址" v-model="address" placeholder-class="tipClass" />
 				<image src="../../../../static/image/index/address.png" mode="" @tap="goAddressList"></image>
 			</view>
 		</view>
@@ -25,20 +25,13 @@
 		</view>
 		<view class="fee" @tap="goSetting" v-if="m_chain.isgas">
 			<text>矿工费</text>
-			<!-- <view class="fee-info">
-				<view class="coin">{{count}}{{m_asset.name}}</view>
-				<view class="rmb">￥{{rmb}}</view>
-			</view> -->
+			<view class="fee-info">
+				<view class="coin">{{m_feeInfo.money}}</view>
+				<view class="rmb">￥{{m_feeInfo.rmb}}</view>
+			</view>
 			<image src="../../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="confirm-ok" @click="btnConfirm">转账</view>
-		<uni-popup type="bottom" ref="tipPop">
-			<view class="tip-content">
-				<uni-icons @click="cancell(1)" type="closeempty" color="#444444" size="30" class="close-icon"></uni-icons>
-				<view class="tip-title">风险提示</view>
-				<view class="ok_btn" @tap="confirmKnow">我知晓了</view>
-			</view>
-		</uni-popup>
 		<uni-popup type="center" ref="pasdPop" class="pasdTip">
 			<view class="main-content">
 				<view class="title">请输入密码</view>
@@ -46,7 +39,7 @@
 					<input type="text" password placeholder="密码" v-model="password" />
 				</view>
 				<view class="btns">
-					<view class="cancell" @click="cancell(2)">取消</view>
+					<view class="cancell" @click="cancell">取消</view>
 					<view class="ok" @click="confirmOk">确定</view>
 				</view>
 			</view>
@@ -71,12 +64,9 @@
 				m_chain:{},
 				m_balane: 0,
 				//默认矿工费
-				feeInfo: {
-					coin: "0.004500",
-					rmb: "39.28",
-					value: '89.00GWEI',
-					name: "快速",
-					time: '5分钟'
+				m_feeInfo: {
+					money: "0",
+					rmb: "0",
 				}
 			}
 		},
@@ -85,6 +75,12 @@
 			if(Object.keys(params).length!=0){
 				console.log("=====当前代币信息========",params)
 				this.m_asset = params;
+				if(params.money){
+					this.m_feeInfo ={
+						money:params.money,
+						rmb:params.rmb
+					}
+				}
 			}
 		},
 		onShow() {
@@ -95,13 +91,17 @@
 			}
 			this.m_chain = this.dal.Chain.getAssets(this.m_asset.chaintype);
 			console.log('==========当前链============',this.m_chain)
+			//获取当前余额
+			this.m_balane = this.dal.WalletManage.getBalance();
 		},
 		methods: {
 			goAddressList() {
 				this.$openPage({
 					name: "address-list",
 					query: {
-						type: 1
+						type: 1,
+						chaintype:this.m_asset.chaintype,
+						name:this.m_asset.name
 					}
 				})
 			},
@@ -138,26 +138,6 @@
 					}
 				});
 			},
-
-			onRefresh: function() {
-				if (this.m_asset == "eth") {
-					// this.m_balane = this.dal.Eth.getBalance().toFixed(6);
-				} else if (this.m_asset == "usdt") {
-					// this.m_balane = this.dal.UsdtErc20.getBalance().toFixed(6);
-				} else if (this.m_asset == "btc") {
-					// this.m_balane = this.dal.BtcWallter.getBalance().toFixed(6);
-				} else if (this.m_asset == "filecoin") {
-					// this.m_balane = this.dal.FileCoinWallter.getBalance().toFixed(6);
-				}
-			},
-
-			onTransResult(data) {
-				// this.dal.WallterTranser.onTransfer(this.m_asset, this.count, this.address, data.tx);
-				// this.dal.Common.
-				setTimeout(function() {
-					uni.navigateBack();
-				}, 500)
-			},
 			//点击转账
 			btnConfirm() {
 				// 对地址数量和矿工费进行校验并打开风险提示框
@@ -168,33 +148,28 @@
 
 				let address = this.address.replace(new RegExp(/( )/g), "");
 				let count = this.count.replace(new RegExp(/( )/g), "");
-				// let password = this.password.replace(new RegExp(/( )/g), "");
-
+				
 				if (address.length <= 0) {
 					this.util.UiUtils.showToast("请输入转出的地址")
 					return;
 				}
-				
-				if (this.m_balane <= 0) {
-					this.util.UiUtils.showToast(this.m_asset + "可用余额不足")
-					return;
-				}
+
 				if (count.length <= 0) {
 					this.util.UiUtils.showToast("请输入转出的数额")
 					return;
 				}
-				if (this.gas.length <= 0) {
-					this.util.UiUtils.showToast("请输入矿工费")
+				if (this.m_chain.isgas && !this.m_feeInfo.money) {
+					this.util.UiUtils.showToast("请选择矿工费")
 					return;
 				}
-				let sum = count * 1 + this.gas / 100000 * 1;
+				let sum = count * 1 + this.m_feeInfo.money / 100000 * 1;
 				if (this.m_balane < sum) {
-					this.util.UiUtils.showToast(this.m_asset + "可用余额不足")
+					this.util.UiUtils.showToast("可用余额不足")
 					return;
 				}
 
 				let walletInfo = this.dal.WalletManage.getCurrWallet();
-				if (address.toLowerCase() == walletInfo.address) {
+				if (this.address.toLowerCase() == walletInfo.address) {
 					this.util.UiUtils.showToast("不允许对自己进行转帐")
 					return;
 				}
@@ -203,37 +178,17 @@
 					content: "您确定要转帐吗？",
 					confirmText: this.getLocalStr("btnstring_confirm"),
 					showCancel: true,
-					success: function(res) {
+					success: (res)=>{
 						if (res.confirm) {
-							this.util.UiUtils.showLoading("");
-							this.dal.Setting.onCheckCapitalPassword(password);
+							this.$refs.pasdPop.open();
 						}
-					}.bind(this)
+					}
 				});
 			},
-			
-			onCheckCapitalPassword: function(data) {
-				this.util.UiUtils.showLoading("");
-				let val = this.gas;
-				let gas = parseInt(val) * Math.pow(10, 8);
-				gas = '0x' + parseInt(gas).toString(16);
 
-				this.dal.WalletManage.sendTransaction(this.address, this.count, gas)
-
-				this.$refs.tipPop.open();
-			},
-			//点击我知晓了
-			confirmKnow() {
-				this.$refs.pasdPop.open();
-			},
-			cancell(e) {
-				if (e == 2) {
-					this.password = "";
-					this.$refs.pasdPop.close();
-					this.$refs.tipPop.close();
-				} else if (e == 1) {
-					this.$refs.tipPop.close();
-				}
+			cancell() {
+				this.password = "";
+				this.$refs.pasdPop.close();
 			},
 			//点击密码提示框的确定
 			confirmOk() {
@@ -242,13 +197,15 @@
 					this.util.UiUtils.showToast("请输入密码");
 					return;
 				}
+				
+				let walletInfo = this.dal.WalletManage.getCurrWallet();
+				if(this.password!= walletInfo.password){
+					this.util.UiUtils.showToast('密码不正确');
+					this.password =""
+					return;
+				}
 				// 转账操作
 				
-			},
-			isETHValidAddress: function(input) {
-				if (StrUtil.isEmpty(input) || !input.startsWith("0x"))
-					return false;
-				return isValidAddress(input);
 			},
 		}
 	}

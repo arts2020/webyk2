@@ -22,20 +22,27 @@
 			return {
 				// 列表页点击返回方向,1返回转账界面,2去到地址详情页
 				backType:2,
-				addresssList:[]
+				addresssList:[],
+				chaintype:1
 			};
 		},
 		onLoad(option) {
 			if(option.query){
 				let params = JSON.parse(option.query);
 				this.backType  = params.type || 2;
+				this.chaintype = params.chaintype
 			}
 		},
 		onShow() {
 			uni.startPullDownRefresh();
 			this.addresssList = [];
 			//添加默认图标
-			let list = this.dal.Address.getAddressList();
+			let list = [];
+			if(this.chaintype){
+				list = this.dal.Address.getAddressByType(this.chaintype);
+			}else{
+				list = this.dal.Address.getAddressList();
+			}
 			list.forEach(el=>{
 				if(!el.img){
 					el.img = 'default.png'
@@ -43,7 +50,7 @@
 			})
 			this.addresssList = list;
 			setTimeout(()=>{
-				uni.stopPullDownRefresh()
+				uni.stopPullDownRefresh() 
 			}, 1000);
 			
 		},

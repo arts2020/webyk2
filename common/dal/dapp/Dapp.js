@@ -8,6 +8,7 @@ const Dapp = {
 	evtGetDappList:"EVT_evtGetDappList",//Dapp列表
 	
 	m_Dapps:[],
+	hot_dapp:[],
 	
 	init: function() {
 		uni.cclog("======Dapp init========web3==")
@@ -46,6 +47,7 @@ const Dapp = {
 	handleGetDappList(packetIn){
 		if (packetIn.pktin.code == 200) {
 			this.m_Dapps = packetIn.pktin.data;
+			this.hot_dapp = packetIn.pktin.data.filter(el=>el.is_hot);
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetDappList, {
 				data: packetIn.pktin.data
 			});
@@ -53,6 +55,12 @@ const Dapp = {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
 		}
 		vue.util.UiUtils.hideLoading();
+	},
+	getAllDapp(){
+	   return this.m_Dapps;	
+	},
+	getHotDapp(){
+		return this.hot_dapp;
 	},
 	getWeb3:function(){
 		// console.log("==web3==",web3)

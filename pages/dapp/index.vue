@@ -56,19 +56,25 @@
 				],
 			}
 		},
-		onShow() {
+		onLoad() {
 			this.onRefersh();
+		},
+		onShow() {
 			uni.getSystemInfo({
 				success: (res) => {
 					this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
 				}
 			});
 		},
+		onPullDownRefresh() {
+			this.onRefersh();
+		},
 		methods: {
 			onRefersh(){
 				this.list = [];
 				this.currentDapp = {};
 				//获取列表数据
+				uni.startPullDownRefresh()
 				this.dal.Dapp.onGetDapps()
 			},
 			goCheck(item) {
@@ -99,6 +105,7 @@
 
 			},
 			onGetDappList(data){
+				uni.stopPullDownRefresh()
 				data.data.forEach(el=>{
 					if(!el.icon){
 						el.icon = '../../static/image/chain/default.png'

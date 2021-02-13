@@ -68,7 +68,7 @@
 			},
 			btnConfirm(){
 				//点击确定回到转账页
-				this.btnBack()
+				this.$openPage({name:"carry-over",query:this.currentFee,gotype:"redirectTo"})
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();

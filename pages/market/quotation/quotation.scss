@@ -56,7 +56,7 @@
 	}
 	.info-list{
 		width: 100%;
-		padding: 34rpx 25rpx;
+		padding: 0rpx 25rpx;
 		box-sizing: border-box;
 		background-color: #FFFFFF;
 		.list-item{
@@ -66,6 +66,11 @@
 			margin-bottom: 37rpx;
 			display: flex;
 			align-items: center;
+			image{
+				width: 60rpx;
+				height: 60rpx;
+				margin-right: 20rpx;
+			}
 			.title{
 				width: 30%;
 				view{

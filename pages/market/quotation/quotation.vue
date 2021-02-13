@@ -41,6 +41,7 @@
 		</scroll-view> -->
 		<scroll-view v-if="active==1" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">	
 			<view class="list-item" v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
+				<image :src="item.logo" mode=""></image>
 				<view class="title">
 					<view>{{item.symbol}}</view>
 					<view>{{item.name_zh}}</view>
@@ -59,6 +60,7 @@
 		</scroll-view>
 		<scroll-view v-if="active==2" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			<view class="list-item" v-for="(item, index) in m_defiList" :key="index"  v-if="haveData">
+				<image :src="item.logo" mode=""></image>
 				<view class="title">
 					<view>{{item.assest}}</view>
 					<view>{{item.name}}</view>
@@ -110,7 +112,7 @@
 				getStyle(val){
 					if(typeof val == 'string'){
 						if(val.indexOf('+')!=-1||val.indexOf('%')!=-1||val.indexOf('-')!=-1){
-							val=val.substring(1,val.length-1)
+							val=val.substring(0,val.length-1)*1;
 						}
 					}
 					return val > 0 ? '#61C0A0;' : '#E46866;'

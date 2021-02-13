@@ -12,7 +12,7 @@
 			<view class="title">地址信息</view>
 			<view class="addr_description">
 				<view class="addr_item">
-					<input type="text" placeholder="请输入地址" placeholder-class="tipClass" v-model="addressObj.address" />
+					<textarea style="height: 80rpx;" type="text" placeholder="请输入地址" placeholder-class="tipClass" v-model="addressObj.address" />
 					<uni-icons type="scan" size="20" color="#444444" style="font-weight: 600;" @tap="goScan"></uni-icons>
 				</view>
 				<view class="addr_item">
@@ -61,13 +61,21 @@
 				// this.util.UiUtils.switchBackPage();
 				this.$openPage({name:"address-list",gotype:"redirectTo"})
 			},
-			goSave(){
+			async goSave(){
 				if(!this.addressObj.address){
+					this.util.UiUtils.showToast("地址不能为空")
 					return;
 				}
 				if(!this.addressObj.username){
 					this.util.UiUtils.showToast("名称不能为空")
 					return;
+				}
+				//根据不同链验证是否是有效的地址
+				if(this.addressObj.chaintype==1){
+					if(! await this.dal.Eth.isContract(this.addressObj.address)){
+						this.util.UiUtils.showToast("不是有效的"+this.addressObj.name+"地址")
+						return;
+					}
 				}
 				
 				this.dal.Address.saveAddress(this.addressObj)

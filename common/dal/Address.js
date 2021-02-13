@@ -70,7 +70,9 @@ const Address = {
 	getAddressList: function() {
 		return this.m_address;
 	},
-
+    getAddressByType(chaintype){
+		return this.m_address.filter(el=>el.chaintype==chaintype)
+	},
 	//保存临时地址
 	saveTempAddress: function(address) {
 		this.current_address = address;
