@@ -202,9 +202,20 @@ const WalletManage = {
 	},
 
 	getGasPrice: function() {
-		if (this.m_currWallet.chaintype) {
-
+		console.log("==this.m_currWallet.chaintype==",this.m_currWallet.chaintype)
+		let res = {}
+		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
+			res = vue.dal.Btc.getGasPrice();
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
+			res = vue.dal.Eos.getGasPrice();
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
+			res = vue.dal.Eth.getGasPrice();
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			res = vue.dal.Lotus.getGasPrice();
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
+			res = vue.dal.Tron.getGasPrice();
 		}
+		return res;
 	},
 
 	//判断是否开通钱包

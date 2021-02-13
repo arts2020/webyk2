@@ -1,7 +1,7 @@
 <template>
 	<view class="setting-fee">
 		<uni-nav-bar background-color="#F6F7F9" left-icon="back" :statusBar="true" :fixed="true" title="矿工费设置" @clickLeft="btnBack"></uni-nav-bar>
-	    <view class="fee-info">
+		<view class="fee-info">
 			<view class="top-box">
 				<text>矿工费</text>
 				<view class="fee-desc">
@@ -11,7 +11,7 @@
 				<image src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 			<view class="botto-box">
-				Gas Price（{{currentFee.unitPrice}} GWEI)* Gas ({{workload}})
+				Gas Price（{{currentFee.unitPrice}} GWEI)* Gas ({{21000}})
 			</view>
 		</view>
 		<view class="setting-rate">
@@ -22,13 +22,15 @@
 						<view class="p1">{{item.title}}</view>
 						<view class="p2">{{item.unitPrice}}&nbsp;&nbsp;GWEI</view>
 					</view>
-					<text><{{item.time}}分钟</text>
-					<image class="check-icon" v-if="activeIndex==index" src="../../../static/image/mine/checked.png" mode=""></image>
-				    <view v-else style="width: 24rpx;height: 28rpx;"></view>
+					<text>
+						< {{item.time}} 分钟</text> <image class="check-icon" v-if="activeIndex==index" src="../../../static/image/mine/checked.png"
+						 mode="">
+							</image>
+							<view v-else style="width: 24rpx;height: 28rpx;"></view>
 				</view>
 			</view>
 		</view>
-	    <view class="confirm-ok" @click="btnConfirm">确定</view>
+		<view class="confirm-ok" @click="btnConfirm">确定</view>
 	</view>
 </template>
 
@@ -36,24 +38,24 @@
 	export default {
 		data() {
 			return {
-				chaintype:1,
-				name:'',
+				chaintype: 1,
+				name: '',
 				//当前选中项
-				currentFee:{
-					money:'',
-					rmb:'',
-					unitPrice:"",
+				currentFee: {
+					money: '',
+					rmb: '',
+					unitPrice: "",
 				},
-				workload:0,
+				workload: 0,
 				//选中的选项下标
-				activeIndex:0,
-				menuList:[],
+				activeIndex: 0,
+				menuList: [],
 			};
 		},
 		onLoad(option) {
-			if(option.query){				
+			if (option.query) {
 				let params = JSON.parse(option.query);
-				if(Object.keys(params).length!=0){
+				if (Object.keys(params).length != 0) {
 					this.chaintype = params.chaintype;
 					this.name = params.name
 				}
@@ -62,185 +64,192 @@
 		onShow() {
 			this.onRefersh();
 		},
-		methods:{
-			handleCheck(index){
+		methods: {
+			handleCheck(index) {
+				let priceInfo = this.dal.Common.getAssetPriceInfo("ETH");
+				let configinfo = this.dal.Common.onGetCommonConfigInfo("exchange_key");
+				
 				this.activeIndex = index;
-				this.currentFee.unitPrice = this.menuList[index].unitPrice;
-				this.currentFee.money = this.menuList[index].unitPrice * this.workload;
-				this.currentFee.rmb = 46.85;
+				// this.currentFee.unitPrice = this.menuList[index].unitPrice;
+				// this.currentFee.money = this.menuList[index].unitPrice * this.workload;
+				// this.currentFee.rmb = 46.85;
+				this.currentFee.unitPrice = this.menuList[index].unitPrice * 1;
+				this.currentFee.money = this.menuList[index].unitPrice * 2 / Math.pow(10, 5);
+				
+				let rmb = priceInfo.price_usd * this.currentFee.money * configinfo.value;
+				
+				this.currentFee.rmb = rmb.toFixed(2);
 			},
-			btnConfirm(){
+			btnConfirm() {
 				//点击确定回到转账页
 				this.btnBack()
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
 			},
-	        onRefersh(){
+			onRefersh() {
 				// 根据链的类型获取矿工费数据
-				this.workload='256';
-				this.menuList=[
-					{
-						//每次交易需付的
-						unitPrice:'199.00',
-						title: "最快",
-						time:'0.5',
-					},
-					{
-						//每次交易需付的
-						unitPrice:'148.00',
-						title: "快速",
-						time:'2',
-					},
-					{
-						//每次交易需付的
-						unitPrice:'117.00',
-						title: "一般",
-						time:'5',
-					},
-					{
-						//每次交易需付的
-						unitPrice:'115.00',
-						title: "缓慢",
-						time:'30',
-					}
-				]
-			    
-				//刚进入默认拿第一个的
-				this.currentFee.unitPrice = this.menuList[0].unitPrice;
-			    this.currentFee.money = this.menuList[0].unitPrice * this.workload;
-				this.currentFee.rmb = 46.85;
-			    
+
+				this.dal.WalletManage.getGasPrice().then(result => {
+					this.menuList = result;
+					
+					//刚进入默认拿第一个的
+					this.currentFee.unitPrice = this.menuList[0].unitPrice * 1;
+					this.currentFee.money = this.menuList[0].unitPrice * 2 / Math.pow(10, 5);
+					
+					let priceInfo = this.dal.Common.getAssetPriceInfo("ETH");
+					let configinfo = this.dal.Common.onGetCommonConfigInfo("exchange_key");
+					let rmb = priceInfo.price_usd * this.currentFee.money * configinfo.value;
+					
+					this.currentFee.rmb = rmb.toFixed(2);
+				});
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-.setting-fee{
-	width: 100%;
-	height: 100%;
-	background: #f6f7f9;
-	min-height: 100vh;
-	/deep/ .uni-navbar--border{
-		border: 0;
-	}
-	.fee-info{
-		height: 200rpx;
-		background: #ffffff;
-		border-radius: 10rpx;
-		width: calc(100% - 72rpx);
-		margin: 0 auto;
-		padding: 0 30rpx;
-		box-sizing: border-box;
-		.top-box{
-			border-bottom: 1rpx solid #E7E6ED;
-			width:100%;
-			height: 130rpx;
-			display: flex;
-			align-items: center;
-			font-size: 30rpx;
-			font-family: PingFang SC, PingFang SC-Regular;
-			font-weight: 400;
-			color: #121212;
-			
-			.fee-desc{
-				text-align: right;
-				margin-left: auto;
-				.rmb{
-					color: #c2c2c2;
-				}
-			}
-			image{
-				width: 13rpx;
-				height: 24rpx;
-				margin-left: 22rpx;
-			}
-	    }
-		.botto-box{
-			height: 70rpx;
-			line-height: 70rpx;
-			text-align: right;
-			margin-right: 35rpx;
-			font-size: 24rpx;
-			font-family: PingFang SC, PingFang SC-Regular;
-			font-weight: 400;
-			text-align: right;
-			color: #c2c2c2;
+	.setting-fee {
+		width: 100%;
+		height: 100%;
+		background: #f6f7f9;
+		min-height: 100vh;
+
+		/deep/ .uni-navbar--border {
+			border: 0;
 		}
-	}
-	.setting-rate{
-		width: calc(100% - 72rpx);	
-		margin: 30rpx auto;
-		.title{
-			font-size: 26rpx;
-			font-family: PingFang SC, PingFang SC-Regular;
-			font-weight: 400;
-			text-align: left;
-			color: #121212;
-			margin-bottom: 17rpx;
-		}
-		.setting-content{
-			width: 100%;
+
+		.fee-info {
+			height: 200rpx;
+			background: #ffffff;
+			border-radius: 10rpx;
+			width: calc(100% - 72rpx);
+			margin: 0 auto;
 			padding: 0 30rpx;
 			box-sizing: border-box;
-			background-color: #FFFFFF;
-			border-radius: 10rpx;
-			.list-item{
+
+			.top-box {
+				border-bottom: 1rpx solid #E7E6ED;
 				width: 100%;
-				height: 116rpx;
+				height: 130rpx;
 				display: flex;
 				align-items: center;
-				border-bottom: 1rpx solid #E7E6ED;
-				&:last-child{
-					border: 0;
-				}
-				text{
-					font-size: 24rpx;
-					font-family: PingFang SC, PingFang SC-Regular;
-					font-weight: 400;
-					color: #c2c2c2;
-					margin-right: 31rpx;
-				}
-				.check-icon{
-					width: 24rpx;
-					height: 28rpx;
-				}
-				.info{
-					font-family: PingFang SC, PingFang SC-Regular;
-					font-weight: 400;
-					margin-right: auto;
-					.p1{
-						font-size: 30rpx;
-						color: #121212;
-						line-height: 40rpx;
+				font-size: 30rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				color: #121212;
+
+				.fee-desc {
+					text-align: right;
+					margin-left: auto;
+
+					.rmb {
+						color: #c2c2c2;
 					}
-					.p2{
-						font-size: 28rpx;
-						color: #8e8e8e;
-						line-height: 40rpx;
+				}
+
+				image {
+					width: 13rpx;
+					height: 24rpx;
+					margin-left: 22rpx;
+				}
+			}
+
+			.botto-box {
+				height: 70rpx;
+				line-height: 70rpx;
+				text-align: right;
+				margin-right: 35rpx;
+				font-size: 24rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				text-align: right;
+				color: #c2c2c2;
+			}
+		}
+
+		.setting-rate {
+			width: calc(100% - 72rpx);
+			margin: 30rpx auto;
+
+			.title {
+				font-size: 26rpx;
+				font-family: PingFang SC, PingFang SC-Regular;
+				font-weight: 400;
+				text-align: left;
+				color: #121212;
+				margin-bottom: 17rpx;
+			}
+
+			.setting-content {
+				width: 100%;
+				padding: 0 30rpx;
+				box-sizing: border-box;
+				background-color: #FFFFFF;
+				border-radius: 10rpx;
+
+				.list-item {
+					width: 100%;
+					height: 116rpx;
+					display: flex;
+					align-items: center;
+					border-bottom: 1rpx solid #E7E6ED;
+
+					&:last-child {
+						border: 0;
+					}
+
+					text {
+						font-size: 24rpx;
+						font-family: PingFang SC, PingFang SC-Regular;
+						font-weight: 400;
+						color: #c2c2c2;
+						margin-right: 31rpx;
+					}
+
+					.check-icon {
+						width: 24rpx;
+						height: 28rpx;
+					}
+
+					.info {
+						font-family: PingFang SC, PingFang SC-Regular;
+						font-weight: 400;
+						margin-right: auto;
+
+						.p1 {
+							font-size: 30rpx;
+							color: #121212;
+							line-height: 40rpx;
+						}
+
+						.p2 {
+							font-size: 28rpx;
+							color: #8e8e8e;
+							line-height: 40rpx;
+						}
 					}
 				}
 			}
 		}
+
+		.confirm-ok {
+			position: fixed;
+			bottom: 33rpx;
+			left: 50%;
+			transform: translateX(-50%);
+			width: calc(100% - 102rpx);
+			margin: 0 auto;
+			height: 88rpx;
+			line-height: 88rpx;
+			background: #4c72ef;
+			border-radius: 14rpx;
+			box-shadow: 0px 3rpx 26rpx 0px rgba(0, 0, 0, 0.06);
+			font-size: 32rpx;
+			font-family: PingFang SC, PingFang SC-Bold;
+			font-weight: 700;
+			text-align: center;
+			color: #ffffff;
+		}
 	}
-    .confirm-ok{
-    	position: fixed;
-    	bottom: 33rpx;
-    	left: 50%;
-    	transform: translateX(-50%);
-    	width: calc(100% - 102rpx);
-    	margin: 0 auto;
-    	height: 88rpx;
-    	line-height: 88rpx;
-    	background: #4c72ef;
-    	border-radius: 14rpx;
-    	box-shadow: 0px 3rpx 26rpx 0px rgba(0,0,0,0.06);
-    	 font-size: 32rpx;
-    	 font-family: PingFang SC, PingFang SC-Bold;
-    	 font-weight: 700;
-    	 text-align: center;
-    	 color: #ffffff;
-    }
-}
 </style>
