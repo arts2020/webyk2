@@ -94,6 +94,7 @@ const WalletManage = {
 
 	//创建所有身份钱包
 	async createMainWallet(walletInfo) {
+		console.log("=createMainWallet=walletInfo==", walletInfo)
 		try {
 			if (walletInfo.words && walletInfo.words.length > 0) {
 				let chaintype = vue.entities.Metadata.ChainType.BTC;
@@ -116,12 +117,12 @@ const WalletManage = {
 					ret = await vue.dal.Eth.createMain(walletInfo)
 				}
 
-				// if (ret) {
-				// 	console.log("==Lotus==")
-				// 	vue.dal.Chain.addMineChainInfo(chaintype);
-				// 	chaintype = vue.entities.Metadata.ChainType.LOTUS;
-				// 	ret = await vue.dal.Lotus.createMain(walletInfo)
-				// }
+				if (ret) {
+					console.log("==Lotus==")
+					vue.dal.Chain.addMineChainInfo(chaintype);
+					chaintype = vue.entities.Metadata.ChainType.Lotus;
+					ret = await vue.dal.Lotus.createMain(walletInfo)
+				}
 
 				if (ret) {
 					console.log("==Tron==")
@@ -147,6 +148,7 @@ const WalletManage = {
 
 	//创建普通钱包 chaintype, importtype, strval
 	async createNormalWallet(walletInfo) {
+		console.log('==walletInfo.chaintype==', walletInfo.chaintype)
 		let isok = false;
 		if (walletInfo.chaintype == vue.entities.Metadata.ChainType.BTC) {
 			isok = await vue.dal.Btc.createNormal(walletInfo)
@@ -272,9 +274,10 @@ const WalletManage = {
 
 	getCurrWallet: function() {
 		console.log("=====getCurrWallet=====", this.m_currWallet)
+
 		let priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
 		let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
-		if (configinfo && priceInfo) {
+		if (configinfo && priceInfo && this.m_currWallet) {
 			let rmb = priceInfo.price_usd * this.m_currWallet.money * configinfo.value;
 			console.log("==rmb==", rmb)
 			this.m_currWallet.rmb = rmb;

@@ -18,6 +18,10 @@ const Tron = {
 
 	},
 
+	clear: function() {
+		uni.cclog("======Tron clear==========")
+	},
+	
 	//创建身份钱包
 	async createMain(walletInfo) {
 		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.TRON)

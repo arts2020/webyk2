@@ -16,7 +16,9 @@ const Eos = {
 	destroy: function() {
 
 	},
-
+	clear: function() {
+		uni.cclog("======Eos clear==========")
+	},
 	//创建身份钱包
 	async createMain(walletInfo) {
 		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.EOS)
@@ -24,6 +26,7 @@ const Eos = {
 			wallet = await this.createWalletByWords(walletInfo.words)
 			wallet.password = walletInfo.password;
 			wallet.passwordtip = walletInfo.tips;
+			wallet.address = walletInfo.name;
 			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
 			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.EOS, wallet);
 		}
@@ -33,7 +36,7 @@ const Eos = {
 	async createNormal(walletInfo) {
 		if (walletInfo.importtype == vue.entities.Metadata.ImportType.WordType) {
 			let wallet = await this.createWalletByWords(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
@@ -44,7 +47,7 @@ const Eos = {
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;

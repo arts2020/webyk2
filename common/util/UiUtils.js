@@ -4,7 +4,7 @@ var vue = Vue.prototype
 // UI相关的全局方法
 const UiUtils = {
 	mTimerId: null, // 控制菊花的计时器
-	mLoadingShowTime: 10000, // 菊花默认显示时间10s
+	mLoadingShowTime: 15000, // 菊花默认显示时间10s
 
 	// 悬浮球相关
 	mDragBallVisible: false,

@@ -11,10 +11,13 @@ const Lotus = {
 	destroy: function() {
 
 	},
-
+	
+	clear: function() {
+		uni.cclog("======Lotus clear==========")
+	},
 	//创建身份钱包
 	async createMain(walletInfo) {
-		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.LOTUS)
+		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.Lotus)
 		if (!wallet) {
 			wallet = await this.createWalletByWords(walletInfo.words)
 			if (wallet) {
@@ -31,6 +34,7 @@ const Lotus = {
 
 	//创建普通钱包
 	async createNormal(walletInfo) {
+		console.log("=walletInfo.importtype=",walletInfo)
 		if (walletInfo.importtype == vue.entities.Metadata.ImportType.WordType) {
 			let wallet = await this.createWalletByWords(walletInfo.strval)
 			if (wallet) {
@@ -58,7 +62,7 @@ const Lotus = {
 	},
 
 	async createWalletByWords(words) {
-		console.log("========LOTUS===创建节点请求===============")
+		console.log("========LOTUS===创建节点请求===============",words)
 		try {
 			let ret = await FileCoinUtils.mnemonicWallter(words)
 			console.log("==createWalletByWords===ret===", ret)
@@ -71,7 +75,7 @@ const Lotus = {
 					words: words,
 					privateKey: privateKey,
 					publicKey: publicKey,
-					address: address.address
+					address: address
 				}
 			}
 			return false;

@@ -57,6 +57,8 @@ const MainWallet = {
 			name: wallet.name, //钱包名称
 			money: 0,
 		}
+
+		console.log("=addMainWallet=item===", item)
 		this.m_mainWallet[chaintype] = item;
 
 		vue.util.StringUtils.setUserDefaults("main_wallets_key", JSON.stringify(this.m_mainWallet));
@@ -94,9 +96,13 @@ const MainWallet = {
 	setMainInfo: function(mainInfo) {
 		let info = {
 			name: mainInfo.name,
+			words: mainInfo.words,
 			password: mainInfo.password,
+			passwordtip: mainInfo.passwordtip,
+			importtype: mainInfo.importtype,
 		}
 		this.m_mainInfo = info;
+		console.log("=this.m_mainInfo=", this.m_mainInfo)
 		vue.util.StringUtils.setUserDefaults("main_info_key", JSON.stringify(this.m_mainInfo));
 	},
 
@@ -105,7 +111,6 @@ const MainWallet = {
 	},
 
 	//===========================身份钱包=助记词=私钥=======================
-
 	//设置主链助记词
 	setMnemonic: function(mne) {
 		this.m_mnemonic = mne;

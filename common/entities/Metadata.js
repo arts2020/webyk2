@@ -86,7 +86,7 @@ const Metadata = {
 		ETH: 1, //以太坊
 		BTC: 2, //BTC
 		TRON: 3, //波厂
-		LOTUS: 4,
+		Lotus: 4,
 		EOS: 5,
 	}
 }
