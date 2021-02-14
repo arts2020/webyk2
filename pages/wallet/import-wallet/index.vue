@@ -1,13 +1,13 @@
 <template>
 	<view class="import-wallet-index">
-		<uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="导入身份&钱包" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="import_wallet_title" @clickLeft="btnBack"></uniNavBar>
 		<view class="import-status" @tap="goRecoverStatus">
 			<image class="status_icon" src="../../../static/image/index/hsWallet.png" mode=""></image>
-			<text>导入身份钱包</text>
+			<text>{{import_wallet_str1}}</text>
 			<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="single-wallet">
-			<view class="title">导入单底层钱包</view>
+			<view class="title">{{import_wallet_str2}}</view>
 			<view class="main-list">
 				<view class="menu-item" @tap="goimport(item)" v-for="(item,index) in coinList" :key="index">
 					<image class="menu-icon" :src="'../../../static/image/chain/'+item.img" mode=""></image>
@@ -31,6 +31,7 @@
 			uniNavBar
 		},
 		created() {
+			this.initword()
 			this.onRefresh();
 		},
 		data() {
@@ -49,6 +50,11 @@
 			});
 		},
 		methods: {
+			initword(){
+				this.import_wallet_title = this.getLocalStr('import_wallet_title');
+				this.import_wallet_str1 = this.getLocalStr('import_wallet_str1');
+				this.import_wallet_str2 = this.getLocalStr("import_wallet_str2");			
+			},
 			onRefresh() {
 				//检查是否有图标，没有就添加默认图标
 				let list = this.dal.Chain.getChainList();

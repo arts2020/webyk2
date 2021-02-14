@@ -1,12 +1,12 @@
 <template>
 	<view class="importType">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  title="导入方式"  @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back"  :title="wallet_title_str13"  @clickLeft="goBack"></uni-nav-bar>
 		<view class="main-list">
 			<view class="menu-item" @tap="goRecover(1)">
 				<image style="width: 49rpx;height: 43rpx;" class="menu-icon" src="../../../static/image/index/word.png" mode=""></image>
 				<view class="menu-msg">
-					<view class="msg-title">助记词</view>
-					<view class="msg-subT">助记词由单词组成，用空格隔开</view>
+					<view class="msg-title">{{wallet_title_str8}}</view>
+					<view class="msg-subT">{{wallet_title_str9}}</view>
 				</view>
 				<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
@@ -14,8 +14,8 @@
 			<view class="menu-item" @tap="goRecover(2)">
 				<image class="menu-icon" style="width: 44rpx;height: 46rpx;" src="../../../static/image/index/privateword.png" mode=""></image>
 				<view class="menu-msg">
-					<view class="msg-title">私钥</view>
-					<view class="msg-subT">明文私钥字符</view>
+					<view class="msg-title">{{wallet_title_str10}}</view>
+					<view class="msg-subT">{{wallet_title_str11}}</view>
 				</view>
 				<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
@@ -37,8 +37,17 @@
 				console.log(option.query)
 				this.activeCoin  = JSON.parse(option.query)	
 			}
+			this.initword()
 		},
 		methods:{
+			initword(){
+				this.wallet_title_str8 = this.getLocalStr("wallet_title_str8")
+				this.wallet_title_str9 = this.getLocalStr("wallet_title_str9")
+				this.wallet_title_str10 = this.getLocalStr("wallet_title_str10")
+				this.wallet_title_str13 = this.getLocalStr("wallet_title_str13");
+				this.wallet_title_str11 = this.getLocalStr("wallet_title_str11");
+
+			},
 			goBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},

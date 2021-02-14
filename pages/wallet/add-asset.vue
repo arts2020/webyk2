@@ -12,7 +12,7 @@
 		</view>
 		<scroll-view scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
 			<view class="list-item" v-for="(item,index) in showList" :key="index">
-				<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
+				<image class="icon" :src="item.icon" mode=""></image>
 				<view class="dapp-info">
 					<view class="title">{{item.name}}</view>
 					<view class="descrip">{{item.showContract}}</view>
@@ -36,7 +36,9 @@
 		data() {
 			return {
 				scrollHeight: 0,
+				//当前链的类型和名字
 				chaintype: 1,
+				name:"",
 				keyword: "",
 				m_idx:"",
 				showList:[],
@@ -80,6 +82,7 @@
 			initword(){
 			    this.dapp_search_placeholder = this.getLocalStr("dapp_search_placeholder");
 			    this.btnstring_cancle = this.getLocalStr("btnstring_cancle");
+				this.wallet_tip_str1 = this.getLocalStr("wallet_tip_str1")
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchToPage("wallet-index", "add-asset", {}, "switchTab");
@@ -89,18 +92,21 @@
 				this.currentAssetList=[];
 				this.allAssetList=[];
 				
+				let chains = this.dal.Chain.getChainList();
+				let item = chains.find(el=>el.chaintype==this.chaintype);
+				this.name = item.name;
+				
 				this.currentAssetList = this.dal.ContractWallet.getContractWallets(this.m_idx, this.address);
+				//获取所有币
 				let list = this.dal.Common.onGetTokenListData()||[];
-			
+				//筛选当前链下的
+				list = list.filter(el=>el.category.toUpperCase()==this.name.toUpperCase());
+				console.log('=================',list)
 				for(let i=0;i<list.length;i++){
 					let el = list[i]
-					//isshow为true的删掉不显示，为false的要显示
-					// if(el.isshow){
-					// 	list.splice(i,1);
-					// 	continue;
-					// }
-					if(!el.img){
-						el.img = 'default.png';
+			
+					if(!el.icon){
+						el.icon = '../../static/image/chain/default.png';
 					}
 					
 					if(this.currentAssetList.some(e=>e.name == el.name)){
@@ -109,17 +115,17 @@
 						el.isCollect = false;
 					}
 					
-					el.showContract = el.contract?el.contract.substring(0,7)+'...'+el.contract.substring(el.contract.length-7):"no contract";
+					el.showContract = el.address?el.address.substring(0,7)+'...'+el.address.substring(el.address.length-7):"no address";
 					
 				}
 		
 				this.allAssetList = list;
-				this.showList = list;
+				this.showList = this.allAssetList;
 				
 			},
 			clear() {
 				this.keyword = "";
-				this.showList = list;
+				this.showList = this.allAssetList;
 			},
 			async goSearch() {
 				let res  = ''
@@ -132,9 +138,9 @@
 
 				if(res){
 					//地址有效   先再app已有的代币中找
-					this.showList = this.allAssetList.filter(el=>el.contract==this.keyword)
+					this.showList  = this.allAssetList.filter(el=>el.address==this.keyword);;
 				}else{
-					this.util.UiUtils.showToast('地址无效');
+					this.util.UiUtils.showToast(this.wallet_tip_str1);
 				}
 			},
 			goAdd(item) {
@@ -147,7 +153,7 @@
 					return;
 				}
 				// 添加资产
-				this.dal.ContractWallet.addContractWallet(this.chaintype, this.m_idx, this.address, item.contract).then(result => {
+				this.dal.ContractWallet.addContractWallet(this.chaintype, this.m_idx, this.address, item.address).then(result => {
 					console.log("====addContractWallet==result===", result);
 					if (result) {
 						this.util.UiUtils.showToast('添加成功');

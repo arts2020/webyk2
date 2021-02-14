@@ -1,9 +1,9 @@
 <template>
 	<view class="backup-sure">
-     <uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="确认助记词" @clickLeft="btnBack"></uniNavBar>
+     <uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="bak_title_str6" @clickLeft="btnBack"></uniNavBar>
 		<scroll-view class="uni-content" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
 			<view class="top-title">
-			    请按顺序点击助记词，以确定您正确备份。
+			    {{bak_title_str7}}
 			</view>
 			<view class="sure-content">
 				<view class="top-box">
@@ -14,7 +14,7 @@
 
 				</view>
 			</view>
-			<view @tap="btnConfirm()" class="container-login">已确认备份</view>
+			<view @tap="btnConfirm()" class="container-login">{{bak_title_str5}}</view>
 		</scroll-view>
 		<uni-popup ref="popup" type="message">
 		    <uni-popup-message type="error" :message="errMsg" :duration="2000"></uni-popup-message>
@@ -22,7 +22,7 @@
 		<uni-popup type="center" ref="successPop">
 			<view class="success-c">
 				<image src="../../../../static/image/index/readlly.png" mode=""></image>
-			    <view>助记词正确</view>
+			    <view>{{bak_title_str8}}</view>
 			</view>
 		</uni-popup>
 	</view>
@@ -46,6 +46,7 @@
             	this.paramsObj = params;
 				this.onRefresh()
             }
+			this.initword()
 		},
 		
 		data() {
@@ -121,6 +122,19 @@
 			};
 		},
 		methods: {
+			initword(){
+				this.bak_title_str6 = this.getLocalStr("bak_title_str6")
+				this.bak_title_str7 = this.getLocalStr("bak_title_str7")
+				this.bak_title_str8 = this.getLocalStr("bak_title_str8")
+				this.bak_title_str5 = this.getLocalStr("bak_title_str5");
+				
+				this.err_tip_str11 = this.getLocalStr("err_tip_str11");
+				this.err_tip_str16 = this.getLocalStr("err_tip_str16");
+				this.err_tip_str18 = this.getLocalStr("err_tip_str18");
+				this.err_tip_str19 = this.getLocalStr("err_tip_str19");
+				this.err_tip_str20 = this.getLocalStr("err_tip_str20");
+				this.err_tip_str21 = this.getLocalStr("err_tip_str21");
+			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},
@@ -149,12 +163,12 @@
 			},
 			btnConfirm() {
 				if (this.seletItems.length <= 0) {
-					this.errMsg = '助记词不能为空';
+					this.errMsg = this.err_tip_str18;
 					this.$refs.popup.open()
 					return;
 				}
 				if (this.seletItems.length != this.words.length) {
-					this.errMsg = '助记词不正确';
+					this.errMsg = this.err_tip_str16;
 					this.$refs.popup.open()
 					return;
 				}
@@ -162,13 +176,13 @@
 					var item = this.seletItems[i];
 					var tword = this.words[i]
 					if (item.val != tword) {
-						this.errMsg = '助记词顺序错误';
+						this.errMsg = this.err_tip_str19;
 						this.$refs.popup.open()
 						return;
 					}
 				}
 				
-				this.util.UiUtils.showLoading("钱包初始化...",500);
+				this.util.UiUtils.showLoading(this.err_tip_str11,500);
 				
                 let params={}
 				
@@ -196,7 +210,7 @@
 								this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
 							},500)
 						}else{
-							this.util.UiUtils.showToast("创建单层钱包失败");
+							this.util.UiUtils.showToast(this.err_tip_str20);
 						}
 					})
 					
@@ -219,7 +233,7 @@
 								this.util.UiUtils.switchToPage("wallet-add-coin", "backup-info-sure",{backType:1});
 							},500)
 						}else{
-							this.util.UiUtils.showToast("创建身份钱包失败");
+							this.util.UiUtils.showToast(this.err_tip_str21);
 						}
 					})
 				}					

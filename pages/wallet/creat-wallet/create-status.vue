@@ -1,42 +1,42 @@
 <template>
 	<view class="create-status">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="创建身份" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="create_wallet_str3" @clickLeft="goBack"></uni-nav-bar>
 
 		<view class="create-main" v-if="isNext">
-			<view class="top-title">创建身份，你将会有身份下的多链钱包，比如ETH、BTC ...</view>
+			<view class="top-title">{{title_str10}}</view>
 			<view>
-				<view class="top-title">身份名</view>
+				<view class="top-title">{{status_name}}</view>
 				<view class="input-box">
-					<input type="text" placeholder="身份名" placeholder-style="font-size: 26rpx;color: #C2C2C2;" v-model="statusName" />
+					<input type="text" :placeholder="status_name" placeholder-style="font-size: 26rpx;color: #C2C2C2;" v-model="statusName" />
 					<uni-icons type="closeempty" size="20" v-if="statusName" @tap="clear('1')"></uni-icons>
 				</view>
 			</view>
 			<view>
-				<view class="top-title">输入密码</view>
+				<view class="top-title">{{setting_pasd}}</view>
 				<view class="input-box">
-					<input @input="inputPasd" type="text" placeholder-style="font-size: 26rpx;color: #C2C2C2;" password placeholder="密码"
+					<input @input="inputPasd" type="text" placeholder-style="font-size: 26rpx;color: #C2C2C2;" password :placeholder="placeholder_str2"
 					 v-model="password" />
 					 <uni-icons type="closeempty" size="20" v-if="password" @tap="clear('2')"></uni-icons>
 				</view>
 				<view class="tips">{{tip_1}}</view>
 			</view>
 			<view>
-				<view class="top-title">确认密码</view>
+				<view class="top-title">{{confirm_pasd}}</view>
 				<view class="input-box">
-					<input @blur="reconfirm" password type="text" placeholder-style="font-size: 26rpx;color: #C2C2C2;" placeholder="重复输入密码"
+					<input @blur="reconfirm" password type="text" placeholder-style="font-size: 26rpx;color: #C2C2C2;" :placeholder="placeholder_str3"
 					 v-model="confirmPasd" />
 					 <uni-icons type="closeempty" size="20" v-if="confirmPasd" @tap="clear('3')"></uni-icons>
 				</view>
 				<view class="tips">{{tip_2}}</view>
 			</view>
 			<view>
-				<view class="top-title">密码提示</view>
+				<view class="top-title">{{setting_pasd_tip}}</view>
 				<view class="input-box">
-					<input type="text" placeholder="密码提示(可选)" placeholder-style="font-size: 26rpx;color: #C2C2C2;" v-model="pasdTip" />
+					<input type="text" :placeholder="placeholder_str4" placeholder-style="font-size: 26rpx;color: #C2C2C2;" v-model="pasdTip" />
 				    <uni-icons type="closeempty" size="20" v-if="pasdTip" @tap="clear('4')"></uni-icons>
 				</view>
 			</view>
-			<view class="btn_ok" :style="'background-color:'+btnCreate_color" @tap="btnCreate">创建</view>
+			<view class="btn_ok" :style="'background-color:'+btnCreate_color" @tap="btnCreate">{{btnstring_create}}</view>
 		</view>
 
 		<view class="aggrement" v-else>
@@ -46,10 +46,10 @@
 			<view class="btn-box">
 				<radio-group @change="handleCheck">
 					<label>
-						<radio value="aggr" /><text>我已阅读并同意服务条款</text>
+						<radio value="aggr" /><text>{{title_str11}}</text>
 					</label>
 				</radio-group>
-				<view class="btn_ok" :style="'background-color:'+btn_color" @tap="goNext">确认</view>
+				<view class="btn_ok" :style="'background-color:'+btn_color" @tap="goNext">{{btnstring_confirm}}</view>
 			</view>
 		</view>
 
@@ -82,6 +82,9 @@
 				tip_2: "",
 			};
 		},
+		onLoad() {
+			this.initword()
+		},
 		onShow() {
 			// 是否要求恢复到页面刚加载进来时的状态
 			let _this = this;
@@ -111,6 +114,29 @@
 			}
 		},
 		methods: {
+			initword(){
+				this.title_str10 = this.getLocalStr("title_str10")
+				this.title_str11 = this.getLocalStr("title_str11")
+				
+				this.btnstring_confirm = this.getLocalStr("btnstring_confirm");
+				this.btnstring_create = this.getLocalStr('btnstring_create');
+				this.status_name = this.getLocalStr('status_name');
+				this.create_wallet_str3 = this.getLocalStr("create_wallet_str3")
+				
+				this.setting_pasd = this.getLocalStr('setting_pasd');
+				this.placeholder_str2 = this.getLocalStr('placeholder_str2');
+				this.confirm_pasd = this.getLocalStr('confirm_pasd');
+				this.placeholder_str3 = this.getLocalStr('placeholder_str3');
+				this.setting_pasd_tip = this.getLocalStr('setting_pasd_tip');
+				this.placeholder_str4 = this.getLocalStr('placeholder_str4');
+				
+				this.err_tip_str6 = this.getLocalStr('err_tip_str6');
+				this.err_tip_str7 = this.getLocalStr('err_tip_str7');
+				this.err_tip_str12 = this.getLocalStr('err_tip_str12');
+				this.err_tip_str9 = this.getLocalStr('err_tip_str9');
+				this.err_tip_str10 = this.getLocalStr('err_tip_str10');
+				this.err_tip_str11 = this.getLocalStr('err_tip_str11');
+			},
 			clear(str){
 				if(str=='1'){
 					this.statusName = ""
@@ -143,14 +169,14 @@
 			},
 			reconfirm() {
 				if (this.password != this.confirmPasd) {
-					this.tip_2 = '两次密码不一致'
+					this.tip_2 = this.err_tip_str6
 				} else {
 					this.tip_2 = ''
 				}
 			},
 			inputPasd() {
 				if (this.password.length < 8) {
-					this.tip_1 = "不少于8个字符，建议大小写字母、数字混合"
+					this.tip_1 = this.err_tip_str7
 				} else {
 					this.tip_1 = ""
 				}
@@ -159,19 +185,19 @@
 			btnCreate: function() {
 				// 数据校验
 				if(!this.statusName){
-					this.util.UiUtils.showToast('请输入身份名称！');
+					this.util.UiUtils.showToast(this.err_tip_str12);
 					return;
 				}
 				if(!this.password){
-					this.util.UiUtils.showToast('请输入密码！');
+					this.util.UiUtils.showToast(this.err_tip_str9);
 					return;
 				}
 				if(!this.confirmPasd){
-					this.util.UiUtils.showToast('请输入确认密码！');
+					this.util.UiUtils.showToast(this.err_tip_str10);
 					return;
 				}
 				if(this.password != this.confirmPasd){
-					this.util.UiUtils.showToast('两次密码不一致！');
+					this.util.UiUtils.showToast(this.err_tip_str6);
 					return;
 				}
 				let params = {

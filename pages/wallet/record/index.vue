@@ -7,10 +7,10 @@
 		</view>
 		<view class="deal-list">
 			<view class="nav-menu">
-				<view :class="active==0?'menu active-index':'menu'" @tap="updateMenu(0)">全部</view>
-				<view :class="active==1?'menu active-index':'menu'" @tap="updateMenu(1)">转出</view>
-				<view :class="active==2?'menu active-index':'menu'" @tap="updateMenu(2)">转入</view>
-			    <view :class="active==3?'menu active-index':'menu'" @tap="updateMenu(3)">失败</view>
+				<view :class="active==0?'menu active-index':'menu'" @tap="updateMenu(0)">{{title_str1}}</view>
+				<view :class="active==1?'menu active-index':'menu'" @tap="updateMenu(1)">{{title_str3}}</view>
+				<view :class="active==2?'menu active-index':'menu'" @tap="updateMenu(2)">{{title_str2}}</view>
+			    <view :class="active==3?'menu active-index':'menu'" @tap="updateMenu(3)">{{title_str4}}</view>
 			</view>
 			<swiper :style="{ height: scrollHeight + 'px',backgroundColor:'#ffffff' }" @change="swiperChange" :current="active">
 				<swiper-item>
@@ -69,8 +69,8 @@
 		</view>
 	   <view class="botto_btn">
 		   <view class="btns">
-		   	<view style="background-color: #8253F3;" @tap="goCollectCash">收款</view>
-		   	<view style="background-color: #4C72EF;" @tap="goTransfer ">转账</view>
+		   	<view style="background-color: #8253F3;" @tap="goCollectCash">{{btnstring_receive}}</view>
+		   	<view style="background-color: #4C72EF;" @tap="goTransfer ">{{btnstring_carry}}</view>
 		   </view>
 	   </view>
 	</view>
@@ -115,6 +115,7 @@
 				console.log(params)
 				this.currentAsset = params;
 			}
+			this.iniword()
 		},
 		onShow() {
 			//获取高度
@@ -126,6 +127,14 @@
 			this.onRefersh();
 		},
 		methods:{
+			iniword(){
+				this.btnstring_carry = this.getLocalStr("btnstring_carry");
+				this.btnstring_receive = this.getLocalStr("btnstring_receive");
+				this.title_str1 = this.getLocalStr("title_str1");
+				this.title_str2 = this.getLocalStr("title_str2");
+				this.title_str3 = this.getLocalStr("title_str3");
+				this.title_str4 = this.getLocalStr("title_str4");
+			},
 			onRefersh(){
 				//每次刷新数据  清空之前数据并重新获取
 				// this.allList = [];

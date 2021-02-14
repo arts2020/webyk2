@@ -1,13 +1,13 @@
 <template>
 	<view class="create-wallet-index">
-		<uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="创建身份&钱包" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="create_wallet_title" @clickLeft="btnBack"></uniNavBar>
 		<view class="create-status" @tap="goCreateStatus">
 			<image class="status_icon" src="../../../static/image/index/noWallet.png" mode=""></image>
-		    <text>创建身份钱包</text>
+		    <text>{{create_wallet_str1}}</text>
 			<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
 		<view class="single-wallet">
-			<view class="title">创建单底层钱包</view>
+			<view class="title">{{create_wallet_str2}}</view>
 			<view class="main-list">
 				<view class="menu-item" @tap="goCreate(item)" v-for="(item,index) in coinList" :key="index">
 					<image class="menu-icon" :src="'../../../static/image/chain/'+item.img" mode=""></image>
@@ -36,6 +36,7 @@
 			};
 		},
 		created() {
+			this.initword()
 			this.onRefresh();
 		},
 		onShow() {
@@ -48,6 +49,11 @@
 			});
 		},			
 		methods:{
+			initword(){
+				this.create_wallet_title = this.getLocalStr('create_wallet_title');
+				this.create_wallet_str1 = this.getLocalStr('create_wallet_str1');
+				this.create_wallet_str2 = this.getLocalStr("create_wallet_str2");			
+			},
 			onRefresh:function(){
 				//检查是否有图标，没有就添加默认图标
 				let list = this.dal.Chain.getChainList();

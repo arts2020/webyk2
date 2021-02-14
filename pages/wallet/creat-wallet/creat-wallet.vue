@@ -1,41 +1,41 @@
 <template>
 	<view class="create-index">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="创建钱包" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="create_wallet_str4" @clickLeft="goBack"></uni-nav-bar>
 		<view class="create-main">
 			<view>
-				<view class="top-title">钱包名称</view>
+				<view class="top-title">{{wallet_detail_str7}}</view>
 				<view class="input-box">
-					<input type="text" placeholder-style="color:#C2C2C2;font-size:26rpx" placeholder="1-12位字符" v-model="walletName" />
+					<input type="text" placeholder-style="color:#C2C2C2;font-size:26rpx" :placeholder="placeholder_str1" v-model="walletName" />
 				    <uni-icons type="closeempty" size="20" v-if="walletName" @tap="clear('1')"></uni-icons>
 				</view>
 			</view>
 			<view>
-				<view class="top-title">设置密码</view>
+				<view class="top-title">{{setting_pasd}}</view>
 				<view class="input-box">
-					<input @input="inputPasd" type="text" placeholder-style="color:#C2C2C2;font-size:26rpx" password placeholder="输入密码不少于8位数"
+					<input @input="inputPasd" type="text" placeholder-style="color:#C2C2C2;font-size:26rpx" password :placeholder="placeholder_str2"
 					 v-model="password" />
 					 <uni-icons type="closeempty" size="20" v-if="password" @tap="clear('2')"></uni-icons>
 				</view>
 				<view class="tips">{{tip_1}}</view>
 			</view>
 			<view>
-				<view class="top-title">确认密码</view>
+				<view class="top-title">{{confirm_pasd}}</view>
 				<view class="input-box">
-					<input @blur="reconfirm" password type="text" placeholder="重复输入密码" placeholder-style="color:#C2C2C2;font-size:26rpx"
+					<input @blur="reconfirm" password type="text" :placeholder="placeholder_str3" placeholder-style="color:#C2C2C2;font-size:26rpx"
 					 v-model="confirmPasd" />
 					 <uni-icons type="closeempty" size="20" v-if="confirmPasd" @tap="clear('3')"></uni-icons>
 				</view>
 				<view class="tips">{{tip_2}}</view>
 			</view>
 			<view>
-				<view class="top-title">设置密码提示</view>
+				<view class="top-title">{{setting_pasd_tip}}</view>
 				<view class="input-box">
-					<input type="text" placeholder="密码提示(可选)" placeholder-style="color:#C2C2C2;font-size:26rpx" v-model="pasdTip" />
+					<input type="text" :placeholder="placeholder_str4" placeholder-style="color:#C2C2C2;font-size:26rpx" v-model="pasdTip" />
 					<uni-icons type="closeempty" size="20" v-if="pasdTip" @tap="clear('4')"></uni-icons>
 					
 				</view>
 			</view>
-			<view class="btn_ok" :style="'background-color:'+btn_color" @tap="btnCreate">创建</view>
+			<view class="btn_ok" :style="'background-color:'+btn_color" @tap="btnCreate">{{btnstring_create}}</view>
 		</view>
 	</view>
 </template>
@@ -63,6 +63,7 @@
 			if (Object.keys(params).length!=0) {
 				this.coinObj = params;
 			}
+			this.initword()
 		},
 		onShow() {
 			// 是否要求恢复到页面刚加载进来时的状态
@@ -84,6 +85,24 @@
 			}
 		},
 		methods: {
+			initword(){
+				this.btnstring_create = this.getLocalStr('btnstring_create')
+				this.wallet_detail_str7 = this.getLocalStr('wallet_detail_str7');
+				this.placeholder_str1 = this.getLocalStr('placeholder_str1');
+				this.create_wallet_str4 = this.getLocalStr("create_wallet_str4")
+				this.setting_pasd = this.getLocalStr('setting_pasd');
+				this.placeholder_str2 = this.getLocalStr('placeholder_str2');
+				this.confirm_pasd = this.getLocalStr('confirm_pasd');
+				this.placeholder_str3 = this.getLocalStr('placeholder_str3');
+				this.setting_pasd_tip = this.getLocalStr('setting_pasd_tip');
+				this.placeholder_str4 = this.getLocalStr('placeholder_str4');
+				this.err_tip_str6 = this.getLocalStr('err_tip_str6');
+				this.err_tip_str7 = this.getLocalStr('err_tip_str7');
+				this.err_tip_str8 = this.getLocalStr('err_tip_str8');
+				this.err_tip_str9 = this.getLocalStr('err_tip_str9');
+				this.err_tip_str10 = this.getLocalStr('err_tip_str10');
+				this.err_tip_str11 = this.getLocalStr('err_tip_str11');
+			},
 			clear(str){
 				if(str=='1'){
 					this.walletName = ""
@@ -99,14 +118,14 @@
 			},
 			reconfirm() {
 				if (this.password != this.confirmPasd) {
-					this.tip_2 = '两次密码不一致';
+					this.tip_2 = this.err_tip_str6;
 				} else {
 					this.tip_2 = ''
 				}
 			},
 			inputPasd() {
 				if (this.password.length < 8) {
-					this.tip_1 = "不少于8个字符，建议大小写字母、数字混合"
+					this.tip_1 = this.err_tip_str7
 				} else {
 					this.tip_1 = ""
 				}
@@ -118,23 +137,23 @@
 			btnCreate: function() {
 				// 数据校验
 				if(!this.walletName){
-					this.util.UiUtils.showToast('请输入钱包名称！');
+					this.util.UiUtils.showToast(this.err_tip_str8);
 					return;
 				}
 				if(!this.password){
-					this.util.UiUtils.showToast('请输入密码！');
+					this.util.UiUtils.showToast(this.err_tip_str9);
 					return;
 				}
 				if(!this.confirmPasd){
-					this.util.UiUtils.showToast('请输入确认密码！');
+					this.util.UiUtils.showToast(this.err_tip_str10);
 					return;
 				}
 				if(this.password != this.confirmPasd){
-					this.util.UiUtils.showToast('两次密码不一致！');
+					this.util.UiUtils.showToast(this.err_tip_str6);
 					return;
 				}
 				
-				this.util.UiUtils.showLoading("钱包初始化...",1000);
+				this.util.UiUtils.showLoading(this.err_tip_str11,1000);
 				let params = {
 					chaintype: this.coinObj.chaintype,
 					name: this.walletName,

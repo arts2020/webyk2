@@ -24,6 +24,7 @@ const Common = {
 		this.m_AssetState = [];
 		this.m_AssetPriceItems = [];
 		this.onAddListener();
+		this.m_tokenList = [];
 		return true;
 	},
 
@@ -277,6 +278,7 @@ const Common = {
 		vue.util.UiUtils.hideLoading();
 	},
 	onGetTokenListData: function() {
+		console.log(this.m_tokenList)
 		return this.m_tokenList;
 	},
 	//代币明细接口

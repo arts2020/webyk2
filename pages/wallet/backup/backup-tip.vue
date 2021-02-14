@@ -1,27 +1,27 @@
 <template>
 	<view class="create-index">
-		<uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="备份" @clickLeft="btnBack"></uniNavBar>
+		<uniNavBar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="btnstring_bak" @clickLeft="btnBack"></uniNavBar>
 		<view class="create-list">
-			<view class="tip-title">备份提示</view>
-			<view class="tip-cotent">获取{{str1}}等于获取钱包资产所有权</view>
+			<view class="tip-title">{{title_str13}}</view>
+			<view class="tip-cotent">{{btnstring_get}}{{str1}}{{title_str15}}</view>
 			<view class="line"></view>
 			<view class="tip-list">
 				<image src="../../../static/image/index/warning.png" />
-				<view>使用纸笔正确抄写，并保管至安全的地方</view>
+				<view>{{title_str16}}</view>
 			</view>
 			<view class="tip-list">
 				<image src="../../../static/image/index/warning.png" />
-				<view>{{str2}}丢失无法找回，请务必备份{{str2}}</view>
+				<view>{{str2}}{{title_str17}}{{str2}}</view>
 			</view>
 		</view>
-		<view @tap="goNext" class="container-login" >下一步</view>
+		<view @tap="goNext" class="container-login" >{{btnstring_next}}</view>
 		<uni-popup type="bottom" class="tip-pop" ref="popup">
 			<view class="pop-main">
 				<uni-icons @tap="cancell" type="closeempty" size="30" color="#000000" class="cancell-icon"></uni-icons>
 				<image class="noPhoto" src="../../../static/image/index/bak_tip.png" mode=""></image>
-				<view class="title">请勿截屏</view>
-				<view class="subTitle">请勿截屏和分享，这将可能被第三方恶意软件收集，造成资产损失</view>
-				<view class="ok_btn" @tap="btnNext">我知道了</view>
+				<view class="title">{{title_str14}}</view>
+				<view class="subTitle">{{title_str18}}</view>
+				<view class="ok_btn" @tap="btnNext">{{btnstring_know}}</view>
 			</view>
 		</uni-popup>
 	</view>
@@ -66,9 +66,22 @@
 							break;
 					}
 				}
-			}			
+			}
+			this.initword()			
 		},
 		methods: {
+			initword(){
+				this.btnstring_get = this.getLocalStr("btnstring_get")
+				this.btnstring_know = this.getLocalStr("btnstring_know")
+				this.btnstring_bak = this.getLocalStr("btnstring_bak")
+				this.btnstring_next = this.getLocalStr("btnstring_next");
+				this.title_str13 = this.getLocalStr("title_str13");
+				this.title_str14 = this.getLocalStr("title_str14");
+				this.title_str15 = this.getLocalStr("title_str15");
+				this.title_str16 = this.getLocalStr("title_str16");
+				this.title_str17 = this.getLocalStr("title_str17");
+			    this.title_str18 = this.getLocalStr("title_str18");
+			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
 			},

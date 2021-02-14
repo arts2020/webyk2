@@ -142,6 +142,7 @@
 		},
 		created() {
 			this.initword();
+			
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtToKenBalance, this.onRefresh);
 		},

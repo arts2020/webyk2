@@ -1,9 +1,9 @@
 <template>
 	<view class="recharge-currency" :style="'background-color:'+bgcolor">
-		<uni-nav-bar :background-color="bgcolor" color="#ffffff" left-icon="back" :statusBar="true" :fixed="true" title="收款" @clickLeft="btnBack"></uni-nav-bar>
+		<uni-nav-bar :background-color="bgcolor" color="#ffffff" left-icon="back" :statusBar="true" :fixed="true" :title="btnstring_receive" @clickLeft="btnBack"></uni-nav-bar>
 		<view class="main-c">
 			<view class="title">
-				扫描二维码，充值{{m_cointype}}
+				{{title_str5}}{{m_cointype}}
 			</view>
 			<view class="recharge-code">
 				<tki-qrcode ref="qrcode" :cid="cid" :val="val" :size="size" :unit="unit" :background="background" :foreground="foreground"
@@ -14,7 +14,7 @@
 				
 			</view>
 			<view class="address">
-				<view class="addr-title">钱包地址</view>
+				<view class="addr-title">{{wallet_detail_str2}}</view>
 				<view class="addr-info">{{m_address}}</view>
 			</view>
            
@@ -22,11 +22,11 @@
 		<view class="btns">
 			<view class="btn" @tap="goShare">
 				<image src="../../../static/image/index/share.png" mode=""></image>
-				<text>分享</text>
+				<text>{{share_title}}</text>
 			</view>
 			<view @tap="btnCopyFun()" class="btn">
 				<image src="../../../static/image/index/copy.png" mode=""></image>
-				<text>复制</text>
+				<text>{{copy}}</text>
 			</view>
 		</view>
 	</view>
@@ -72,11 +72,19 @@
 			if(Object.keys(params).length!=0){
 				this.m_currentAsset = params;
 			}
+			this.initword();
 		},
 		onShow() {
 			this.onRefersh()
 		},
 		methods: {
+			initword(){
+				this.btnstring_receive = this.getLocalStr('btnstring_receive')
+				this.copy = this.getLocalStr('copy')
+				this.share_title = this.getLocalStr('share_title')
+				this.wallet_detail_str2 = this.getLocalStr('wallet_detail_str2')
+				this.title_str5 = this.getLocalStr('title_str5')
+			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
 			},
