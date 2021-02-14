@@ -73,7 +73,7 @@ const Account = {
 			});
 		} else {
 			// vue.util.UiUtils.showToast(packetIn.pktin.msg);
-			vue.util.UiUtils.showToast("您获取验证码超限，请稍后再试");
+			vue.util.UiUtils.showToast(vue.getLocalStr("err_tip_code"));
 		}
 		vue.util.UiUtils.hideLoading();
 	},

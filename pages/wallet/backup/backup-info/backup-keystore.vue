@@ -35,18 +35,20 @@
 		data() {
 			return {
 				keystore:"",
-				paramsObj:{}
+				words:"",
+				statusInfo:{}
 			};
 		},
 		onLoad(option) {
+			this.initword()
 			if(option.query){
 				let params = JSON.parse(option.query);
 				this.paramsObj = params;
 			}
-			let walletInfo = this.dal.WalletManage.getCurrWallet();
+			this.statusInfo = this.dal.MainWallet.getMainInfo();
 			//获取
-			this.words  = walletInfo.words; 
-			this.initword()
+			this.words  = this.statusInfo.words; 
+			
 		},
 		methods:{
 			initword(){
@@ -56,7 +58,7 @@
 				this.bak_title_str9 = this.getLocalStr("bak_title_str9");
 				this.bak_title_str10 = this.getLocalStr("bak_title_str10");
 				this.bak_title_str11 = this.getLocalStr("bak_title_str11");
-				this.bak_title_str2 = this.getLocalStr("bak_title_str12");
+				this.bak_title_str12 = this.getLocalStr("bak_title_str12");
 				this.bak_title_str13 = this.getLocalStr("bak_title_str13");
 				
 				this.title_str20 = this.getLocalStr("title_str20");

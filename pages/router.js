@@ -184,6 +184,15 @@ const router = new MinRouter({
 		},{ 
 			path: 'pages/uielement/webview',
 			name: 'webui-webview'
+		},{
+			path:"pages/YK/index",
+			name: 'YK-index'
+		},{
+			path:"pages/YK/yk-receive",
+			name: 'YK-receive'
+		},{ 
+			path: 'pages/YK/yk-super',
+			name: 'YK-super'
 		}
 	]
 })

@@ -241,13 +241,13 @@ const Common = {
 			console.log("==item.asset=", item.asset)
 			if (item.asset.toLocaleLowerCase() == asset) {
 				if (item.type == 1) {
-					item.remark = "挖矿奖励"
+					item.remark = vue.getLocalStr("title_award") //"挖矿奖励"
 				} else if (item.type == 2) {
-					item.remark = "充币"
+					item.remark = vue.getLocalStr("btnstring_rechage_coin") //"充币"
 				} else if (item.type == 3) {
-					item.remark = "转账"
+					item.remark = vue.getLocalStr("btnstring_carry") //"转账"
 				} else if (item.type == 4) {
-					item.remark = "提币"
+					item.remark = vue.getLocalStr("btnstring_get_coin") //"提币"
 				}
 				item.unit = item.asset;
 				items.push(item);

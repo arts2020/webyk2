@@ -147,7 +147,10 @@
 						return;
 					}
 					//检查输入密码是否正确，正确则-关闭弹框---跳转，否则给与密码不对提示
-
+					if(this.password!= this.dal.MainWallet.getMainInfo().password){
+						this.util.UiUtils.showToast(this.pasd_err_tip);
+						return;
+					}
 				    this.$refs.pasdPop.close();	
 				}
 				

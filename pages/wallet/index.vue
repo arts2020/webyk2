@@ -157,18 +157,7 @@
 				scrollHeight: 0,
 				//当前使用的钱包
 				currentWallet: {},
-				currentAsset: [{
-						img: "../../static/image/index/btc.png",
-						name: "BTC",
-						rmb: "12.36",
-						money: "1234.65"
-					},
-					{
-						img: "../../static/image/index/btc.png",
-						name: "BTC",
-						rmb: "12.36",
-						money: "1234.65"
-					}
+				currentAsset: [
 				],
 
 				//钱包管理页数据
@@ -259,6 +248,7 @@
 				//添加logo图标和背景图
 				mineChains.forEach(el => {
 					let item = this.chains.find(e => e.chaintype == el.chaintype);
+					 el.name = item.name;
 					el.img = item.img || 'default.png';
 					el.bgcImg = item.img.split('.')[0] + 'bg.png';
 					el.showAddress = el.address ? el.address.substring(0, 7) + '...' + el.address.substring(el.address.length - 7) :

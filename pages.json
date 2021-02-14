@@ -554,6 +554,48 @@
             }
             
         }
+        ,{
+            "path" : "pages/YK/index",
+            "style" :                                                                                    
+            {
+               "navigationBarBackgroundColor": "#4C72EF",
+               "backgroundColor": "#4C72EF",
+               "navigationBarTitleText":"YK超级联盟",
+			   "navigationBarTextStyle":"white",
+               "app-plus": {
+               	"titleNView": true //禁用原生导航栏，APP和H5可用
+               }
+            }
+            
+        }
+        ,{
+            "path" : "pages/YK/yk-receive",
+            "style" :                                                                                    
+            {
+                 "navigationBarTitleText":"联 盟 收 益",
+				 "navigationBarTextStyle":"black",
+				 "navigationBarBackgroundColor": "#FAFBFF",
+				 "backgroundColor": "#FAFBFF",
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        }
+        ,{
+            "path" : "pages/YK/yk-super",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText":"YK 超 级 联 盟",
+				"navigationBarTextStyle":"black",
+				"navigationBarBackgroundColor": "#F6F7F9",
+				"backgroundColor": "#F6F7F9",
+                "app-plus": {
+                	"titleNView": true //禁用原生导航栏，APP和H5可用
+                }
+            }
+            
+        }
     ],
 	"globalStyle": {
 		// "navigationBarTextStyle": "black",

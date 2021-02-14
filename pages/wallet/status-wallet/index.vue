@@ -54,7 +54,8 @@
 			};
 		},
 		onLoad() {
-			this.statusInfo = this.dal.WalletManage.getCurrWallet();
+			this.statusInfo = this.dal.MainWallet.getMainInfo();
+			console.log(this.statusInfo)
 			this.initword()
 		},
 		onShow() {
@@ -106,7 +107,7 @@
 				//检查输入密码是否正确，正确则跳转到备份页，否则给与密码不对提示
 				this.password="";
 				this.$refs.pasdPop.close()
-				this.$openPage({name:"backup-keystore",query:this.paramsObj});
+				this.$openPage({name:"backup-keystore"});
 			},
 			cancell(){
 				this.password="";

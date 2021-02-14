@@ -3,6 +3,8 @@ const localstr = {
 	tag: 0,
 
 	data: {
+		btnstring_rechage_coin:"充币",
+		btnstring_get_coin:"提币",
 		btnstring_copyWord:"复制助记词",
 		btnstring_save_online:"离线保存",
 		btnstring_copyPrivate:"复制私钥",
@@ -45,6 +47,7 @@ const localstr = {
 		pasd_err_blank:"密码不能为空",
 		pasd_err_tip:"密码不正确",
 		
+		title_award:"挖矿奖励",
 		title_str1:"全部",
 		title_str2:"转入",
 		title_str3:"转出",
@@ -87,6 +90,16 @@ const localstr = {
 		err_tip_str19:"助记词顺序错误",
 		err_tip_str20:"创建单层钱包失败",
 		err_tip_str21:"创建身份钱包失败",
+		err_tip_code:"您获取验证码超限，请稍后再试",
+		err_tip_safepasd:"您没有设置安全密码，请先设置安全密码？",
+		
+		tip_version:"已是最新版本",
+		tip_version_update:"检测到有新版本，请更新版本",
+		tip_version_update_ask:"检测到有新版本，需要更新吗？",
+		tip_update_no:"不支持更新",
+		tip_install_success:"安装成功",
+		tip_update_fail:"更新失败",
+		tip_load_going:"正在下载中...",
 		
 		tip_use_phone:"请使用手机操作",
 		tip_title: "温馨提示",

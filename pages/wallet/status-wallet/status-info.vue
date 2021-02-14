@@ -1,10 +1,10 @@
 <template>
 	<view class="status-info">
 		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="walllet_status_title" @clickLeft="goBack"></uni-nav-bar>
-	     <view class="identityID">
+	    <!-- <view class="identityID">
 			 <view class="p1">{{walllet_status_ID}}</view>
 			 <view class="p2">{{statusInfo.identityId}}</view>
-		 </view>
+		 </view> -->
 		 <view class="statusName" @tap="goChange">
 			 <text>{{walllet_status_name}}</text>
 			 <text>{{statusInfo.name}}</text>
@@ -31,15 +31,16 @@
 			return {
 				statusInfo:{
 					identityId:'ashdgy1234bhsgyauyeibsja794a8sadc5sd',
-					name:"identityluke"
+					name:""
 				},
 				oldStatusName:"",
 				newStatusName:""
 			};
 		},
 		onLoad(option) {
-			// this.statusInfo = JSON.parse(option.query)
+			
 			this.initword()
+			this.statusInfo = this.dal.MainWallet.getMainInfo();
 		},
 		methods:{
 			initword(){
@@ -49,6 +50,7 @@
 				this.walllet_status_name = this.getLocalStr("walllet_status_name");
 				this.walllet_status_ID = this.getLocalStr("walllet_status_ID");
 				this.walllet_status_title = this.getLocalStr("walllet_status_title");
+				this.err_tip_str12 = this.getLocalStr("err_tip_str12")
 			},
 			goBack(){
 				this.util.UiUtils.switchBackPage();
@@ -60,9 +62,12 @@
 			confirmOk(){
 				//修改身份名并关闭弹框
 				if(!this.newStatusName){
-					this.util.UiUtils.showToast('身份名不能为空')
+					this.util.UiUtils.showToast(this.err_tip_str12)
 					return;
 				}
+				this.statusInfo.name = this.newStatusName;
+				this.dal.MainWallet.setMainInfo(this.statusInfo)
+				
                 //执行修改
 				this.newStatusName="";
 				this.$refs.pasdPop.close()
