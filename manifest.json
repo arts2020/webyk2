@@ -79,8 +79,8 @@
             },
             "orientation" : [ "portrait-primary" ],
             "splashscreen" : {
-                "iosStyle" : "common",
-                "androidStyle" : "default",
+                "iosStyle" : "default",
+                "androidStyle" : "common",
                 "android" : {
                     "hdpi" : "static/image/480x762.png",
                     "xhdpi" : "static/image/720x1242.png",

@@ -276,6 +276,10 @@
 	/deep/ .uni-popup{
 		z-index: 999;
 	}
+	/deep/ .uni-popup-message{
+		height: 162rpx !important;
+		line-height: 162rpx !important;
+	}
 	/deep/ .uni-popup__error{
 		background-color: #F5777A;
 	}

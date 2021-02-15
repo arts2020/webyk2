@@ -84,6 +84,7 @@
 				this.share_title = this.getLocalStr('share_title')
 				this.wallet_detail_str2 = this.getLocalStr('wallet_detail_str2')
 				this.title_str5 = this.getLocalStr('title_str5')
+				this.copy_success = this.getLocalStr("copy_success")
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
@@ -121,7 +122,7 @@
 				uni.setClipboardData({
 					data: this.val,
 					success: function(data) {
-						self.util.UiUtils.showToast("复制成功");
+						self.util.UiUtils.showToast(this.copy_success);
 					},
 					fail: function(err) {},
 					complete: function(res) {}

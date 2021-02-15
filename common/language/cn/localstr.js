@@ -42,7 +42,8 @@ const localstr = {
 		redpack: '红包',
 		bet: '下注',
 		copy_success: "复制成功",
-   
+        copy_link:"复制链接",
+		refersh:"刷新",
         pasd_title:"输入密码",
 		pasd_err_blank:"密码不能为空",
 		pasd_err_tip:"密码不正确",
