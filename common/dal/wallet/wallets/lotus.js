@@ -11,7 +11,7 @@ const Lotus = {
 	destroy: function() {
 
 	},
-	
+
 	clear: function() {
 		uni.cclog("======Lotus clear==========")
 	},
@@ -34,7 +34,7 @@ const Lotus = {
 
 	//创建普通钱包
 	async createNormal(walletInfo) {
-		console.log("=walletInfo.importtype=",walletInfo)
+		console.log("=walletInfo.importtype=", walletInfo)
 		if (walletInfo.importtype == vue.entities.Metadata.ImportType.WordType) {
 			let wallet = await this.createWalletByWords(walletInfo.strval)
 			if (wallet) {
@@ -62,7 +62,7 @@ const Lotus = {
 	},
 
 	async createWalletByWords(words) {
-		console.log("========LOTUS===创建节点请求===============",words)
+		console.log("========LOTUS===创建节点请求===============", words)
 		try {
 			let ret = await FileCoinUtils.mnemonicWallter(words)
 			console.log("==createWalletByWords===ret===", ret)
@@ -86,8 +86,11 @@ const Lotus = {
 	},
 
 	async createWalletByPrivateKey(privateKey) {
+		console.log("=fil=recoveryWalletManage=2=privateKey===", privateKey)
+		let pkey = privateKey
 		try {
-			let ret = await FileCoinUtils.privateWallter(privateKey)
+			let ret = await FileCoinUtils.privateWallter(pkey)
+			console.log("=fil=recoveryWalletManage=3=privateKey===", pkey)
 			console.log("=fil=recoveryWalletManage==ret===", ret)
 			let address = "f1" + ret.data.address;
 			let privateKey = ret.data.privateKey;
@@ -108,14 +111,14 @@ const Lotus = {
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 	},
-	
+
 	//GAS费
-	async getGasPrice(){
+	async getGasPrice() {
 		let res = await FileCoinUtils.GetGasPrice();
-		console.log("===res=",res)
+		console.log("===res=", res)
 		return res;
 	},
-	
+
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
 		let isret = await this.isValidAddress(to);
@@ -153,6 +156,15 @@ const Lotus = {
 	},
 
 	onBalance: function() {
+		FileCoinUtils.getBalance(this.fromAddress).then((balance) => {
+			balance = balance / Math.pow(10, 18) || 0;
+			console.log("=====this.FileCoinUtils===balance===", balance);
+			vue.dal.WalletManage.setCurrWalletMoney(balance)
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
+		})
+	},
+
+	onTokenBalance: function() {
 		FileCoinUtils.getBalance(this.fromAddress).then((balance) => {
 			balance = balance / Math.pow(10, 18) || 0;
 			console.log("=====this.FileCoinUtils===balance===", balance);

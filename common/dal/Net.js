@@ -64,22 +64,28 @@ const Net = {
 	},
 
 	request: function(code, params,url) {
-		var netstate = vue.util.Utils.getNetState();
+		// var netstate = vue.util.Utils.getNetState();
 		let host = this.host;
-		// uni.cclog("===request=====host=======", host)
+		uni.cclog("===request=====host=======", host)
 		if(url){
-			host = host;
+			host = url;
+		}
+		if(host || host.length <= 0){
+			host = vue.PlatformInfo.host;
 		}
 		// uni.cclog("===request=====this.host=======", this.host)
 		HttpServer.request(code, params, host)
 	},
 	
 	async asyncRequest(code, params,url) {
-		var netstate = vue.util.Utils.getNetState();
+		// var netstate = vue.util.Utils.getNetState();
 		let host = this.host;
-		// uni.cclog("===request=====host=======", host)
+		uni.cclog("===request====2=host=======", host)
 		if(url){
-			host = host;
+			host = url;
+		}
+		if(host || host.length <= 0){
+			host = vue.PlatformInfo.host;
 		}
 		// uni.cclog("===request=====this.host=======", this.host)
 		return await HttpServer.asyncRequest(code, params, host)

@@ -45,6 +45,7 @@ const Dal = {
 	init: function() {
 		Net.init()
 	},
+	
 	onLoginSuccess: function() {
 		Common.onGetAssetPrice();
 		Common.onGetConfig();
