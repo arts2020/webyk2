@@ -49,7 +49,7 @@
 			goBack() {
 				this.$openPage({
 					name: "address-detail",
-					gotype: "redirectTo"
+					gotype: "redirectTo",
 				})
 			},
 			handleChecked(item) {

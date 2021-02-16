@@ -23,14 +23,27 @@
 				// 列表页点击返回方向,1返回转账界面,2去到地址详情页
 				backType:2,
 				addresssList:[],
-				chaintype:1
+				chaintype:null,
+				//连续要传递保留的参数
+				paramsObj:{}
 			};
 		},
 		onLoad(option) {
-			if(option.query){
-				let params = JSON.parse(option.query);
-				this.backType  = params.type || 2;
-				this.chaintype = params.chaintype
+			// if(option.query){
+			// 	let params = JSON.parse(option.query);
+			// 	if(Object.keys(params).length!=0){
+			// 		this.paramsObj = params;
+			// 		console.log(params)
+			// 		this.backType  = params.backType;
+			// 		this.chaintype = params.chaintype;
+			// 	}
+			// }
+			let params = this.dal.Address.getTempParamsByCarry();
+			if(Object.keys(params).length!=0){
+				this.paramsObj = params;
+				console.log(params)
+				this.backType  = params.backType;
+				this.chaintype = params.m_asset.chaintype;
 			}
 			this.initword()
 		},
@@ -64,9 +77,14 @@
 				this.util.UiUtils.switchBackPage();
 			},
 			goAdd(){
-				//保存临时地址  设置默认链为ETH
+				//保存临时地址  从转账那里过来chaintype有值 设为临时地址类型   从个人中心进来没有值设置默认链为ETH
 				let list = this.dal.Chain.getChainList();
-				let tempItem = list.find(el=>el.chaintype == this.entities.Metadata.ChainType.ETH);
+				let tempItem = {}
+				if(this.chaintype){
+					tempItem=list.find(el=>el.chaintype == this.chaintype);
+				}else{
+					tempItem =list.find(el=>el.chaintype == this.entities.Metadata.ChainType.ETH);
+				}
 				let item = {
 					chaintype:tempItem.chaintype,
 					name:tempItem.name,
@@ -76,6 +94,7 @@
 					img:tempItem.img
 				}
 				this.dal.Address.saveTempAddress(item);
+				
 				this.$openPage({name:"address-detail",gotype:"redirectTo"})
 			},
 			handleChecked(item){
@@ -83,6 +102,9 @@
 				this.dal.Address.saveTempAddress(item);
 				// 1返回转账界面,2去到地址详情页  如果都不是就默认不动
 				if(this.backType==1){
+					//更改转账页的参数并保存
+					this.paramsObj.address = item.address;
+					this.dal.Address.saveTempParamsByCarry(this.paramsObj);
 					// 跳到转账页面  转账页有之前页面传过来的参数  
 					this.$openPage({name:"carry-over",gotype:"redirectTo"})
 				}else if(this.backType==2){

@@ -65,8 +65,9 @@
 				m_balane: 0,
 				//默认矿工费
 				m_feeInfo: {
-					money: "0",
-					rmb: "0",
+					money: 0,
+					rmb: 0,
+					index:0
 				}
 			}
 		},
@@ -75,26 +76,33 @@
 			if(Object.keys(params).length!=0){
 				console.log("=====当前代币信息========",params)
 				this.m_asset = params;
-				if(params.money){
-					this.m_feeInfo ={
-						money:params.money,
-						rmb:params.rmb
-					}
-				}
+				// if(params.money){
+				// 	this.m_feeInfo ={
+				// 		money:params.money,
+				// 		rmb:params.rmb
+				// 	}
+				// }
 			}
 		    this.initword();
 		},
 		onShow() {
 			//获取临时地址
-			let item = this.dal.Address.getTempAddress()
+			let item = this.dal.Address.getTempParamsByCarry()
 			if (Object.keys(item).length != 0) {
 				this.address = item.address;
+				this.count=item.count;
+				this.bak = item.bak;
+				this.m_asset = item.m_asset;
+				this.m_feeInfo = item.m_feeInfo;
 			}
-			this.m_chain = this.dal.Chain.getAssets(this.m_asset.chaintype);
+			this.m_chain = this.dal.Chain.getAssets(this.m_asset.chaintype)||{isgas:false};
 			console.log('==========当前链============',this.m_chain)
-			//获取当前余额
 			
+			//获取当前余额			
 		   this.m_balane = this.dal.WalletManage.getBalance(this.m_asset.contract)
+		},
+		destroyed() {
+			this.dal.Address.clearTempParamsByCarry();
 		},
 		methods: {
 			initword(){
@@ -116,23 +124,35 @@
 				this.err_tip_str4 = this.getLocalStr("err_tip_str4")
 			},
 			goAddressList() {
+				let params = {
+					address:this.address,
+					count:this.count,
+					bak:this.bak,
+					m_asset:this.m_asset,
+					m_feeInfo:this.m_feeInfo,
+					backType:1
+				}
+				this.dal.Address.saveTempParamsByCarry(params);
+				
 				this.$openPage({
 					name: "address-list",
-					query: {
-						type: 1,
-						chaintype:this.m_asset.chaintype,
-						name:this.m_asset.name
-					}
 				})
 			},
 			goSetting() {
-				let chain = this.dal.Chain.getChainInfo(this.m_asset.chaintype)
+				let chain = this.dal.Chain.getChainInfo(this.m_asset.chaintype);
+				let params = {
+					address:this.address,
+					count:this.count,
+					bak:this.bak,
+					m_asset:this.m_asset,
+					m_feeInfo:this.m_feeInfo,
+					backType:1
+				}
+				
+				this.dal.Address.saveTempParamsByCarry(params)
+				
 				this.$openPage({
-					name: 'setting-'+chain.name+'-fee',
-					query: {
-						chaintype:this.m_asset.chaintype,
-						name:this.m_asset.name
-					}
+					name: 'setting-'+chain.name.toUpperCase()+'-fee'
 				})
 			},
 			btnBack: function() {

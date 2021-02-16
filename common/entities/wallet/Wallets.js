@@ -20,7 +20,7 @@ const Wallets = {
 				assets:[
 					{idx:0 , img:"eth.png", name:'ETH', contract:"",isshow:true},
 					{idx:1 , img:"lon.png", name:'LON', contract:"0x0000000000095413afC295d19EDeb1Ad7B71c952",isshow:false},
-					{idx:2 , img:"tft.png", name:'TFT', contract:"0xe534619defdbf0caf673b8abf7158714f5bd4bd9",isshow:false},
+				 	{idx:2 , img:"tft.png", name:'TFT', contract:"0xe534619defdbf0caf673b8abf7158714f5bd4bd9",isshow:false},
 					{idx:3 , img:"wbtc.png", name:'WBTC', contract:"0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",isshow:false},
 					{idx:4 , img:"dai.png", name:'DAI', contract:"0x6b175474e89094c44da98b954eedeac495271d0f",isshow:false},
 					{idx:5 , img:"usdc.png", name:'USDC', contract:"0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",isshow:false},

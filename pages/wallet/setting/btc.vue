@@ -23,7 +23,7 @@
 						<view class="p2">{{item.unitPrice}}&nbsp;&nbsp;sat/b</view>
 					</view>
 					<text><{{item.time}}{{seeting_fee_str3}}</text>
-					<image class="check-icon" v-if="activeIndex==index" src="../../../static/image/mine/checked.png" mode=""></image>
+					<image class="check-icon" v-if="currentFee.index==index" src="../../../static/image/mine/checked.png" mode=""></image>
 				    <view v-else style="width: 24rpx;height: 28rpx;"></view>
 				</view>
 			</view>
@@ -37,26 +37,25 @@
 		data() {
 			return {
 				chaintype:1,
-				name:'',
+				name:'BTC',
 				//当前选中项
 				currentFee:{
-					money:'',
-					rmb:'',
-					unitPrice:"",
+					money: 0,
+					rmb: 0,
+					unitPrice: 0,
+					//选中的选项下标
+					index:0
 				},
 				workload:0,
-				//选中的选项下标
-				activeIndex:0,
 				menuList:[],
+				paramsObj:{}
 			};
 		},
 		onLoad(option) {
-			if(option.query){				
-				let params = JSON.parse(option.query);
-				if(Object.keys(params).length!=0){
-					this.chaintype = params.chaintype;
-					this.name = params.name
-				}
+			let params = this.dal.Address.getTempParamsByCarry();
+			if (Object.keys(params).length != 0) {
+				this.paramsObj = params;
+				this.currentFee = params.m_feeInfo;
 			}
 			this.initword()
 		},
@@ -72,14 +71,17 @@
 				this.seeting_fee_title = this.getLocalStr("seeting_fee_title")
 			},
 			handleCheck(index){
-				this.activeIndex = index;
+				this.currentFee.index = index;
 				this.currentFee.unitPrice = this.menuList[index].unitPrice;
 				this.currentFee.money = this.menuList[index].unitPrice * this.workload;
 				this.currentFee.rmb = 31.49
 			},
 			btnConfirm(){
 				//点击确定回到转账页
-				this.$openPage({name:"carry-over",query:this.currentFee,gotype:"redirectTo"})
+				this.paramsObj.m_feeInfo = this.currentFee;
+				
+				this.dal.Address.saveTempParamsByCarry(this.paramsObj);	
+				this.$openPage({name:"carry-over",gotype:"redirectTo"})
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();

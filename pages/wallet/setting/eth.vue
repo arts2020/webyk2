@@ -23,7 +23,7 @@
 						<view class="p2">{{item.unitPrice}}&nbsp;&nbsp;GWEI</view>
 					</view>
 					<text>
-						< {{item.time}} 分钟</text> <image class="check-icon" v-if="activeIndex==index" src="../../../static/image/mine/checked.png"
+						< {{item.time}} 分钟</text> <image class="check-icon" v-if="currentFee.index==index" src="../../../static/image/mine/checked.png"
 						 mode="">
 							</image>
 							<view v-else style="width: 24rpx;height: 28rpx;"></view>
@@ -39,26 +39,25 @@
 		data() {
 			return {
 				chaintype: 1,
-				name: '',
+				name: 'ETH',
 				//当前选中项
 				currentFee: {
-					money: '',
-					rmb: '',
-					unitPrice: "",
+					money: 0,
+					rmb: 0,
+					unitPrice: 0,
+					//选中的选项下标
+					index:0
 				},
-				workload: 0,
-				//选中的选项下标
-				activeIndex: 0,
+				workload: 0,				
 				menuList: [],
+				paramsObj:{}
 			};
 		},
 		onLoad(option) {
-			if (option.query) {
-				let params = JSON.parse(option.query);
-				if (Object.keys(params).length != 0) {
-					this.chaintype = params.chaintype;
-					this.name = params.name
-				}
+			let params = this.dal.Address.getTempParamsByCarry();
+			if (Object.keys(params).length != 0) {
+				this.paramsObj = params;
+				this.currentFee = params.m_feeInfo;
 			}
 			this.initword()
 		},
@@ -77,7 +76,7 @@
 				let priceInfo = this.dal.Common.getAssetPriceInfo("ETH");
 				let configinfo = this.dal.Common.onGetCommonConfigInfo("exchange_key");
 				
-				this.activeIndex = index;
+				this.currentFee.index = index;
 				// this.currentFee.unitPrice = this.menuList[index].unitPrice;
 				// this.currentFee.money = this.menuList[index].unitPrice * this.workload;
 				// this.currentFee.rmb = 46.85;
@@ -90,9 +89,10 @@
 			},
 			btnConfirm() {
 				//点击确定回到转账页
-				this.currentFee.chaintype=this.chaintype;
-				this.currentFee.name = this.name;
-				this.$openPage({name:"carry-over",query:this.currentFee,gotype:"redirectTo"})
+			    this.paramsObj.m_feeInfo = this.currentFee;
+				
+				this.dal.Address.saveTempParamsByCarry(this.paramsObj);				
+				this.$openPage({name:"carry-over",gotype:"redirectTo"})
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchBackPage();
@@ -102,7 +102,6 @@
 
 				this.dal.WalletManage.getGasPrice().then(result => {
 					this.menuList = result;
-					
 					//刚进入默认拿第一个的
 					this.currentFee.unitPrice = this.menuList[0].unitPrice * 1;
 					this.currentFee.money = this.menuList[0].unitPrice * 2 / Math.pow(10, 5);

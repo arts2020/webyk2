@@ -48,8 +48,8 @@
 				</view>
 				<view class="price-title" :style="'color:'+getStyle(item.percent_change_24h)">
 					<view style="align-items: center;width: 100%;display: flex;flex-direction: column;justify-content: center;">
-						<label style="font-size: 30rpx;">{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
-						<label style="color: #b5b2b6;font-size: 24rpx;">￥{{(item.price_usd*1).toFixed(2)}}</label> 
+						<label style="font-size: 30rpx;">￥{{(item.price_usd * (m_configitem.value * 1)).toFixed(2)}}</label> 
+						<label style="color: #b5b2b6;font-size: 24rpx;">{{(item.price_usd*1).toFixed(2)}}</label> 
 					</view>
 				</view>
 				<view class="cha-title" :style="'background-color:'+getStyle(item.percent_change_24h)">
@@ -66,7 +66,7 @@
 					<view>{{item.name}}</view>
 				</view>
 				<view class="price-title">
-					{{item.market}}
+					{{item.exponential}}
 				</view>
 				<view class="cha-title" :style="'background-color:'+getStyle(item.zf_24)">
 					{{item.zf_24}}

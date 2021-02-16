@@ -31,7 +31,9 @@
 		data() {
 			return {
 				// 点击
-				addressObj:{}
+				addressObj:{},
+				//保留的参数对象
+				paramsObj:{}
 			};
 		},
 		onLoad(option) {
@@ -44,10 +46,12 @@
 			//则不会有参数传递到此，params对象为空，就不会改变临时地址对象数据
 			if(Object.keys(params).length!=0){
 				console.log(params)
+				
+				this.paramsObj = params;
+				
 				this.addressObj.chaintype = params.chaintype;
 				this.addressObj.name = params.name;
 				this.addressObj.img= params.img;
-				console.log(this.addressObj)
 			}
 		},
 		methods:{
@@ -68,6 +72,7 @@
 			},
 			goBack(){
 				// this.util.UiUtils.switchBackPage();
+				
 				this.$openPage({name:"address-list",gotype:"redirectTo"})
 			},
 			async goSave(){

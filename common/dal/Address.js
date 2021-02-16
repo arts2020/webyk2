@@ -5,7 +5,8 @@ var vue = Vue.prototype
 const Address = {
 	m_address: [], //地址本存储库
 	current_address: {}, //当前正再处理的地址
-
+    currret_params:{},//转账页的临时参数数据保存
+	
 	init: function() {
 		uni.cclog("======Address init==========")
 		let address = vue.util.StringUtils.getUserDefaults("address_key");
@@ -77,9 +78,18 @@ const Address = {
 	saveTempAddress: function(address) {
 		this.current_address = address;
 	},
-	//保存临时地址
+	//获取临时地址
 	getTempAddress: function() {
 		return this.current_address;
+	},
+	getTempParamsByCarry(){
+		return this.currret_params;
+	},
+	saveTempParamsByCarry(params){
+		this.currret_params = params;
+	},
+	clearTempParamsByCarry(){
+		this.currret_params = {};
 	}
 }
 

@@ -150,7 +150,7 @@
 					this.util.UiUtils.checkUpdate(this.m_vsn)
 				}else if(idx == 8){
 					// 地址本  
-					this.$openPage({name: "address-list",query: {type:2}})
+					this.$openPage({name: "address-list"})
 				}else if(idx == 9){
 					// 语言设置 
 					this.$openPage({name: "language-index"})
