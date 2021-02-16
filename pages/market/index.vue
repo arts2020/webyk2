@@ -49,7 +49,7 @@
 			</swiper-item>
 			<swiper-item>
 				<!-- 行情  :scrollHeight="scrollHeight" :m_marketList="m_marketList" :m_configitem="m_configitem" :haveData="haveData" :noData="noData"-->
-				<Quotation class="quotation-content" />
+				<Quotation class="quotation-content"/>
 			</swiper-item>
 			
 		</swiper>
@@ -80,14 +80,10 @@
 			});
 			this.onRefersh();
 		},
-		onPullDownRefresh() {
-			this.onRefersh();
-			uni.stopPullDownRefresh()
-		},
 		data(){
 			return{
 				active:1,
-				// ishow:true,
+				isRefersh:"",
 				scrollHeight:0,
 				assetArr:[
 					{
@@ -121,7 +117,7 @@
 				this.btnstring_change = this.getLocalStr("btnstring_change");
 			},
 			onRefersh(){
-				// 重新获取获取所有资产
+				// 交易那里的  重新获取获取所有资产
 				this.assetArr = [
 					{
 						chaintype: 2,

@@ -182,7 +182,7 @@
 					}
 				}
 				
-				this.util.UiUtils.showLoading(this.err_tip_str11,500);
+				this.util.UiUtils.showLoading(this.err_tip_str11);
 				
                 let params={}
 				
@@ -223,7 +223,7 @@
 						words: this.paramsObj.words,
 						importtype:this.entities.Metadata.ImportType.WordType
 					}
-					console.log('1233333333333333',params)
+					
 					//如果创建钱包返回true，成功
 					this.dal.WalletManage.createMainWallet(params).then(res=>{
 						if(res){	

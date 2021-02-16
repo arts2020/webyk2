@@ -69,7 +69,6 @@
 			"path": "pages/market/index",
 			"style": {
 				"navigationStyle": "custom",
-				"enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
@@ -81,7 +80,7 @@
 				"app-plus": {
 					"titleNView": true //禁用原生导航栏，APP和H5可用
 				}
-			}
+			} 
 		},{
 			"path": "pages/my/visit/visit",
 			"style": {

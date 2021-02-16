@@ -45,7 +45,7 @@
 				let params = JSON.parse(option.query);
 				this.paramsObj = params;
 			}
-			this.statusInfo = this.dal.MainWallet.getMainInfo();
+			this.statusInfo = this.dal.WalletManage.getCurrWallet();
 			//获取
 			this.words  = this.statusInfo.words; 
 			

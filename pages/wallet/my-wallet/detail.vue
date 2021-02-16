@@ -22,7 +22,7 @@
 				<image class="right-icon" :src="rightIcon" mode="" @tap="changeContent"></image>
 			</view>
 			<view class="type-list" v-if="ishowContent">
-				<view class="type-item" @tap="goExport(2)">
+				<view class="type-item" @tap="goExport(2)" v-if="walletInfo.idx!=0">
 					<text>{{wallet_detail_str5}}</text>
 					<image class="right_arr" src="../../../static/image/mine/arrow-left.svg" mode=""></image>
 				</view>
@@ -58,7 +58,7 @@
 					name:"jugwyvda",
 					address:"anvjiuy2945-1mf-=2koijc83bjiaov"
 				},
-				statusInfo:{},
+				
 				ishowContent:false,
 				rightIcon:"../../../static/image/mine/arrow-left.svg",
 				password:"",
@@ -162,7 +162,7 @@
 				this.$refs.pasdPop.close();
 			},
 			goExport(e){
-				// 1助记词  3私钥
+				// 2导出keystore(换成了导出助记词) 3私钥
 				if(e==2){
 					if(!this.walletInfo.words){
 						this.util.UiUtils.showToast(this.wallet_detail_str9);

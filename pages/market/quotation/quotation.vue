@@ -19,7 +19,7 @@
 				{{mark_index_title_5}}
 			</view>
 		</view> 
-		<!-- <scroll-view v-if="active==0" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
+		<!-- <scroll-view v-if="active==0" class="info-list" scroll-y="true" :refresher-triggered="triggered" :refresher-enabled="true" @refresherrefresh="onRefersh" :style="{ height: scrollHeight + 'px' }">
 			<view class="list-item" v-for="(item, index) in m_marketList" :key="index">
 				<view class="title">
 					<view>{{item.symbol}}</view>
@@ -39,7 +39,7 @@
 				{{btnstring_add}}
 			</view>
 		</scroll-view> -->
-		<scroll-view v-if="active==1" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">	
+		<scroll-view v-if="active==1" class="info-list" scroll-y="true" :refresher-triggered="triggered" :refresher-enabled="true" @refresherrefresh="onRefersh" :style="{ height: scrollHeight + 'px' }">	
 			<view class="list-item" v-for="(item, index) in m_marketList" :key="index"  v-if="haveData">
 				<image :src="item.logo" mode=""></image>
 				<view class="title">
@@ -58,7 +58,7 @@
 			</view>
 			<noData v-else></noData>
 		</scroll-view>
-		<scroll-view v-if="active==2" class="info-list" scroll-y="true" :style="{ height: scrollHeight + 'px' }">
+		<scroll-view v-if="active==2" class="info-list" scroll-y="true" :refresher-triggered="triggered" :refresher-enabled="true" @refresherrefresh="onRefersh" :style="{ height: scrollHeight + 'px' }">
 			<view class="list-item" v-for="(item, index) in m_defiList" :key="index"  v-if="haveData">
 				<image :src="item.logo" mode=""></image>
 				<view class="title">
@@ -105,6 +105,8 @@
 		},
 		data() {
 			return {
+				  //true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
+				triggered: false,
 				m_marketList:[],
 				m_defiList:[],
 				m_stype:"",
@@ -139,6 +141,7 @@
 				this.btnstring_add = this.getLocalStr("btnstring_add")
 			},
 			onRefersh(){
+				this.triggered = true;
 				//清空之前数据重新获取
 				this.m_marketList = [];
 				this.m_defiList = [];
@@ -163,6 +166,7 @@
 				})
 			},
 			getAssetPrice(data){
+				this.triggered = false;
 				uni.stopPullDownRefresh();
 				function rankFun(a,b){
 					return a.rank - b.rank
@@ -177,6 +181,7 @@
 				}
 			},
 			getDefi(data){
+				this.triggered = false;
 				uni.stopPullDownRefresh();
 				function rankFun(a,b){
 					return a.rank - b.rank

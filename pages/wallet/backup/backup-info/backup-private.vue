@@ -53,7 +53,7 @@
 				this.bak_title_str9 = this.getLocalStr("bak_title_str9");
 				this.bak_title_str10 = this.getLocalStr("bak_title_str10");
 				this.bak_title_str11 = this.getLocalStr("bak_title_str11");
-				this.bak_title_str2 = this.getLocalStr("bak_title_str12");
+				this.bak_title_str12 = this.getLocalStr("bak_title_str12");
 				this.bak_title_str13 = this.getLocalStr("bak_title_str13");
 				
 				this.title_str19 = this.getLocalStr("title_str19");
