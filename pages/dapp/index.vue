@@ -118,7 +118,8 @@
 					name: "webui-webview",
 					query: {
 						url: this.currentDapp.app_url,
-						title: this.currentDapp.name
+						title: this.currentDapp.name,
+						bgcolor:this.currentDapp.color
 					}
 				})
 				//关闭弹框
