@@ -1,10 +1,10 @@
+//http://wenjixu.com/blog/117.html
+
 const bip39 = require('../../../../node_modules/bip39')
 const bip32 = require('../../../../node_modules/bip32')
 // const bitcoin = require('../../../../node_modules/bitcoinjs-lib')
 const bitcoin = require('bitcoinjs-lib')
-const ECKey = require('../../../../node_modules/eckey');
 
-console.log("=ECKey===", ECKey)
 import Vue from 'vue'
 var vue = Vue.prototype
 
@@ -20,7 +20,7 @@ const Btc = {
 	destroy: function() {
 
 	},
-	
+
 	clear: function() {
 		uni.cclog("======Btc clear==========")
 	},
@@ -41,7 +41,7 @@ const Btc = {
 	async createNormal(walletInfo) {
 		if (walletInfo.importtype == vue.entities.Metadata.ImportType.WordType) {
 			let wallet = await this.createWalletByWords(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
@@ -52,7 +52,7 @@ const Btc = {
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
@@ -99,20 +99,17 @@ const Btc = {
 	},
 
 	async createWalletByPrivateKey(privateKey) {
+		console.log("==privateKey==", privateKey);
 		try {
-			console.log("==privateKey==", privateKey);
-			let ecKey = ECKey.fromPrivate(privateKey);
-			let publicKey = ecKey.getPublicKeyAsHex();
-
 			const network = bitcoin.networks.bitcoin
-			//设置生成测试or正式环境的钱包
-			console.log("==network==", network)
+			let keyPair = bitcoin.ECPair.fromWIF(privateKey, bitcoin.networks[network]);
+			let publicKey = keyPair.publicKey;
 			let address = bitcoin.payments.p2pkh({
-				pubkey: publicKey,
-				network: network
-			})
-			console.log("====createWalletByPrivateKey===BTC地址：", address.address)
-
+				pubkey: publicKey
+			});
+			console.log("==address==", address);
+			console.log("==publicKey==", publicKey.toString("hex"));
+			console.log("==privateKey==", privateKey);
 			return {
 				privateKey: privateKey,
 				publicKey: publicKey,
@@ -129,18 +126,35 @@ const Btc = {
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
 	},
-	
+
 	//GAS费
-	async getGasPrice(){
+	async getGasPrice() {
 		return false;
 	},
-	
+
 	// 记录交易
 	async sendTransaction(to, amount, gas) {
 		let privateKey = vue.dal.WalletManage.getPrivateKey();
 		let address = vue.dal.WalletManage.getAddress();
 
 		//TODO....
+
+/*
+		let alice = bitcoin.ECPair.fromWIF('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
+		// L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy为Alice的私钥
+		//  let lbtcVersion = 65282;
+		let txb = new bitcoin.TransactionBuilder(bitcoin.networks[network]),
+			//  txb.setVersion(Number(setVersion));
+
+		txb.addInput('61d520ccb74288c96bc1a2b20ea1c0d5a704776dd0164a396efec3ea7040349d', 0);
+		// Alice's previous transaction output, has 15000 satoshis
+		txb.addOutput('1cMh228HTCiwS8ZsaakH8A8wze1JR5ZsP', 12000); // (in)15000 - (out)12000 = (fee)3000, this is the miner fee
+
+		txb.sign(0, alice); // 签名
+		txb.build().toHex(); // 最后将交易十六进制编码广播到BTC网络
+
+*/
+
 
 		vue.util.UiUtils.hideLoading();
 		console.log("=====Btc===sendTransaction====", txid);
@@ -160,13 +174,13 @@ const Btc = {
 		console.log("=====Btc===this.m_balance====", this.m_balance);
 		return this.m_balance;
 	},
-	
+
 	async onTokenBalance(contractAddress) {
-		
+
 	},
-	
+
 	async onBalance() {
-		return 0;//let address = vue.dal.WalletManage.getAddress()
+		return 0; //let address = vue.dal.WalletManage.getAddress()
 	},
 };
 

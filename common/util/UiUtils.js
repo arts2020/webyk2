@@ -42,6 +42,7 @@ const UiUtils = {
 			mask: isMask
 		});
 		this.mTimerId = setTimeout(function() {
+			uni.cclog("==str==", str)
 			uni.cclog("loading time out");
 			this.hideLoading();
 		}.bind(this), time)
@@ -112,7 +113,7 @@ const UiUtils = {
 
 	switchBackPage: function() {
 		let pages = getCurrentPages();
-		
+
 		if (pages.length <= 1) {
 			vue.util.UiUtils.switchToPage("wallet-index", "switchBackPage")
 		} else {
@@ -253,7 +254,7 @@ const UiUtils = {
 		let v2_n = parseInt(vsn_n[1])
 		let v3_n = parseInt(vsn_n[2])
 
-		if (v1_n <= v1 && v2_n <= v2 && v3_n <= v3 && ishome== false) {
+		if (v1_n <= v1 && v2_n <= v2 && v3_n <= v3 && ishome == false) {
 			vue.util.UiUtils.showToast(uni.getLocalStr("tip_version"));
 			return;
 		}
@@ -262,17 +263,17 @@ const UiUtils = {
 		// console.log("======v3_n=", v3_n);
 		if (v1_n > v1) {
 			console.log("强制更新");
-			this.downLoadTip(apploadurl, false, uni.getLocalStr("tip_version_update"));//检测到有新版本，请更新版本
+			this.downLoadTip(apploadurl, false, uni.getLocalStr("tip_version_update")); //检测到有新版本，请更新版本
 			return;
 		}
 		if (v2_n > v2) {
 			console.log("提示更新1");
-			this.downLoadTip(apploadurl, true, uni.getLocalStr("tip_version_update_ask"));//"检测到有新版本，需要更新吗？"
+			this.downLoadTip(apploadurl, true, uni.getLocalStr("tip_version_update_ask")); //"检测到有新版本，需要更新吗？"
 			return;
 		}
 		if (v3_n > v3) {
 			console.log("提示更新3");
-			this.downLoadTip(apploadurl, true, uni.getLocalStr("tip_version_update_ask"));//"检测到有新版本，需要更新吗？"
+			this.downLoadTip(apploadurl, true, uni.getLocalStr("tip_version_update_ask")); //"检测到有新版本，需要更新吗？"
 			return;
 		}
 
@@ -292,7 +293,7 @@ const UiUtils = {
 				}.bind(this)
 			});
 		} else {
-			vue.util.UiUtils.showToast(uni.getLocalStr("tip_update_no"));  //"不支持更新"
+			vue.util.UiUtils.showToast(uni.getLocalStr("tip_update_no")); //"不支持更新"
 		}
 	},
 	downLoadApp: function(url) {
@@ -303,7 +304,7 @@ const UiUtils = {
 			if (status == 200) {
 				plus.runtime.install(plus.io.convertLocalFileSystemURL(d.filename), {}, {}, function(error) {
 					uni.showToast({
-						title: uni.getLocalStr("tip_install_success"),  //'安装失败'
+						title: uni.getLocalStr("tip_install_success"), //'安装失败'
 						duration: 1500
 					});
 				})

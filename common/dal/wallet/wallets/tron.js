@@ -9,9 +9,9 @@ const Tron = {
 	init: function() {
 		console.log("========Tron===初始化===============")
 		let HttpProvider = TronWeb.providers.HttpProvider;
-		this.m_fullNode = new HttpProvider("https://api.shasta.trongrid.io");
-		this.m_solidityNode = new HttpProvider("https://api.shasta.trongrid.io");
-		this.m_eventServer = new HttpProvider("https://api.shasta.trongrid.io");
+		this.m_fullNode = new HttpProvider("https://api.trongrid.io");
+		this.m_solidityNode = new HttpProvider("https://api.trongrid.io");
+		this.m_eventServer = new HttpProvider("https://api.trongrid.io");
 	},
 
 	destroy: function() {
@@ -21,7 +21,7 @@ const Tron = {
 	clear: function() {
 		uni.cclog("======Tron clear==========")
 	},
-	
+
 	//创建身份钱包
 	async createMain(walletInfo) {
 		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.TRON)
@@ -31,14 +31,14 @@ const Tron = {
 			wallet.passwordtip = walletInfo.tips;
 			wallet.importtype = vue.entities.Metadata.ImportType.WordType;
 			vue.dal.MainWallet.addMainWallet(vue.entities.Metadata.ChainType.TRON, wallet);
-		}			
+		}
 		return true;
 	},
 	//创建普通钱包
 	async createNormal(walletInfo) {
 		if (walletInfo.importtype == vue.entities.Metadata.ImportType.WordType) {
 			let wallet = await this.createWalletByWords(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
@@ -48,7 +48,7 @@ const Tron = {
 			}
 		} else if (walletInfo.importtype == vue.entities.Metadata.ImportType.PrivateType) {
 			let wallet = await this.createWalletByPrivateKey(walletInfo.strval)
-			if(wallet){
+			if (wallet) {
 				wallet.name = walletInfo.name;
 				wallet.password = walletInfo.password;
 				wallet.passwordtip = walletInfo.passwordtip;
@@ -100,12 +100,12 @@ const Tron = {
 			return false;
 		}
 	},
-	
-	async initCurrChain(){
+
+	async initCurrChain() {
+		console.log("====initCurrChain===")
 		let walletInfo = vue.dal.WalletManage.getCurrWallet();
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
-		
 		this.m_tronWeb = new TronWeb(this.m_fullNode, this.m_solidityNode, this.m_eventServer, this.m_privateKey);
 	},
 
@@ -127,12 +127,12 @@ const Tron = {
 	},
 
 	onBalance: function() {
+		console.log("==this.fromAddress=", this.fromAddress)
 		this.m_tronWeb.trx.getBalance(this.fromAddress).then(function(balance) {
 			console.log("====TRX==balance===", balance / Math.pow(10, 6))
 			balance = balance / Math.pow(10, 6);
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance, {
-				balance: balance
-			});
+			vue.dal.WalletManage.setCurrWalletMoney(balance)
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		}.bind(this));
 	},
 
@@ -151,10 +151,15 @@ const Tron = {
 		vue.util.UiUtils.hideLoading();
 	},
 
-	async onTokenBalance(to,contractAddress) {
+	async onTokenBalance(contractAddress) {
+		console.log("==onTokenBalance==contractAddress===", contractAddress)
 		let activeContract = await this.m_tronWeb.contract().at(contractAddress);
 		let balance = await activeContract.balanceOf(to).call();
-		return balance;
+		vue.dal.ContractWallet.setContractMoney(this.fromAddress, contractAddress, balance)
+		vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtToKenBalance, {
+			contractAddress: contractAddress,
+			balance: balance
+		});
 	},
 };
 
