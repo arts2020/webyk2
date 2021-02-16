@@ -9,7 +9,7 @@ const Wallets = {
 		this.chains = [
 			{chaintype:vue.entities.Metadata.ChainType.ETH , img:"eth.png", name:'ETH', alias:'Ethereum' ,isaddassets:true},
 			{chaintype:vue.entities.Metadata.ChainType.BTC , img:"btc.png", name:'BTC',alias:'Bitcoin' ,isaddassets:false},
-			{chaintype:vue.entities.Metadata.ChainType.TRON , img:"tron.png", name:'TRON',alias:'TRON',isaddassets:false},
+			{chaintype:vue.entities.Metadata.ChainType.TRON , img:"tron.png", name:'TRON',alias:'TRON',isaddassets:true},
 			{chaintype:vue.entities.Metadata.ChainType.Lotus , img:"fil.png",name:'FIL', alias:'Filecoin',isaddassets:false},
 			{chaintype:vue.entities.Metadata.ChainType.EOS , img:"eos.png",name:'EOS', alias:'Enterprise Operation System',isaddassets:false},
 		]

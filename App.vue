@@ -18,7 +18,7 @@
 			
 			// this.dal.Account.onAutoLogin();
 			this.dal.onLoginSuccess();
-			this.dal.Net.clear();
+			// this.dal.Net.clear();
 			// this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetRate, this.onGetRate);
 		},
 	

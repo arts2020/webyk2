@@ -244,10 +244,12 @@ const WalletManage = {
 		this.m_currWallet = null;
 		if (idx == 0) { //身份钱包
 			this.m_currWallet = vue.dal.MainWallet.getMainWalletByType(chaintype)
+			let mainwalletinfo = vue.dal.MainWallet.getMainInfo();
+			this.m_currWallet.words = mainwalletinfo.words;
 		} else { //普通钱包
 			this.m_currWallet = vue.dal.NormalWallet.getNormalWallet(chaintype, idx)
 		}
-		console.log("==chaintype==", chaintype)
+		console.log("=2222=this.m_currWallet==", this.m_currWallet)
 		console.log("==idx==", idx)
 		console.log("==this.m_currWallet==", this.m_currWallet)
 		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
@@ -261,6 +263,7 @@ const WalletManage = {
 		} else if (chaintype == vue.entities.Metadata.ChainType.TRON) {
 			vue.dal.Tron.initCurrChain();
 		}
+
 		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_key", chaintype);
 		vue.util.StringUtils.setUserDefaults("walletmanage_currwallet_idx_key", idx);
 
@@ -274,15 +277,22 @@ const WalletManage = {
 
 	getCurrWallet: function() {
 		console.log("=====getCurrWallet=====", this.m_currWallet)
-
-		let priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
-		let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
-		if (configinfo && priceInfo && this.m_currWallet) {
-			let rmb = priceInfo.price_usd * this.m_currWallet.money * configinfo.value;
-			console.log("==rmb==", rmb)
-			this.m_currWallet.rmb = rmb;
+		let priceInfo = null;
+		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
+			priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
+			priceInfo = vue.dal.Common.getAssetPriceInfo("FIL");
+		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
+			priceInfo = vue.dal.Common.getAssetPriceInfo("TRX");
 		}
-
+		if (priceInfo) {
+			let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
+			if (configinfo && priceInfo && this.m_currWallet) {
+				let rmb = priceInfo.price_usd * this.m_currWallet.money * configinfo.value;
+				console.log("==rmb==", rmb)
+				this.m_currWallet.rmb = rmb;
+			}
+		}
 		return this.m_currWallet;
 	},
 
@@ -315,19 +325,22 @@ const WalletManage = {
 		}
 	},
 
-	getBalance: function() {
+	getBalance: function(contract) {
+		console.log("==getBalance==",contract)
 		let balance = 0;
-		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
-			balance = vue.dal.Btc.getBalance();
-		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
-			balance = vue.dal.Eos.getBalance();
-		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
-			balance = vue.dal.Eth.getBalance();
-		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
-			balance = vue.dal.Lotus.getBalance();
-		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
-			balance = vue.dal.Tron.getBalance();
+		if (!contract || contract.length <= 0) {
+			if (this.m_currWallet.idx <= 0) {
+				let walletinfo = vue.dal.MainWallet.getMainWalletByType(this.m_currWallet.chaintype);
+				balance = walletinfo.money;
+			} else {
+				let walletinfo = vue.dal.NormalWallet.getNormalWallet(this.m_currWallet.chaintype, this.m_currWallet.idx);
+				balance = walletinfo.money;
+			}
+		} else {
+			let walletinfo = vue.dal.ContractWallet.getContractMoney(this.m_currWallet.address, contract);
+			balance = walletinfo.money;
 		}
+		console.log("==balance==",balance)
 		return balance;
 	},
 

@@ -154,12 +154,11 @@ const Tron = {
 	async onTokenBalance(contractAddress) {
 		console.log("==onTokenBalance==contractAddress===", contractAddress)
 		let activeContract = await this.m_tronWeb.contract().at(contractAddress);
-		let balance = await activeContract.balanceOf(to).call();
+		let balance = await activeContract.balanceOf(this.fromAddress).call();
+		balance = balance / Math.pow(10, 6);
+		console.log("==onTokenBalance==balance===", balance)
 		vue.dal.ContractWallet.setContractMoney(this.fromAddress, contractAddress, balance)
-		vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtToKenBalance, {
-			contractAddress: contractAddress,
-			balance: balance
-		});
+		vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtToKenBalance);
 	},
 };
 

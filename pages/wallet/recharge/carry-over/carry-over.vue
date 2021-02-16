@@ -93,7 +93,8 @@
 			this.m_chain = this.dal.Chain.getAssets(this.m_asset.chaintype);
 			console.log('==========当前链============',this.m_chain)
 			//获取当前余额
-			this.m_balane = this.dal.WalletManage.getBalance();
+			
+		   this.m_balane = this.dal.WalletManage.getBalance(this.m_asset.contract)
 		},
 		methods: {
 			initword(){
@@ -223,8 +224,23 @@
 					this.password =""
 					return;
 				}
-				// 转账操作
 				
+				let to =  this.address.replace(new RegExp(/( )/g), "");
+				let amount = this.count.replace(new RegExp(/( )/g), "");
+				let gas = 0;
+				if(this.m_chain.isgas){
+					
+				}
+				console.log("=walletInfo==",walletInfo)
+				console.log("=to==",to)
+				console.log("=amount==",amount)
+				console.log("=gas==",gas)
+				// 转账操作
+				// if(walletInfo.idx <= 0){
+				// 	this.dal.WalletManage.sendTransaction(to, amount, gas)
+				// }else{
+				// 	this.dal.WalletManage.sendTokenTransaction(to, amount, contractAddress, gas)
+				// }
 			},
 		}
 	}

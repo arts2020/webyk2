@@ -323,12 +323,12 @@
 				}
 				for (let i = 0; i < this.currentAsset.length; i++) {
 					let item = this.currentAsset[i];
-					console.log("===item=", item)
+					console.log("=33333333==item=", item)
 					
-					if(item.address){
-						this.dal.WalletManage.onBalance(item.address)
-					}else if(item.contract){
+					if(item.contract){
 						this.dal.WalletManage.onTokenBalance(item.contract)
+					}else if(item.address){
+						this.dal.WalletManage.onBalance(item.address)
 					}
 				}
 			},
