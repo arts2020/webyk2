@@ -174,10 +174,7 @@
 				chains:[],
 				//当前链的信息
 				m_chain:{},
-				//汇率配置
-				configInfo:{
-					value:''
-				}
+				
 			}
 		},
 		onShow() {
@@ -248,7 +245,7 @@
 				//添加logo图标和背景图
 				mineChains.forEach(el => {
 					let item = this.chains.find(e => e.chaintype == el.chaintype);
-					 el.name = item.name;
+					el.name = el.name?el.name:item.name;
 					el.img = item.img || 'default.png';
 					el.bgcImg = item.img.split('.')[0] + 'bg.png';
 					el.showAddress = el.address ? el.address.substring(0, 7) + '...' + el.address.substring(el.address.length - 7) :
@@ -277,7 +274,6 @@
 				} else {
 					return;
 				}
-				this.configInfo = this.dal.Common.onGetCommonConfigInfo('exchange_key');
 				//当前钱包默认优先拿第一个身份钱包，没有身份钱包时默认用第一个普通钱包
 				this.currentWallet = this.dal.WalletManage.getCurrWallet();
 				if (!this.currentWallet) {
@@ -309,14 +305,13 @@
 				})
 				this.currentWallet.allRmb = sum;
 				this.currentAsset = list;
-				console.log('=====钱包和资产列表=====',this.configInfo,list, this.currentAsset, this.m_mychains)
+				console.log('=====钱包和资产列表=====', this.currentAsset, this.m_mychains)
 			},
 			getCommonConfig(data){
 				console.log(data)
 			},
 			onTokenBalance: function() {
 				if (this.dal.WalletManage.isExistWallet()) {
-					//页面显示时去获取身份钱包和普通钱包以及当前的钱包,当前钱包所对应的资产 获取所有资产链
 					this.hasWallet = true;
 				} else {
 					return;

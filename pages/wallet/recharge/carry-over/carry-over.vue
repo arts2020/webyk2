@@ -95,7 +95,7 @@
 				this.m_asset = item.m_asset;
 				this.m_feeInfo = item.m_feeInfo;
 			}
-			this.m_chain = this.dal.Chain.getAssets(this.m_asset.chaintype)||{isgas:false};
+			this.m_chain = this.dal.Chain.getChainInfo(this.m_asset.chaintype)||{isgas:false};
 			console.log('==========当前链============',this.m_chain)
 			
 			//获取当前余额			

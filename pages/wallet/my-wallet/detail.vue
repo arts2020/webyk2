@@ -155,7 +155,16 @@
 						this.util.UiUtils.showToast(this.wallet_detail_str8)
 						return;
 					}
+					//根据idx是否为0调用不同的修改方法
+					if(this.walletInfo.idx==0){
+						//身份钱包
+						this.dal.MainWallet.setMainWalletName(this.walletInfo.chaintype,this.newWalletName)
+					}else{
+						//普通钱包
+						this.dal.NormalWallet.setNormalWalletName(this.walletInfo.chaintype,this.walletInfo.idx,this.newWalletName)
+					}
 					
+					this.walletInfo.name=this.newWalletName;
 				}
 				this.password = "";
 				this.newWalletName="";

@@ -89,7 +89,7 @@ const MainWallet = {
 		return null;
 	},
 	setMainWalletName:function(chaintype,name){
-		let wallet = this.getMainWalletByType(chaintype, idx);
+		let wallet = this.getMainWalletByType(chaintype);
 		if(wallet){
 			wallet.name = name;
 		}
