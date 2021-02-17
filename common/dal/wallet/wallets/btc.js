@@ -133,27 +133,27 @@ const Btc = {
 	},
 
 	// 记录交易
-	async sendTransaction(to, amount, gas) {
+	async sendTransaction(asset, to, amount, gas) {
 		let privateKey = vue.dal.WalletManage.getPrivateKey();
 		let address = vue.dal.WalletManage.getAddress();
 
 		//TODO....
 
-/*
-		let alice = bitcoin.ECPair.fromWIF('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
-		// L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy为Alice的私钥
-		//  let lbtcVersion = 65282;
-		let txb = new bitcoin.TransactionBuilder(bitcoin.networks[network]),
-			//  txb.setVersion(Number(setVersion));
+		/*
+				let alice = bitcoin.ECPair.fromWIF('L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy');
+				// L1uyy5qTuGrVXrmrsvHWHgVzW9kKdrp27wBC7Vs6nZDTF2BRUVwy为Alice的私钥
+				//  let lbtcVersion = 65282;
+				let txb = new bitcoin.TransactionBuilder(bitcoin.networks[network]),
+					//  txb.setVersion(Number(setVersion));
 
-		txb.addInput('61d520ccb74288c96bc1a2b20ea1c0d5a704776dd0164a396efec3ea7040349d', 0);
-		// Alice's previous transaction output, has 15000 satoshis
-		txb.addOutput('1cMh228HTCiwS8ZsaakH8A8wze1JR5ZsP', 12000); // (in)15000 - (out)12000 = (fee)3000, this is the miner fee
+				txb.addInput('61d520ccb74288c96bc1a2b20ea1c0d5a704776dd0164a396efec3ea7040349d', 0);
+				// Alice's previous transaction output, has 15000 satoshis
+				txb.addOutput('1cMh228HTCiwS8ZsaakH8A8wze1JR5ZsP', 12000); // (in)15000 - (out)12000 = (fee)3000, this is the miner fee
 
-		txb.sign(0, alice); // 签名
-		txb.build().toHex(); // 最后将交易十六进制编码广播到BTC网络
+				txb.sign(0, alice); // 签名
+				txb.build().toHex(); // 最后将交易十六进制编码广播到BTC网络
 
-*/
+		*/
 
 
 		vue.util.UiUtils.hideLoading();
@@ -161,7 +161,7 @@ const Btc = {
 	},
 
 	// TOKEN交易记录
-	async sendTokenTransaction(to, amount, gas) {
+	async sendTokenTransaction(asset, to, amount, gas) {
 		let privateKey = vue.dal.WalletManage.getPrivateKey();
 		let address = vue.dal.WalletManage.getAddress();
 

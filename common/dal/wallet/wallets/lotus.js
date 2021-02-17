@@ -121,11 +121,28 @@ const Lotus = {
 
 		let res = await FileCoinUtils.getGasPrice(address, to, mount);
 		console.log("===res=", res)
-		return res;
+		let items = [];
+		if(res.code == 200){
+			let fasttest = {
+				unitPrice: res.data.gasMessageGas.GasFeeCap / Math.pow(10, 9) + res.data.gasMessageGas.GasPremium / Math.pow(10, 6) * 2,
+				title: "快速",
+				time: '1',
+			}
+			let safelow = {
+				unitPrice: res.data.gasMessageGas.GasFeeCap / Math.pow(10, 9) + res.data.gasMessageGas.GasPremium / Math.pow(10, 6),
+				title: "一般",
+				time: '10',
+			};
+			fasttest.unitPrice = fasttest.unitPrice.toFixed(8)
+			safelow.unitPrice = safelow.unitPrice.toFixed(8)
+			items.push(fasttest);
+			items.push(safelow);
+		}
+		return items;
 	},
 
 	// 记录交易
-	async sendTransaction(to, amount, gas) {
+	async sendTransaction(asset, to, amount, gas) {
 		let isret = await this.isValidAddress(to);
 		if (!isret) {
 			vue.util.UiUtils.showToast("请输入正确的地址")
@@ -135,26 +152,25 @@ const Lotus = {
 		let ret = await FileCoinUtils.sendTransaction(this.fromAddress, to, amount);
 		console.log("=====fil====sendTransaction===ret==========", ret)
 		if (ret.data) {
-			console.log("==tx.length==", ret.data)
 			let tx = ret.data['/']
 			console.log("==tx==", tx)
-			console.log("==tx.length==", tx.length)
 			if (tx && tx.length == 62) {
 				this.onBalance();
 				vue.util.UiUtils.showToast("转帐已提交");
+				vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, tx,"")
 				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
-					tx: tx
+					result: true
 				});
 			} else {
 				vue.util.UiUtils.showToast("转帐失败，您的余额不变");
 				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
-					tx: false
+					result: false
 				});
 			}
 		} else {
 			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
-				tx: false
+				result: false
 			});
 		}
 		vue.util.UiUtils.hideLoading();

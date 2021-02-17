@@ -110,18 +110,23 @@ const Tron = {
 	},
 
 	// 记录交易
-	async sendTransaction(to, amount, gas) {
-		const tradeobj = await this.m_tronWeb.transactionBuilder.sendTrx(to, amount, this.fromAddress, 1);
+	async sendTransaction(asset, to, amount, gas) {
+		const tradeobj = await this.m_tronWeb.transactionBuilder.sendTrx(to, amount * Math.pow(10, 6), this.fromAddress, 1);
 		const signedtxn = await this.m_tronWeb.trx.sign(tradeobj, this.m_privateKey);
 		const receipt = await this.m_tronWeb.trx.sendRawTransaction(signedtxn);
 		console.log("====receipt===", receipt)
-		if (receipt.result && receipt.txid.length == 66) {
-			// this.addRecordList(data);
-			// this.onBalance();
+		console.log("====receipt.length===", receipt.txid.length)
+		if (receipt.result && receipt.txid && receipt.txid.length == 64) {
 			vue.util.UiUtils.showToast("转帐已提交");
-			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult);
+			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, receipt.txid, "")
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
+				result: true
+			});
 		} else {
 			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
+				result: false
+			});
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -136,17 +141,24 @@ const Tron = {
 		}.bind(this));
 	},
 
-	async sendTokenTransaction(to, amount, contractAddress) {
+	async sendTokenTransaction(asset, to, amount, gas, contractAddress) {
+		console.log("===sendTokenTransaction=asset===", asset)
+		console.log("===sendTokenTransaction=contractAddress===", contractAddress)
 		let activeContract = await this.m_tronWeb.contract().at(contractAddress);
 		let receipt = await activeContract.transfer(to, amount * Math.pow(10, 6)).send();
-		// console.log("====receipt===", receipt)
-		if (receipt && receipt.length == 66) {
+		console.log("====receipt===", receipt)
+		console.log("====receipt.length===", receipt.length)
+		if (receipt && receipt.length == 64) {
 			vue.util.UiUtils.showToast("转帐已提交");
+			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, receipt, contractAddress)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
-				tx: receipt
+				result: true
 			});
 		} else {
 			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
+				result: false
+			});
 		}
 		vue.util.UiUtils.hideLoading();
 	},

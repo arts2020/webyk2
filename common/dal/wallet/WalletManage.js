@@ -278,14 +278,26 @@ const WalletManage = {
 	getCurrWallet: function() {
 		console.log("=====getCurrWallet=====", this.m_currWallet)
 		let priceInfo = null;
-		if(this.m_currWallet){
+		if (this.m_currWallet) {
+			let asset = "";
 			if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
 				priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
+				asset = "eth";
 			} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
 				priceInfo = vue.dal.Common.getAssetPriceInfo("FIL");
+				asset = "fil";
 			} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
 				priceInfo = vue.dal.Common.getAssetPriceInfo("TRX");
+				asset = "trx";
+			} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
+				priceInfo = vue.dal.Common.getAssetPriceInfo("BTC");
+				asset = "btc";
+			} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
+				priceInfo = vue.dal.Common.getAssetPriceInfo("EOS");
+				asset = "eos";
 			}
+			this.m_currWallet.asset = asset;
+
 			if (priceInfo) {
 				let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
 				if (configinfo && priceInfo && this.m_currWallet) {
@@ -299,36 +311,40 @@ const WalletManage = {
 	},
 
 	//========================交易相关======================
-	async sendTransaction(to, amount, gas) {
+	async sendTransaction(asset, to, amount, gas) {
+		asset = asset.toLowerCase();
 		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
-			await vue.dal.Btc.sendTransaction(to, amount, gas);
+			await vue.dal.Btc.sendTransaction(asset, to, amount, gas);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
-			await vue.dal.Eos.sendTransaction(to, amount, gas);
+			await vue.dal.Eos.sendTransaction(asset, to, amount, gas);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
-			await vue.dal.Eth.sendTransaction(to, amount, gas);
+			await vue.dal.Eth.sendTransaction(asset, to, amount, gas);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
-			await vue.dal.Lotus.sendTransaction(to, amount, gas);
+			await vue.dal.Lotus.sendTransaction(asset, to, amount, gas);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
-			await vue.dal.Tron.sendTransaction(to, amount, gas);
+			await vue.dal.Tron.sendTransaction(asset, to, amount, gas);
 		}
 	},
-
-	async sendTokenTransaction(to, amount, contractAddress, gas) {
+	
+	async sendTokenTransaction(asset, to, amount, contractAddress, gas) {
+		console.log("======sendTokenTransaction===1==")
+		asset = asset.toLowerCase();
+		console.log("======sendTokenTransaction===2=")
 		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
-			await vue.dal.Btc.sendTokenTransaction(to, amount, gas, contractAddress);
+			await vue.dal.Btc.sendTokenTransaction(asset, to, amount, gas, contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
-			await vue.dal.Eos.sendTokenTransaction(to, amount, gas, contractAddress);
+			await vue.dal.Eos.sendTokenTransaction(asset, to, amount, gas, contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
-			await vue.dal.Eth.sendTokenTransaction(to, amount, gas, contractAddress);
+			await vue.dal.Eth.sendTokenTransaction(asset, to, amount, gas, contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
-			await vue.dal.Lotus.sendTokenTransaction(to, amount, gas, contractAddress);
+			await vue.dal.Lotus.sendTokenTransaction(asset, to, amount, gas, contractAddress);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
-			await vue.dal.Tron.sendTokenTransaction(to, amount, gas, contractAddress);
+			await vue.dal.Tron.sendTokenTransaction(asset, to, amount, gas, contractAddress);
 		}
 	},
 
 	getBalance: function(contract) {
-		console.log("==getBalance==",contract)
+		console.log("==getBalance==", contract)
 		let balance = 0;
 		if (!contract || contract.length <= 0) {
 			if (this.m_currWallet.idx <= 0) {
@@ -342,7 +358,7 @@ const WalletManage = {
 			let walletinfo = vue.dal.ContractWallet.getContractMoney(this.m_currWallet.address, contract);
 			balance = walletinfo.money;
 		}
-		console.log("==balance==",balance)
+		console.log("==balance==", balance)
 		return balance;
 	},
 

@@ -18,7 +18,7 @@ const Ethers = {
 	destroy: function() {
 
 	},
-	
+
 	clear: function() {
 		uni.cclog("======Ethers clear==========")
 	},
@@ -125,10 +125,26 @@ const Ethers = {
 	async getGasPrice() {
 		let res = await EthUtils.getGasPriceAsync2();
 		console.log("===res=", res)
-		let average = {unitPrice: res.average/10,title: "正常",time: res.avgWait};
-		let fast = {unitPrice: res.fast/10,title: "快速",time: res.fastWait + 1.5};
-		let fasttest = {unitPrice: res.fastest/10,title: "最快",time: res.fastestWait};
-		let safelow = {unitPrice: res.safeLow/10,title: "缓慢",time: res.safeLowWait + 15};
+		let average = {
+			unitPrice: res.average / 10,
+			title: "正常",
+			time: res.avgWait
+		};
+		let fast = {
+			unitPrice: res.fast / 10,
+			title: "快速",
+			time: res.fastWait + 1.5
+		};
+		let fasttest = {
+			unitPrice: res.fastest / 10,
+			title: "最快",
+			time: res.fastestWait
+		};
+		let safelow = {
+			unitPrice: res.safeLow / 10,
+			title: "缓慢",
+			time: res.safeLowWait + 15
+		};
 		let items = [];
 		items.push(fasttest);
 		items.push(fast);
@@ -138,7 +154,7 @@ const Ethers = {
 	},
 
 	// 记录交易
-	async sendTransaction(to, amount, gas) {
+	async sendTransaction(asset, to, amount, gas) {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
 
 		let gcout = await EthUtils.ethTransactionCount(this.fromAddress, this.m_reqUrl)
@@ -147,36 +163,39 @@ const Ethers = {
 			this.onBalance();
 			console.log("=====Ethers===sendTransaction===1=", txid);
 			vue.util.UiUtils.showToast("转帐已提交");
-
+			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, "")
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
-				tx: txid
-			});
+				result: true
+			})
 		} else {
 			console.log("=====Ethers===sendTransaction==2==", txid);
 			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
+				result: false
+			});
 		}
 		vue.util.UiUtils.hideLoading();
 		console.log("=====Ethers===sendTransaction====", txid);
 	},
 
-	async sendTokenTransaction(to, amount, gas, contractAddress) {
+	async sendTokenTransaction(asset, to, amount, gas, contractAddress) {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
 		console.log("===pedings=", pedings)
 		console.log("===this.fromAddress=", this.fromAddress)
 		console.log("===to=", to)
-		let txid = await EthUtils.tokenTransferAsync(privateKey, contractAddress, this.fromAddress, to, amount, 6, pedings,
-			this.m_reqUrl, gas)
-		console.log("====txid=====", txid)
+		let txid = await EthUtils.tokenTransferAsync(privateKey, contractAddress, this.fromAddress, to, amount, 6,
+			pedings,this.m_reqUrl, gas)
 		if (txid && txid.length == 66) {
 			this.onTokenBalance(contractAddress);
 			vue.util.UiUtils.showToast("转帐已提交");
+			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, contractAddress)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
-				tx: txid
+				result: true
 			});
 		} else {
 			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
-				tx: false
+				result: false
 			});
 		}
 		vue.util.UiUtils.hideLoading();

@@ -244,23 +244,28 @@
 					this.password =""
 					return;
 				}
-				
+				let asset = this.m_asset.name;
 				let to =  this.address.replace(new RegExp(/( )/g), "");
 				let amount = this.count.replace(new RegExp(/( )/g), "");
 				let gas = 0;
 				if(this.m_chain.isgas){
-					
+					gas = this.m_feeInfo.money;
 				}
 				console.log("=walletInfo==",walletInfo)
 				console.log("=to==",to)
 				console.log("=amount==",amount)
 				console.log("=gas==",gas)
+				console.log("=asset==",asset)
 				// 转账操作
-				// if(walletInfo.idx <= 0){
-				// 	this.dal.WalletManage.sendTransaction(to, amount, gas)
-				// }else{
-				// 	this.dal.WalletManage.sendTokenTransaction(to, amount, contractAddress, gas)
-				// }
+				if(!this.m_asset.contract){
+					this.dal.WalletManage.sendTransaction(asset, to, amount, gas)
+				}else{
+					let contract = this.m_asset.contract;
+					console.log("=contract==",contract)
+					this.dal.WalletManage.sendTokenTransaction(asset, to, amount, contract, gas).then(result => {
+						console.log("=333=result===",result)
+					});
+				}
 			},
 		}
 	}

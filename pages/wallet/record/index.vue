@@ -157,8 +157,15 @@
 				// 	el.outAddr = el.outAddr?el.outAddr.substring(0,7)+'...'+el.outAddr.substring(el.outAddr.length-7):"no address"
 				// })
 				// this.allList = list;
+				console.log("==this.currentAsset=",this.currentAsset)
+				if(this.currentAsset){
+					if(this.currentAsset.contract){
+						this.dal.Common.onGetTransferList(this.currentAsset.contract)
+					}else{
+						this.dal.Common.onGetTransferList(this.currentAsset.address)
+					}
+				}
 				
-				this.dal.Common.onGetTransferList()
 				
 				//根据字段筛选分组为转入,转出,失败的
 				

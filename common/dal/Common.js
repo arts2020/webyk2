@@ -9,11 +9,11 @@ const Common = {
 
 	evtGetConfig: "EVT_evtGetConfig",
 	evtGetCommonConfig: "EVT_evtGetCommonConfig",
-	
+
 	evtGetAssetstate: "EVT_evtGetAssetstate",
 	evtGetTokenList: "EVT_evtGetTokenList",
 	evtGetTokenDetail: "EVT_evtGetTokenDetail",
-	
+
 	init: function() {
 		uni.cclog("======Common init==========")
 		this.m_AssetpriceList = {};
@@ -54,7 +54,7 @@ const Common = {
 
 		vue.shared.Event.attach(vue.entities.RequestCode.Transfer, this.handleTransfer, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetTransferList, this.handleGetTransferList, "dal_common", this);
-	    vue.shared.Event.attach(vue.entities.RequestCode.GetTokenList, this.handleGetTokenList, "dal_common", this);
+		vue.shared.Event.attach(vue.entities.RequestCode.GetTokenList, this.handleGetTokenList, "dal_common", this);
 	},
 
 	onRemoveListener: function() {
@@ -80,24 +80,24 @@ const Common = {
 		}
 		vue.util.UiUtils.hideLoading();
 	},
-	
-	getAssetPriceInfo:function(asset){
-		for(let i = 0; i < this.m_AssetPriceItems.length; i++){
+
+	getAssetPriceInfo: function(asset) {
+		for (let i = 0; i < this.m_AssetPriceItems.length; i++) {
 			let item = this.m_AssetPriceItems[i];
-			if(item.symbol.toLowerCase() == asset.toLowerCase()){
+			if (item.symbol.toLowerCase() == asset.toLowerCase()) {
 				return item;
 			}
 		}
 		return null;
 	},
-	
+
 	// GetDefi
 	onGetDefi: function() {
 		uni.cclog("==========onGetAssetPrice=============")
 		var params = {};
 		vue.dal.Net.request(vue.entities.RequestCode.GetDefi, params);
 	},
-	
+
 	handleGetDefi(packetIn) {
 		uni.cclog("==========handleGetDefi==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
@@ -131,13 +131,13 @@ const Common = {
 		}
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	onGetConfigInfo: function(key) {
 		let item = this.m_PoolConfig[key];
 		uni.cclog("=======onGetConfigInfo====", item)
 		return item;
 	},
-	
+
 	onCommonConfig: function() {
 		// uni.cclog("==========onGetRate=============")
 		var params = {};
@@ -157,7 +157,7 @@ const Common = {
 		}
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	onGetCommonConfigInfo: function(key) {
 		let item = this.m_commonConfig[key];
 		uni.cclog("=======this.m_commonConfig=======", this.m_commonConfig)
@@ -188,11 +188,11 @@ const Common = {
 	},
 
 	//转账
-	onTransfer: function(walletidx, idx, contractasset, fromaddress, to, amount, tx) {
+	onTransfer: function(contractasset, fromaddress, to, amount, tx, contractaddress) {
 		let currWallet = vue.dal.WalletManage.getCurrWallet()
 		var params = {
-			walletidx: walletidx, //钱包ID
-			asset: asset, //币种 eth/lotus/btc/eos/tron
+			walletidx: currWallet.idx, //钱包ID
+			asset: currWallet.asset, //币种 eth/lotus/btc/eos/tron
 			contractaddress: contractaddress, //代币地址
 			contractasset: contractasset, //代币 USDT
 			fromaddress: fromaddress,
@@ -206,7 +206,7 @@ const Common = {
 	handleTransfer: function(packetIn) {
 		uni.cclog("==========handleTransfer==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
-			vue.util.EventUtils.dispatchEventCustom(this.evtTransfer);
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetTransferList);
 		} else {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
 		}
@@ -214,9 +214,10 @@ const Common = {
 	},
 
 	//交易记录（转账记录）
-	onGetTransferList: function(walletidx, contractaddress) {
+	onGetTransferList: function(contractaddress) {
+		let currWallet = vue.dal.WalletManage.getCurrWallet()
 		var params = {
-			walletidx: walletidx,
+			walletidx: currWallet.idx,
 			contractaddress: contractaddress
 		};
 		vue.dal.Net.request(vue.entities.RequestCode.GetTransferList, params);
@@ -270,7 +271,7 @@ const Common = {
 		uni.cclog("==========handleGetTokenList==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
 			this.m_tokenList = packetIn.pktin.data;
-			console.log('==============================',this.m_userRecords)
+			console.log('==============================', this.m_userRecords)
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenList);
 		} else {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
@@ -290,7 +291,7 @@ const Common = {
 	handleGetTokenDetail: function(packetIn) {
 		uni.cclog("==========handleGetTokenDetail==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
-			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenDetail,{
+			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenDetail, {
 				data: packetIn.pktin.data
 			});
 		} else {

@@ -45,7 +45,7 @@
 					//选中的选项下标
 					index: 0
 				},
-				workload: 0,
+				workload: 0.002,
 				menuList: [],
 				paramsObj: {}
 			};
@@ -72,9 +72,16 @@
 			handleCheck(index) {
 				this.currentFee.index = index;
 				this.currentFee.unitPrice = this.menuList[index].unitPrice;
-				this.currentFee.money = this.menuList[index].unitPrice * this.workload;
-				this.currentFee.rmb = 5.58
+				this.currentFee.money = (this.menuList[index].unitPrice * this.workload).toFixed(12);
+				let priceInfo = this.dal.Common.getAssetPriceInfo("FIL");
+				let configinfo = this.dal.Common.onGetCommonConfigInfo("exchange_key");
+				
+				
+				let rmb = priceInfo.price_usd * this.currentFee.money * configinfo.value;
+				
+				this.currentFee.rmb = rmb.toFixed(2);
 			},
+			
 			btnConfirm() {
 				//点击确定回到转账页
 				this.paramsObj.m_feeInfo = this.currentFee;
@@ -90,45 +97,32 @@
 			},
 			onRefersh() {
 				// 根据链的类型获取矿工费数据
-				this.workload = '';
-				this.menuList = [
-					// {
-					// 	//每次交易需付的
-					// 	unitPrice: '9.99712836',
-					// 	title: "快速",
-					// 	time: '1',
-					// },
-					// {
-					// 	//每次交易需付的
-					// 	unitPrice: '9.996951612',
-					// 	title: "一般",
-					// 	time: '10',
-					// },
-				]
-
+				this.menuList = []
+				this.currentFee.unitPrice = 0;
+				this.currentFee.money = 0;
+				this.currentFee.rmb = 0
+				
+				this.util.UiUtils.showLoading("loading ...");
 				this.dal.WalletManage.getGasPrice().then(result => {
 					this.menuList = result;
 
 					//刚进入默认拿第一个的
-					this.currentFee.unitPrice = this.menuList[0].unitPrice * 1;
+					this.currentFee.unitPrice = this.menuList[0].unitPrice;
 					this.currentFee.money = this.menuList[0].unitPrice * 2 / Math.pow(10, 5);
 
-					let priceInfo = this.dal.Common.getAssetPriceInfo("ETH");
+					let priceInfo = this.dal.Common.getAssetPriceInfo("FIL");
 					let configinfo = this.dal.Common.onGetCommonConfigInfo("exchange_key");
+					
+					
+					//刚进入默认拿第一个的
+					this.currentFee.unitPrice = this.menuList[0].unitPrice;
+					this.currentFee.money = (this.menuList[0].unitPrice * this.workload).toFixed(12);
+					
 					let rmb = priceInfo.price_usd * this.currentFee.money * configinfo.value;
-
 					this.currentFee.rmb = rmb.toFixed(2);
+					
+					this.util.UiUtils.hideLoading();
 				});
-
-				//刚进入默认拿第一个的
-				this.currentFee.unitPrice = this.menuList[0].unitPrice;
-				this.currentFee.money = this.menuList[0].unitPrice * this.workload;
-				this.currentFee.rmb = 5.58
-				// //刚进入默认拿第一个的
-				// this.currentFee.unitPrice = this.menuList[0].unitPrice;
-				//    this.currentFee.money = this.menuList[0].unitPrice * this.workload;
-				//    this.currentFee.rmb = 5.58
-
 			}
 		}
 	}
