@@ -88,6 +88,12 @@ const MainWallet = {
 		}
 		return null;
 	},
+	setMainWalletName:function(chaintype,name){
+		let wallet = this.getMainWalletByType(chaintype, idx);
+		if(wallet){
+			wallet.name = name;
+		}
+	},
 	// name: "identity_name",
 	// password: this.password,
 	// tips: this.pasdTip,
