@@ -123,6 +123,13 @@ const NormalWallet = {
 		}
 		return null;
 	},
+	
+	setNormalWalletName:function(chaintype, idx,name){
+		let walletinfo = this.getNormalWallet(chaintype, idx);
+		if(walletinfo){
+			walletinfo.name = name;
+		}
+	},
 
 	//私钥是否被普通钱包使用过
 	isExistWallet: function(chaintype, privateKey) {

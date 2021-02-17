@@ -209,7 +209,7 @@
 				}
 
 				let walletInfo = this.dal.WalletManage.getCurrWallet();
-				if (this.address.toLowerCase() == walletInfo.address) {
+				if (this.address.toLowerCase() == walletInfo.address.toLowerCase()) {
 					this.util.UiUtils.showToast(this.err_tip_str5)
 					return;
 				}

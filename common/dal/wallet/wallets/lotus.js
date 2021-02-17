@@ -114,7 +114,12 @@ const Lotus = {
 
 	//GAS费
 	async getGasPrice() {
-		let res = await FileCoinUtils.GetGasPrice();
+		let walletInfo = vue.dal.WalletManage.getCurrWallet();
+		let address = walletInfo.address;
+		let to = walletInfo.address;
+		let mount = 0.02;
+
+		let res = await FileCoinUtils.getGasPrice(address, to, mount);
 		console.log("===res=", res)
 		return res;
 	},

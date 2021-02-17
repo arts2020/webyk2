@@ -278,19 +278,21 @@ const WalletManage = {
 	getCurrWallet: function() {
 		console.log("=====getCurrWallet=====", this.m_currWallet)
 		let priceInfo = null;
-		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
-			priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
-		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
-			priceInfo = vue.dal.Common.getAssetPriceInfo("FIL");
-		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
-			priceInfo = vue.dal.Common.getAssetPriceInfo("TRX");
-		}
-		if (priceInfo) {
-			let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
-			if (configinfo && priceInfo && this.m_currWallet) {
-				let rmb = priceInfo.price_usd * this.m_currWallet.money * configinfo.value;
-				console.log("==rmb==", rmb)
-				this.m_currWallet.rmb = rmb;
+		if(this.m_currWallet){
+			if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
+				priceInfo = vue.dal.Common.getAssetPriceInfo("ETH");
+			} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
+				priceInfo = vue.dal.Common.getAssetPriceInfo("FIL");
+			} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
+				priceInfo = vue.dal.Common.getAssetPriceInfo("TRX");
+			}
+			if (priceInfo) {
+				let configinfo = vue.dal.Common.onGetCommonConfigInfo("exchange_key");
+				if (configinfo && priceInfo && this.m_currWallet) {
+					let rmb = priceInfo.price_usd * this.m_currWallet.money * configinfo.value;
+					console.log("==rmb==", rmb)
+					this.m_currWallet.rmb = rmb;
+				}
 			}
 		}
 		return this.m_currWallet;

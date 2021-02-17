@@ -25,7 +25,7 @@ const Routes = {
 			{code:vue.entities.RequestCode.PrivateWallter , path:"/api/v1/link/privateWallter",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.MnemonicWallter , path:"/api/v1/link/mnemonicWallter",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.GetWalletValidateAddress , path:"/api/v1/link/getWalletValidateAddress",method:"POST", islogin:false},
-			{code:vue.entities.RequestCode.GetFilGasPrice , path:"/api/v1/link/getFilGasPrice",method:"POST", islogin:false},
+			{code:vue.entities.RequestCode.GetFilGasPrice , path:"/api/v1/link/getGasPrice",method:"POST", islogin:false},
 		]	
 	},
 	getRoute:function(code){
