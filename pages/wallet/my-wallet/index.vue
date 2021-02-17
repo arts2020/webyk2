@@ -210,7 +210,7 @@
 			  //添加logo图标和背景图
 			  mineChains.forEach(el=>{
 				  let item = chains.find(e=>e.chaintype==el.chaintype);
-				  el.name = item.name;
+				  el.name = el.name?el.name:item.name;
 				  el.img=item.img || 'default.png';
 				  el.bgcImg = item.img.split('.')[0]+'bg.png';
 				  el.showAddress = el.address?el.address.substring(0,7)+'...'+el.address.substring(el.address.length-7):"no address"

@@ -1,6 +1,6 @@
 <template>
 	<view class="recover-index">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="import_wallet_str1" @clickLeft="goBack"></uni-nav-bar>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="btnstring_import+' '+name+' '+wallet_index_title" @clickLeft="goBack"></uni-nav-bar>
 		<view class="recover-main">
 			<view>
 				<view class="top-title">{{title}}</view>
@@ -51,6 +51,7 @@
 				secretKey:"",
 				words:"",
 				chaintype:"",
+				name:"",
 				password:"",
 				confirmPasd:"",
 				pasdTip:"",
@@ -66,6 +67,7 @@
 				
 				this.coinObj = JSON.parse(option.query);
 				this.chaintype = this.coinObj.chaintype;
+				this.name = this.coinObj.name;
 				console.log("==this.chaintype==",this.chaintype)
 				if(this.coinObj.type == 1){
 					this.title = "助记词"
@@ -96,7 +98,8 @@
 		},
 		methods: {
 			initword(){
-				this.import_wallet_str1 = this.getLocalStr("import_wallet_str1");
+				this.btnstring_import = this.getLocalStr("btnstring_import");
+				this.wallet_index_title = this.getLocalStr("wallet_index_title");
 				this.placeholder_str5 = this.getLocalStr('placeholder_str5');
 				this.placeholder_str6 = this.getLocalStr('placeholder_str6');
 				this.btnstring_confirm = this.getLocalStr('btnstring_confirm')
