@@ -122,6 +122,7 @@
 				this.err_tip_str2 = this.getLocalStr("err_tip_str2")
 				this.err_tip_str3 = this.getLocalStr("err_tip_str3")
 				this.err_tip_str4 = this.getLocalStr("err_tip_str4")
+				this.tip_content_rechange = this.getLocalStr("tip_content_rechange")
 			},
 			goAddressList() {
 				let params = {
@@ -215,7 +216,7 @@
 				}
 				uni.showModal({
 					title: this.getLocalStr("tip_title"),
-					content: "您确定要转帐吗？",
+					content: this.tip_content_rechange,
 					confirmText: this.getLocalStr("btnstring_confirm"),
 					showCancel: true,
 					success: (res)=>{
@@ -266,6 +267,12 @@
 						console.log("=333=result===",result)
 					});
 				}
+				setTimeout(()=>{
+					this.$openPage({
+						name: "deal-record",
+						query:this.m_asset
+					})
+				},1000)
 			},
 		}
 	}

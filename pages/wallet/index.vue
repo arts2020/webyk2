@@ -352,6 +352,7 @@
 				this.dal.WalletManage.setCurrWallet(this.currentWallet.chaintype, this.currentWallet.idx)
 				this.$openPage({
 					name: "my-wallet-detail",
+					query:this.currentWallet
 				})
 			},
 			importWallet() {

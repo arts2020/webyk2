@@ -1,42 +1,42 @@
 <template>
 	<view class="record-detail">
-		<uni-nav-bar backgroundColor="#F6F7F9" :statusBar="true" :fixed="true" left-icon="back" title="详情" @clickLeft="goBack"></uni-nav-bar>
-	    <view class="banner" v-if="!isFailed">
+		<uni-nav-bar backgroundColor="#F6F7F9" :statusBar="true" :fixed="true" left-icon="back" :title="record_detail_title" @clickLeft="goBack"></uni-nav-bar>
+	    <view class="banner" v-if="recordInfo.status">
 			<image src="../../../static/image/index/success.png" mode=""></image>
-		    <view class="status">成功！</view>
-			<view class="time">2021年1月30日  11:24</view>
+		    <view class="status">{{SYS_tip_0}}</view>
+			<view class="time">{{recordInfo.time}}</view>
 		</view>
 		<view class="banner" v-else>
 			<image src="../../../static/image/index/failed.png" mode=""></image>
-		    <view class="status">失败！</view>
-			<view class="time">2021年1月30日  11:24</view>
+		    <view class="status">{{SYS_tip_1}}</view>
+			<view class="time">{{recordInfo.time}}</view>
 		</view>
 		<view class="box-1">
-			<text>金额</text>
-			<text>+100 &nbsp;USDT</text>
+			<text>{{title_str7}}</text>
+			<text>{{recordInfo.money}}</text>
 		</view>
 		<view class="box-2">
 			<view class="p1">
-				<text>矿工费</text>
+				<text>{{seeting_fee_str1}}</text>
 				<view class="right-box">
-					<view>0.0060013079ETH</view>
-					<view>GasPrice(107.00GWEI)*Gas(56,197)</view>
+					<view>{{recordInfo.fee}}</view>
+				<!-- 	<view>GasPrice(107.00GWEI)*Gas(56,197)</view> -->
 				</view>
 			</view>
 			<view class="p2">
 				<view class="addr-item">
-					<text>收款地址</text>
-					<view>uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg</view>
+					<text>{{title_str6}}</text>
+					<view>{{recordInfo.inAddr}}</view>
 				</view>
 				<view class="addr-item">
-					<text>付款地址</text>
-					<view>uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg</view>
+					<text>{{title_str21}}</text>
+					<view>{{recordInfo.outAddr}}</view>
 				</view>
 			</view>
 		</view>
 		<view class="box-3">
-			<text>交易号</text>
-			<view>uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg</view>
+			<text>{{record_detail_ID}}</text>
+			<view>{{recordInfo.id}}</view>
 		</view>
 	</view>
 </template>
@@ -45,23 +45,46 @@
 	export default {
 		data() {
 			return {
-				isFailed:false,
 				//交易信息
 				recordInfo:{
-					
+					//交易时间
+					time:"2021年1月30日  11:24",
+					//交易完成状态
+					status:true,
+					//交易金额
+					money:1000,
+					//交易矿工费
+					fee:0.012354,
+					//交易收款地址
+					inAddr:"uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg",
+					//付款地址
+					outAddr:"uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg",
+					//交易号
+					id:"uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg",
 				}
 			};
 		},
 		onLoad(option) {
+			this.initword()
 			let params = JSON.parse(option.query)
 			if(Object.keys(params).length!=0){
-				this.recordInfo = params;
+				// this.recordInfo = params;
 			}
 		},
 		methods:{
 			goBack(){
 				this.util.UiUtils.switchBackPage();
 			},
+			initword(){
+				this.record_detail_title = this.getLocalStr("record_detail_title");
+				this.SYS_tip_0 = this.getLocalStr("SYS_tip_0");
+				this.SYS_tip_1 = this.getLocalStr("SYS_tip_1");
+				this.title_str7 = this.getLocalStr("title_str7");
+				this.seeting_fee_str1 = this.getLocalStr("seeting_fee_str1");
+				this.title_str6 = this.getLocalStr("title_str6");
+				this.title_str21 = this.getLocalStr("title_str21");
+				this.record_detail_ID = this.getLocalStr("record_detail_ID");
+			}
 		}
 	}
 </script>

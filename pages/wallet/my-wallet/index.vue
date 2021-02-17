@@ -179,8 +179,7 @@
 			// 去到钱包详情界面，钱包详情界面 身份钱包和普通钱包有区别，进行状态控制
 			goDetail(item){
 				console.log('=== 当前钱包===',item)
-				this.dal.WalletManage.setCurrWallet(item.chaintype,item.idx);
-				this.$openPage({name:"my-wallet-detail"})
+				this.$openPage({name:"my-wallet-detail",query:item})
 			},
 			// 去添加钱包
 			goAddWallet(){

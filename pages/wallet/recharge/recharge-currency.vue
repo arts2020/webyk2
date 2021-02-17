@@ -122,7 +122,7 @@
 				uni.setClipboardData({
 					data: this.val,
 					success: function(data) {
-						self.util.UiUtils.showToast(this.copy_success);
+						self.util.UiUtils.showToast(self.copy_success);
 					},
 					fail: function(err) {},
 					complete: function(res) {}

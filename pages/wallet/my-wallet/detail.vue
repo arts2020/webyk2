@@ -69,13 +69,9 @@
 				exportType:1,
 			};
 		},
-		onLoad() {
+		onLoad(option) {
 			this.initword()
-		},
-		onShow() {
-			// 从数据层获取当前钱包信息
-			this.walletInfo = this.dal.WalletManage.getCurrWallet();
-			console.log(this.walletInfo)
+			this.walletInfo = JSON.parse(option.query);			
 		},
 		methods:{
 			initword(){
@@ -96,14 +92,24 @@
 				this.pasd_title = this.getLocalStr("pasd_title")
 				this.pasd_err_blank = this.getLocalStr("pasd_err_blank")
 				this.pasd_err_tip = this.getLocalStr("pasd_err_tip")
+				this.tip_content_dele = this.getLocalStr("tip_content_dele")
+				this.tip_title_dele = this.getLocalStr("tip_title_dele")
 			},
 			removeWallet(){
 				//删除钱包
-				this.dal.NormalWallet.deleteNormalWallet(this.walletInfo.chaintype,this.walletInfo.idx);
-				this.util.UiUtils.showToast(this.wallet_detail_str11)
-				setTimeout(()=>{
-					this.$openPage({name:"my-wallet-index",gotype:"redirectTo"});
-				},1000)
+				uni.showModal({
+					title:this.tip_title_dele,
+					content:this.tip_content_dele,
+					success:(res)=>{
+						if(res.confirm){
+							this.dal.NormalWallet.deleteNormalWallet(this.walletInfo.chaintype,this.walletInfo.idx);
+							this.util.UiUtils.showToast(this.wallet_detail_str11)
+							setTimeout(()=>{
+								this.$openPage({name:"my-wallet-index",gotype:"redirectTo"});
+							},1000)
+						}
+					}
+				})				
 			},
 			goBack(){
 				this.util.UiUtils.switchBackPage();

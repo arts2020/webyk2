@@ -141,7 +141,7 @@
 				this.btnstring_add = this.getLocalStr("btnstring_add")
 			},
 			onRefersh(){
-				this.triggered = true;
+				if(!this.triggered){this.triggered = true;}
 				//清空之前数据重新获取
 				this.m_marketList = [];
 				this.m_defiList = [];

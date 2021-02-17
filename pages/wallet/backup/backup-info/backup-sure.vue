@@ -208,7 +208,7 @@
 							setTimeout(()=>{
 								this.$refs.successPop.close();
 								this.util.UiUtils.switchToPage("wallet-index", "backup-info-sure",{},"switchTab");
-							},500)
+							},1000)
 						}else{
 							this.util.UiUtils.showToast(this.err_tip_str20);
 						}

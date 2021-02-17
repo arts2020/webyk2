@@ -69,6 +69,7 @@ const localstr = {
 		title_str18:"请勿截屏和分享，这将可能被第三方恶意软件收集，造成资产损失",
 		title_str19:"导出私钥",
 		title_str20:"导出助记词",
+		title_str21:"付款地址",
 		
 		err_tip_str1:"请输入转出的地址",
 		err_tip_str2:"请输入转出的数额",
@@ -94,6 +95,9 @@ const localstr = {
 		err_tip_code:"您获取验证码超限，请稍后再试",
 		err_tip_safepasd:"您没有设置安全密码，请先设置安全密码？",
 		
+		tip_title_dele:"删除确认",
+		tip_content_dele:"您确定要删除此钱包吗？",
+		tip_content_rechange:"您确定要转帐吗？",
 		tip_version:"已是最新版本",
 		tip_version_update:"检测到有新版本，请更新版本",
 		tip_version_update_ask:"检测到有新版本，需要更新吗？",
@@ -122,7 +126,10 @@ const localstr = {
 		net_err: "网络连接断开，请检查您的网络设置",
 		net_connecting: "网络正在连接中，请稍后再试",
 
-		SYS_ERR_0: "成功",
+		SYS_tip_0: "成功!",
+		SYS_tip_1: "失败!",
+		
+		
 		SYS_ERR_1: "系统繁忙",
 		SYS_ERR_2: "没有数据",
 		SYS_ERR_3: "动作执行错误",
@@ -225,6 +232,8 @@ const localstr = {
 		wallet_index_nodata_str7:"还未拥有钱包",
 		wallet_tip_str1:"地址无效",
 		//交易转账
+		record_detail_title:"交易详情",
+		record_detail_ID:"交易号",
 		seeting_fee_title:"矿工费设置",
 		seeting_fee_str1:"矿工费",
 		seeting_fee_str2:"矿工费率",

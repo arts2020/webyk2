@@ -14,7 +14,7 @@
 			</view>
 			<swiper :style="{ height: scrollHeight + 'px',backgroundColor:'#ffffff' }" @change="swiperChange" :current="active">
 				<swiper-item>
-					<scroll-view scroll-y="true" class="list-content">
+					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true" @refresherrefresh="onRefersh">
 					   <view class="list-item" v-for="(item,index) in allList" :key="index" @click="goDetail">
 						   <image class="icon" :src="itemIcon(item.status,item.type)" mode=""></image>
 						   <view class="info">
@@ -27,7 +27,7 @@
 					</scroll-view>
 				</swiper-item>
 				<swiper-item>
-                    <scroll-view scroll-y="true" class="list-content">
+                    <scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true" @refresherrefresh="onRefersh">
                        <view class="list-item" v-for="(item,index) in rollOutList" :key="index" @click="goDetail">
                     	   <image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'" mode=""></image>
                     	   <view class="info">
@@ -40,7 +40,7 @@
                     </scroll-view>
 				</swiper-item>
 				<swiper-item>
-					<scroll-view scroll-y="true" class="list-content">
+					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true" @refresherrefresh="onRefersh">
 					   <view class="list-item" v-for="(item,index) in rollInList" :key="index" @click="goDetail">
 						   <image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'" mode=""></image>
 						   <view class="info">
@@ -53,7 +53,7 @@
 					</scroll-view>
 				</swiper-item>
 				<swiper-item>
-				    <scroll-view scroll-y="true" class="list-content">
+				    <scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true" @refresherrefresh="onRefersh">
 				       <view class="list-item" v-for="(item,index) in failList" :key="index" @click="goDetail">
 				    	   <image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'" mode=""></image>
 				    	   <view class="info">
@@ -85,6 +85,7 @@
 		},
 		data() {
 			return {
+				triggered:true,
 				currentAsset:{
 					name:"ETH",
 					rmb:"12.452",
@@ -112,7 +113,7 @@
 		onLoad(option) {
 			let params = JSON.parse(option.query);			
 			if(Object.keys(params).length!=0){
-				console.log(params)
+				console.log('======this.currentAsset======',params)
 				this.currentAsset = params;
 			}
 			this.iniword()
@@ -136,6 +137,7 @@
 				this.title_str4 = this.getLocalStr("title_str4");
 			},
 			onRefersh(){
+				if(!this.triggered){this.triggered = true;}
 				//每次刷新数据  清空之前数据并重新获取
 				// this.allList = [];
 				this.rollOutList = [];
@@ -145,18 +147,17 @@
 				//获取交易列表
 				this.getDealData();
 				
-				//从底层数据层获取当前资产信息
-				// this.currentAsset = 
 			},
 			getDealData(){
-				//根据当前资产类型获取用户所有交易记录
+				//根据当前资产类型获取用户所有交易记录  
 				//处理地址  从底层获取过来的真实数据中 地址不能改，因为详情页要展示  另加属性去展示处理后的地址
-				// let list = this.allList;
+				// let list = ;
 				// list.forEach(el=>{
 				// 	el.inAddr = el.inAddr?el.inAddr.substring(0,7)+'...'+el.inAddr.substring(el.inAddr.length-7):"no address"
 				// 	el.outAddr = el.outAddr?el.outAddr.substring(0,7)+'...'+el.outAddr.substring(el.outAddr.length-7):"no address"
 				// })
 				// this.allList = list;
+				//根据字段筛选分组为转入,转出,失败的
 				console.log("==this.currentAsset=",this.currentAsset)
 				if(this.currentAsset){
 					if(this.currentAsset.contract){
@@ -166,9 +167,11 @@
 					}
 				}
 				
-				
-				//根据字段筛选分组为转入,转出,失败的
-				
+				//拿到数据关闭刷新状态
+				setTimeout(()=>{
+					this.triggered = false;
+				},500)
+				console.log(this.triggered)
 			},
 			goBack(){
 				this.util.UiUtils.switchBackPage();
