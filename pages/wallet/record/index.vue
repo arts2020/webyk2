@@ -157,7 +157,16 @@
 					this.triggered = true;
 				}
 				//每次刷新数据  清空之前数据并重新获取
-				this.allList = [];
+				this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, address, iscontract);
+				
+				if (this.currentAsset) {
+					if (this.currentAsset.contract) {
+						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.contract, )
+					} else {
+						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+					}
+				}
+				
 				this.rollOutList = [];
 				this.rollInList = [];
 				this.failList = [];
