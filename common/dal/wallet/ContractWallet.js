@@ -29,7 +29,7 @@ const ContractWallet = {
 
 	clear: function() {
 		uni.cclog("======ContractWallet clear==========")
-		this.m_mainWallet = {};
+		this.m_contractWallet = [];
 		vue.util.StringUtils.removeUserDefaults("contract_wallets_key");
 	},
 
@@ -80,14 +80,21 @@ const ContractWallet = {
 	},
 
 	removeContractWallet: function(chaintype, idx, contractaddress) {
-		if (chaintype == vue.entities.Metadata.ChainType.ETH) {
-			for (let i = 0; i < this.m_contractWallet.length; i++) {
-				let item = this.m_contractWallet[i];
-				if (item.chaintype == chaintype && item.contract.toLowerCase() == contractaddress.toLowerCase() && item.idx ==
-					idx) {
-					this.m_contractWallet.splice(i, 1)
-					break;
-				}
+		for (let i = 0; i < this.m_contractWallet.length; i++) {
+			let item = this.m_contractWallet[i];
+			if (item.chaintype == chaintype && item.contract.toLowerCase() == contractaddress.toLowerCase() && item.idx ==
+				idx) {
+				this.m_contractWallet.splice(i, 1)
+				break;
+			}
+		}
+	},
+
+	removeContractWalletByIdx: function(chaintype, idx) {
+		for (let i = 0; i < this.m_contractWallet.length; i++) {
+			let item = this.m_contractWallet[i];
+			if (item.chaintype == chaintype && item.idx == idx) {
+				this.m_contractWallet.splice(i, 1)
 			}
 		}
 	},
@@ -96,28 +103,27 @@ const ContractWallet = {
 		if (chaintype == vue.entities.Metadata.ChainType.ETH) {
 			let iscontract = await vue.dal.Eth.isContract(contractaddress)
 			if (iscontract) {
-				this.addItem(chaintype, idx, address, contractaddress)
-				return true;
+				return this.addItem(chaintype, idx, address, contractaddress)
 			}
 		} else {
-			this.addItem(chaintype, idx, address, contractaddress)
-			return true;
+			return this.addItem(chaintype, idx, address, contractaddress)
 		}
 		return false;
 	},
 
 	addItem: function(chaintype, idx, address, contractaddress) {
 		console.log("==addItem=idx==", idx)
+		console.log("==this.m_contractWallet==", this.m_contractWallet)
 		let ishave = false;
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
-			console.log("===item==",item)
 			if (idx && item.idx && item.address.toLowerCase() == address.toLowerCase() && item.contract.toLowerCase() ==
 				contractaddress.toLowerCase()) {
 				ishave = true;
 				break;
 			}
 		}
+		console.log("==addItem=ishave==", ishave)
 		if (!ishave) {
 			let item = vue.dal.Common.getTokenByContractAddress(contractaddress)
 			if (!item) {
@@ -139,8 +145,10 @@ const ContractWallet = {
 			}
 			console.log("==addItem=item==", item)
 			this.m_contractWallet.push(item)
+			vue.util.StringUtils.setUserDefaults("contract_wallets_key", JSON.stringify(this.m_contractWallet));
+			return true;
 		}
-		vue.util.StringUtils.setUserDefaults("contract_wallets_key", JSON.stringify(this.m_contractWallet));
+		return false;
 	},
 
 }
