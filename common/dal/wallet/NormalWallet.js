@@ -84,6 +84,7 @@ const NormalWallet = {
 		for (let i = 0; i < items.length; i++) {
 			let item = items[i];
 			if (item.idx == idx) {
+				vue.dal.ContractWallet.removeContractWalletByIdx(chaintype, idx)
 				items.splice(i, 1)
 				break;
 			}

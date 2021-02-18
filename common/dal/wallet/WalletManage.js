@@ -249,6 +249,8 @@ const WalletManage = {
 		} else { //普通钱包
 			this.m_currWallet = vue.dal.NormalWallet.getNormalWallet(chaintype, idx)
 		}
+		this.m_currWallet.userid = vue.shared.MD5.md5(this.m_currWallet.privateKey).substr(0, 32);
+		
 		console.log("=2222=this.m_currWallet==", this.m_currWallet)
 		console.log("==idx==", idx)
 		console.log("==this.m_currWallet==", this.m_currWallet)

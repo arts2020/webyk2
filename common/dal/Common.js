@@ -193,6 +193,7 @@ const Common = {
 	onTransfer: function(contractasset, fromaddress, to, amount, tx, contractaddress) {
 		let currWallet = vue.dal.WalletManage.getCurrWallet()
 		var params = {
+			userid: currWallet.userid,
 			walletidx: currWallet.idx, //钱包ID
 			asset: currWallet.asset, //币种 eth/lotus/btc/eos/tron
 			contractaddress: contractaddress, //代币地址
@@ -220,7 +221,8 @@ const Common = {
 		let currWallet = vue.dal.WalletManage.getCurrWallet()
 		var params = {
 			walletidx: idx,
-			address: address
+			address: address,
+			userid: currWallet.userid,
 		};
 		vue.dal.Net.request(vue.entities.RequestCode.GetTransferList, params);
 	},
@@ -301,9 +303,11 @@ const Common = {
 	getTokenByContractAddress: function(contractaddress) {
 		for (let i = 0; i < this.m_tokenList.length; i++) {
 			let item = this.m_tokenList[i];
-			console.log("==getTokenByContractAddress=item==",item)
+			console.log("==getTokenByContractAddress=item==", item)
 			if (item.address.toLowerCase() == contractaddress.toLowerCase()) {
-				return item;
+				let aa = vue.util.Utils.ccClone(item);
+				console.log("==aa==",aa)
+				return aa;
 			}
 		}
 		return null;
