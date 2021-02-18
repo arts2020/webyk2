@@ -44,19 +44,20 @@ const ContractWallet = {
 	setContractMoney: function(address, contractaddress, money) {
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
+			console.log("==setContractMoney==item===", item)
 			if (item.address.toLowerCase() == address.toLowerCase() && item.contract.toLowerCase() == contractaddress.toLowerCase()) {
 				item.money = money;
 				item.rmb = money * 6.45;
 			}
 		}
 	},
-	
+
 	getContractMoney: function(address, contractaddress) {
 		console.log("=getContractMoney=address==", address)
 		console.log("=getContractMoney=contractaddress==", contractaddress)
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
-		console.log("=getContractMoney=item==", item)
+			console.log("=getContractMoney=item==", item)
 			if (item.address.toLowerCase() == address.toLowerCase() && item.contract.toLowerCase() == contractaddress.toLowerCase()) {
 				return item;
 			}
@@ -82,7 +83,8 @@ const ContractWallet = {
 		if (chaintype == vue.entities.Metadata.ChainType.ETH) {
 			for (let i = 0; i < this.m_contractWallet.length; i++) {
 				let item = this.m_contractWallet[i];
-				if (item.chaintype == chaintype && item.contract.toLowerCase() == contractaddress.toLowerCase() && item.idx == idx) {
+				if (item.chaintype == chaintype && item.contract.toLowerCase() == contractaddress.toLowerCase() && item.idx ==
+					idx) {
 					this.m_contractWallet.splice(i, 1)
 					break;
 				}
@@ -109,13 +111,15 @@ const ContractWallet = {
 		let ishave = false;
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
-			if (idx && item.idx && item.address.toLowerCase() == address.toLowerCase() && item.contract.toLowerCase() == contractaddress.toLowerCase()) {
+			console.log("===item==",item)
+			if (idx && item.idx && item.address.toLowerCase() == address.toLowerCase() && item.contract.toLowerCase() ==
+				contractaddress.toLowerCase()) {
 				ishave = true;
 				break;
 			}
 		}
 		if (!ishave) {
-			let item = vue.dal.Chain.getAssetByContractAddress(chaintype, contractaddress)
+			let item = vue.dal.Common.getTokenByContractAddress(contractaddress)
 			if (!item) {
 				item = {
 					idx: idx,
@@ -130,6 +134,7 @@ const ContractWallet = {
 				item.idx = idx;
 				item.address = address;
 				item.chaintype = chaintype;
+				item.contract = contractaddress;
 				item.money = 0;
 			}
 			console.log("==addItem=item==", item)

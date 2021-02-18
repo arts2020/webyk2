@@ -25,6 +25,7 @@ const Common = {
 		this.m_AssetPriceItems = [];
 		this.onAddListener();
 		this.m_tokenList = [];
+		this.m_Records = [];
 		return true;
 	},
 
@@ -40,6 +41,7 @@ const Common = {
 		this.m_AssetpriceList = {}
 		// this.m_PoolConfig = {};
 		this.m_AssetState = [];
+		this.m_Records = [];
 		this.m_AssetPriceItems = [];
 		uni.cclog("======Common clear==========")
 	},
@@ -214,11 +216,11 @@ const Common = {
 	},
 
 	//交易记录（转账记录）
-	onGetTransferList: function(contractaddress) {
+	onGetTransferList: function(idx, address) {
 		let currWallet = vue.dal.WalletManage.getCurrWallet()
 		var params = {
-			walletidx: currWallet.idx,
-			contractaddress: contractaddress
+			walletidx: idx,
+			address: address
 		};
 		vue.dal.Net.request(vue.entities.RequestCode.GetTransferList, params);
 	},
@@ -226,7 +228,7 @@ const Common = {
 	handleGetTransferList: function(packetIn) {
 		uni.cclog("==========handleGetTransferList==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
-			this.m_userRecords = packetIn.pktin.data.list;
+			this.m_Records = packetIn.pktin.data.list;
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTransferList);
 		} else {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
@@ -234,24 +236,37 @@ const Common = {
 		vue.util.UiUtils.hideLoading();
 	},
 
-	GetTransferList: function(asset) {
-		console.log("==asset=", asset)
+	GetTransferList: function(idx, address, iscontract) {
+		console.log("==idx=", idx)
+		console.log("==address=", address)
 		let items = []
-		for (let i = 0; i < this.m_userRecords.length; i++) {
-			let item = this.m_userRecords[i];
-			console.log("==item.asset=", item.asset)
-			if (item.asset.toLocaleLowerCase() == asset) {
-				if (item.type == 1) {
-					item.remark = vue.getLocalStr("title_award") //"挖矿奖励"
-				} else if (item.type == 2) {
-					item.remark = vue.getLocalStr("btnstring_rechage_coin") //"充币"
-				} else if (item.type == 3) {
-					item.remark = vue.getLocalStr("btnstring_carry") //"转账"
-				} else if (item.type == 4) {
-					item.remark = vue.getLocalStr("btnstring_get_coin") //"提币"
+		for (let i = 0; i < this.m_Records.length; i++) {
+			let item = this.m_Records[i];
+			console.log("==item.asset=", item)
+			if (item.walletidx == idx) {
+				let isselect = false;
+
+				if (item.from_address.toLowerCase() == address.toLowerCase() ||
+					item.to_address.toLowerCase() == address.toLowerCase()) {
+					if (item.contractaddress.length > 0 && iscontract) {
+						isselect = true
+					} else {
+						isselect = true
+					}
 				}
-				item.unit = item.asset;
-				items.push(item);
+
+				if (isselect) {
+					// if (item.type == 1) {
+					// 	item.remark = vue.getLocalStr("title_award") //"挖矿奖励"
+					// } else if (item.type == 2) {
+					// 	item.remark = vue.getLocalStr("btnstring_rechage_coin") //"充币"
+					// } else if (item.type == 3) {
+					// 	item.remark = vue.getLocalStr("btnstring_carry") //"转账"
+					// } else if (item.type == 4) {
+					// 	item.remark = vue.getLocalStr("btnstring_get_coin") //"提币"
+					// }
+					items.push(item);
+				}
 			}
 		}
 
@@ -271,7 +286,7 @@ const Common = {
 		uni.cclog("==========handleGetTokenList==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
 			this.m_tokenList = packetIn.pktin.data;
-			console.log('==============================', this.m_userRecords)
+			console.log('==========handleGetTokenList=========', this.m_tokenList)
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenList);
 		} else {
 			vue.util.UiUtils.showToast(packetIn.pktin.msg);
@@ -282,6 +297,18 @@ const Common = {
 		console.log(this.m_tokenList)
 		return this.m_tokenList;
 	},
+
+	getTokenByContractAddress: function(contractaddress) {
+		for (let i = 0; i < this.m_tokenList.length; i++) {
+			let item = this.m_tokenList[i];
+			console.log("==getTokenByContractAddress=item==",item)
+			if (item.address.toLowerCase() == contractaddress.toLowerCase()) {
+				return item;
+			}
+		}
+		return null;
+	},
+
 	//代币明细接口
 	onGetTokenDetail: function() {
 		var params = {};
