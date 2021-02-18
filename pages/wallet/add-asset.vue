@@ -45,16 +45,7 @@
 				//我已选的资产
 				currentAssetList: [],
 				// 当前链下全部资产的列表
-				allAssetList: [{
-						logo: "../../static/image/index/btc.png",
-						title: "LON",
-						desciption: "LON挖矿"
-					},
-					{
-						logo: "../../static/image/index/btc.png",
-						title: "Snapshot治理",
-						desciption: "参与所有DeFi项目的社区治理"
-					},
+				allAssetList: [
 				],
 
 			};
@@ -101,7 +92,7 @@
 				let list = this.dal.Common.onGetTokenListData()||[];
 				//筛选当前链下的
 				list = list.filter(el=>el.category.toUpperCase()==this.name.toUpperCase());
-				console.log('=================',list)
+				console.log('=================',list,this.currentAssetList )
 				for(let i=0;i<list.length;i++){
 					let el = list[i]
 			
@@ -146,12 +137,13 @@
 			goAdd(item) {
 				//当前链下我已选的资产列表
 				// 检查是否已经添加
-				let i = this.currentAssetList.findIndex(el => el.idx == item.idx);
+				let i = this.currentAssetList.findIndex(el => el.name.toUpperCase() == item.name.toUpperCase());
 				if (i != -1) {
 					// 说明已经添加过了
 					this.util.UiUtils.showToast('已添加至首页资产')
 					return;
 				}
+				this.util.UiUtils.showLoading()
 				// 添加资产
 				this.dal.ContractWallet.addContractWallet(this.chaintype, this.m_idx, this.address, item.address).then(result => {
 					console.log("====addContractWallet==result===", result);

@@ -26,7 +26,8 @@
 				</view>
 				<scroll-view scroll-y="true" class="coin-list" :show-scrollbar="false">
 					<view class="coin-item" v-for="(item,index) in currentAsset" :key="index" @tap="goDealRecord(item)">
-						<image class="icon" :src="'../../static/image/chain/'+item.img" mode=""></image>
+						<image v-if="index==0" class="icon" :src="'../../static/image/chain/'+item.icon" mode=""></image>
+						<image v-else class="icon" :src="item.icon" mode=""></image>
 						<text>{{item.name}}</text>
 						<view class="kind-asset">
 							<view class="b1">{{item.money}}</view>
@@ -292,20 +293,21 @@
 				let temp = JSON.parse(JSON.stringify(this.currentWallet))
 				let item = this.chains.find(el=>el.chaintype==temp.chaintype);
 				temp.name = item.name;
+				temp.icon = item.img;
 				list.unshift(temp)
 				
 				//计算总人民币
 				let sum = 0
 				list.forEach(el => {
 					//币兑换人民币					
-					if (!el.img) {
-						el.img = 'default.png';
+					if (!el.icon) {
+						el.icon = '../../static/image/chain/default.png';
 					}
 					sum+=el.rmb || 0;
 				})
 				this.currentWallet.allRmb = sum;
 				this.currentAsset = list;
-				console.log('=====钱包和资产列表=====', this.currentAsset, this.m_mychains)
+				console.log('=====资产列表=====', this.currentAsset)
 			},
 			getCommonConfig(data){
 				console.log(data)

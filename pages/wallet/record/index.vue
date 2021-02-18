@@ -170,7 +170,7 @@
 				//拿到数据关闭刷新状态
 				setTimeout(()=>{
 					this.triggered = false;
-				},500)
+				},1000)
 				console.log(this.triggered)
 			},
 			goBack(){
