@@ -73,7 +73,10 @@
 			initword(){
 			    this.dapp_search_placeholder = this.getLocalStr("dapp_search_placeholder");
 			    this.btnstring_cancle = this.getLocalStr("btnstring_cancle");
-				this.wallet_tip_str1 = this.getLocalStr("wallet_tip_str1")
+				this.wallet_tip_str1 = this.getLocalStr("wallet_tip_str1");
+				this.err_tip_str22 = this.getLocalStr("err_tip_str22");
+				this.tip_title_str1= this.getLocalStr("tip_title_str1");
+				this.tip_title_str2 = this.getLocalStr("tip_title_str2");
 			},
 			btnBack: function() {
 				this.util.UiUtils.switchToPage("wallet-index", "add-asset", {}, "switchTab");
@@ -140,7 +143,7 @@
 				let i = this.currentAssetList.findIndex(el => el.name.toUpperCase() == item.name.toUpperCase());
 				if (i != -1) {
 					// 说明已经添加过了
-					this.util.UiUtils.showToast('已添加至首页资产')
+					this.util.UiUtils.showToast(this.err_tip_str22)
 					return;
 				}
 				this.util.UiUtils.showLoading()
@@ -148,10 +151,10 @@
 				this.dal.ContractWallet.addContractWallet(this.chaintype, this.m_idx, this.address, item.address).then(result => {
 					console.log("====addContractWallet==result===", result);
 					if (result) {
-						this.util.UiUtils.showToast('添加成功');
+						this.util.UiUtils.showToast(this.tip_title_str1);
 						this.onRefersh()
 					} else {
-						this.util.UiUtils.showToast("添加失败")
+						this.util.UiUtils.showToast(this.tip_title_str2)
 					}
 				})
 			},

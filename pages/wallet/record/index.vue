@@ -156,6 +156,11 @@
 				if (!this.triggered) {
 					this.triggered = true;
 				}
+				
+				setTimeout(() => {
+					this.triggered = false;
+				}, 1000)
+				
 				this.rollOutList = [];
 				this.rollInList = [];
 				this.failList = [];
@@ -170,10 +175,6 @@
 						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
 					}
 				}
-				
-				setTimeout(() => {
-					this.triggered = false;
-				}, 1000)
 			},
 			
 			getDealData() {

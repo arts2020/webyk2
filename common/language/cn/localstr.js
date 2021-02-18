@@ -12,7 +12,7 @@ const localstr = {
 		btnstring_next:"下一步",
 		btnstring_know:"我知道了",
 		btnstring_get:"获取",
-		btnstring_receive:"收  款",
+		btnstring_receive:"收  款", 
 		btnstring_carry: "转  账",
 		btnstring_remove:"移  除",
 		btnstring_create: "创  建",
@@ -71,6 +71,7 @@ const localstr = {
 		title_str20:"导出助记词",
 		title_str21:"付款地址",
 		
+		
 		err_tip_str1:"请输入转出的地址",
 		err_tip_str2:"请输入转出的数额",
 		err_tip_str3:"请选择矿工费",
@@ -94,7 +95,10 @@ const localstr = {
 		err_tip_str21:"创建身份钱包失败",
 		err_tip_code:"您获取验证码超限，请稍后再试",
 		err_tip_safepasd:"您没有设置安全密码，请先设置安全密码？",
+		err_tip_str22:"已添加至首页资产",
 		
+		tip_title_str1:"添加成功",
+		tip_title_str2:"添加失败",
 		tip_title_dele:"删除确认",
 		tip_content_dele:"您确定要删除此钱包吗？",
 		tip_content_rechange:"您确定要转帐吗？",
