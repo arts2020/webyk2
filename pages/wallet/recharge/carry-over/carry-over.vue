@@ -72,16 +72,19 @@
 			}
 		},
 		onLoad(option) {
+			//只有刚进入转账页会携带参数，从地址和矿工费过来转账时不带参数/
+			//有参数的情况即从交易列表刚进入转账时，对比资产的id如果不是之前的资产就清空暂存的该页面数据
 			let params = JSON.parse(option.query);
 			if(Object.keys(params).length!=0){
 				console.log("=====当前代币信息========",params)
 				this.m_asset = params;
-				// if(params.money){
-				// 	this.m_feeInfo ={
-				// 		money:params.money,
-				// 		rmb:params.rmb
-				// 	}
-				// }
+				let item = this.dal.Address.getTempParamsByCarry()
+				if(Object.keys(item).length!=0&&Object.keys(item.m_asset).length!=0){
+					console.log('111111111111111111111111111111',item,params)
+					if(params.id != item.m_asset.id){
+						this.dal.Address.clearTempParamsByCarry();
+					}
+				}
 			}
 		    this.initword();
 		},
@@ -96,13 +99,10 @@
 				this.m_feeInfo = item.m_feeInfo;
 			}
 			this.m_chain = this.dal.Chain.getChainInfo(this.m_asset.chaintype)||{isgas:false};
-			console.log('==========当前链============',this.m_chain)
+			console.log('=====================',this.m_chain,item)
 			
 			//获取当前余额			
 		   this.m_balane = this.dal.WalletManage.getBalance(this.m_asset.contract)
-		},
-		destroyed() {
-			this.dal.Address.clearTempParamsByCarry();
 		},
 		methods: {
 			initword(){
@@ -137,6 +137,7 @@
 				
 				this.$openPage({
 					name: "address-list",
+					gotype:"redirectTo"
 				})
 			},
 			goSetting() {
@@ -153,11 +154,13 @@
 				this.dal.Address.saveTempParamsByCarry(params)
 				
 				this.$openPage({
-					name: 'setting-'+chain.name.toUpperCase()+'-fee'
+					name: 'setting-'+chain.name.toUpperCase()+'-fee',
+					gotype:"redirectTo"
 				})
 			},
 			btnBack: function() {
-				this.util.UiUtils.switchBackPage();
+				// this.util.UiUtils.switchBackPage();
+				this.$openPage({name:"deal-record",gotype:"redirectTo",query:this.m_asset})
 			},
 			btnScan: function() {
 				//#APP-PLUS
@@ -257,34 +260,35 @@
 				console.log("=amount==",amount)
 				console.log("=gas==",gas)
 				console.log("=asset==",asset)
-				let self = this;
+				
+				
 				// 转账操作
+				let res = "";
 				if(!this.m_asset.contract){
 					this.dal.WalletManage.sendTransaction(asset, to, amount, gas).then(result => {
 						console.log("=111=result===")
-						setTimeout(()=>{
-							self.$openPage({
-								name: "deal-record",
-								query:self.m_asset
-							})
-						},1000)
+						res = result;
 						
 					});
 				}else{
 					let contract = this.m_asset.contract;
 					console.log("=contract==",contract)
 					this.dal.WalletManage.sendTokenTransaction(asset, to, amount, contract, gas).then(result => {
-						console.log("=222=result===")
-						setTimeout(()=>{
-							self.$openPage({
-								name: "deal-record",
-								query:self.m_asset
-							})
-						},1000)
-						
+						console.log("=222=result===",result)
+						res = result;
 					});
 				}
 				
+				if(res){
+					setTimeout(()=>{
+						this.$openPage({
+							name: "deal-record",
+							query:this.m_asset,
+							gotype:"redirectTo"
+						})
+					},1000)
+				}
+				this.$refs.pasdPop.close();
 			},
 		}
 	}

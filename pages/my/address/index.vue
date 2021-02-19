@@ -73,8 +73,15 @@
 				this.address_title = this.getLocalStr("address_title");
 				this.btnstring_add = this.getLocalStr("btnstring_add");
 			},
-			goBack(){
-				this.util.UiUtils.switchBackPage();
+			goBack(){				
+				// 1返回转账界面,2去到地址详情页  如果都不是就默认不动
+				if(this.backType==1){
+					this.dal.Address.saveTempParamsByCarry(this.paramsObj);
+					// 跳到转账页面  转账页有之前页面传过来的参数  
+					this.$openPage({name:"carry-over",gotype:"redirectTo"})
+				}else{
+					this.util.UiUtils.switchBackPage();
+				}
 			},
 			goAdd(){
 				//保存临时地址  从转账那里过来chaintype有值 设为临时地址类型   从个人中心进来没有值设置默认链为ETH

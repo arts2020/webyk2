@@ -84,7 +84,8 @@
 				this.$openPage({name:"carry-over",gotype:"redirectTo"})
 			},
 			btnBack: function() {
-				this.util.UiUtils.switchBackPage();
+				this.dal.Address.saveTempParamsByCarry(this.paramsObj);
+				this.$openPage({name:"carry-over",gotype:"redirectTo"})
 			},
 	        onRefersh(){
 				// 根据链的类型获取矿工费数据

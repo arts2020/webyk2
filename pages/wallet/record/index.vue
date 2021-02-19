@@ -20,11 +20,17 @@
 						<view class="list-item" v-for="(item,index) in allList" :key="index" @click="goDetail(item)">
 							<image class="icon" :src="itemIcon(item.state,item.type)" mode=""></image>
 							<view class="info">
-								<view class="addr">{{item.to_address}}</view>
+								<view class="addr">{{item.show_to_address}}</view>
 								<view class="deal-time">{{item.updated_at}}</view>
 							</view>
-							<view class="num" :style="'color:'+Wordcolor(item.state,item.type)"> <text v-if="item.type==1">+</text><text
-								 v-if="item.type==2">-</text> {{item.amount}}</view>
+							<view class="right-num" :style="'color:'+Wordcolor(item.state,item.type)"> 
+								<view class="num">
+									<text v-if="item.type==1">+</text>
+									<text v-if="item.type==2">-</text>
+									{{item.amount}}
+								</view>
+								<view class="status">{{stateStr(item.state)}}</view>
+							</view>
 						</view>
 						<noData v-if="allList.length==0" />
 					</scroll-view>
@@ -33,13 +39,20 @@
 					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true"
 					 @refresherrefresh="onRefresh">
 						<view class="list-item" v-for="(item,index) in rollOutList" :key="index" @click="goDetail(item)">
-							<image class="icon" :src="item.state==2?'../../../static/image/index/deal-fail.png':item.type==2?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
+							<image class="icon" :src="itemIcon(item.state,item.type)"
 							 mode=""></image>
 							<view class="info">
-								<view class="addr">{{item.to_address}}</view>
+								<view class="addr">{{item.show_to_address}}</view>
 								<view class="deal-time">{{item.updated_at}}</view>
 							</view>
-							<view class="num"> <text v-if="item.type==1">+</text><text v-if="item.type==2">-</text> {{item.amount}}</view>
+							<view class="right-num" :style="'color:'+Wordcolor(item.state,item.type)">
+								<view class="num">
+									<text v-if="item.type==1">+</text>
+									<text v-if="item.type==2">-</text>
+									{{item.amount}}
+								</view>
+								<view class="status">{{stateStr(item.state)}}</view>
+							</view>
 						</view>
 						<noData v-if="rollOutList.length==0" />
 					</scroll-view>
@@ -48,13 +61,20 @@
 					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true"
 					 @refresherrefresh="onRefresh">
 						<view class="list-item" v-for="(item,index) in rollInList" :key="index" @click="goDetail(item)">
-							<image class="icon" :src="item.state==2?'../../../static/image/index/deal-fail.png':item.type==2?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
+							<image class="icon" :src="itemIcon(item.state,item.type)"
 							 mode=""></image>
 							<view class="info">
-								<view class="addr">{{item.to_address}}</view>
+								<view class="addr">{{item.show_to_address}}</view>
 								<view class="deal-time">{{item.updated_at}}</view>
 							</view>
-							<view class="num"> <text v-if="item.type==1">+</text><text v-if="item.type==2">-</text> {{item.amount}}</view>
+							<view class="right-num" :style="'color:'+Wordcolor(item.state,item.type)">
+								<view class="num">
+									<text v-if="item.type==1">+</text>
+									<text v-if="item.type==2">-</text>
+									{{item.amount}}
+								</view>
+								<view class="status">{{stateStr(item.state)}}</view>
+							</view>
 						</view>
 						<noData v-if="rollInList.length==0" />
 					</scroll-view>
@@ -63,13 +83,20 @@
 					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true"
 					 @refresherrefresh="onRefresh">
 						<view class="list-item" v-for="(item,index) in failList" :key="index" @click="goDetail(item)">
-							<image class="icon" :src="item.state==2?'../../../static/image/index/deal-fail.png':item.type==2?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
+							<image class="icon" :src="itemIcon(item.state,item.type)"
 							 mode=""></image>
 							<view class="info">
-								<view class="addr">{{item.to_address}}</view>
+								<view class="addr">{{item.show_to_address}}</view>
 								<view class="deal-time">{{item.updated_at}}</view>
 							</view>
-							<view class="num"> <text v-if="item.type==1">+</text><text v-if="item.type==2">-</text> {{item.amount}}</view>
+							<view class="right-num" :style="'color:'+Wordcolor(item.state,item.type)">
+								<view class="num">
+									<text v-if="item.type==1">+</text>
+									<text v-if="item.type==2">-</text>
+									{{item.amount}}
+								</view>
+								<view class="status">{{stateStr(item.state)}}</view>
+							</view>
 						</view>
 						<noData v-if="failList.length==0" />
 					</scroll-view>
@@ -111,21 +138,42 @@
 					money: "123.65"
 				},
 				//所有交易记录
-				allList: [],
+				allList: [
+					
+				],
 				//转出的
-				rollOutList: [],
+				rollOutList: [
+					
+				],
 				//转入的
-				rollInList: [],
+				rollInList: [
+					
+				],
 				//失败的
-				failList: [],
+				failList: [
+					
+				],
 				//0全部 1转出 2转入 3失败
 				active: 0,
 				scrollHeight: 0,
-				Wordcolor(status, type) {
-					return status == 2 ? '#FF0000' : type == 1 ? '#FF6F00' : '#020526';
+				//state:0 转帐中 1完成 2失败  type:1转入  2转出
+				stateStr(state){
+					let str = ""
+					switch (state){
+						case 0:str = "转帐中";
+							break;
+						case 1:str = "完成";
+							break;
+						case 2:str = "失败";
+							break;
+					}
+					return str;
 				},
-				itemIcon(status, type) {
-					return status == 2 ? '../../../static/image/index/deal-fail.png' : type == 2 ?
+				Wordcolor(state, type) {
+					return state == 2 ? '#FF0000' : type == 2 ? '#FF6F00' : '#020526';
+				},
+				itemIcon(state, type) {
+					return state == 2 ? '../../../static/image/index/deal-fail.png' : type == 2 ?
 						'../../../static/image/index/rollout.png' : '../../../static/image/index/rollin.png';
 				}
 			};
@@ -166,7 +214,7 @@
 					this.triggered = false;
 				}, 1000)
 
-				this.allList = []
+				// this.allList = []
 				console.log("==this.currentAsset==", this.currentAsset)
 				//每次刷新数据  清空之前数据并重新获取
 				if (this.currentAsset) {
@@ -179,6 +227,19 @@
 					this.failList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 3, this.currentAsset
 						.contract)
 				}
+				this.allList.forEach(el=>{
+					el.show_to_address =  el.to_address?el.to_address.substring(0,7)+'...'+el.to_address.substring(el.to_address.length-7):"no address"
+				})
+				this.rollOutList.forEach(el=>{
+					el.show_to_address =  el.to_address?el.to_address.substring(0,7)+'...'+el.to_address.substring(el.to_address.length-7):"no address"
+				})
+				this.rollInList.forEach(el=>{
+					el.show_to_address =  el.to_address?el.to_address.substring(0,7)+'...'+el.to_address.substring(el.to_address.length-7):"no address"
+				})
+				this.failList.forEach(el=>{
+					el.show_to_address =  el.to_address?el.to_address.substring(0,7)+'...'+el.to_address.substring(el.to_address.length-7):"no address"
+				})
+				console.log(this.allList,this.rollInList,this.rollOutListd)
 			},
 
 			getDealData() {
@@ -190,20 +251,20 @@
 				// 	el.to_address = el.outAddr?el.outAddr.substring(0,7)+'...'+el.outAddr.substring(el.outAddr.length-7):"no address"
 				// })
 				// this.allList = list;
-				//根据字段筛选分组为转入,转出,失败的
-				console.log("==this.currentAsset=", this.currentAsset)
-				if (this.currentAsset) {
-					if (this.currentAsset.contract) {
-						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
-					} else {
-						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
-					}
-				}
+				// //根据字段筛选分组为转入,转出,失败的
+				// console.log("==this.currentAsset=", this.currentAsset)
+				// if (this.currentAsset) {
+				// 	if (this.currentAsset.contract) {
+				// 		this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+				// 	} else {
+				// 		this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+				// 	}
+				// }
 
-				//拿到数据关闭刷新状态
-				setTimeout(() => {
-					this.triggered = false;
-				}, 1000)
+				// //拿到数据关闭刷新状态
+				// setTimeout(() => {
+				// 	this.triggered = false;
+				// }, 1000)
 
 			},
 			goBack() {
@@ -224,7 +285,8 @@
 			goTransfer() {
 				this.$openPage({
 					name: "carry-over",
-					query: this.currentAsset
+					query: this.currentAsset,
+					gotype:"redirectTo"
 				})
 			},
 			goDetail(item) {
@@ -345,14 +407,18 @@
 							color: #909090;
 						}
 					}
-
-					.num {
-						margin-left: auto;
-						font-size: 32rpx;
-						font-family: PingFang SC, PingFang SC-Semibold;
-						font-weight: 600;
-						color: #FF0000;
-					}
+                   .right-num{
+					   text-align: center;
+					   margin-left: auto;
+					   .num {					   	
+					   	font-size: 32rpx;
+					   	font-family: PingFang SC, PingFang SC-Semibold;
+					   	font-weight: 600;
+					   }
+					   .status{
+						   font-size: 28rpx;
+					   }
+				   }
 				}
 			}
 		}

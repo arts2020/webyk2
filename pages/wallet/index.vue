@@ -294,6 +294,7 @@
 				let item = this.chains.find(el=>el.chaintype==temp.chaintype);
 				temp.name = item.name;
 				temp.icon = item.img;
+				temp.id = -1;
 				list.unshift(temp)
 				
 				//计算总人民币
