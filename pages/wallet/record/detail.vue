@@ -1,19 +1,24 @@
 <template>
 	<view class="record-detail">
 		<uni-nav-bar backgroundColor="#F6F7F9" :statusBar="true" :fixed="true" left-icon="back" :title="record_detail_title" @clickLeft="goBack"></uni-nav-bar>
-	    <view class="banner" v-if="recordInfo.status">
+	    <view class="banner" v-if="recordInfo.state == 1">
 			<image src="../../../static/image/index/success.png" mode=""></image>
 		    <view class="status">{{SYS_tip_0}}</view>
-			<view class="time">{{recordInfo.time}}</view>
+			<view class="time">{{recordInfo.updated_at}}</view>
 		</view>
-		<view class="banner" v-else>
+		<view class="banner" v-else-if="recordInfo.state == 2">
 			<image src="../../../static/image/index/failed.png" mode=""></image>
 		    <view class="status">{{SYS_tip_1}}</view>
-			<view class="time">{{recordInfo.time}}</view>
+			<view class="time">{{recordInfo.updated_at}}</view>
+		</view>
+		<view class="banner" v-else>
+			<image src="../../../static/image/index/transf.png" mode=""></image>
+		    <view class="status">{{SYS_tip_2}}</view>
+			<view class="time">{{recordInfo.updated_at}}</view>
 		</view>
 		<view class="box-1">
 			<text>{{title_str7}}</text>
-			<text>{{recordInfo.money}}</text>
+			<text>{{recordInfo.amount}}</text>
 		</view>
 		<view class="box-2">
 			<view class="p1">
@@ -26,49 +31,30 @@
 			<view class="p2">
 				<view class="addr-item">
 					<text>{{title_str6}}</text>
-					<view>{{recordInfo.inAddr}}</view>
+					<view>{{recordInfo.to_address}}</view>
 				</view>
 				<view class="addr-item">
 					<text>{{title_str21}}</text>
-					<view>{{recordInfo.outAddr}}</view>
+					<view>{{recordInfo.from_address}}</view>
 				</view>
 			</view>
 		</view>
 		<view class="box-3">
 			<text>{{record_detail_ID}}</text>
-			<view>{{recordInfo.id}}</view>
+			<view>{{recordInfo.tx}}</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
-		data() {
-			return {
-				//交易信息
-				recordInfo:{
-					//交易时间
-					time:"2021年1月30日  11:24",
-					//交易完成状态
-					status:true,
-					//交易金额
-					money:1000,
-					//交易矿工费
-					fee:0.012354,
-					//交易收款地址
-					inAddr:"uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg",
-					//付款地址
-					outAddr:"uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg",
-					//交易号
-					id:"uwefgshfajhgfsdfasgfdsfdgdfwefsgsgdsgsdg",
-				}
-			};
-		},
 		onLoad(option) {
 			this.initword()
 			let params = JSON.parse(option.query)
+			console.log("==params=",params);
+			
 			if(Object.keys(params).length!=0){
-				// this.recordInfo = params;
+				this.recordInfo = params;
 			}
 		},
 		methods:{
@@ -79,6 +65,7 @@
 				this.record_detail_title = this.getLocalStr("record_detail_title");
 				this.SYS_tip_0 = this.getLocalStr("SYS_tip_0");
 				this.SYS_tip_1 = this.getLocalStr("SYS_tip_1");
+				this.SYS_tip_2 = this.getLocalStr("SYS_tip_2");
 				this.title_str7 = this.getLocalStr("title_str7");
 				this.seeting_fee_str1 = this.getLocalStr("seeting_fee_str1");
 				this.title_str6 = this.getLocalStr("title_str6");

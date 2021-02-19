@@ -17,14 +17,14 @@
 				<swiper-item>
 					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true"
 					 @refresherrefresh="onRefresh">
-						<view class="list-item" v-for="(item,index) in allList" :key="index" @click="goDetail">
-							<image class="icon" :src="itemIcon(item.status,item.type)" mode=""></image>
+						<view class="list-item" v-for="(item,index) in allList" :key="index" @click="goDetail(item)">
+							<image class="icon" :src="itemIcon(item.state,item.type)" mode=""></image>
 							<view class="info">
-								<view class="addr">{{item.outAddr}}</view>
-								<view class="deal-time">{{item.time}}</view>
+								<view class="addr">{{item.to_address}}</view>
+								<view class="deal-time">{{item.updated_at}}</view>
 							</view>
-							<view class="num" :style="'color:'+Wordcolor(item.status,item.type)"> <text v-if="item.type==2">+</text><text
-								 v-if="item.type==1">-</text> {{item.num}}</view>
+							<view class="num" :style="'color:'+Wordcolor(item.state,item.type)"> <text v-if="item.type==1">+</text><text
+								 v-if="item.type==2">-</text> {{item.amount}}</view>
 						</view>
 						<noData v-if="allList.length==0" />
 					</scroll-view>
@@ -32,14 +32,14 @@
 				<swiper-item>
 					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true"
 					 @refresherrefresh="onRefresh">
-						<view class="list-item" v-for="(item,index) in rollOutList" :key="index" @click="goDetail">
-							<image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
+						<view class="list-item" v-for="(item,index) in rollOutList" :key="index" @click="goDetail(item)">
+							<image class="icon" :src="item.state==2?'../../../static/image/index/deal-fail.png':item.type==2?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
 							 mode=""></image>
 							<view class="info">
-								<view class="addr">{{item.outAddr}}</view>
-								<view class="deal-time">{{item.time}}</view>
+								<view class="addr">{{item.to_address}}</view>
+								<view class="deal-time">{{item.updated_at}}</view>
 							</view>
-							<view class="num"> <text v-if="item.type==2">+</text><text v-if="item.type==1">-</text> {{item.num}}</view>
+							<view class="num"> <text v-if="item.type==1">+</text><text v-if="item.type==2">-</text> {{item.amount}}</view>
 						</view>
 						<noData v-if="rollOutList.length==0" />
 					</scroll-view>
@@ -47,14 +47,14 @@
 				<swiper-item>
 					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true"
 					 @refresherrefresh="onRefresh">
-						<view class="list-item" v-for="(item,index) in rollInList" :key="index" @click="goDetail">
-							<image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
+						<view class="list-item" v-for="(item,index) in rollInList" :key="index" @click="goDetail(item)">
+							<image class="icon" :src="item.state==2?'../../../static/image/index/deal-fail.png':item.type==2?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
 							 mode=""></image>
 							<view class="info">
-								<view class="addr">{{item.outAddr}}</view>
-								<view class="deal-time">{{item.time}}</view>
+								<view class="addr">{{item.to_address}}</view>
+								<view class="deal-time">{{item.updated_at}}</view>
 							</view>
-							<view class="num"> <text v-if="item.type==2">+</text><text v-if="item.type==1">-</text> {{item.num}}</view>
+							<view class="num"> <text v-if="item.type==1">+</text><text v-if="item.type==2">-</text> {{item.amount}}</view>
 						</view>
 						<noData v-if="rollInList.length==0" />
 					</scroll-view>
@@ -62,14 +62,14 @@
 				<swiper-item>
 					<scroll-view scroll-y="true" class="list-content" :refresher-triggered="triggered" :refresher-enabled="true"
 					 @refresherrefresh="onRefresh">
-						<view class="list-item" v-for="(item,index) in failList" :key="index" @click="goDetail">
-							<image class="icon" :src="item.status==2?'../../../static/image/index/deal-fail.png':item.type==1?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
+						<view class="list-item" v-for="(item,index) in failList" :key="index" @click="goDetail(item)">
+							<image class="icon" :src="item.state==2?'../../../static/image/index/deal-fail.png':item.type==2?'../../../static/image/index/rollout.png':'../../../static/image/index/rollin.png'"
 							 mode=""></image>
 							<view class="info">
-								<view class="addr">{{item.outAddr}}</view>
-								<view class="deal-time">{{item.time}}</view>
+								<view class="addr">{{item.to_address}}</view>
+								<view class="deal-time">{{item.updated_at}}</view>
 							</view>
-							<view class="num"> <text v-if="item.type==2">+</text><text v-if="item.type==1">-</text> {{item.num}}</view>
+							<view class="num"> <text v-if="item.type==1">+</text><text v-if="item.type==2">-</text> {{item.amount}}</view>
 						</view>
 						<noData v-if="failList.length==0" />
 					</scroll-view>
@@ -94,10 +94,14 @@
 		},
 		created() {
 			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetTransferList, this.onRefresh);
-			
+
 			//获取交易列表
 			this.getDealData();
 		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.Common.evtGetTransferList, this.onRefresh);
+		},
+
 		data() {
 			return {
 				triggered: true,
@@ -121,7 +125,7 @@
 					return status == 2 ? '#FF0000' : type == 1 ? '#FF6F00' : '#020526';
 				},
 				itemIcon(status, type) {
-					return status == 2 ? '../../../static/image/index/deal-fail.png' : type == 1 ?
+					return status == 2 ? '../../../static/image/index/deal-fail.png' : type == 2 ?
 						'../../../static/image/index/rollout.png' : '../../../static/image/index/rollin.png';
 				}
 			};
@@ -141,7 +145,7 @@
 					this.scrollHeight = res.windowHeight - res.statusBarHeight - 44 - 71 - 8 - 46 - 75;
 				}
 			});
-			this.onRefresh();
+			this.onRefresh(1);
 		},
 		methods: {
 			iniword() {
@@ -152,38 +156,39 @@
 				this.title_str3 = this.getLocalStr("title_str3");
 				this.title_str4 = this.getLocalStr("title_str4");
 			},
-			onRefresh() {
+			onRefresh(f) {
+				console.log('==f==', f)
 				if (!this.triggered) {
 					this.triggered = true;
 				}
-				
+
 				setTimeout(() => {
 					this.triggered = false;
 				}, 1000)
-				
+
 				this.rollOutList = [];
 				this.rollInList = [];
 				this.failList = [];
-				
+
+				this.allList = []
 				//每次刷新数据  清空之前数据并重新获取
-				this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, address, iscontract);
-				
 				if (this.currentAsset) {
 					if (this.currentAsset.contract) {
-						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.contract, )
+						this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, true)
 					} else {
-						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+						this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, false)
 					}
+					console.log("=22222==this.allList=", this.allList)
 				}
 			},
-			
+
 			getDealData() {
 				//根据当前资产类型获取用户所有交易记录  
 				//处理地址  从底层获取过来的真实数据中 地址不能改，因为详情页要展示  另加属性去展示处理后的地址
 				// let list = ;
 				// list.forEach(el=>{
 				// 	el.inAddr = el.inAddr?el.inAddr.substring(0,7)+'...'+el.inAddr.substring(el.inAddr.length-7):"no address"
-				// 	el.outAddr = el.outAddr?el.outAddr.substring(0,7)+'...'+el.outAddr.substring(el.outAddr.length-7):"no address"
+				// 	el.to_address = el.outAddr?el.outAddr.substring(0,7)+'...'+el.outAddr.substring(el.outAddr.length-7):"no address"
 				// })
 				// this.allList = list;
 				//根据字段筛选分组为转入,转出,失败的
@@ -200,7 +205,7 @@
 				setTimeout(() => {
 					this.triggered = false;
 				}, 1000)
-				
+
 			},
 			goBack() {
 				this.util.UiUtils.switchBackPage();
@@ -224,6 +229,7 @@
 				})
 			},
 			goDetail(item) {
+				console.log("===item==", item)
 				this.$openPage({
 					name: "deal-record-detail",
 					query: item

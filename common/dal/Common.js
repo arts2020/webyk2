@@ -241,22 +241,22 @@ const Common = {
 	GetTransferList: function(idx, address, iscontract) {
 		console.log("==idx=", idx)
 		console.log("==address=", address)
+		console.log("==iscontract=", iscontract)
 		let items = []
 		for (let i = 0; i < this.m_Records.length; i++) {
 			let item = this.m_Records[i];
-			console.log("==item.asset=", item)
+			// console.log("==item.asset=", item)
 			if (item.walletidx == idx) {
 				let isselect = false;
-
-				if (item.from_address.toLowerCase() == address.toLowerCase() ||
-					item.to_address.toLowerCase() == address.toLowerCase()) {
-					if (item.contractaddress.length > 0 && iscontract) {
-						isselect = true
-					} else {
-						isselect = true
-					}
+				console.log("==item.from_address.toLowerCase() =", item.from_address.toLowerCase())
+				console.log("==item.to_address.toLowerCase() =", item.to_address.toLowerCase())
+				console.log("==address() =", address.toLowerCase())
+				if (item.from_address.toLowerCase() == address.toLowerCase()) {
+					isselect = true
 				}
-
+				if (item.to_address.toLowerCase() == address.toLowerCase()) {
+					isselect = true
+				}
 				if (isselect) {
 					// if (item.type == 1) {
 					// 	item.remark = vue.getLocalStr("title_award") //"挖矿奖励"
@@ -306,7 +306,7 @@ const Common = {
 			console.log("==getTokenByContractAddress=item==", item)
 			if (item.address.toLowerCase() == contractaddress.toLowerCase()) {
 				let aa = vue.util.Utils.ccClone(item);
-				console.log("==aa==",aa)
+				console.log("==aa==", aa)
 				return aa;
 			}
 		}

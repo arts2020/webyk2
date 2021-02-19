@@ -132,6 +132,7 @@ const localstr = {
 
 		SYS_tip_0: "成功!",
 		SYS_tip_1: "失败!",
+		SYS_tip_2: "交易中",
 		
 		
 		SYS_ERR_1: "系统繁忙",
