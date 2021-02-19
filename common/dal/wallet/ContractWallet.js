@@ -44,7 +44,7 @@ const ContractWallet = {
 	setContractMoney: function(address, contractaddress, money) {
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
-			console.log("==setContractMoney==item===", item)
+			// console.log("==setContractMoney==item===", item)
 			if (item.address.toLowerCase() == address.toLowerCase() && item.contract.toLowerCase() == contractaddress.toLowerCase()) {
 				item.money = money;
 				item.rmb = money * 6.45;
@@ -53,11 +53,11 @@ const ContractWallet = {
 	},
 
 	getContractMoney: function(address, contractaddress) {
-		console.log("=getContractMoney=address==", address)
-		console.log("=getContractMoney=contractaddress==", contractaddress)
+		// console.log("=getContractMoney=address==", address)
+		// console.log("=getContractMoney=contractaddress==", contractaddress)
 		for (let i = 0; i < this.m_contractWallet.length; i++) {
 			let item = this.m_contractWallet[i];
-			console.log("=getContractMoney=item==", item)
+			// console.log("=getContractMoney=item==", item)
 			if (item.address.toLowerCase() == address.toLowerCase() && item.contract.toLowerCase() == contractaddress.toLowerCase()) {
 				return item;
 			}

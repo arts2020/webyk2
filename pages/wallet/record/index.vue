@@ -167,12 +167,17 @@
 				}, 1000)
 
 				this.allList = []
+				console.log("==this.currentAsset==", this.currentAsset)
 				//每次刷新数据  清空之前数据并重新获取
 				if (this.currentAsset) {
-					this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 0)
-					this.rollOutList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 1)
-					this.rollInList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 2)
-					this.failList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 3)
+					this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 0, this.currentAsset
+						.contract)
+					this.rollOutList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 1, this.currentAsset
+						.contract)
+					this.rollInList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 2, this.currentAsset
+						.contract)
+					this.failList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 3, this.currentAsset
+						.contract)
 				}
 			},
 

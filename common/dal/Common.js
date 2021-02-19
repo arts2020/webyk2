@@ -162,8 +162,8 @@ const Common = {
 
 	onGetCommonConfigInfo: function(key) {
 		let item = this.m_commonConfig[key];
-		uni.cclog("=======this.m_commonConfig=======", this.m_commonConfig)
-		uni.cclog("=======onGetCommonConfigInfo=======", item)
+		// uni.cclog("=======this.m_commonConfig=======", this.m_commonConfig)
+		// uni.cclog("=======onGetCommonConfigInfo=======", item)
 		return item;
 	},
 
@@ -239,14 +239,18 @@ const Common = {
 	},
 
 	//type: 0 全部
-	GetTransferList: function(idx, address, type) {
+	GetTransferList: function(idx, address, type, contract) {
 		console.log("==idx=", idx)
 		console.log("==address=", address)
 		console.log("==type=", type)
+		console.log("==contract=", contract)
+		if(!contract) {
+			contract = "";
+		}
 		let items = []
 		for (let i = 0; i < this.m_Records.length; i++) {
 			let item = this.m_Records[i];
-			// console.log("==item.asset=", item)
+			console.log("==item.asset=", item)
 			if (item.walletidx == idx) {
 				let isselect = false;
 				if (item.from_address.toLowerCase() == address.toLowerCase()) {
@@ -261,6 +265,15 @@ const Common = {
 				}
 				if (item.state == 2 && type == 3) {
 					isselect = true
+				}
+				if(isselect && contract.length > 0){
+					if(item.contractaddress.toLowerCase() != contract.toLowerCase()){
+						isselect = false;
+					}
+				}else{
+					if(item.contractaddress.length > 0){
+						isselect = false;
+					}
 				}
 				if (isselect) {
 					items.push(item);
@@ -299,10 +312,10 @@ const Common = {
 	getTokenByContractAddress: function(contractaddress) {
 		for (let i = 0; i < this.m_tokenList.length; i++) {
 			let item = this.m_tokenList[i];
-			console.log("==getTokenByContractAddress=item==", item)
+			// console.log("==getTokenByContractAddress=item==", item)
 			if (item.address.toLowerCase() == contractaddress.toLowerCase()) {
 				let aa = vue.util.Utils.ccClone(item);
-				console.log("==aa==", aa)
+				// console.log("==aa==", aa)
 				return aa;
 			}
 		}

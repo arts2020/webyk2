@@ -23,8 +23,8 @@ const WalletManage = {
 		if (currchaintype) {
 			this.m_currChainType = parseInt(currchaintype)
 			this.m_currWalletIdx = parseInt(idx)
-			console.log("==2=this.m_currChainType====", this.m_currChainType)
-			console.log("==3=this.m_currWalletIdx====", this.m_currWalletIdx)
+			// console.log("==2=this.m_currChainType====", this.m_currChainType)
+			// console.log("==3=this.m_currWalletIdx====", this.m_currWalletIdx)
 			this.setCurrWallet(this.m_currChainType, this.m_currWalletIdx)
 		} else {
 			this.m_currChainType = vue.entities.Metadata.ChainType.Normal; //当前钱包
@@ -251,9 +251,9 @@ const WalletManage = {
 		}
 		this.m_currWallet.userid = vue.shared.MD5.md5(this.m_currWallet.privateKey).substr(0, 32);
 		
-		console.log("=2222=this.m_currWallet==", this.m_currWallet)
-		console.log("==idx==", idx)
-		console.log("==this.m_currWallet==", this.m_currWallet)
+		// console.log("=2222=this.m_currWallet==", this.m_currWallet)
+		// console.log("==idx==", idx)
+		// console.log("==this.m_currWallet==", this.m_currWallet)
 		if (chaintype == vue.entities.Metadata.ChainType.BTC) {
 			vue.dal.Btc.initCurrChain();
 		} else if (chaintype == vue.entities.Metadata.ChainType.EOS) {

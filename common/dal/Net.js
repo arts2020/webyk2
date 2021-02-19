@@ -66,7 +66,7 @@ const Net = {
 	request: function(code, params,url) {
 		// var netstate = vue.util.Utils.getNetState();
 		let host = this.host;
-		uni.cclog("===request=====host=======", host)
+		// uni.cclog("===request=====host=======", host)
 		if(url){
 			host = url;
 		}

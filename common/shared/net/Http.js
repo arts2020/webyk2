@@ -50,7 +50,7 @@ const Http = {
 			},
 			success: (res) => {
 				if (res.statusCode === 200) {
-					console.log("==res.data=",res)
+					// console.log("==res.data=",res)
 					res.data.act = code;
 					this._evtHandler.onReceive(res.data)
 				} else {
