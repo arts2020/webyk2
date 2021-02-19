@@ -166,19 +166,13 @@
 					this.triggered = false;
 				}, 1000)
 
-				this.rollOutList = [];
-				this.rollInList = [];
-				this.failList = [];
-
 				this.allList = []
 				//每次刷新数据  清空之前数据并重新获取
 				if (this.currentAsset) {
-					if (this.currentAsset.contract) {
-						this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, true)
-					} else {
-						this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, false)
-					}
-					console.log("=22222==this.allList=", this.allList)
+					this.allList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 0)
+					this.rollOutList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 1)
+					this.rollInList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 2)
+					this.failList = this.dal.Common.GetTransferList(this.currentAsset.idx, this.currentAsset.address, 3)
 				}
 			},
 

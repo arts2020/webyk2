@@ -238,35 +238,31 @@ const Common = {
 		vue.util.UiUtils.hideLoading();
 	},
 
-	GetTransferList: function(idx, address, iscontract) {
+	//type: 0 全部
+	GetTransferList: function(idx, address, type) {
 		console.log("==idx=", idx)
 		console.log("==address=", address)
-		console.log("==iscontract=", iscontract)
+		console.log("==type=", type)
 		let items = []
 		for (let i = 0; i < this.m_Records.length; i++) {
 			let item = this.m_Records[i];
 			// console.log("==item.asset=", item)
 			if (item.walletidx == idx) {
 				let isselect = false;
-				console.log("==item.from_address.toLowerCase() =", item.from_address.toLowerCase())
-				console.log("==item.to_address.toLowerCase() =", item.to_address.toLowerCase())
-				console.log("==address() =", address.toLowerCase())
 				if (item.from_address.toLowerCase() == address.toLowerCase()) {
-					isselect = true
+					if (type == 0 || type == 1) {
+						isselect = true
+					}
 				}
 				if (item.to_address.toLowerCase() == address.toLowerCase()) {
+					if (type == 2) {
+						isselect = true
+					}
+				}
+				if (item.state == 2 && type == 3) {
 					isselect = true
 				}
 				if (isselect) {
-					// if (item.type == 1) {
-					// 	item.remark = vue.getLocalStr("title_award") //"挖矿奖励"
-					// } else if (item.type == 2) {
-					// 	item.remark = vue.getLocalStr("btnstring_rechage_coin") //"充币"
-					// } else if (item.type == 3) {
-					// 	item.remark = vue.getLocalStr("btnstring_carry") //"转账"
-					// } else if (item.type == 4) {
-					// 	item.remark = vue.getLocalStr("btnstring_get_coin") //"提币"
-					// }
 					items.push(item);
 				}
 			}
