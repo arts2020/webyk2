@@ -78,13 +78,14 @@
 			if(Object.keys(params).length!=0){
 				console.log("=====当前代币信息========",params)
 				this.m_asset = params;
-				let item = this.dal.Address.getTempParamsByCarry()
-				if(Object.keys(item).length!=0&&Object.keys(item.m_asset).length!=0){
-					console.log('111111111111111111111111111111',item,params)
-					if(params.id != item.m_asset.id){
-						this.dal.Address.clearTempParamsByCarry();
-					}
-				}
+				this.dal.Address.clearTempParamsByCarry();
+				// let item = this.dal.Address.getTempParamsByCarry()
+				// if(Object.keys(item).length!=0&&Object.keys(item.m_asset).length!=0){
+				// 	console.log('111111111111111111111111111111',item,params)
+				// 	if(params.id != item.m_asset.id){
+				// 		this.dal.Address.clearTempParamsByCarry();
+				// 	}
+				// }
 			}
 		    this.initword();
 		},
