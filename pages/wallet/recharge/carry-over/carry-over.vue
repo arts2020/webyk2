@@ -257,22 +257,34 @@
 				console.log("=amount==",amount)
 				console.log("=gas==",gas)
 				console.log("=asset==",asset)
+				let self = this;
 				// 转账操作
 				if(!this.m_asset.contract){
-					this.dal.WalletManage.sendTransaction(asset, to, amount, gas)
+					this.dal.WalletManage.sendTransaction(asset, to, amount, gas).then(result => {
+						console.log("=111=result===")
+						setTimeout(()=>{
+							self.$openPage({
+								name: "deal-record",
+								query:self.m_asset
+							})
+						},1000)
+						
+					});
 				}else{
 					let contract = this.m_asset.contract;
 					console.log("=contract==",contract)
 					this.dal.WalletManage.sendTokenTransaction(asset, to, amount, contract, gas).then(result => {
-						console.log("=333=result===",result)
+						console.log("=222=result===")
+						setTimeout(()=>{
+							self.$openPage({
+								name: "deal-record",
+								query:self.m_asset
+							})
+						},1000)
+						
 					});
 				}
-				setTimeout(()=>{
-					this.$openPage({
-						name: "deal-record",
-						query:this.m_asset
-					})
-				},1000)
+				
 			},
 		}
 	}

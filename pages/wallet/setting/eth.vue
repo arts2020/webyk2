@@ -100,6 +100,7 @@
 			onRefersh() {
 				// 根据链的类型获取矿工费数据
 
+				this.util.UiUtils.showLoading("loading ...");
 				this.dal.WalletManage.getGasPrice().then(result => {
 					this.menuList = result;
 					//刚进入默认拿第一个的
@@ -111,6 +112,7 @@
 					let rmb = priceInfo.price_usd * this.currentFee.money * configinfo.value;
 					
 					this.currentFee.rmb = rmb.toFixed(2);
+					this.util.UiUtils.hideLoading();
 				});
 			}
 		}

@@ -1,6 +1,7 @@
 const ethers = require("../../../../node_modules/ethers")
 const EthUtils = require('../utils/eth-utils.js').EthUtils;
 const Web3 = require("../../../../node_modules/web3")
+const WAValidator = require('../../../../node_modules/wallet-address-validator');
 
 import Vue from 'vue'
 var vue = Vue.prototype
@@ -156,9 +157,9 @@ const Ethers = {
 	// 记录交易
 	async sendTransaction(asset, to, amount, gas) {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
-
 		let gcout = await EthUtils.ethTransactionCount(this.fromAddress, this.m_reqUrl)
-		let txid = await EthUtils.ethTransferAsync(privateKey, this.fromAddress, to, amount, pedings, this.m_reqUrl, gas);
+		
+		let txid = await EthUtils.ethTransferAsync(this.m_privateKey, this.fromAddress, to, amount, pedings, this.m_reqUrl, gas);
 		if (txid && txid.length == 66) {
 			this.onBalance();
 			console.log("=====Ethers===sendTransaction===1=", txid);
@@ -183,7 +184,8 @@ const Ethers = {
 		console.log("===pedings=", pedings)
 		console.log("===this.fromAddress=", this.fromAddress)
 		console.log("===to=", to)
-		let txid = await EthUtils.tokenTransferAsync(privateKey, contractAddress, this.fromAddress, to, amount, 6,
+		console.log("===contractAddress=", contractAddress)
+		let txid = await EthUtils.tokenTransferAsync(this.m_privateKey, contractAddress, this.fromAddress, to, amount, 6,
 			pedings,this.m_reqUrl, gas)
 		if (txid && txid.length == 66) {
 			this.onTokenBalance(contractAddress);
@@ -247,8 +249,18 @@ const Ethers = {
 			// vue.util.UiUtils.showToast("请输入有效的地址");
 			return false;
 		}
-
-	}
+	},
+	
+	isValidAddress:function(address) {
+		console.log('=====address==', address)
+		var valid = WAValidator.validate(address, 'ETH');
+		if (!valid)
+			console.log('This is a valid address');
+		else
+			console.log('Address INVALID');
+	
+		return valid;
+	},
 };
 
 export default Ethers

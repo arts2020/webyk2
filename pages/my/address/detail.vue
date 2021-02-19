@@ -86,7 +86,7 @@
 				}
 				//根据不同链验证是否是有效的地址
 				if(this.addressObj.chaintype==1){
-					if(! await this.dal.Eth.isContract(this.addressObj.address)){
+					if(!this.dal.Eth.isValidAddress(this.addressObj.address)){
 						this.util.UiUtils.showToast("不是有效的"+this.addressObj.name+"地址")
 						return;
 					}
