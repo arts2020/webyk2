@@ -150,7 +150,7 @@ const Tron = {
 		console.log("====receipt.length===", receipt.length)
 		if (receipt && receipt.length == 64) {
 			vue.util.UiUtils.showToast("转帐已提交");
-			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, receipt, contractAddress)
+			vue.dal.Common.onTransfer("trc_" + asset, this.fromAddress, to, amount, receipt, contractAddress)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			});

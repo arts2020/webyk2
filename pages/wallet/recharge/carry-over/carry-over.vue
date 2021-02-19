@@ -49,6 +49,12 @@
 
 <script>
 	export default {
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtTransResult, this.onTransResult);
+		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.WalletManage.evtTransResult, this.onTransResult);
+		},
 		data() {
 			return {
 				count: "",
@@ -279,8 +285,11 @@
 						res = result;
 					});
 				}
-				
-				if(res){
+				this.cancell();
+			},
+			onTransResult:function(data){
+				console.log("=onTransResult=data==",data)
+				if(data.result == true){
 					setTimeout(()=>{
 						this.$openPage({
 							name: "deal-record",
@@ -289,7 +298,6 @@
 						})
 					},1000)
 				}
-				this.$refs.pasdPop.close();
 			},
 		}
 	}

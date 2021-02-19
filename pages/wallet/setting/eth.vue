@@ -89,6 +89,11 @@
 				this.currentFee.rmb = rmb.toFixed(2);
 			},
 			btnConfirm() {
+				console.log("==this.paramsObj.unitPrice==",this.currentFee.unitPrice)
+				let gas = parseInt(this.currentFee.unitPrice) * Math.pow(10, 8);
+				gas = '0x' + parseInt(gas).toString(16);
+				
+				this.currentFee.unitPrice = gas
 				//点击确定回到转账页
 			    this.paramsObj.m_feeInfo = this.currentFee;
 				

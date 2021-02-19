@@ -7,15 +7,15 @@ var vue = Vue.prototype
 const EthUtils = {
 
 	async getGasPriceAsync() {
-		console.log("====getGasPriceAsync=data=======")
+		// console.log("====getGasPriceAsync=data=======")
 		let url = 'https://ethgasstation.info/json/ethgasAPI.json';
 
 		let ret = await HttpUtils.request(url, "GET", "");
 
-		console.log("====getGasPriceAsync=data===1==ret==", ret)
+		// console.log("====getGasPriceAsync=data===1==ret==", ret)
 		ret = parseInt(ret.average) * Math.pow(10, 8);
 
-		console.log("====getGasPriceAsync=data====2=ret==", ret)
+		// console.log("====getGasPriceAsync=data====2=ret==", ret)
 		return '0x' + parseInt(ret).toString(16);
 	},
 

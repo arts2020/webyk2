@@ -240,17 +240,17 @@ const Common = {
 
 	//type: 0 全部
 	GetTransferList: function(idx, address, type, contract) {
-		console.log("==idx=", idx)
-		console.log("==address=", address)
-		console.log("==type=", type)
-		console.log("==contract=", contract)
+		// console.log("==idx=", idx)
+		// console.log("==address=", address)
+		// console.log("==type=", type)
+		// console.log("==contract=", contract)
 		if(!contract) {
 			contract = "";
 		}
 		let items = []
 		for (let i = 0; i < this.m_Records.length; i++) {
 			let item = this.m_Records[i];
-			console.log("==item.asset=", item)
+			// console.log("==item.asset=", item)
 			if (item.walletidx == idx) {
 				let isselect = false;
 				if (item.from_address.toLowerCase() == address.toLowerCase()) {

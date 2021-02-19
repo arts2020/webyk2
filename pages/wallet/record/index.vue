@@ -162,15 +162,15 @@
 					switch (state){
 						case 0:str = "转帐中";
 							break;
-						case 1:str = "完成";
+						case 1:str = "交易成功";
 							break;
-						case 2:str = "失败";
+						case 2:str = "交易失败";
 							break;
 					}
 					return str;
 				},
 				Wordcolor(state, type) {
-					return state == 2 ? '#FF0000' : type == 2 ? '#FF6F00' : '#020526';
+					return state == 2 ? '#FF0000' : type == 1 ? '#FF6F00' : '#020526';
 				},
 				itemIcon(state, type) {
 					return state == 2 ? '../../../static/image/index/deal-fail.png' : type == 2 ?
@@ -251,15 +251,15 @@
 				// 	el.to_address = el.outAddr?el.outAddr.substring(0,7)+'...'+el.outAddr.substring(el.outAddr.length-7):"no address"
 				// })
 				// this.allList = list;
-				// //根据字段筛选分组为转入,转出,失败的
-				// console.log("==this.currentAsset=", this.currentAsset)
-				// if (this.currentAsset) {
-				// 	if (this.currentAsset.contract) {
-				// 		this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
-				// 	} else {
-				// 		this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
-				// 	}
-				// }
+				//根据字段筛选分组为转入,转出,失败的
+				console.log("==this.currentAsset=", this.currentAsset)
+				if (this.currentAsset) {
+					if (this.currentAsset.contract) {
+						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+					} else {
+						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+					}
+				}
 
 				// //拿到数据关闭刷新状态
 				// setTimeout(() => {

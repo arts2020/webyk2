@@ -16,6 +16,7 @@ const ContractWallet = {
 				let item = this.m_contractWallet[i];
 				if (item) {
 					item.money = 0;
+					item.rmb = 0;
 				}
 			}
 		}
