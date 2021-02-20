@@ -260,15 +260,15 @@
 				let amount = this.count.replace(new RegExp(/( )/g), "");
 				let gas = 0;
 				if(this.m_chain.isgas){
-					gas = this.m_feeInfo.money;
+					gas = this.m_feeInfo.gas;
 				}
-				console.log("=walletInfo==",walletInfo)
+				console.log("=this.m_feeInfo==",this.m_feeInfo)
 				console.log("=to==",to)
 				console.log("=amount==",amount)
 				console.log("=gas==",gas)
 				console.log("=asset==",asset)
 				
-				
+				this.util.UiUtils.showLoading(this.getLocalStr("SYS_tip_10"));
 				// 转账操作
 				let res = "";
 				if(!this.m_asset.contract){

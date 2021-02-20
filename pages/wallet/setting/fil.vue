@@ -83,6 +83,7 @@
 			},
 			
 			btnConfirm() {
+				this.currentFee.gas = 0;
 				//点击确定回到转账页
 				this.paramsObj.m_feeInfo = this.currentFee;
 

@@ -130,10 +130,11 @@ const localstr = {
 		net_err: "网络连接断开，请检查您的网络设置",
 		net_connecting: "网络正在连接中，请稍后再试",
 
-		SYS_tip_0: "成功!",
-		SYS_tip_1: "失败!",
+		SYS_tip_0: "交易成功!",
+		SYS_tip_1: "交易失败!",
 		SYS_tip_2: "交易中",
-		
+		SYS_tip_10: "提交中...",
+		SYS_tip_11: "加载中...",
 		
 		SYS_ERR_1: "系统繁忙",
 		SYS_ERR_2: "没有数据",

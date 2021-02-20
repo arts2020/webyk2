@@ -204,8 +204,7 @@
 				this.title_str3 = this.getLocalStr("title_str3");
 				this.title_str4 = this.getLocalStr("title_str4");
 			},
-			onRefresh(f) {
-				console.log('==f==', f)
+			onRefresh() {
 				if (!this.triggered) {
 					this.triggered = true;
 				}

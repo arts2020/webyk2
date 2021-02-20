@@ -190,7 +190,7 @@ const Ethers = {
 		if (txid && txid.length == 66) {
 			this.onTokenBalance(contractAddress);
 			vue.util.UiUtils.showToast("转帐已提交");
-			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, contractAddress)
+			vue.dal.Common.onTransfer("erc_" + asset, this.fromAddress, to, amount, txid, contractAddress)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			});
