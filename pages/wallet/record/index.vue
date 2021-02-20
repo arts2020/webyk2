@@ -160,11 +160,11 @@
 				stateStr(state){
 					let str = ""
 					switch (state){
-						case 0:str = "转帐中";
+						case 0:str = this.title_str22;
 							break;
-						case 1:str = "交易成功";
+						case 1:str = this.title_str23;
 							break;
-						case 2:str = "交易失败";
+						case 2:str = this.title_str24;
 							break;
 					}
 					return str;
@@ -203,17 +203,18 @@
 				this.title_str2 = this.getLocalStr("title_str2");
 				this.title_str3 = this.getLocalStr("title_str3");
 				this.title_str4 = this.getLocalStr("title_str4");
+				this.title_str22 = this.getLocalStr("title_str22");
+				this.title_str23 = this.getLocalStr("title_str23");
+				this.title_str24 = this.getLocalStr("title_str24");
 			},
 			onRefresh() {
 				if (!this.triggered) {
 					this.triggered = true;
 				}
-
-				setTimeout(() => {
-					this.triggered = false;
-				}, 1000)
-
-				// this.allList = []
+				this.allList = [];
+				this.rollInList = [];
+				this.rollOutList = [];
+				this.failList = [];
 				console.log("==this.currentAsset==", this.currentAsset)
 				//每次刷新数据  清空之前数据并重新获取
 				if (this.currentAsset) {
@@ -238,6 +239,9 @@
 				this.failList.forEach(el=>{
 					el.show_to_address =  el.to_address?el.to_address.substring(0,7)+'...'+el.to_address.substring(el.to_address.length-7):"no address"
 				})
+				setTimeout(() => {
+					this.triggered = false;
+				}, 1000)
 				console.log(this.allList,this.rollInList,this.rollOutListd)
 			},
 

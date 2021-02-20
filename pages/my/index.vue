@@ -9,60 +9,74 @@
 				<image class="right-arr" src="../../static/image/mine/arrow-left.svg" mode=""></image>
 			</view>
 			<view class="mine-type">
-				<view @tap="btnModelFun(8)" class="type-list">
-					<view class="list-title">
-						<image class="list-icon" style="width: 30rpx;height: 37rpx;" src="../../static/image/mine/address.png" />
-						<text>{{index_menu_str2}}</text>
+				<view class="list-item">
+					<view @tap="btnModelFun(8)" class="type-list">
+						<view class="list-title">
+							<image class="list-icon" style="width: 36rpx;height: 42rpx;" src="../../static/image/mine/address.png" />
+							<text>{{index_menu_str2}}</text>
+						</view>
+						<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 					</view>
-					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
-				<view @tap="btnModelFun(9)" class="type-list">
-					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/langage.png" />
-						<text>{{index_menu_str3}}</text>
+				<view class="list-item">
+					<view @tap="btnModelFun(9)" class="type-list">
+						<view class="list-title">
+							<image class="list-icon" src="../../static/image/mine/langage.png" />
+							<text>{{index_menu_str3}}</text>
+						</view>
+						<view class="list-title">
+							<text style="font-size: 22rpx;font-weight: normal;"></text>
+							<image class="right-icon" style="margin-left: 30rpx;" src="../../static/image/mine/arrow-left.svg" />
+						</view>
+						
 					</view>
-					<view class="list-title">
-						<text style="font-size: 22rpx;font-weight: normal;"></text>
-						<image class="right-icon" style="margin-left: 30rpx;" src="../../static/image/mine/arrow-left.svg" />
-					</view>
-					
 				</view>
-				<view @tap="btnModelFun(10)" class="type-list">
-					<view class="list-title">
-						<image class="list-icon" style="width: 31rpx;height: 34rpx;" src="../../static/image/mine/aggrement.png" />
-						<text>{{index_menu_str4}}</text>
+				<view class="list-item">
+					<view @tap="btnModelFun(10)" class="type-list">
+						<view class="list-title">
+							<image class="list-icon" style="width: 37rpx;height: 40rpx;" src="../../static/image/mine/aggrement.png" />
+							<text>{{index_menu_str4}}</text>
+						</view>
+						<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 					</view>
-					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
 
-				<view @tap="btnModelFun(3)" class="type-list">
-					<view class="list-title">
-						<image class="list-icon" style="width: 34rpx;height: 27rpx;" src="../../static/image/mine/help-center.png" />
-						<text>{{index_menu_str5}}</text>
+				<view class="list-item">
+					<view @tap="btnModelFun(3)" class="type-list">
+						<view class="list-title">
+							<image class="list-icon" style="width: 40rpx;height: 33rpx;" src="../../static/image/mine/help-center.png" />
+							<text>{{index_menu_str5}}</text>
+						</view>
+						<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 					</view>
-					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
-				<view @tap="btnModelFun(4)" class="type-list">
-					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/about-us.png" />
-						<text>{{index_menu_str6}}</text>
+				<view class="list-item">
+					<view @tap="btnModelFun(4)" class="type-list">
+						<view class="list-title">
+							<image class="list-icon" src="../../static/image/mine/about-us.png" />
+							<text>{{index_menu_str6}}</text>
+						</view>
+						<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 					</view>
-					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
-				<view @tap="btnModelFun(5)" class="type-list">
-					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/share-us.png" />
-						<text>{{index_menu_str7}}</text>
+				<view class="list-item">
+					<view @tap="btnModelFun(5)" class="type-list">
+						<view class="list-title">
+							<image class="list-icon" src="../../static/image/mine/share-us.png" />
+							<text>{{index_menu_str7}}</text>
+						</view>
+						<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 					</view>
-					<image class="right-icon" src="../../static/image/mine/arrow-left.svg" />
 				</view>
-				<view @tap="btnModelFun(6)" class="type-list">
-					<view class="list-title">
-						<image class="list-icon" src="../../static/image/mine/version.png" />
-						<text>{{index_menu_str8}}</text>
-						<span style="position: absolute;left:80%;">v{{m_vsn}}</span>
+				<view class="list-item">
+					<view @tap="btnModelFun(6)" class="type-list">
+						<view class="list-title">
+							<image class="list-icon" src="../../static/image/mine/version.png" />
+							<text>{{index_menu_str8}}</text>
+							<span style="position: absolute;left:80%;">v{{m_vsn}}</span>
+						</view>
+						<!-- <image class="right-icon" src="../../static/image/mine/arrow-left.svg" /> -->
 					</view>
-					<!-- <image class="right-icon" src="../../static/image/mine/arrow-left.svg" /> -->
 				</view>
 
 			</view>

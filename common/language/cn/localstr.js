@@ -70,6 +70,9 @@ const localstr = {
 		title_str19:"导出私钥",
 		title_str20:"导出助记词",
 		title_str21:"付款地址",
+		title_str22:"转帐中",
+		title_str23:"交易成功",
+		title_str24:"交易失败",
 		
 		
 		err_tip_str1:"请输入转出的地址",

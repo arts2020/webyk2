@@ -8,8 +8,8 @@
 	}
 	.wallet-manage{
 		width: 100%;
-		height: 100rpx;
-		margin: 16rpx 0 22rpx;
+		height: 120rpx;
+		margin: 22rpx 0 30rpx;
 		padding: 0 35rpx;
 		box-sizing: border-box;
 		background-color: #FFFFFF;
@@ -17,11 +17,11 @@
 		align-items: center;
 		font-size: 30rpx;
 		font-family: PingFang SC, PingFang SC-Bold;
-		font-weight: 700;
+		font-weight: 600;
 		color: #2d3a5b;
 		.wallet-icon{
-			width: 36rpx;
-			height: 32rpx;
+			width: 38rpx;
+			height: 34rpx;
 			margin-right: 26rpx;
 		}
 		.right-arr{
@@ -32,12 +32,21 @@
 	}
 	.mine-type{
 		width: 100%;
-		.type-list{
+		.list-item{
 			width: 100%;
-			height: 100rpx;
 			padding: 0 35rpx;
 			box-sizing: border-box;
 			background-color: #FFFFFF;
+			&:nth-child(3){
+				margin-bottom: 30rpx;
+			}
+			&:first-child,&:nth-child(3){
+				border: 0;
+			}
+		}
+		.type-list{
+			width:100%;
+			height: 120rpx;	
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -46,14 +55,14 @@
 				display: flex;
 				align-items: center;
 				.list-icon{
-					width: 34rpx;
-					height: 34rpx;
-					margin-right: 26rpx;
+					width: 40rpx;
+					height: 40rpx;
+					margin-right: 35rpx;
 				}
 				text{
 					font-size: 30rpx;
 					font-family: PingFang SC, PingFang SC-Bold;
-					font-weight: 700;
+					font-weight: 600;
 					text-align: left;
 					color: #2d3a5b;
 				}
