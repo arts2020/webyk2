@@ -114,7 +114,7 @@ const Eos = {
 	},
 
 	// 记录交易
-	async sendTransaction(asset, to, amount, gas) {
+	async sendTransaction(asset, to, amount, gas, remark) {
 		vue.util.UiUtils.hideLoading();
 		console.log("=====Eos===sendTransaction====", txid);
 	},

@@ -1,4 +1,3 @@
-const web3 = require('../../../node_modules/web3/dist/web3.min.js');
 import Vue from 'vue'
 var vue = Vue.prototype
 
@@ -34,6 +33,7 @@ const Dapp = {
 	onRemoveListener: function() {
 		vue.shared.Event.removeByObserverName('dal_app');
 	},
+	
 	onGetDapps(keyword){
 		if(keyword){
 			var params = {

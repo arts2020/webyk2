@@ -2,7 +2,6 @@ const ethers = require("../../../../node_modules/ethers")
 const EthUtils = require('../utils/eth-utils.js').EthUtils;
 const Web3 = require("../../../../node_modules/web3")
 const WAValidator = require('../../../../node_modules/wallet-address-validator');
-
 import Vue from 'vue'
 var vue = Vue.prototype
 
@@ -10,10 +9,11 @@ const Ethers = {
 	m_balance: 0,
 	m_reqUrl: "",
 	init: function() {
-		console.log("=========Ethers===初始化===============", ethers)
+		console.log("=========Ethers===初始化===============")
 		this.m_reqUrl = "https://mainnet.infura.io/v3/b732128135d54960807f9ed6d480a58a";
 
 		this.m_web3 = new Web3(new Web3.providers.HttpProvider(this.m_reqUrl));
+		// console.log("=========Ethers===初始化=======this.m_web3========", this.m_web3)
 	},
 
 	destroy: function() {
@@ -23,6 +23,7 @@ const Ethers = {
 	clear: function() {
 		uni.cclog("======Ethers clear==========")
 	},
+
 	//创建身份钱包
 	async createMain(walletInfo) {
 		let wallet = vue.dal.MainWallet.getMainWalletByType(vue.entities.Metadata.ChainType.ETH)
@@ -128,22 +129,22 @@ const Ethers = {
 		console.log("===res=", res)
 		let average = {
 			unitPrice: res.average / 10,
-			title: "正常",
+			title: vue.getLocalStr("title_str29"),
 			time: res.avgWait
 		};
 		let fast = {
 			unitPrice: res.fast / 10,
-			title: "快速",
+			title: vue.getLocalStr("title_str30"),
 			time: res.fastWait + 1.5
 		};
 		let fasttest = {
 			unitPrice: res.fastest / 10,
-			title: "最快",
+			title: vue.getLocalStr("title_str28"),
 			time: res.fastestWait
 		};
 		let safelow = {
 			unitPrice: res.safeLow / 10,
-			title: "缓慢",
+			title: vue.getLocalStr("title_str27"),
 			time: res.safeLowWait + 15
 		};
 		let items = [];
@@ -155,22 +156,23 @@ const Ethers = {
 	},
 
 	// 记录交易
-	async sendTransaction(asset, to, amount, gas) {
+	async sendTransaction(asset, to, amount, gas, remark) {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
 		let gcout = await EthUtils.ethTransactionCount(this.fromAddress, this.m_reqUrl)
-		
-		let txid = await EthUtils.ethTransferAsync(this.m_privateKey, this.fromAddress, to, amount, pedings, this.m_reqUrl, gas);
+
+		let txid = await EthUtils.ethTransferAsync(this.m_privateKey, this.fromAddress, to, amount, pedings, this.m_reqUrl,
+			gas);
 		if (txid && txid.length == 66) {
 			this.onBalance();
 			console.log("=====Ethers===sendTransaction===1=", txid);
-			vue.util.UiUtils.showToast("转帐已提交");
-			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, "")
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, "",remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			})
 		} else {
 			console.log("=====Ethers===sendTransaction==2==", txid);
-			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});
@@ -179,23 +181,24 @@ const Ethers = {
 		console.log("=====Ethers===sendTransaction====", txid);
 	},
 
-	async sendTokenTransaction(asset, to, amount, gas, contractAddress) {
+	async sendTokenTransaction(asset, to, amount, gas, contractAddress, remark) {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
 		console.log("===pedings=", pedings)
 		console.log("===this.fromAddress=", this.fromAddress)
 		console.log("===to=", to)
 		console.log("===contractAddress=", contractAddress)
-		let txid = await EthUtils.tokenTransferAsync(this.m_privateKey, contractAddress, this.fromAddress, to, amount, 6,
-			pedings,this.m_reqUrl, gas)
+		let txid = await EthUtils.tokenTransferAsync(this.m_privateKey, contractAddress, this.fromAddress, to,
+			amount, 6,
+			pedings, this.m_reqUrl, gas)
 		if (txid && txid.length == 66) {
 			this.onTokenBalance(contractAddress);
-			vue.util.UiUtils.showToast("转帐已提交");
-			vue.dal.Common.onTransfer("erc_" + asset, this.fromAddress, to, amount, txid, contractAddress)
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+			vue.dal.Common.onTransfer("erc_" + asset, this.fromAddress, to, amount, txid, contractAddress,remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			});
 		} else {
-			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});
@@ -250,15 +253,15 @@ const Ethers = {
 			return false;
 		}
 	},
-	
-	isValidAddress:function(address) {
+
+	isValidAddress: function(address) {
 		console.log('=====address==', address)
 		var valid = WAValidator.validate(address, 'ETH');
 		if (!valid)
 			console.log('This is a valid address');
 		else
 			console.log('Address INVALID');
-	
+
 		return valid;
 	},
 };

@@ -71,14 +71,14 @@ const Common = {
 	},
 
 	handleGetAssetprice: function(packetIn) {
-		uni.cclog("==========handleGetAssetprice==========packetIn====", packetIn)
+		uni.cclog("==========handleGetAssetprice==========packetIn====")
 		if (packetIn.pktin.code == 200) {
 			this.m_AssetPriceItems = packetIn.pktin.data;
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetAssetPrice, {
 				data: packetIn.pktin.data
 			});
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -108,7 +108,7 @@ const Common = {
 				data: packetIn.pktin.data
 			});
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -121,7 +121,7 @@ const Common = {
 	},
 
 	handleGetConfig: function(packetIn) {
-		uni.cclog("==========handleGetConfig==========packetIn====", packetIn)
+		uni.cclog("==========handleGetConfig==========packetIn====")
 		if (packetIn.pktin.code == 200) {
 			for (let i = 0; i < packetIn.pktin.data.length; i++) {
 				let item = packetIn.pktin.data[i];
@@ -129,7 +129,7 @@ const Common = {
 			}
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetConfig);
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -147,7 +147,7 @@ const Common = {
 	},
 
 	handleGetCommonConfig: function(packetIn) {
-		uni.cclog("==========handleCommonConfig==========packetIn====", packetIn)
+		uni.cclog("==========handleCommonConfig==========packetIn====")
 		if (packetIn.pktin.code == 200) {
 			for (let i = 0; i < packetIn.pktin.data.length; i++) {
 				let item = packetIn.pktin.data[i];
@@ -155,7 +155,7 @@ const Common = {
 			}
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetCommonConfig);
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -168,7 +168,7 @@ const Common = {
 	},
 
 	handleGetConfig: function(packetIn) {
-		uni.cclog("==========handleGetConfig==========packetIn====", packetIn)
+		uni.cclog("==========handleGetConfig==========packetIn====")
 		if (packetIn.pktin.code == 200) {
 			for (let i = 0; i < packetIn.pktin.data.length; i++) {
 				let item = packetIn.pktin.data[i];
@@ -176,7 +176,7 @@ const Common = {
 			}
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetConfig);
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -185,23 +185,23 @@ const Common = {
 		let item = this.m_PoolConfig[key];
 		uni.cclog("=======onGetConfigInfo=======this.m_PoolConfig====", this.m_PoolConfig)
 		uni.cclog("=======onGetConfigInfo=======key====", key)
-		uni.cclog("=======onGetConfigInfo=======key====", key)
 		return item;
 	},
 
 	//转账
-	onTransfer: function(contractasset, fromaddress, to, amount, tx, contractaddress) {
+	onTransfer: function(contractasset, fromaddress, to, amount, tx, contractaddress, remark) {
 		let currWallet = vue.dal.WalletManage.getCurrWallet()
 		var params = {
 			userid: currWallet.userid,
 			walletidx: currWallet.idx, //钱包ID
-			asset: currWallet.asset, //币种 eth/lotus/btc/eos/tron
+			asset: currWallet.asset.toLowerCase(), //币种 eth/lotus/btc/eos/tron
 			contractaddress: contractaddress, //代币地址
-			contractasset: contractasset, //代币 USDT
+			contractasset: contractasset.toLowerCase(), //代币 USDT
 			fromaddress: fromaddress,
 			to: to,
 			amount: amount, //金额
 			tx: tx, //交易HASH
+			remark: remark || "",//备注
 		};
 		vue.dal.Net.request(vue.entities.RequestCode.Transfer, params);
 	},
@@ -211,7 +211,7 @@ const Common = {
 		if (packetIn.pktin.code == 200) {
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTransferList);
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -222,8 +222,10 @@ const Common = {
 		var params = {
 			walletidx: idx,
 			address: address,
+			asset: currWallet.asset.toLowerCase(),
 			userid: currWallet.userid,
 		};
+		uni.cclog("=======onGetTransferList=======params====", params)
 		vue.dal.Net.request(vue.entities.RequestCode.GetTransferList, params);
 	},
 
@@ -233,7 +235,7 @@ const Common = {
 			this.m_Records = packetIn.pktin.data.list;
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTransferList);
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -244,7 +246,7 @@ const Common = {
 		// console.log("==address=", address)
 		// console.log("==type=", type)
 		// console.log("==contract=", contract)
-		if(!contract) {
+		if (!contract) {
 			contract = "";
 		}
 		let items = []
@@ -266,12 +268,12 @@ const Common = {
 				if (item.state == 2 && type == 3) {
 					isselect = true
 				}
-				if(isselect && contract.length > 0){
-					if(item.contractaddress.toLowerCase() != contract.toLowerCase()){
+				if (isselect && contract.length > 0) {
+					if (item.contractaddress.toLowerCase() != contract.toLowerCase()) {
 						isselect = false;
 					}
-				}else{
-					if(item.contractaddress.length > 0){
+				} else {
+					if (item.contractaddress.length > 0) {
 						isselect = false;
 					}
 				}
@@ -294,13 +296,12 @@ const Common = {
 	},
 
 	handleGetTokenList: function(packetIn) {
-		uni.cclog("==========handleGetTokenList==========packetIn====", packetIn)
+		uni.cclog("==========handleGetTokenList==========packetIn====")
 		if (packetIn.pktin.code == 200) {
 			this.m_tokenList = packetIn.pktin.data;
-			console.log('==========handleGetTokenList=========', this.m_tokenList)
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenList);
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -335,7 +336,7 @@ const Common = {
 				data: packetIn.pktin.data
 			});
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},

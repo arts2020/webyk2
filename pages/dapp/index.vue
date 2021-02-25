@@ -117,6 +117,9 @@
 				this.$openPage({
 					name: "webui-webview",
 					query: {
+						// url: "http://192.168.2.44:8081/",//this.currentDapp.app_url,
+						// url: "http://192.168.3.30:8082/",  
+						// url: "https://consenlabs.github.io/dapp-sdk-doc/index.html",//t
 						url: this.currentDapp.app_url,
 						title: this.currentDapp.name,
 						bgcolor:this.currentDapp.color

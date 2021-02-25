@@ -125,12 +125,12 @@ const Lotus = {
 		if(res.code == 200){
 			let fasttest = {
 				unitPrice: res.data.gasMessageGas.GasFeeCap / Math.pow(10, 9) + res.data.gasMessageGas.GasPremium / Math.pow(10, 6) * 2,
-				title: "快速",
+				title: vue.getLocalStr("title_str30"),
 				time: '1',
 			}
 			let safelow = {
 				unitPrice: res.data.gasMessageGas.GasFeeCap / Math.pow(10, 9) + res.data.gasMessageGas.GasPremium / Math.pow(10, 6),
-				title: "一般",
+				title: vue.getLocalStr("title_str31"),
 				time: '10',
 			};
 			fasttest.unitPrice = fasttest.unitPrice.toFixed(8)
@@ -142,10 +142,10 @@ const Lotus = {
 	},
 
 	// 记录交易
-	async sendTransaction(asset, to, amount, gas) {
+	async sendTransaction(asset, to, amount, gas, remark) {
 		let isret = await this.isValidAddress(to);
 		if (!isret) {
-			vue.util.UiUtils.showToast("请输入正确的地址")
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str33"))
 			return;
 		}
 
@@ -156,19 +156,19 @@ const Lotus = {
 			console.log("==tx==", tx)
 			if (tx && tx.length == 62) {
 				this.onBalance();
-				vue.util.UiUtils.showToast("转帐已提交");
-				vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, tx,"")
+				vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+				vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, tx,"",remark)
 				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 					result: true
 				});
 			} else {
-				vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+				vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
 				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 					result: false
 				});
 			}
 		} else {
-			vue.util.UiUtils.showToast("转帐失败，您的余额不变");
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});

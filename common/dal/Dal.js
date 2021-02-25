@@ -6,6 +6,7 @@ import Setting from "@/common/dal/Setting.js"
 import Net from "@/common/dal/Net.js"
 import Logger from "@/common/dal/Logger.js"
 import Dapp from "@/common/dal/dapp/Dapp.js"
+import WindowJs from "@/common/dal/dapp/WindowJs.js"
 
 import Utils from "@/common/dal/Utils.js"
 import Common from "@/common/dal/Common.js"
@@ -25,6 +26,7 @@ const Dal = {
 	Net,
 	Logger,
 	Dapp,
+	WindowJs,
 	Utils,
 	Setting,
 	Account,

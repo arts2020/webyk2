@@ -262,17 +262,19 @@
 				if(this.m_chain.isgas){
 					gas = this.m_feeInfo.gas;
 				}
+				let remark = this.bak.replace(new RegExp(/( )/g), "");;
 				console.log("=this.m_feeInfo==",this.m_feeInfo)
 				console.log("=to==",to)
 				console.log("=amount==",amount)
 				console.log("=gas==",gas)
 				console.log("=asset==",asset)
+				console.log("=remark==",remark)
 				
 				this.util.UiUtils.showLoading(this.getLocalStr("SYS_tip_10"));
 				// 转账操作
 				let res = "";
 				if(!this.m_asset.contract){
-					this.dal.WalletManage.sendTransaction(asset, to, amount, gas).then(result => {
+					this.dal.WalletManage.sendTransaction(asset, to, amount, gas,remark).then(result => {
 						console.log("=111=result===")
 						res = result;
 						
@@ -280,7 +282,7 @@
 				}else{
 					let contract = this.m_asset.contract;
 					console.log("=contract==",contract)
-					this.dal.WalletManage.sendTokenTransaction(asset, to, amount, contract, gas).then(result => {
+					this.dal.WalletManage.sendTokenTransaction(asset, to, amount, contract, gas,remark).then(result => {
 						console.log("=222=result===",result)
 						res = result;
 					});

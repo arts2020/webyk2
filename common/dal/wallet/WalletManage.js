@@ -313,18 +313,18 @@ const WalletManage = {
 	},
 
 	//========================交易相关======================
-	async sendTransaction(asset, to, amount, gas) {
+	async sendTransaction(asset, to, amount, gas, remark) {
 		asset = asset.toLowerCase();
 		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
-			await vue.dal.Btc.sendTransaction(asset, to, amount, gas);
+			await vue.dal.Btc.sendTransaction(asset, to, amount, gas, remark);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {
-			await vue.dal.Eos.sendTransaction(asset, to, amount, gas);
+			await vue.dal.Eos.sendTransaction(asset, to, amount, gas, remark);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.ETH) {
-			await vue.dal.Eth.sendTransaction(asset, to, amount, gas);
+			await vue.dal.Eth.sendTransaction(asset, to, amount, gas, remark);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.Lotus) {
-			await vue.dal.Lotus.sendTransaction(asset, to, amount, gas);
+			await vue.dal.Lotus.sendTransaction(asset, to, amount, gas, remark);
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.TRON) {
-			await vue.dal.Tron.sendTransaction(asset, to, amount, gas);
+			await vue.dal.Tron.sendTransaction(asset, to, amount, gas, remark);
 		}
 	},
 	
@@ -365,6 +365,8 @@ const WalletManage = {
 	},
 
 	onBalance: function() {
+		console.log("==this.m_currWallet.chaintype=",this.m_currWallet.chaintype)
+		console.log("==this.m_currWallet.chaintype=",vue.entities.Metadata.ChainType.BTC)
 		if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.BTC) {
 			vue.dal.Btc.onBalance();
 		} else if (this.m_currWallet.chaintype == vue.entities.Metadata.ChainType.EOS) {

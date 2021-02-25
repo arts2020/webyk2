@@ -50,6 +50,8 @@
 		"eosjs-ecc": "^4.0.7",
 		"ethereumjs-tx": "^2.1.2",
 		"ethers": "^5.0.24",
+		"fs": "0.0.1-security",
+		"fs-extra": "^9.1.0",
 		"js-base64": "^3.6.0",
 		"tronweb": "^3.2.2",
 		"wallet-address-validator": "^0.2.4",
