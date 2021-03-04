@@ -199,8 +199,8 @@ const Btc = {
 	},
 
 	async onBalance() {
-		let address = "15urYnyeJe3gwbGJ74wcX89Tz7ZtsFDVew"; //vue.dal.WalletManage.getAddress();
-		let ret = await BtcUtils.getBalance(address);
+		//"15urYnyeJe3gwbGJ74wcX89Tz7ZtsFDVew"; //
+		let ret = await BtcUtils.getBalance(this.fromAddress);
 		console.log("====onBalance=ret==", ret)
 		if (ret.status == "success") {
 			let balance = ret.data.balance / Math.pow(10, 8);;

@@ -127,7 +127,7 @@ const Account = {
 			username: username,//用户名（手机号）
 			password: password,//密码
 			captcha: captcha, //短信验证码 (可为空)
-			devtype: vue.PlatformInfo.platform + "", //设备类型 PlatForm 枚举
+			devtype: vue.PlatformInfo.platform + "=v:" + vue.PlatformInfo.vsn,//APP版本, //设备类型 PlatForm 枚举
 			appversion: vue.PlatformInfo.vsn,//APP版本
 			devdes: "",//设备描述
 			sysinfo:uni.getSystemInfoSync(),//系统信息
