@@ -101,7 +101,7 @@
 						create: false
 					}, function(fileEntry) {
 						fileEntry.file(function(file) {
-							console.log("====uni.webview=file===", file)
+							console.log("====web3.webview=file===", file)
 							var fileReader = new plus.io.FileReader();
 							fileReader.readAsText(file, 'utf-8');
 							fileReader.onloadend = function(evt) {
@@ -144,22 +144,22 @@
 				// 	"loadScript('https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js',function(count){})"
 				// )
 				
-				plus.globalEvent.addEventListener('plusMessage', function(msg) {
-					if (msg.data.args.data.name == 'postMessage') {
-						console.log('子页面返回的数据为:' + JSON.stringify(msg.data.args.data.arg));
-						let data = msg.data.args.data.arg;
-						if (data.count == 2) {
-							console.log("====11====", this.m_url)
-							// var webviews = this.$scope.$getAppWebview().children()[0]
-							// setTimeout(function(){
-							// 	webviews.loadURL(this.m_url)
-							// 	console.log("====222====",this.m_url)
-							// 	// var webview = plus.webview.create(this.m_url,'custom-webview')
-							// 	childrenWebView.append(webviews);
-							// }.bind(this),1000)
-						}
-					}
-				}.bind(this));
+				// plus.globalEvent.addEventListener('plusMessage', function(msg) {
+				// 	if (msg.data.args.data.name == 'postMessage') {
+				// 		console.log('子页面返回的数据为:' + JSON.stringify(msg.data.args.data.arg));
+				// 		let data = msg.data.args.data.arg;
+				// 		if (data.count == 2) {
+				// 			console.log("====11====", this.m_url)
+				// 			// var webviews = this.$scope.$getAppWebview().children()[0]
+				// 			// setTimeout(function(){
+				// 			// 	webviews.loadURL(this.m_url)
+				// 			// 	console.log("====222====",this.m_url)
+				// 			// 	// var webview = plus.webview.create(this.m_url,'custom-webview')
+				// 			// 	childrenWebView.append(webviews);
+				// 			// }.bind(this),1000)
+				// 		}
+				// 	}
+				// }.bind(this));
 			} else {
 				console.log('==this.$ref==', this.$refs)
 				let webview = this.$refs.scope;
@@ -291,7 +291,7 @@
 				console.log('=====handleChainChanged=========');
 			},
 
-			handleMessage: function(evt) {
+			handleMessage: function(evt) {//data={"params":"eth_accounts","callbackid":1614872174140} 
 				console.warn('===x=xxxxxxxx======111==接收到的消息：' + JSON.stringify(evt));
 				let data = evt.detail.data[0];
 				if (data) {
@@ -314,6 +314,11 @@
 							"',signature:'tx',err:null});"
 						);
 					} else if (data.apiName == "eth_requestAccounts") {
+						this.m_currentWebview.evalJS(
+							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
+							"',signature:'tx',err:null});"
+						);
+					} else if (data.apiName == "eth_accounts") {
 						this.m_currentWebview.evalJS(
 							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
 							"',signature:'tx',err:null});"
