@@ -82,7 +82,7 @@
 				// 		top: this.topHeight
 				// 	})
 				// 	// #endif
-				var childrenWebView = this.$scope.$getAppWebview().children()[0]; //currentWebview.children()[0]
+				this.m_currentWebview = this.$scope.$getAppWebview().children()[0]; //currentWebview.children()[0]
 				// var pages = getCurrentPages();
 				// console.log("pages:" + pages);
 				// console.log("pageslength:" + pages.length);
@@ -97,22 +97,22 @@
 				// childrenWebView.appendJsFile(uniUrl)
 				let self = this;
 				plus.io.requestFileSystem(plus.io.PRIVATE_WWW, function(fobject) {
-					fobject.root.getFile('_www/static/js/web3.min.js', {
-						create: false
-					}, function(fileEntry) {
-						fileEntry.file(function(file) {
-							console.log("====web3.webview=file===", file)
-							var fileReader = new plus.io.FileReader();
-							fileReader.readAsText(file, 'utf-8');
-							fileReader.onloadend = function(evt) {
-								childrenWebView.evalJS(
-									evt.target.result
-								)
-								console.log("====5555555555555555555===",self.m_url)
-								childrenWebView.loadURL(self.m_url)
-							}
-						});
-					});
+					// fobject.root.getFile('_www/static/js/web3.min.js', {
+					// 	create: false
+					// }, function(fileEntry) {
+					// 	fileEntry.file(function(file) {
+					// 		console.log("====web3.webview=file===", file)
+					// 		var fileReader = new plus.io.FileReader();
+					// 		fileReader.readAsText(file, 'utf-8');
+					// 		fileReader.onloadend = function(evt) {
+					// 			childrenWebView.evalJS(
+					// 				evt.target.result
+					// 			)
+					// 			console.log("====5555555555555555555===",self.m_url)
+					// 			childrenWebView.loadURL(self.m_url)
+					// 		}
+					// 	});
+					// });
 					fobject.root.getFile('_www/static/js/uni.webview.1.5.2.js', {
 						create: false
 					}, function(fileEntry) {
@@ -121,20 +121,21 @@
 							var fileReader = new plus.io.FileReader();
 							fileReader.readAsText(file, 'utf-8');
 							fileReader.onloadend = function(evt) {
-								childrenWebView.evalJS(
+								self.m_currentWebview.evalJS(
 									evt.target.result
 								)
 								console.log("====44444444444444444444444===")
+								self.m_currentWebview.loadURL(self.m_url)
 							}
 						});
 					});
 				})
 
-				childrenWebView.setStyle({
+				this.m_currentWebview.setStyle({
 					top: this.topHeight
 				})
 				let strjs = this.dal.WindowJs.getImTokenInjectionStr();
-				childrenWebView.evalJS(
+				this.m_currentWebview.evalJS(
 					strjs
 				)
 				// childrenWebView.evalJS(
@@ -143,7 +144,7 @@
 				// childrenWebView.evalJS(
 				// 	"loadScript('https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js',function(count){})"
 				// )
-				
+
 				// plus.globalEvent.addEventListener('plusMessage', function(msg) {
 				// 	if (msg.data.args.data.name == 'postMessage') {
 				// 		console.log('子页面返回的数据为:' + JSON.stringify(msg.data.args.data.arg));
@@ -182,9 +183,10 @@
 		},
 		onLoad(option) {
 			var data = JSON.parse(option.query);
-			this.m_title = data.title;
+			this.m_title = data.title; 
 			this.m_url = data.url;
 			// this.m_url = "http://192.168.3.30:8080/";
+			// this.m_url = "http://192.168.3.30:3000";
 			// this.m_url = "https://uniswap.tokenpocket.pro/?utm_source=tokenpocket#/swap";
 			this.bgcolor = data.bgcolor ? data.bgcolor : "#ffffff";
 			// uni.setNavigationBarTitle({
@@ -291,37 +293,39 @@
 				console.log('=====handleChainChanged=========');
 			},
 
-			handleMessage: function(evt) {//data={"params":"eth_accounts","callbackid":1614872174140} 
-				console.warn('===x=xxxxxxxx======111==接收到的消息：' + JSON.stringify(evt));
+			handleMessage: function(evt) { //data={"params":"eth_accounts","callbackid":1614872174140} 
+				// console.warn('===x=xxxxxxxx======111==接收到的消息：' + JSON.stringify(evt));
 				let data = evt.detail.data[0];
 				if (data) {
 					console.warn('===x=xxxxxxxx======data=' + JSON.stringify(data));
-					if (data.apiName == "user.showAccountSwitch") {
+					console.warn('===x=xxxxxxxx======data.method=', data.method)
+					if (data.method == "user.showAccountSwitch") {
 						this.util.StringUtils.setUserDefaults("imtoken_account_address_key",
 							"0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508");
 						this.m_currentWebview.evalJS(
-							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
 							"',address:'0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508',err:null});"
 						)
-					} else if (data.apiName == "transaction.signTransaction") {
+					} else if (data.method == "transaction.signTransaction") {
 						// var params = {
 						//   to: '0x0fa38abec02bd4dbb87f189df50b674b9db0b468',
 						//   from: web3.eth.defaultAccount,
 						//   value: '1250000000000000',
 						// }
 						this.m_currentWebview.evalJS(
-							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
 							"',signature:'tx',err:null});"
 						);
-					} else if (data.apiName == "eth_requestAccounts") {
+					} else if (data.method == "eth_requestAccounts") {
+						console.warn('===x=xxxxxxxx======data=')
 						this.m_currentWebview.evalJS(
-							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
-							"',signature:'tx',err:null});"
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
 						);
-					} else if (data.apiName == "eth_accounts") {
+					} else if (data.method == "eth_accounts") {
 						this.m_currentWebview.evalJS(
-							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
-							"',signature:'tx',err:null});"
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
 						);
 					}
 				}
