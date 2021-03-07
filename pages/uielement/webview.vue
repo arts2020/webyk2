@@ -327,6 +327,11 @@
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
 							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
 						);
+					} else if (data.method == "eth_chainId") {
+						this.m_currentWebview.evalJS(
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							"',chainId:1,err:null});"
+						);
 					}
 				}
 			},

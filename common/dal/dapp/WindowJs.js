@@ -205,9 +205,15 @@ const WindowJs = {
 				}\
 			}else if(data.method == 'eth_chainId'){\
 				console.log('====eth_chainId==' + data);\
-				window.myCallbacks[data.callbackid](data.err,data.accounts);\
+				window.myFlags[data.callbackid] = true;\
+				window.myParams[data.callbackid] = data;\
+				if(window.myCallbacks[data.callbackid]){\
+					window.myCallbacks[data.callbackid](data.err,data.chainId);\
+				}\
+			}else{\
+				console.log('====else==' + data);\
+				window.myCallbacks[data.callbackid] = null;\
 			}\
-			window.myCallbacks[data.callbackid] = null;\
 		};\
 		window.onload=function(){\
 		     console.log('===222222222=====onload=========');\
@@ -248,18 +254,26 @@ const WindowJs = {
 				window.myCallbacks[timestamp] = callBack;\
 			}\
 			window.myFlags[timestamp] = false;\
-			console.log('======params==='+params.method);\
+			console.log('======params===',params);\
+			console.log('======params==='+params);\
+			console.log('======typeof(params)==='+typeof(params));\
+			let method = params;\
+			if(typeof(params) == 'object'){\
+				params.callbackid = timestamp;\
+			}else{\
+				params = {method:params,callbackid:timestamp,params}\
+			}\
 			setTimeout(() => {\
-				console.log('===--2---');\
+				console.log('===--2---',method);\
 				if(window.UniAppJSBridge){\
 					uni.webView.postMessage({\
-						data: {method:params.method,callbackid:timestamp,params}\
+						data: params\
 					});\
 				}else{\
 					document.addEventListener('UniAppJSBridgeReady', function() {\
 						console.log('===--3---22222');\
 						uni.webView.postMessage({\
-							data: {method:params.method,callbackid:timestamp,params}\
+							data: params\
 						});\
 					});\
 				}\
@@ -292,34 +306,36 @@ const WindowJs = {
 				window.myCallbacks[timestamp] = callBack;\
 			}\
 			window.myFlags[timestamp] = false;\
-			console.log('======params==='+params.method);\
+			console.log('======params==='+params);\
 			setTimeout(() => {\
 				console.log('===--2---');\
 				if(window.UniAppJSBridge){\
 					uni.webView.postMessage({\
-						data: {method:params.method,callbackid:timestamp,params}\
+						data: {method:params,callbackid:timestamp,params}\
 					});\
 				}else{\
 					document.addEventListener('UniAppJSBridgeReady', function() {\
 						console.log('===--3---22222');\
 						uni.webView.postMessage({\
-							data: {method:params.method,callbackid:timestamp,params}\
+							data: {method:params,callbackid:timestamp,params}\
 						});\
 					});\
 				}\
 			}, 100);\
-			console.log('=======11111111111111111111=====');\
+			console.log('====send===11111111111111111111=====');\
 			return new Promise((resolve, reject)=>{\
 				let setInterValFunc = setInterval(function(){\
-					console.log('=======2222222222222222==2===' + window.myFlags[timestamp]);\
+					console.log('===send====2222222222222222==2===' + window.myFlags[timestamp]);\
 					if(window.myFlags[timestamp] == true){\
 						window.myFlags[timestamp] = false;\
 						let params = window.myParams[timestamp];\
-						console.log('=======2222222222222222===3=='+ JSON.stringify(params));\
+						console.log('===send====2222222222222222===3=='+ JSON.stringify(params));\
 						clearInterval(setInterValFunc);\
 						let data = '';\
 						if(params.method == 'eth_requestAccounts'){\
-							data = accounts;\
+							data = params.accounts;\
+						}else if(params.method == 'eth_chainId'){\
+							data = params.chainId;\
 						}\
 						resolve(data);\
 					}\
