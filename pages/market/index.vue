@@ -71,6 +71,12 @@
 		onLoad() {
 			this.initWord()
 		},
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetLanguage, this.initWord);
+		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.Setting.evtGetLanguage, this.initWord);
+		},
 		onShow() {
 			//获取高度
 			uni.getSystemInfo({
@@ -79,6 +85,7 @@
 				}
 			});
 			this.onRefersh();
+			this.initWord();
 		},
 		data(){
 			return{
@@ -107,6 +114,7 @@
 		},
 		methods:{
 			initWord(){
+				console.log("========market====index=========")
 				//获取所有中文文字  mark_trans_str1
 				this.mark_index_title_1 = this.getLocalStr("mark_index_title_1");
 				this.mark_index_title_2 = this.getLocalStr("mark_index_title_2");

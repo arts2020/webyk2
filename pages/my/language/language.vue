@@ -13,13 +13,14 @@
 <script>
 	export default {
 		created() {
-		  this.initword()
+		this.active = this.dal.Setting.getSysLanguage();
+		  this.initword();
 	      this.onRefresh();
-				
+			
 		},
 		data() {
 			return {
-				active: this.entities.Metadata.GameLanguage.CN,
+				active:  this.entities.Metadata.GameLanguage.CN,
 				menuList: []
 			};
 		},
@@ -52,7 +53,7 @@
 				this.$openPage({name:"mine-mine",gotype:"switchTab"})
 			},
 			handleCheck(e) {
-				console.log("=e==",e)
+				//console.log("=e==",e)
 				this.active = parseInt(e)
 			}
 		}

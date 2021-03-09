@@ -3,6 +3,8 @@ var vue = Vue.prototype
 
 const Setting = {
 	// evtCapitalPassword: "evt_CapitalPassword",
+	evtGetLanguage:"evt_evtGetLanguage",
+	
 	init: function() {
 		this.m_currLangeType = vue.util.StringUtils.getUserDefaults("LangeType_key");
 		if(!this.m_currLangeType){
@@ -43,6 +45,7 @@ const Setting = {
 		this.m_currLangeType = type;
 		vue.util.StringUtils.setUserDefaults("LangeType_key", this.m_currLangeType);
 		vue.entities.LocalStrMgr.init();
+		vue.util.EventUtils.dispatchEventCustom(vue.dal.Setting.evtGetLanguage);
 	}
 };
 

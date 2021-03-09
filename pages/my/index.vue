@@ -93,8 +93,11 @@
 		created() {
 			this.onRefresh();
 			this.initword();
+			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetLanguage, this.initword);
 		},
-		
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.Setting.evtGetLanguage, this.initword);
+		},
 		onShow() {
 			let _this = this;
 			//获取高度
@@ -104,6 +107,7 @@
 				}
 			});
 			this.onRefresh();
+			this.initword();
 		},
 		data() {
 			return {			
@@ -116,6 +120,7 @@
 		},
 		methods: {
 			initword(){
+				console.log("========my====index=========")
 				this.my_index_title = this.getLocalStr("my_index_title");
 				this.index_menu_str1 = this.getLocalStr("index_menu_str1");
 				this.index_menu_str2 = this.getLocalStr("index_menu_str2");

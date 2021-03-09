@@ -47,10 +47,10 @@
 			Bar
 		},
 		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
+			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetLanguage, this.initWord);
 		},
 		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
+			this.util.EventUtils.removeEventCustom(this.dal.Setting.evtGetLanguage, this.initWord);
 		},
 		data() {
 			return {
@@ -74,6 +74,7 @@
 					this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
 				}
 			});
+			this.initWord();
 		},
 		onPullDownRefresh() {
 			this.onRefersh();

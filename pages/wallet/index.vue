@@ -143,11 +143,12 @@
 		},
 		created() {
 			this.initword();
-			
+			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetLanguage, this.initword);
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
 			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtToKenBalance, this.onRefresh);
 		},
 		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.Setting.evtGetLanguage, this.initword);
 			this.util.EventUtils.removeEventCustom(this.dal.WalletManage.evtBalance, this.onRefresh);
 			this.util.EventUtils.removeEventCustom(this.dal.WalletManage.evtToKenBalance, this.onRefresh);
 		},
@@ -195,6 +196,7 @@
 		},
 		methods: {
 			initword(){
+				console.log("========wallet====index=========")
 			    this.btnstring_manage = this.getLocalStr("btnstring_manage");
 				this.wallet_index_title = this.getLocalStr("wallet_index_title");
 				this.wallet_title_str2 = this.getLocalStr("wallet_title_str2");
