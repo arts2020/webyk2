@@ -101,7 +101,7 @@ const Common = {
 	},
 
 	handleGetDefi(packetIn) {
-		uni.cclog("==========handleGetDefi==========packetIn====", packetIn)
+		// uni.cclog("==========handleGetDefi==========packetIn====", packetIn)
 		if (packetIn.pktin.code == 200) {
 			this.m_DefiPriceItems = packetIn.pktin.data;
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetDefi, {

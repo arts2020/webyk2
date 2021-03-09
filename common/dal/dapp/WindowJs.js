@@ -10,9 +10,9 @@ const WindowJs = {
 		this.m_web3Url = "";
 		this.m_currentWebview = null;
 		this.m_loadFinish = false;
-		this.readWeb3str();
+		// this.readWeb3str();
 		// #ifdef APP-PLUS
-		// this.getCurrentWebView();
+		//this.loadJsFileToWebView();
 		// #endif
 	},
 
@@ -123,6 +123,7 @@ const WindowJs = {
 					var fileReader = new plus.io.FileReader();
 					fileReader.readAsText(file, 'utf-8');
 					fileReader.onloadend = function(evt) {
+						console.log("====evt.target.result===", evt.target.result)
 						self.m_currentWebview.evalJS(
 							evt.target.result
 						)
@@ -173,8 +174,9 @@ const WindowJs = {
 		window.imToken= {};\
 		window.MetaMask = {};\
 		window.callBack3 = function(data){ \
-			console.log('======myCallbacks====' + data.method);\
+			console.log('====callBack3==myCallbacks====' + data.method);\
 			console.log('======callbackid====' + data.callbackid);\
+			console.log('======callBack3=data===' + JSON.stringify(data));\
 			window.m_flag = true;\
 			if(data.method == 'user.showAccountSwitch'){\
 				console.log('====user.showAccountSwitch==' + data.signature);\
@@ -197,14 +199,14 @@ const WindowJs = {
 					window.myCallbacks[data.callbackid]({'id':1,'jsonrpc': '2.0','result': ['0x407d73d8a49eeb85d32cf465507dd71d507100c1']});\
 				}\
 			}else if(data.method == 'eth_call'){\
-				console.log('====eth_call==' + data);\
+				console.log('====eth_call==' + JSON.stringify(data));\
 				window.myFlags[data.callbackid] = true;\
 				window.myParams[data.callbackid] = data;\
 				if(window.myCallbacks[data.callbackid]){\
 					window.myCallbacks[data.callbackid](data.err,data.accounts);\
 				}\
 			}else if(data.method == 'eth_chainId'){\
-				console.log('====eth_chainId==' + data);\
+				console.log('====eth_chainId==' + JSON.stringify(data));\
 				window.myFlags[data.callbackid] = true;\
 				window.myParams[data.callbackid] = data;\
 				if(window.myCallbacks[data.callbackid]){\
@@ -246,7 +248,20 @@ const WindowJs = {
 			}, 100);\
 		};\
 		window.ethereum.request = function(params, callBack){\
-			console.log('===--1---');\
+			console.log('==request=--1---' + JSON.stringify(params));\
+			if(params == 'eth_chainId' ){\
+				return 1;\
+			}else if (params.method == 'eth_chainId'){\
+				return 1;\
+			}else if(params == 'net_version' || params.method == 'net_version'){\
+				return 'v2';\
+			}else if (params == 'eth_call'){\
+				return 1;\
+			}else if (params.method == 'eth_call'){\
+				return 1;\
+			}else if (params.method == 'eth_blockNumber'){\
+				return 11998674;\
+			}\
 			let timestamp = (new Date()).valueOf();\
 			if(!callBack){\
 				window.myCallbacks[timestamp] = null;\
@@ -254,9 +269,9 @@ const WindowJs = {
 				window.myCallbacks[timestamp] = callBack;\
 			}\
 			window.myFlags[timestamp] = false;\
-			console.log('======params===',params);\
-			console.log('======params==='+params);\
-			console.log('======typeof(params)==='+typeof(params));\
+			console.log('===request===params===',params);\
+			console.log('===request===params==='+ JSON.stringify(params));\
+			console.log('===request===typeof(params)==='+typeof(params));\
 			let method = params;\
 			if(typeof(params) == 'object'){\
 				params.callbackid = timestamp;\
@@ -264,32 +279,36 @@ const WindowJs = {
 				params = {method:params,callbackid:timestamp,params}\
 			}\
 			setTimeout(() => {\
-				console.log('===--2---',method);\
+				console.log('==request=--2---',method);\
 				if(window.UniAppJSBridge){\
 					uni.webView.postMessage({\
 						data: params\
 					});\
 				}else{\
 					document.addEventListener('UniAppJSBridgeReady', function() {\
-						console.log('===--3---22222');\
+						console.log('==request=--3---22222');\
 						uni.webView.postMessage({\
 							data: params\
 						});\
 					});\
 				}\
 			}, 100);\
-			console.log('=======11111111111111111111=====');\
+			console.log('===request====11111111111111111111=====');\
 			return new Promise((resolve, reject)=>{\
 				let setInterValFunc = setInterval(function(){\
-					console.log('=======2222222222222222==2===' + window.myFlags[timestamp]);\
+					console.log('====request===2222222222222222==2===' + window.myFlags[timestamp]);\
 					if(window.myFlags[timestamp] == true){\
 						window.myFlags[timestamp] = false;\
 						let params = window.myParams[timestamp];\
-						console.log('=======2222222222222222===3=='+ JSON.stringify(params));\
+						console.log('====request===2222222222222222===3=='+ JSON.stringify(params));\
 						clearInterval(setInterValFunc);\
 						let data = '';\
 						if(params.method == 'eth_requestAccounts'){\
 							data = params.accounts;\
+						}else if(params.method == 'eth_chainId'){\
+							data = params.chainId;\
+						}else if(params.method == 'eth_call'){\
+							data = params.chainId;\
 						}\
 						resolve(data);\
 					}\
@@ -297,8 +316,17 @@ const WindowJs = {
 			})\
 		};\
 		window.ethereum.send = function(params, callBack){\
-			console.log('===--2-0--' + params);\
-			console.log('===--1---');\
+			console.log('==send=--2-0--' + JSON.stringify(params));\
+			console.log('=send==--1---');\
+			if(params == 'eth_chainId' ){\
+				return 1;\
+			}else if (params.method == 'eth_chainId'){\
+				return {chainId:1,listUrl:''};\
+			}else if(params == 'net_version' || params.method == 'net_version'){\
+				return '1';\
+			}else if (params == 'eth_call'){\
+				return 1;\
+			}\
 			let timestamp = (new Date()).valueOf();\
 			if(!callBack){\
 				window.myCallbacks[timestamp] = null;\
@@ -306,16 +334,16 @@ const WindowJs = {
 				window.myCallbacks[timestamp] = callBack;\
 			}\
 			window.myFlags[timestamp] = false;\
-			console.log('======params==='+params);\
+			console.log('===send===params==='+params);\
 			setTimeout(() => {\
-				console.log('===--2---');\
+				console.log('==send=--2---');\
 				if(window.UniAppJSBridge){\
 					uni.webView.postMessage({\
 						data: {method:params,callbackid:timestamp,params}\
 					});\
 				}else{\
 					document.addEventListener('UniAppJSBridgeReady', function() {\
-						console.log('===--3---22222');\
+						console.log('===send--3---22222');\
 						uni.webView.postMessage({\
 							data: {method:params,callbackid:timestamp,params}\
 						});\
@@ -343,7 +371,12 @@ const WindowJs = {
 			})\
 		};\
 		window.ethereum.sendAsync = function(params, callBack){\
-			console.log('===--3--5555-');\
+			console.log('==sendAsync=--3--5555-' + JSON.stringify(params));\
+			if(params == 'eth_chainId' ){\
+				return 1;\
+			}else if (params.method == 'eth_chainId'){\
+				return 1;\
+			}\
 		};\
 		let count = 0;\
 		let runcount = 0;\
@@ -386,7 +419,10 @@ const WindowJs = {
 				 document.body.appendChild(script);\
 			}\
 			runcount += 1;\
-		};"
+		};\
+		window.addEventListener('load', async () => {\
+			console.log('===addEventListener==onloaded=');\
+		})"
 		// document.body.appendChild(script);\
 		// window.addEventListener('load', async () => {\
 		// console.log('===addEventListener==2=');\

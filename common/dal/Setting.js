@@ -4,9 +4,12 @@ var vue = Vue.prototype
 const Setting = {
 	// evtCapitalPassword: "evt_CapitalPassword",
 	init: function() {
-		this.m_currLangeType = vue.entities.Metadata.GameLanguage.CN;
+		this.m_currLangeType = vue.util.StringUtils.getUserDefaults("LangeType_key");
+		if(!this.m_currLangeType){
+			this.m_currLangeType = vue.entities.Metadata.GameLanguage.CN;
+		}
 		
-			console.log("=======Setting===this.m_currLangeType=========",this.m_currLangeType)
+		console.log("=======Setting===this.m_currLangeType=========" + this.m_currLangeType)
 		this.onAddListener();
 		return true;
 	},
@@ -29,14 +32,16 @@ const Setting = {
 	},
 
 	getSysLanguage: function() {
+		console.log("==222222222=this.m_currLangeType==" + this.m_currLangeType)
 		if(!this.m_currLangeType){
-			this.m_currLangeType = vue.entities.Metadata.GameLanguage.CN;
+			this.m_currLangeType = vue.util.StringUtils.getUserDefaults("LangeType_key");
 		}
 		return this.m_currLangeType
 	},
 
 	setSysLanguage: function(type) {
 		this.m_currLangeType = type;
+		vue.util.StringUtils.setUserDefaults("LangeType_key", this.m_currLangeType);
 		vue.entities.LocalStrMgr.init();
 	}
 };

@@ -7,14 +7,14 @@ const LocalStrMgr = {
 	},
 
 	initData: function() {
-		console.log("======vue.dal.Setting=====",vue.dal.Setting.getSysLanguage())
+		console.log("======vue.dal.Setting=====" + vue.dal.Setting.getSysLanguage())
 		let sysLanguage = vue.dal.Setting.getSysLanguage();
-		console.log("======initData==sysLanguage=====",sysLanguage)
-		if (sysLanguage === vue.entities.Metadata.GameLanguage.CN) {
+		console.log("======initData==sysLanguage=====" + sysLanguage)
+		if (sysLanguage == vue.entities.Metadata.GameLanguage.CN) {
 			this.addStrStruct(vue.language.LocalStrCN);
-		} else if (sysLanguage === vue.entities.Metadata.GameLanguage.EN) {
+		} else if (sysLanguage == vue.entities.Metadata.GameLanguage.EN) {
 			this.addStrStruct(vue.language.LocalStrEN);
-		} else if (sysLanguage === vue.entities.Metadata.GameLanguage.TW) {
+		} else if (sysLanguage == vue.entities.Metadata.GameLanguage.TW) {
 			this.addStrStruct(vue.language.LocalStrTW);
 		}
 	},
@@ -53,6 +53,7 @@ const LocalStrMgr = {
 	},
 
 	addStrStruct: function(fileObj) {
+			uni.cclog("=====addStrStruct===333333=")
 		if (fileObj && fileObj.hasOwnProperty("data")) {
 			var localstrObj = fileObj.data;
 			uni.cclog("=====localstrObj====",localstrObj)

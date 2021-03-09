@@ -49,70 +49,12 @@
 
 			this.topHeight = uni.getSystemInfoSync().statusBarHeight + 44;
 			if (this.$scope) {
-				// this.m_currentWebview = this.$scope.$getAppWebview().children()[0];
-				// 	// this.m_currentWebview.addEventListener("message", function(evt) {
-				// 	// 	console.log("======xxxx==user.showAccountSwitch== =====", evt)
-
-				// 	// 	evt.source.postMessage("hi there yourself!  the secret response " +
-				// 	// 	                           "is: rheeeeet!",
-				// 	// 	                           evt.origin);
-				// 	// },false);
-
-				// 	// console.log("=this.dal.Dapp.Windows=", JSON.stringify(this.dal.Windows.init()))
-				// 	this.m_currentWebview.addEventListener('error', event => {
-				// 		console.log("======xxxx==error=======", event)
-				// 	});
-
-				// 	//监听注入的js
-				// 	this.m_currentWebview.addEventListener('loaded', event => {
-				// 		console.log("======xxxx==loaded===", event)
-				// 	});
-				// 	let web3Url = this.dal.WindowJs.getWeb3Url();
-				// 	let uniUrl = this.dal.WindowJs.getUniUrl();
-				// 	console.log("====web3Url==", web3Url)
-				// 	console.log("====uniUrl==", uniUrl)
-				// 	this.m_currentWebview.appendJsFile(uniUrl)
-				// 	this.m_currentWebview.appendJsFile(web3Url)
-				// 	let strjs = this.dal.WindowJs.getImTokenInjectionStr();
-				// 	this.m_currentWebview.evalJS(
-				// 		strjs
-				// 	)
-				// 	// #ifdef APP-PLUS
-				// 	this.m_currentWebview.setStyle({
-				// 		top: this.topHeight
-				// 	})
-				// 	// #endif
 				this.m_currentWebview = this.$scope.$getAppWebview().children()[0]; //currentWebview.children()[0]
-				// var pages = getCurrentPages();
-				// console.log("pages:" + pages);
-				// console.log("pageslength:" + pages.length);
-				// var page = pages[pages.length - 1];
-				// console.log("page.route:" + page.route);
-				// var childrenWebView = page.$getAppWebview();
-
-				// let web3Url = this.dal.WindowJs.getWeb3Url();
-				// let uniUrl = this.dal.WindowJs.getUniUrl();
-
-				// childrenWebView.appendJsFile(web3Url)
-				// childrenWebView.appendJsFile(uniUrl)
+				this.m_currentWebview.addEventListener("loaded", function() {
+					console.log("==window==loaded===")
+				}, false);
 				let self = this;
 				plus.io.requestFileSystem(plus.io.PRIVATE_WWW, function(fobject) {
-					// fobject.root.getFile('_www/static/js/web3.min.js', {
-					// 	create: false
-					// }, function(fileEntry) {
-					// 	fileEntry.file(function(file) {
-					// 		console.log("====web3.webview=file===", file)
-					// 		var fileReader = new plus.io.FileReader();
-					// 		fileReader.readAsText(file, 'utf-8');
-					// 		fileReader.onloadend = function(evt) {
-					// 			childrenWebView.evalJS(
-					// 				evt.target.result
-					// 			)
-					// 			console.log("====5555555555555555555===",self.m_url)
-					// 			childrenWebView.loadURL(self.m_url)
-					// 		}
-					// 	});
-					// });
 					fobject.root.getFile('_www/static/js/uni.webview.1.5.2.js', {
 						create: false
 					}, function(fileEntry) {
@@ -121,11 +63,14 @@
 							var fileReader = new plus.io.FileReader();
 							fileReader.readAsText(file, 'utf-8');
 							fileReader.onloadend = function(evt) {
+								console.log("====44444444444444444444444===")
 								self.m_currentWebview.evalJS(
 									evt.target.result
 								)
-								console.log("====44444444444444444444444===")
-								self.m_currentWebview.loadURL(self.m_url)
+								setTimeout(function(){
+									self.m_currentWebview.loadURL(self.m_url)
+									console.log("====5555555555555555555===")
+								},1000)
 							}
 						});
 					});
@@ -138,29 +83,6 @@
 				this.m_currentWebview.evalJS(
 					strjs
 				)
-				// childrenWebView.evalJS(
-				// 	"loadScript('https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js',function(count){})"
-				// )
-				// childrenWebView.evalJS(
-				// 	"loadScript('https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js',function(count){})"
-				// )
-
-				// plus.globalEvent.addEventListener('plusMessage', function(msg) {
-				// 	if (msg.data.args.data.name == 'postMessage') {
-				// 		console.log('子页面返回的数据为:' + JSON.stringify(msg.data.args.data.arg));
-				// 		let data = msg.data.args.data.arg;
-				// 		if (data.count == 2) {
-				// 			console.log("====11====", this.m_url)
-				// 			// var webviews = this.$scope.$getAppWebview().children()[0]
-				// 			// setTimeout(function(){
-				// 			// 	webviews.loadURL(this.m_url)
-				// 			// 	console.log("====222====",this.m_url)
-				// 			// 	// var webview = plus.webview.create(this.m_url,'custom-webview')
-				// 			// 	childrenWebView.append(webviews);
-				// 			// }.bind(this),1000)
-				// 		}
-				// 	}
-				// }.bind(this));
 			} else {
 				console.log('==this.$ref==', this.$refs)
 				let webview = this.$refs.scope;
@@ -183,11 +105,12 @@
 		},
 		onLoad(option) {
 			var data = JSON.parse(option.query);
-			this.m_title = data.title; 
+			this.m_title = data.title;
 			this.m_url = data.url;
 			// this.m_url = "http://192.168.3.30:8080/";
 			// this.m_url = "http://192.168.3.30:3000";
 			// this.m_url = "https://uniswap.tokenpocket.pro/?utm_source=tokenpocket#/swap";
+			// this.m_url = "https://dapp.tokenpocket.pro/StakingVault/index.html?locale=zh&utm_source=tokenpocket#/";
 			this.bgcolor = data.bgcolor ? data.bgcolor : "#ffffff";
 			// uni.setNavigationBarTitle({
 			// 	title: this.m_title
@@ -297,14 +220,14 @@
 				// console.warn('===x=xxxxxxxx======111==接收到的消息：' + JSON.stringify(evt));
 				let data = evt.detail.data[0];
 				if (data) {
-					console.warn('===x=xxxxxxxx======data=' + JSON.stringify(data));
-					console.warn('===x=xxxxxxxx======data.method=', data.method)
+					// console.warn('===x=xxxxxxxx======data=' + JSON.stringify(data));
+					// console.warn('===x=xxxxxxxx======data.method=', data.method)
 					if (data.method == "user.showAccountSwitch") {
 						this.util.StringUtils.setUserDefaults("imtoken_account_address_key",
 							"0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508");
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',address:'0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508',err:null});"
+							"',address:'[0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508]',err:null});"
 						)
 					} else if (data.method == "transaction.signTransaction") {
 						// var params = {
@@ -330,7 +253,12 @@
 					} else if (data.method == "eth_chainId") {
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',chainId:1,err:null});"
+							"',chainId:'1',err:null});"
+						);
+					} else if (data.method == "eth_call") {
+						this.m_currentWebview.evalJS(
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							+ "',params" + data.params + ",chainId:'1',err:null});"
 						);
 					}
 				}
