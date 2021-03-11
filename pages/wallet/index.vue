@@ -186,6 +186,7 @@
 			this.initData();
 			this.onRefresh();
 			this.onTokenBalance();
+			
 			let _this = this;
 			//获取高度
 			uni.getSystemInfo({
@@ -193,10 +194,12 @@
 					_this.scrollHeight = res.windowHeight - res.statusBarHeight - 44;
 				}
 			});
+			
 		},
 		methods: {
 			initword(){
 				console.log("========wallet====index=========")
+				
 			    this.btnstring_manage = this.getLocalStr("btnstring_manage");
 				this.wallet_index_title = this.getLocalStr("wallet_index_title");
 				this.wallet_title_str2 = this.getLocalStr("wallet_title_str2");

@@ -3,6 +3,10 @@ const localstr = {
 	tag: 0,
  
 	data: {
+		tab_bar_wallet:"wallet",
+		tab_bar_market:"market",
+		tab_bar_browse:"browse",
+		tab_bar_my:"mine",
 		btnstring_rechage_coin:"Recharge",
 		btnstring_get_coin:"Withdrawal",
 		btnstring_copyWord:"Copy Mnemonic Phrase",
@@ -107,6 +111,7 @@ const localstr = {
 		err_tip_code:"Your verification code exceeds the limit, please try again later",
 		err_tip_safepasd:"Please set the secure password first",
 		err_tip_str22:"Added to assets",
+		err_tip_str23:'The order of mnemonic words is not correct. Please proofread',
 		
 		tip_title_str1:"Added Successfully",
 		tip_title_str2:"Added Failed",
@@ -220,6 +225,7 @@ const localstr = {
 		wallet_title_str11:"Plaintext private key",
 		wallet_title_str12:"Please add coins under the identity wallet(multiple choices)",
 		wallet_title_str13:"Import Way",
+		wallet_title_str14: "Private keys and passwords",
 		
 		wallet_detail_str1:"Wallet Detail",
 		wallet_detail_str2:"Wallet Address",

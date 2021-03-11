@@ -108,6 +108,7 @@
 			});
 			this.onRefresh();
 			this.initword();
+			
 		},
 		data() {
 			return {			
@@ -120,6 +121,7 @@
 		},
 		methods: {
 			initword(){
+				
 				console.log("========my====index=========")
 				this.my_index_title = this.getLocalStr("my_index_title");
 				this.index_menu_str1 = this.getLocalStr("index_menu_str1");
@@ -172,7 +174,7 @@
 					this.$openPage({name: "address-list"})
 				}else if(idx == 9){
 					// 语言设置 
-					this.$openPage({name: "language-index"})
+					this.$openPage({name: "language-index",gotype:"redirectTo"})
 				}else if(idx == 10){
 					// 用户协议 
 					this.$openPage({name: "user-agreement",query: {}})

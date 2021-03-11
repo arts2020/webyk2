@@ -45,12 +45,15 @@
 			},
 
 			btnBack: function() {
-				this.util.UiUtils.switchBackPage();
+				this.$openPage({name:"mine-mine",gotype:"switchTab"})
 			},
 			goSave() {
 				console.log("=this.active==",this.active)
 				this.dal.Setting.setSysLanguage(this.active)
-				this.$openPage({name:"mine-mine",gotype:"switchTab"})
+				this.$openPage({name:"mine-mine",gotype:"reLaunch"});
+				// #ifdef APP-PLUS
+				plus.runtime.restart();
+				// #endif
 			},
 			handleCheck(e) {
 				//console.log("=e==",e)

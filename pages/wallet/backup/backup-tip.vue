@@ -39,12 +39,14 @@
 				//根据不同情况显示不同提示
 				bakType:2,
 				scrollHeight: 0,
-				str1:"助记词",
-				str2:"助记词",
+				str1:"",
+				str2:"",
 				paramsObj:{}
 			}
 		},
 		onLoad(option) {
+			this.initword();
+			
 			if(option.query){
 				let params = JSON.parse(option.query);
 				if(Object.keys(params).length!=0){
@@ -56,18 +58,18 @@
 						this.bakType = 1;
 					}
 					switch (params.bakType){
-						case 1:this.str1="助记词"; this.str2="助记词";
+						case 1:this.str1=this.wallet_title_str8; this.str2=this.wallet_title_str8;
 							break;
-						case 2:this.str1="助记词"; this.str2="助记词";
+						case 2:this.str1=this.wallet_title_str8; this.str2=this.wallet_title_str8;
 							break;
-						case 3:this.str1="私钥和密码"; this.str2="私钥";
+						case 3:this.str1=this.wallet_title_str14; this.str2=this.wallet_title_str10;
 							break;
-						default:this.str1="助记词"; this.str2="助记词";
-							break;
+						default:this.str1=this.wallet_title_str8; this.str2=this.wallet_title_str8;
+							break; 
 					}
 				}
 			}
-			this.initword()			
+					
 		},
 		methods: {
 			initword(){
@@ -81,6 +83,9 @@
 				this.title_str16 = this.getLocalStr("title_str16");
 				this.title_str17 = this.getLocalStr("title_str17");
 			    this.title_str18 = this.getLocalStr("title_str18");
+				this.wallet_title_str8 = this.getLocalStr("wallet_title_str8")
+				this.wallet_title_str10 = this.getLocalStr("wallet_title_str10")
+				this.wallet_title_str14 = this.getLocalStr("wallet_title_str14")
 			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
@@ -164,6 +169,7 @@
 				width: 22rpx;
 				height: 22rpx;
 				margin-right: 15rpx;
+				flex: none
 			}
 			view{
 				font-size: 26rpx;

@@ -5,6 +5,9 @@
 		/deep/ .uni-navbar--border{
 			border: 0;
 		}
+		/deep/.uni-navbar__header-container.uni-navbar__content_view{
+			white-space: nowrap;
+		}
 		.uni-content{
 			width: 100%;
 			padding: 50rpx 40rpx;
@@ -73,6 +76,7 @@
 					width: 22rpx;
 					height: 22rpx;
 					margin-right: 15rpx;
+					flex: none
 				}
 				view{
 					font-size: 26rpx;

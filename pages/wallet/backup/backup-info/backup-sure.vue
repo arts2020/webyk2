@@ -96,7 +96,7 @@
 						}
 						this.isok = this.issameWord(key, val);
 						if (this.isok == false) {
-							this.errMsg = '助记词顺序不正确，请校对';
+							this.errMsg = this.err_tip_str23;
 							this.$refs.popup.open()
 						}
 		
@@ -134,6 +134,7 @@
 				this.err_tip_str19 = this.getLocalStr("err_tip_str19");
 				this.err_tip_str20 = this.getLocalStr("err_tip_str20");
 				this.err_tip_str21 = this.getLocalStr("err_tip_str21");
+				this.err_tip_str23 = this.getLocalStr("err_tip_str23");
 			},
 			btnBack:function(){
 				this.util.UiUtils.switchBackPage();
@@ -182,7 +183,7 @@
 					}
 				}
 				
-				this.util.UiUtils.showLoading(this.err_tip_str11);
+				this.util.UiUtils.showLoading(this.err_tip_str11,1000);//默认是15秒太长
 				
                 let params={}
 				
@@ -288,6 +289,9 @@
 	}
 	/deep/ .uni-transition{
 		background-color: rgba(0, 0, 0, 0)!important;
+	}
+	/deep/.uni-navbar__header-container.uni-navbar__content_view{
+		white-space: nowrap;
 	}
 	.uni-content{
 		width: 100%;

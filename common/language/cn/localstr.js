@@ -3,6 +3,10 @@ const localstr = {
 	tag: 0,
 
 	data: {
+		tab_bar_wallet:"钱包",
+		tab_bar_market:"市场",
+		tab_bar_browse:"浏览",
+		tab_bar_my:"我的",
 		btnstring_rechage_coin: "充币",
 		btnstring_get_coin: "提币",
 		btnstring_copyWord: "复制助记词",
@@ -108,6 +112,7 @@ const localstr = {
 		err_tip_code: "您获取验证码超限，请稍后再试",
 		err_tip_safepasd: "您没有设置安全密码，请先设置安全密码？",
 		err_tip_str22: "已添加至首页资产",
+		err_tip_str23:'助记词顺序不正确，请校对',
 
 		tip_title_str1: "添加成功",
 		tip_title_str2: "添加失败",
@@ -231,6 +236,7 @@ const localstr = {
 		wallet_title_str11: "明文私钥字符",
 		wallet_title_str12: "请添加身份钱包下的币种(多选)",
 		wallet_title_str13: "导入方式",
+		wallet_title_str14: "私钥和密码",
 
 		wallet_detail_str1: "钱包详情",
 		wallet_detail_str2: "钱包地址",

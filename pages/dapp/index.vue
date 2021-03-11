@@ -48,9 +48,11 @@
 		},
 		created() {
 			this.util.EventUtils.addEventListenerCustom(this.dal.Setting.evtGetLanguage, this.initWord);
+			this.util.EventUtils.addEventListenerCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
 		},
 		destroyed() {
 			this.util.EventUtils.removeEventCustom(this.dal.Setting.evtGetLanguage, this.initWord);
+			this.util.EventUtils.removeEventCustom(this.dal.Dapp.evtGetDappList, this.onGetDappList);
 		},
 		data() {
 			return {
@@ -75,6 +77,7 @@
 				}
 			});
 			this.initWord();
+			
 		},
 		onPullDownRefresh() {
 			this.onRefersh();
@@ -86,6 +89,7 @@
 				this.btnstring_logout = this.getLocalStr("btnstring_logout");
 				this.dapp_tip_title = this.getLocalStr("dapp_tip_title");
 				this.dapp_tip_content = this.getLocalStr("dapp_tip_content");
+				
 			},
 			onRefersh(){
 				this.list = [];
@@ -138,6 +142,7 @@
 					}
 				})
 				this.list = data.data;
+				console.log('===================================',this.list)
 			}
 		}
 	}
