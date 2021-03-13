@@ -11,9 +11,11 @@ var vue = Vue.prototype
 const Btc = {
 	m_balance: 0,
 	m_reqUrl: "",
-
+	// m_network : bitcoin.networks.bitcoin,
+	m_network : bitcoin.networks.testnet,
+	
 	init: function() {
-		console.log("========Btc===初始化===============")
+		console.log("========Btc===初始化===============",this.m_network)
 		this.m_reqUrl = "http://119.8.55.19:8332";
 	},
 
@@ -69,12 +71,11 @@ const Btc = {
 		try {
 			console.log("==words==", words)
 			//设置生成测试or正式环境的钱包
-			const network = bitcoin.networks.bitcoin
 			// console.log("==network==", network)
 			// 计算seed:
 			const seed = await bip39.mnemonicToSeed(words)
 			// console.log("==seed==", seed)
-			const root = bip32.fromSeed(seed, network)
+			const root = bip32.fromSeed(seed, this.m_network)
 			const path = "m/44'/0'/0'/0/0";
 			const keyPair = root.derivePath(path)
 			const privateKey = keyPair.toWIF()
@@ -83,7 +84,7 @@ const Btc = {
 			console.log("BTC公钥：", publicKey)
 			let address = bitcoin.payments.p2pkh({
 				pubkey: keyPair.publicKey,
-				network: network
+				network: this.m_network
 			})
 			console.log("===createWalletByWords====BTC地址：", address.address)
 			return {
@@ -101,11 +102,11 @@ const Btc = {
 	async createWalletByPrivateKey(privateKey) {
 		console.log("==privateKey==", privateKey);
 		try {
-			const network = bitcoin.networks.bitcoin
-			let keyPair = bitcoin.ECPair.fromWIF(privateKey, bitcoin.networks[network]);
+			let keyPair = bitcoin.ECPair.fromWIF(privateKey, this.m_network);
 			let publicKey = keyPair.publicKey;
 			let address = bitcoin.payments.p2pkh({
-				pubkey: publicKey
+				pubkey: publicKey,
+				network: this.m_network,
 			});
 			console.log("==address==", address);
 			console.log("==publicKey==", publicKey.toString("hex"));
@@ -125,6 +126,8 @@ const Btc = {
 		let walletInfo = vue.dal.WalletManage.getCurrWallet();
 		this.m_privateKey = walletInfo.privateKey;
 		this.fromAddress = walletInfo.address;
+		console.log("======222===initCurrChain==========",this.m_privateKey)
+		console.log("=========initCurrChain==========",this.fromAddress)
 	},
 
 	//GAS费
@@ -134,30 +137,33 @@ const Btc = {
 
 	// 记录交易
 	async sendTransaction(asset, to, amount, gas, remark) {
-		let privateKey = vue.dal.WalletManage.getPrivateKey();
-		let address = vue.dal.WalletManage.getAddress();
-
+		// let privateKey = vue.dal.WalletManage.getPrivateKey();
+		// let address = vue.dal.WalletManage.getAddress();
+		console.log("=========sendTransaction==========")
+		let keys = bitcoin.ECPair.fromWIF(this.m_privateKey, this.m_network);
+		let txid= await BtcUtils.sendRawTransferAsync(keys, this.fromAddress, to, amount);
+		
 		//TODO....
-		const network = bitcoin.networks.bitcoin
-		const keyPair = bitcoin.ECPair.fromWIF(privateKey, network);
-		const pubKey = keyPair.getPublicKeyBuffer();
-		const pubKeyHash = bitcoin.crypto.hash160(pubKey);
-		// 得到隔离见证地址的回执脚本
-		const redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(pubKeyHash);
+		// const keyPair = bitcoin.ECPair.fromWIF(privateKey, this.m_network);
+		// const pubKey = keyPair.getPublicKeyBuffer();
+		// const pubKeyHash = bitcoin.crypto.hash160(pubKey);
+		
+		// // 得到隔离见证地址的回执脚本
+		// const redeemScript = bitcoin.script.witnessPubKeyHash.output.encode(pubKeyHash);
 
-		// 构建交易 builder
-		const txb = new bitcoin.TransactionBuilder();
+		// // 构建交易 builder
+		// const txb = new bitcoin.TransactionBuilder();
 
-		// 添加交易中的 Inputs，假设这个 UTXO 有 15000 satoshi
-		txb.addInput(address, 0);
-		// 添加交易中的 Outputs，矿工费用 = 15000 - 12000 = 3000 satoshi
-		// addOutput 方法的参数分别为收款地址和转账金额
-		txb.addOutput(to, amount);
+		// // 添加交易中的 Inputs，假设这个 UTXO 有 15000 satoshi
+		// txb.addInput(address, 0);
+		// // 添加交易中的 Outputs，矿工费用 = 15000 - 12000 = 3000 satoshi
+		// // addOutput 方法的参数分别为收款地址和转账金额
+		// txb.addOutput(to, amount);
 
-		// 交易签名
-		txb.sign(0, keyPair, redeemScript, null, 15000);
+		// // 交易签名
+		// txb.sign(0, keyPair, redeemScript, null, 15000);
 
-		let txid = txb.build().toHex()
+		// let txid = txb.build().toHex()
 		// 打印签名后的交易 hash
 		console.log("=====Btc===sendTransaction====", txid);
 		
@@ -170,7 +176,7 @@ const Btc = {
 				result: true
 			})
 		}else{
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});
@@ -202,11 +208,34 @@ const Btc = {
 		//"15urYnyeJe3gwbGJ74wcX89Tz7ZtsFDVew"; //
 		let ret = await BtcUtils.getBalance(this.fromAddress);
 		console.log("====onBalance=ret==", ret)
-		if (ret.status == "success") {
-			let balance = ret.data.balance / Math.pow(10, 8);;
+		if (ret.address.toLowerCase() == this.fromAddress.toLowerCase()) {
+			let balance = ret.balance / Math.pow(10, 6);
 			vue.dal.WalletManage.setCurrWalletMoney(balance)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtBalance);
 		}
+	},
+	
+	async getTransferList(address){
+		let ret = await BtcUtils.getRecords('msfAPhJqdtfx9WA7rqW313CYxP5b73NYCF');
+		console.log('===getTransferList===ret=',ret);
+		if(ret){
+			for(let i = 0 ; i < ret.txrefs.length ;i++){
+				// if (item.from_address.toLowerCase() == address.toLowerCase()) {
+				// 	if (type == 0 || type == 1) {
+				// 		isselect = true
+				// 	}
+				// }
+				// if (item.to_address.toLowerCase() == address.toLowerCase()) {
+				// 	if (type == 2) {
+				// 		isselect = true
+				// 	}
+				// }
+				let refs = ret.txrefs[i];
+				
+				await BtcUtils.gettransferHash(refs.tx_hash);
+			}
+		}
+		return ret;
 	},
 
 	async isAddress(address) {

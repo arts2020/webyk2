@@ -148,11 +148,10 @@ const WindowJs = {
 		if (address && address.length > 0) {
 			address = "'" + address + "'"
 		} else {
-			address = "0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508";
+			address = "0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785500";
 		}
 		console.log("==address=", address)
-		let str =
-			"window.m_flag = false;\
+		let str = "window.m_flag = false;\
 			var Eth = function Eth() {\
 		    var defaultAccount = null;\
 		};\
@@ -164,9 +163,7 @@ const WindowJs = {
 		window.ethereum.isMetaMask=true;\
 		window.ethereum.isImToken=true;\
 		window.ethereum.enable = function(){\
-			return ['" +
-			address +
-			"'];\
+			return ['" + address + "'];\
 		};\
 		window.myCallbacks = {};\
 		window.myFlags = {};\
@@ -422,7 +419,8 @@ const WindowJs = {
 		};\
 		window.addEventListener('load', async () => {\
 			console.log('===addEventListener==onloaded=');\
-		})"
+		});\
+		alert('=============')"
 		// document.body.appendChild(script);\
 		// window.addEventListener('load', async () => {\
 		// console.log('===addEventListener==2=');\
@@ -439,10 +437,8 @@ const WindowJs = {
 		//    window.web3 = new Web3(web3.currentProvider);\
 		//  }\
 		// })
-
 		return str;
 	}
-
 };
 
 export default WindowJs

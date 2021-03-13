@@ -172,7 +172,7 @@ const Ethers = {
 			})
 		} else {
 			console.log("=====Ethers===sendTransaction==2==", txid);
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});
@@ -198,7 +198,7 @@ const Ethers = {
 				result: true
 			});
 		} else {
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});

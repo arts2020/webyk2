@@ -9,8 +9,7 @@
 				</view>
 			</view>
 		</uni-nav-bar>
-		<web-view ref="scope" :webview-styles="webviewStyles" :src="m_url2" @message="handleMessage"
-			:style="'top:'+topHeight+'px'"></web-view>
+		<web-view ref="scope" :webview-styles="webviewStyles" @message="handleMessage" :style="'top:'+topHeight+'px'"></web-view>
 		<uni-popup type="bottom" ref="popup">
 			<view class="main-c">
 				<view class="top-box">
@@ -47,46 +46,52 @@
 			uniPopupMessage
 		},
 		onReady() {
+			let seft = this;
 			this.topHeight = uni.getSystemInfoSync().statusBarHeight + 44;
 			if (this.$scope) {
-				this.m_currentWebview = this.$scope.$getAppWebview().children()[0]; //currentWebview.children()[0]
-				this.m_currentWebview.addEventListener("loaded", function() {
-					console.log("==window==loaded===")
-				}, false);
-				let self = this;
-				plus.io.requestFileSystem(plus.io.PRIVATE_WWW, function(fobject) {
-					fobject.root.getFile('_www/static/js/uni.webview.1.5.2.js', {
-						create: false
-					}, function(fileEntry) {
-						fileEntry.file(function(file) {
-							console.log("====uni.webview=file===", file)
-							var fileReader = new plus.io.FileReader();
-							fileReader.readAsText(file, 'utf-8');
-							fileReader.onloadend = function(evt) {
-								console.log("====44444444444444444444444===")
-								self.m_currentWebview.evalJS(
-									evt.target.result
-								)
-								setTimeout(function() {
-									console.log("====5555555555555555555===")
-									self.m_currentWebview.loadURL(self.m_url)
-									console.log("====666666666666666666===")
-								}, 1000)
-							}
-						});
-					});
-				})
-
-				this.m_currentWebview.setStyle({
-					top: this.topHeight
-				})
-				let strjs = this.dal.WindowJs.getImTokenInjectionStr();
-				this.m_currentWebview.evalJS(
-					strjs
-				)
+				this.dal.WindowJs.getCurrentWebView().then(function(currWebView) {
+					console.log('===currWebView==' + currWebView)
+					if (currWebView) {
+						setTimeout(function() {
+							var childrenWebView = plus.webview.currentWebview();
+							// let currWebView = this.dal.WindowJs.getCurrentWebView();//plus.webview.create();
+							currWebView.loadURL(seft.m_url)
+							currWebView.setStyle({
+								top: seft.topHeight
+							})
+							childrenWebView.append(currWebView)
+							var w = plus.nativeUI.showWaiting();
+							currWebView.addEventListener("loading", function() {
+								w.show();
+							}, false);
+							currWebView.addEventListener("loaded", function() {
+								w.close();
+								w = null;
+							}, false);
+							currWebView.show("slide-in-bottom",200);
+						}, 1000)
+					}
+				});
+				plus.globalEvent.addEventListener('plusMessage', function(msg) {
+					if (msg.data.args.data.name == 'postMessage') {
+						console.log('子页面返回的数据为:' + JSON.stringify(msg.data.args.data.arg));
+						let data = msg.data.args.data.arg;
+						if (data.count == 2) {
+							console.log("====11====", this.m_url)
+							// var webviews = this.$scope.$getAppWebview().children()[0]
+							// setTimeout(function(){
+							// 	webviews.loadURL(this.m_url)
+							// 	console.log("====222====",this.m_url)
+							// 	// var webview = plus.webview.create(this.m_url,'custom-webview')
+							// 	childrenWebView.append(webviews);
+							// }.bind(this),1000)
+						}
+					}
+				}.bind(this));
 			} else {
-				this.m_url2 = this.m_url;
-				console.log("==this.m_url2==", this.m_url2)
+				console.log('==this.$ref==', this.$refs)
+				let webview = this.$refs.scope;
+				webview.src = this.m_url;
 			}
 		},
 		data() {
@@ -107,22 +112,20 @@
 			var data = JSON.parse(option.query);
 			this.m_title = data.title;
 			this.m_url = data.url;
-			// this.m_url = "http://192.168.3.30:8080/";
-			// this.m_url = "http://192.168.3.30:3000";
+			this.m_url = "http://192.168.3.30:8080/";
 			// this.m_url = "https://uniswap.tokenpocket.pro/?utm_source=tokenpocket#/swap";
-			// this.m_url = "https://dapp.tokenpocket.pro/StakingVault/index.html?locale=zh&utm_source=tokenpocket#/";
 			this.bgcolor = data.bgcolor ? data.bgcolor : "#ffffff";
 			// uni.setNavigationBarTitle({
 			// 	title: this.m_title
 			// })
-			// #ifdef APP-PLUS
-			plus.webview.prefetchURL(this.m_url)
-			// #endif
+			if (plus) {
+				plus.webview.prefetchURL(this.m_url)
+			}
 			this.initword()
 		},
 
 		methods: {
-			initword(){
+			initword() {
 				this.refersh = this.getLocalStr("refersh")
 				this.copy_link = this.getLocalStr("copy_link")
 				this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
@@ -217,48 +220,36 @@
 			},
 
 			handleMessage: function(evt) { //data={"params":"eth_accounts","callbackid":1614872174140} 
-				// console.warn('===x=xxxxxxxx======111==接收到的消息：' + JSON.stringify(evt));
+				console.warn('===x=xxxxxxxx======111==接收到的消息：' + JSON.stringify(evt));
 				let data = evt.detail.data[0];
 				if (data) {
-					// console.warn('===x=xxxxxxxx======data=' + JSON.stringify(data));
-					// console.warn('===x=xxxxxxxx======data.method=', data.method)
-					if (data.method == "user.showAccountSwitch") {
+					console.warn('===x=xxxxxxxx======data=' + JSON.stringify(data));
+					if (data.apiName == "user.showAccountSwitch") {
 						this.util.StringUtils.setUserDefaults("imtoken_account_address_key",
 							"0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508");
 						this.m_currentWebview.evalJS(
-							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',address:'[0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508]',err:null});"
+							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
+							"',address:'0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508',err:null});"
 						)
-					} else if (data.method == "transaction.signTransaction") {
+					} else if (data.apiName == "transaction.signTransaction") {
 						// var params = {
 						//   to: '0x0fa38abec02bd4dbb87f189df50b674b9db0b468',
 						//   from: web3.eth.defaultAccount,
 						//   value: '1250000000000000',
 						// }
 						this.m_currentWebview.evalJS(
-							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
 							"',signature:'tx',err:null});"
 						);
-					} else if (data.method == "eth_requestAccounts") {
-						console.warn('===x=xxxxxxxx======data=')
+					} else if (data.apiName == "eth_requestAccounts") {
 						this.m_currentWebview.evalJS(
-							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
+							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
+							"',signature:'tx',err:null});"
 						);
-					} else if (data.method == "eth_accounts") {
+					} else if (data.apiName == "eth_accounts") {
 						this.m_currentWebview.evalJS(
-							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
-						);
-					} else if (data.method == "eth_chainId") {
-						this.m_currentWebview.evalJS(
-							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',chainId:'1',err:null});"
-						);
-					} else if (data.method == "eth_call") {
-						this.m_currentWebview.evalJS(
-							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							+"',params" + data.params + ",chainId:'1',err:null});"
+							"window.callBack3({apiName:'" + data.apiName + "',callbackid:'" + data.callbackid +
+							"',signature:'tx',err:null});"
 						);
 					}
 				}

@@ -38,6 +38,9 @@ const Setting = {
 		if(!this.m_currLangeType){
 			this.m_currLangeType = vue.util.StringUtils.getUserDefaults("LangeType_key");
 		}
+		if(!this.m_currLangeType){
+			this.m_currLangeType = vue.entities.Metadata.GameLanguage.CN;
+		}
 		return this.m_currLangeType
 	},
 

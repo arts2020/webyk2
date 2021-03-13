@@ -162,13 +162,13 @@ const Lotus = {
 					result: true
 				});
 			} else {
-				vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
+				vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 					result: false
 				});
 			}
 		} else {
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str25"));
+			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});

@@ -129,6 +129,7 @@
 				this.err_tip_str2 = this.getLocalStr("err_tip_str2")
 				this.err_tip_str3 = this.getLocalStr("err_tip_str3")
 				this.err_tip_str4 = this.getLocalStr("err_tip_str4")
+				this.err_tip_str5 = this.getLocalStr("err_tip_str5")
 				this.tip_content_rechange = this.getLocalStr("tip_content_rechange")
 			},
 			goAddressList() {

@@ -257,10 +257,14 @@
 				//根据字段筛选分组为转入,转出,失败的
 				console.log("==this.currentAsset=", this.currentAsset)
 				if (this.currentAsset) {
-					if (this.currentAsset.contract) {
-						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
-					} else {
-						this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+					if(this.currentAsset.asset.toLowerCase() == 'btc'){
+						this.dal.Btc.getTransferList(this.currentAsset.address);
+					}else{
+						if (this.currentAsset.contract) {
+							this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+						} else {
+							this.dal.Common.onGetTransferList(this.currentAsset.idx, this.currentAsset.address)
+						}
 					}
 				}
 
