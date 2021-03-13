@@ -87,6 +87,7 @@ const localstr = {
 		title_str31: "一般",
 		title_str32: "快速",
 		title_str33: "请输入正确的地址",
+		title_str34:"选择语言",
 		
 		err_tip_str1: "请输入转出的地址",
 		err_tip_str2: "请输入转出的数额",

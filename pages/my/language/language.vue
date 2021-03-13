@@ -1,7 +1,7 @@
 <template>
 	<view class="language">
-		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" title="选择语言" @clickLeft="btnBack">
-			<view class="save-txt" slot="right" @tap="goSave">保存</view>
+		<uni-nav-bar background-color="#FAFBFF" :statusBar="true" :fixed="true" left-icon="back" :title="title_str34" @clickLeft="btnBack">
+			<view class="save-txt" slot="right" @tap="goSave">{{btnstring_save}}</view>
 		</uni-nav-bar>
 		<view class="list-item" v-for="(item,index) in menuList" :key="index" @tap="handleCheck(item.type)">
 			<text>{{item.name}}</text>
@@ -26,8 +26,10 @@
 		},
 		methods: {
 			initword(){
-				this.Language_CN = this.getLocalStr('Language_CN')
-				this.Language_EN = this.getLocalStr('Language_EN')
+				this.Language_CN = this.getLocalStr('Language_CN');
+				this.Language_EN = this.getLocalStr('Language_EN');
+				this.btnstring_save = this.getLocalStr("btnstring_save");
+				this.title_str34 = this.getLocalStr("title_str34");
 			},
 			onRefresh: function() {
 				this.menuList = [];

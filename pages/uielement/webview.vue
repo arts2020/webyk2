@@ -118,7 +118,7 @@
 			if (plus) {
 				plus.webview.prefetchURL(this.m_url)
 			}
-			this.initword()
+			
 		},
 
 		methods: {

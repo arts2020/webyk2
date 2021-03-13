@@ -36,6 +36,69 @@
 				</view>
 			</view>
 		</uni-popup>
+		<uni-popup type="bottom" ref="walletPop">
+			<view class="main-context">
+				<view class="top-content">
+					<uni-icons type="closeempty" size="30" @tap="closePop"></uni-icons>
+					<text>{{wallet_title_str7}}</text>
+					<text style="color: #4c72ef;font-size: 30rpx;" @tap="goManage">{{btnstring_manage}}</text>
+				</view>
+				<view class="main-content">
+					<scroll-view class="main-left" scroll-y="true">
+						<view class="nav-menu">
+							<view class="menu-item" :class="{'activeClass':active==-1}">
+								<image src="../../static/image/index/all.png" mode="" @tap="handleChecked(-1)"></image>
+							</view>
+							<view class="menu-item" :class="{'activeClass':active==item.chaintype}" v-for="(item,index) in m_mychains" :key="index"
+							 @tap="handleChecked(item.chaintype)">
+								<image :src="'../../static/image/chain/'+item.img" mode=""></image>
+							</view>
+						</view>
+					</scroll-view>
+					<scroll-view class="main-right" scroll-y="true">
+						<view class="current-c" v-if="active!=-1">
+							<view class="list-item" v-show="currentList.length" v-for="(item,index) in currentList" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'"
+							 @tap="checkedItem(item)">
+								<view class="wallet-name">
+									<text>{{item.name}}</text>
+									<text>...</text>
+								</view>
+								<view class="wallet-addr">{{item.showAddress}}</view>
+							</view>
+							<no-data v-show="!currentList.length"></no-data>
+						</view>
+						<view class="main-c" v-else>
+							<view class="top-title">
+								<text>{{wallet_title_str2}}</text>
+							</view>
+							<view class="menu-list">
+								<view class="list-item" v-for="(item,index) in identity_wallets" :key="index" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'"
+								 @tap="checkedItem(item)">
+									<view class="wallet-name">
+										<text>{{item.name}}</text>
+										<text>...</text>
+									</view>
+									<view class="wallet-addr">{{item.showAddress}}</view>
+								</view>
+							</view>
+							<view class="create-import" v-if="single_wallets.length">
+								<view class="top-title">{{btnstring_create}}/{{btnstring_import}}</view>
+								<view class="list-item" @tap="checkedItem(item)" :style="'background: url(../../static/image/chain/'+item.bgcImg+') no-repeat center;background-size: 100% 100%;'"
+								 v-for="(item,index) in single_wallets" :key="index">
+									<view class="wallet-name">
+										<text>{{item.name}}</text>
+										<text>...</text>
+									</view>
+									<view class="wallet-addr">{{item.showAddress}}</view>
+								</view>
+							</view>
+		
+						</view>
+					</scroll-view>
+				</view>
+		
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -63,21 +126,32 @@
 				// 所有数据
 				list: [
 				],
+				//钱包管理页类型一致钱包列表
+				currentList: [],
+				//身份钱包
+				identity_wallets: [],
+				// 普通钱包
+				single_wallets: [ ],
+				m_mychains: [],
+				//当前链的信息
+				m_chain:{},
+				//当前选中钱包的类型
+				active: -1,
 			}
 		},
 		onLoad() {
-			this.onRefersh();
-			
 			this.initWord()
+			
+				
 		},
 		onShow() {
 			uni.getSystemInfo({
 				success: (res) => {
 					this.scrollHeight = res.windowHeight - res.statusBarHeight - 54;
 				}
-			});
-			this.initWord();
-			
+			});	
+			this.initData()
+				this.onRefersh();
 		},
 		onPullDownRefresh() {
 			this.onRefersh();
@@ -89,28 +163,84 @@
 				this.btnstring_logout = this.getLocalStr("btnstring_logout");
 				this.dapp_tip_title = this.getLocalStr("dapp_tip_title");
 				this.dapp_tip_content = this.getLocalStr("dapp_tip_content");
-				
+				this.wallet_title_str7 = this.getLocalStr("wallet_title_str7");
+				this.btnstring_create = this.getLocalStr("btnstring_create");
+				this.btnstring_import = this.getLocalStr("btnstring_import");
+				this.wallet_index_asset = this.getLocalStr("wallet_index_asset");
+				this.btnstring_manage = this.getLocalStr("btnstring_manage");
+				this.wallet_index_title = this.getLocalStr("wallet_index_title");
+				this.wallet_title_str2 = this.getLocalStr("wallet_title_str2");
 			},
+			initData: function() {
+				this.m_mychains = []
+				this.chains = this.dal.Chain.getChainList();
+				//获取当前已经有的链
+				let mychains = this.dal.Chain.getMineChains();
+				mychains.forEach(el => {
+					if (typeof el != 'object') {
+						let item = this.chains.find(e => e.chaintype == el);
+						let temp = {
+							chaintype: el,
+							img: item.img || 'default.png'
+						}
+						this.m_mychains.push(temp)
+					}
+				})
+				// 身份钱包数据
+				let mineChains = this.dal.MainWallet.getMainWallets();
+				//添加logo图标和背景图
+				mineChains.forEach(el => {
+					let item = this.chains.find(e => e.chaintype == el.chaintype);
+					el.name = el.name?el.name:item.name;
+					el.img = item.img || 'default.png';
+					el.bgcImg = item.img.split('.')[0] + 'bg.png';
+					el.showAddress = el.address ? el.address.substring(0, 7) + '...' + el.address.substring(el.address.length - 7) :
+						"no address"
+				})
+				this.identity_wallets = mineChains;
+			
+				//普通钱包数据
+				let normalWallets = this.dal.NormalWallet.getNormalWallets();
+				//添加logo图标和背景图
+				normalWallets.forEach(el => {
+					let item = this.chains.find(e => e.chaintype == el.chaintype);
+					el.img = item.img || 'default.png';
+					el.bgcImg = item.img.split('.')[0] + 'bg.png';
+					el.showAddress = el.address ? el.address.substring(0, 7) + '...' + el.address.substring(el.address.length - 7) :
+						"no address"
+				})
+				this.single_wallets = normalWallets;
+			},
+			
 			onRefersh(){
+				
 				this.list = [];
 				this.currentDapp = {};
+								
 				//获取列表数据
 				uni.startPullDownRefresh()
 				this.dal.Dapp.onGetDapps()
 			},
 			goCheck(item) {
-				// 打开访问说明
+				
+				// 打开访问说明  
 				this.currentDapp = item;
-				this.$refs.popup.open();
+				this.$refs.walletPop.open();
+				
 			},
 			goSearch() {
 				this.$openPage({
 					name: "dapp-search"
 				})
 			},
+			closePop(){
+				this.active = -1;
+				this.$refs.walletPop.close();
+			},
 			cancell() {
 				// 取消访问
-				this.$refs.popup.close()
+				this.$refs.popup.close();
+				
 			},
 			confirm() {
 				if(this.currentDapp==-1){
@@ -133,6 +263,31 @@
 				//关闭弹框
 				this.$refs.popup.close()
 
+			},
+			checkedItem(item) {
+				this.dal.Chain.setCurrChainType(item.chaintype);
+				this.dal.WalletManage.setCurrWallet(item.chaintype, item.idx);
+					
+				this.$refs.walletPop.close();
+				this.$refs.popup.open();
+			},
+			handleChecked(chaintype) {
+				this.currentList = [];
+				this.active = chaintype;
+				if (chaintype != -1) {
+					// 选中主链中一种,加入活动列表,并从普通钱包列表中筛选该类型的普通钱包加入活动列表
+					let list1 = this.single_wallets.filter(el => el.chaintype == chaintype);
+					let list2 = this.identity_wallets.filter(el => el.chaintype == chaintype);
+			
+					this.currentList = [...list2, ...list1];
+				}
+			},
+			//去到管理钱包
+			goManage() {
+				this.$refs.walletPop.close()
+				this.$openPage({
+					name: "my-wallet-index"
+				})
 			},
 			onGetDappList(data){
 				uni.stopPullDownRefresh()
@@ -240,10 +395,125 @@
 				}
 			}
 		}
-
+        .main-context {
+        	width: 100%;
+        	height: 80vh;
+        	background-color: #FFFFFF;
+        	border-radius: 33rpx 33rpx 0 0;
+        	position: relative;
+        
+        	.top-content {
+        		width: 100%;
+        		padding: 0 30rpx;
+        		box-sizing: border-box;
+        		display: flex;
+        		align-items: center;
+        		justify-content: space-between;
+        		font-size: 32rpx;
+        		font-family: PingFang SC, PingFang SC-Bold;
+        		font-weight: 600;
+        		color: #121212;
+        		margin-bottom: 20rpx;
+        	}
+        
+        	.main-content {
+        		width: 100%;
+        		height: calc(80vh - 228rpx);
+        		display: flex;
+        		justify-content: space-between;
+        
+        		.main-left {
+        			width: 122rpx;
+        			height: 100%;
+        
+        			.nav-menu {
+        				width: 100%;
+        				height: 100%;
+        
+        				.menu-item {
+        					width: 100%;
+        					height: 71rpx;
+        					margin-bottom: 39rpx;
+        					position: relative;
+        					text-align: center;
+        
+        					&.activeClass::after {
+        						content: '';
+        						display: block;
+        						width: 4rpx;
+        						height: 40rpx;
+        						background-color: #3981F3;
+        						position: absolute;
+        						top: 50%;
+        						right: 0;
+        						transform: translateY(-50%);
+        					}
+        
+        					image {
+        						width: 71rpx;
+        						height: 71rpx;
+        						border-radius: 50%;
+        					}
+        				}
+        			}
+        		}
+        
+        		.main-right {
+        			width: 605rpx;
+        			height: 100%;
+        			padding: 0rpx 36rpx 0 0;
+        			box-sizing: border-box;
+        
+        			.top-title {
+        				margin-bottom: 22rpx;
+        				font-size: 30rpx;
+        				font-family: PingFang SC, PingFang SC-Regular;
+        				font-weight: 500;
+        				color: #121212;
+        			}
+        
+        			.list-item {
+        				width: 100%;
+        				height: 122rpx;
+        				margin-bottom: 27rpx;
+        				border-radius: 20rpx;
+        				padding: 17rpx 27rpx 0 32rpx;
+        				box-sizing: border-box;
+        				color: #FFFFFF;
+        
+        				.wallet-name {
+        					display: flex;
+        					align-items: center;
+        					justify-content: space-between;
+        					font-size: 36rpx;
+        					font-family: PingFang SC, PingFang SC-Semibold;
+        					font-weight: 600;
+        					line-height: 50rpx;
+        
+        					text:last-child {
+        						letter-spacing: 10rpx;
+        					}
+        				}
+        
+        				.wallet-addr {
+        					width: 80%;
+        					overflow: hidden;
+        					text-overflow: ellipsis;
+        					white-space: nowrap;
+        					font-size: 30rpx;
+        					font-family: PingFang SC, PingFang SC-Regular;
+        					font-weight: 400;
+        					line-height: 37rpx;
+        				}
+        			}
+        
+        		}
+        	}
+        
+        }
 		.tip-Pop{
 			width: 100%;
-			height: 532rpx;
+			height: 552rpx;
 			background: #ffffff;
 			border-radius: 33rpx 33rpx 0 0;
 			text-align: center;
@@ -266,10 +536,9 @@
 			    font-weight: 700;
 			    text-align: left;
 			    color: #121212;
-				margin-bottom: 97rpx;
+				margin-bottom: 40rpx;
 			}
 			.btns{
-				margin-top: 20rpx;
 				width: 100%;
 				display: flex;
 				align-items: center;
