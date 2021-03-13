@@ -257,7 +257,9 @@
 				//根据字段筛选分组为转入,转出,失败的
 				console.log("==this.currentAsset=", this.currentAsset)
 				if (this.currentAsset) {
-					if(this.currentAsset.asset.toLowerCase() == 'btc'){
+					let asset = this.currentAsset.category || this.currentAsset.asset
+					
+					if(asset && asset.toLowerCase() == 'btc'){
 						this.dal.Btc.getTransferList(this.currentAsset.address);
 					}else{
 						if (this.currentAsset.contract) {
