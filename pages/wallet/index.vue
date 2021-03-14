@@ -233,6 +233,7 @@
 				}
 
 				console.log('=======initData==========')
+				this.m_mychains = []
 				this.chains = this.dal.Chain.getChainList();
 				//获取当前已经有的链
 				let mychains = this.dal.Chain.getMineChains();
@@ -337,6 +338,7 @@
 			},
 
 			closePop() {
+				this.active = -1;
 				this.$refs.walletPop.close();
 			},
 			goAddAsset() {

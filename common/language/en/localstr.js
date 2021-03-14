@@ -86,6 +86,7 @@ const localstr = {
 		title_str31: "一般",
 		title_str32: "快速",
 		title_str33: "请输入正确的地址",
+		title_str34:"Select Language",
 		
 		err_tip_str1:"Transfer Address",
 		err_tip_str2:"Transfer Amount",

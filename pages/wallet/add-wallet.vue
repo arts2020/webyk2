@@ -25,7 +25,7 @@
 				</view>
 				<view class="menu-list">
 					<view class="menu-title">{{wallet_index_nodata_str4}}</view>
-					<view @tap="goRecover(index)" class="list-item" v-for="(item,index) in menuList" :key="index" @click="handleChecked(item)">
+					<view @tap="goRecover(index)" class="list-item" v-for="(item,index) in menuList" :key="index">
 						<image class="icon" :src="item.logo" mode=""></image>
 						<view class="coin-name">
 							<view class="short-N">{{item.title}}</view>
@@ -93,6 +93,13 @@
 				this.util.UiUtils.switchBackPage();
 			},
 			handleChecked(item) {
+				if(item.name.toUpperCase()=='EOS'){
+					uni.showToast({
+						title:"暂未开放，敬请期待",
+						icon:"none"
+					})
+					return;
+				}
 				this.activeCoin = item;
 				this.$refs.popupS.open();
 			},

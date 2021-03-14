@@ -160,13 +160,14 @@ const Ethers = {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
 		let gcout = await EthUtils.ethTransactionCount(this.fromAddress, this.m_reqUrl)
 
-		let txid = await EthUtils.ethTransferAsync(this.m_privateKey, this.fromAddress, to, amount, pedings, this.m_reqUrl,
+		let txid = await EthUtils.ethTransferAsync(this.m_privateKey, this.fromAddress, to, amount, pedings,
+			this.m_reqUrl,
 			gas);
 		if (txid && txid.length == 66) {
 			this.onBalance();
 			console.log("=====Ethers===sendTransaction===1=", txid);
 			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
-			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, "",remark)
+			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, "", remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			})
@@ -193,7 +194,8 @@ const Ethers = {
 		if (txid && txid.length == 66) {
 			this.onTokenBalance(contractAddress);
 			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
-			vue.dal.Common.onTransfer("erc_" + asset, this.fromAddress, to, amount, txid, contractAddress,remark)
+			vue.dal.Common.onTransfer("erc_" + asset, this.fromAddress, to, amount, txid, contractAddress,
+				remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			});
@@ -224,7 +226,8 @@ const Ethers = {
 	},
 
 	async onTokenBalance(contractAddress) {
-		await EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((balance) => {
+		await EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((
+		balance) => {
 			console.log("===11==contractAddress===", contractAddress);
 			console.log("=====contractAddress===balance===", balance);
 
@@ -235,7 +238,154 @@ const Ethers = {
 			});
 		})
 	},
+	async onApprove(contractAddress, fsqcontractAddress, amount) {
+		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
+		let gcout = await EthUtils.ethTransactionCount(this.fromAddress, this.m_reqUrl)
+		let txid = await OtcpUtils.YoukcApproveAsync(this.m_privateKey, contractAddress, fsqcontractAddress,
+			amount, 8,
+			gcout,
+			this.m_reqUrl)
+		console.log('===txid==', txid)
+		if (txid && txid.length == 66) {
+			let data = {
+				hash: txid,
+				from: this.m_fsqContractAddress,
+				amount: amount,
+				type: 2, //转帐
+			}
+			// this.addRecordList(data);
+			this.onBalance();
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.YouKe.evtApproveResult, {
+				tx: txid
+			});
+			return true;
+		} else {
+			vue.util.UiUtils.showToast("授权申请失败，您的余额不变");
+			vue.util.UiUtils.hideLoading();
+			return false;
+		}
 
+	},
+	
+	async YoukcisUserExists() {
+		let address = vue.dal.Wallter.getAddress();
+	
+		let ret = await OtcpUtils.YoukcisUserExists(this.m_contractAddress, address, this.m_reqUrl)
+	
+		vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtUserExists, {
+			data: ret
+		});
+	
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	async YoukcRegistrationExtAsync(to) {
+		vue.util.UiUtils.showLoading("开启超级联盟...");
+		let privateKey = vue.dal.Wallter.getPrivateKey();
+		let address = vue.dal.Wallter.getAddress();
+		let gcout = await OtcpUtils.ethTransactionCount(address, this.m_reqUrl);
+	
+		let txid = await OtcpUtils.YoukcRegistrationExtAsync(privateKey, this.m_contractAddress, to, 8, gcout,
+			this.m_reqUrl)
+		console.log('==YoukcRegistrationExtAsync=txid==', txid)
+		if (txid && txid.length == 66) {
+			let data = {
+				tx: txid,
+				matrix: 1,
+				level: 1,
+				amount: 100,
+				nonce: gcout,
+				upaddress: to
+			}
+			vue.dal.Order.addOrderInfo(data)
+			let data2 = {
+				tx: txid,
+				matrix: 2,
+				level: 1,
+				amount: 100,
+				nonce: gcout,
+				upaddress: to
+			}
+			vue.dal.Order.addOrderInfo(data2)
+			// vue.util.UiUtils.showToast("开启申请提交成功");
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtRegistrationExt);
+		} else {
+			vue.util.UiUtils.showToast("开启申请提交失败，您的余额不变");
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	async YoukcBuyNewLevel(matrix, level, amount, upaddress) {
+		// let isapprove = await vue.dal.YouKe.YoukcApproveAsync(amount);
+		// console.log("==isapprove==", isapprove, "===amount=", amount)
+		// if (!isapprove) {
+		// 	vue.util.UiUtils.hideLoading();
+		// 	vue.util.UiUtils.showToast("授权失败，您的余额不变");
+		// 	return;
+		// }
+	
+		// m_deployer/upaddress
+		console.log("=====1======")
+		vue.util.UiUtils.showLoading("开启请求中...");
+		console.log("=====2======")
+		let privateKey = vue.dal.Wallter.getPrivateKey();
+		let address = vue.dal.Wallter.getAddress();
+		let gcout = await OtcpUtils.ethTransactionCount(address, this.m_reqUrl)
+	
+		let txid = await OtcpUtils.YoukcBuyNewLevel(privateKey, this.m_contractAddress, matrix, level, 8, gcout,
+			this.m_reqUrl)
+		if (txid && txid.length == 66) {
+			let data = {
+				tx: txid,
+				matrix: matrix,
+				level: level,
+				amount: amount,
+				nonce: gcout,
+				upaddress: upaddress
+			}
+			vue.dal.Order.addOrderInfo(data)
+			// this.addRecordList(data, 3);
+			// this.onBalance();
+			vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtBuyNewLevel);
+		} else {
+			vue.util.UiUtils.hideLoading("开启失败，您的余额不变");
+		}
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	async YoukcFsgGetBalance() {
+		let address = vue.dal.Wallter.getAddress();
+	
+		let ret = await OtcpUtils.YoukcFsgGetBalance(this.m_contractAddress, address, this.m_reqUrl)
+		vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtFsgGetBalance, {
+			data: ret
+		});
+	
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	//获得 X3 收益
+	async YoukcFsgGetX3Profit(level) {
+		let address = vue.dal.Wallter.getAddress();
+		let ret = await OtcpUtils.YoukcFsgGetX3Profit(this.m_contractAddress, address, level, this.m_reqUrl)
+		vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtFsgGetX3Profit, {
+			data: ret
+		});
+	
+		vue.util.UiUtils.hideLoading();
+	},
+	
+	//获得 X6 收益
+	async YoukcFsgGetX6Profit(level) {
+		let address = vue.dal.Wallter.getAddress();
+		let ret = await OtcpUtils.YoukcFsgGetX6Profit(this.m_contractAddress, address, level, this.m_reqUrl)
+		vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtFsgGetX6Profit, {
+			data: ret
+		});
+	
+		vue.util.UiUtils.hideLoading();
+	},
+	
 	async isContract(address) {
 		console.log("==isContract=address==", address)
 		try {

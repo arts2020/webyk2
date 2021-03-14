@@ -260,6 +260,17 @@
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
 							+"',params" + data.params + ",chainId:'1',err:null});"
 						);
+					} else if (data.method == "eth_approve"){
+						this.m_currentWebview.evalJS(
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							+"',params" + data.params + ",chainId:'1',err:null});"
+						);
+					} else if (data.method == "eth_getBalance"){
+						let balane = this.dal.WalletManage.getBalance(null)
+						this.m_currentWebview.evalJS(
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							+"',params" + balane + ",chainId:'1',err:null});"
+						);
 					}
 				}
 			},
