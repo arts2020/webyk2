@@ -73,6 +73,7 @@
 				this.wallet_title_str9 = this.getLocalStr("wallet_title_str9");
 				this.wallet_title_str10 = this.getLocalStr("wallet_title_str10");
 				this.wallet_title_str11 = this.getLocalStr("wallet_title_str11");
+				this.tip_not_open = this.getLocalStr("tip_not_open");
 				
 				this.menuList[0].title = this.wallet_title_str8;
 				this.menuList[0].subTitle = this.wallet_title_str9;
@@ -95,7 +96,7 @@
 			handleChecked(item) {
 				if(item.name.toUpperCase()=='EOS'){
 					uni.showToast({
-						title:"暂未开放，敬请期待",
+						title: this.tip_not_open,//"暂未开放，敬请期待",
 						icon:"none"
 					})
 					return;

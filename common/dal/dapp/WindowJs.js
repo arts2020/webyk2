@@ -419,8 +419,7 @@ const WindowJs = {
 		};\
 		window.addEventListener('load', async () => {\
 			console.log('===addEventListener==onloaded=');\
-		});\
-		alert('=============')"
+		});"
 		// document.body.appendChild(script);\
 		// window.addEventListener('load', async () => {\
 		// console.log('===addEventListener==2=');\

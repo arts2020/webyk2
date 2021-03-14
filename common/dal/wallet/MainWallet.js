@@ -74,10 +74,23 @@ const MainWallet = {
 		let items = [];
 		for (let key in this.m_mainWallet) {
 			let item = this.m_mainWallet[key];
+			console.log("=====item==",item)
 			items.push(item);
 		}
 		return items;
 	},
+	
+	getMainWalletsByChaintype: function(chaintype) {
+		let items = [];
+		for (let key in this.m_mainWallet) {
+			let item = this.m_mainWallet[key];
+			if (item.chaintype == chaintype) {
+				items.push(item);
+			}
+		}
+		return items;
+	},
+
 
 	//获得单个身份钱包信息 
 	getMainWalletByType: function(chaintype) {
@@ -88,9 +101,9 @@ const MainWallet = {
 		}
 		return null;
 	},
-	setMainWalletName:function(chaintype,name){
+	setMainWalletName: function(chaintype, name) {
 		let wallet = this.getMainWalletByType(chaintype);
-		if(wallet){
+		if (wallet) {
 			wallet.name = name;
 		}
 	},

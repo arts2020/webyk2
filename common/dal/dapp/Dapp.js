@@ -12,6 +12,10 @@ const Dapp = {
 
 	init: function() {
 		uni.cclog("======Dapp init========web3==")
+		let items = vue.util.StringUtils.getUserDefaults("dapp_select_wallets_key");
+		if(items){
+			this.dappRegists = JSON.parse(items);
+		}
 		this.onAddListener();
 		return true;
 	},
@@ -47,14 +51,16 @@ const Dapp = {
 		vue.dal.Net.request(vue.entities.RequestCode.GetDappList, params);
 	},
 	handleGetDappList(packetIn) {
+		console.log("=====handleGetDappList===packetIn=",packetIn.pktin.data)
 		if (packetIn.pktin.code == 200) {
-			this.m_Dapps = packetIn.pktin.data;
-			this.hot_dapp = packetIn.pktin.data.filter(el => el.is_hot);
+			this.m_Dapps = packetIn.pktin.data.filter(el => el.ishow);
+			this.hot_dapp = this.m_Dapps.filter(el => el.is_hot);
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetDappList, {
-				data: packetIn.pktin.data
+				data: this.m_Dapps
 			});
 		} else {
-			vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			// vue.util.UiUtils.showToast(packetIn.pktin.msg);
+			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
 		vue.util.UiUtils.hideLoading();
 	},
@@ -69,20 +75,28 @@ const Dapp = {
 		return web3;
 	},
 	
-	addDappRegister:function(key,address){
-		let titem = this.dappRegists.filter(el=>el.key.includes(key))
-		if(titem){
+	addAllowDapp:function(key,address){
+		let it = this.getAllowDapp(key,address);
+		if(!it){
 			let item = {
-				key:url,
+				key:key,
 				address:address
 			}
-			this.dappRegists.push(item);
+			this.dappRegists.push(item)
 		}
+		vue.util.StringUtils.setUserDefaults("dapp_select_wallets_key", JSON.stringify(this.dappRegists));
 	},
 	
-	getDappRegister:function(key,address){
-		let titem = this.dappRegists.filter(el=>el.key.includes(key))
-		return titem;
+	getAllowDapp:function(key,address){
+		console.log('==this.dappRegists==',JSON.stringify(this.dappRegists))
+		let item = null;
+		for(let i = 0; i < this.dappRegists.length ;i++){
+			let it = this.dappRegists[i]
+			if(it.key == key && it.address == address){
+				item = it;
+			}
+		}
+		return item;
 	}
 };
 

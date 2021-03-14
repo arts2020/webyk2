@@ -103,6 +103,21 @@ const NormalWallet = {
 		}
 		return items;
 	},
+	
+	//获得所有普通钱包
+	getNormalWalletsByChaintype: function(chaintype) {
+		let items = [];
+		for (let key in this.m_normalWallet) {
+			let wallets = this.m_normalWallet[key];
+			for (let i = 0; i < wallets.length; i++) {
+				let walletinfo = wallets[i]
+				if(walletinfo.chaintype == chaintype){
+					items.push(walletinfo);
+				}
+			}
+		}
+		return items;
+	},
 
 	//获得所有普通钱包
 	getNormalWalletsByType: function(chaintype) {

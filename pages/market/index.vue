@@ -27,14 +27,15 @@
 		},
 		onReady() {
 			this.topHeight = uni.getSystemInfoSync().statusBarHeight + 44;
-			this.webChild= this.$mp.page.$getAppWebview().children()[0];
-			if(this.webChild){
-				this.webChild.setStyle({
-					top: this.topHeight,
-					height:this.scrollHeight
-				})
-			}
-			
+			setTimeout(function(){
+				this.webChild= this.$mp.page.$getAppWebview().children()[0];
+				if(this.webChild){
+					this.webChild.setStyle({
+						top: this.topHeight,
+						height:this.scrollHeight
+					})
+				}
+			},500)
 		},
 		onLoad() {
 			this.initWord()

@@ -140,7 +140,7 @@
 					var centerInfo = this.dal.GroupChat.getGroupSetInfo();
 					if (centerInfo && !centerInfo.m_bClubCenterOpen) {
 						// 互动中心暂未开放
-						this.util.UiUtils.showToast(uni.getLocalStr("interact_not_open"));
+						this.util.UiUtils.showToast(uni.getLocalStr("tip_not_open"));
 						return;
 					}
 				}

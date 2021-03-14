@@ -39,7 +39,7 @@ const Ethers = {
 
 	//创建合约钱包
 	async createContract(address) {
-		let iscontract = this.isContract(address);
+		let iscontract = true;//this.isContract(address);
 		if (iscontract) {
 			return await vue.dal.ContractWallet.addContractWallet(vue.entities.Metadata.ChainType.ETH, address)
 		}
@@ -389,7 +389,8 @@ const Ethers = {
 	async isContract(address) {
 		console.log("==isContract=address==", address)
 		try {
-			let code = await this.m_web3.eth.getCode(address)
+			let code = await this.m_web3.eth.getCode(address.toSting())
+			console.log("==isContract=code==", code)
 			if (code == '0x') {
 				console.log('普通账户')
 				return false;
@@ -398,7 +399,7 @@ const Ethers = {
 				return true;
 			}
 		} catch (ex) {
-			console.log("===请输入有效的地址===")
+			console.log("===请输入有效的地址===",ex)
 			// vue.util.UiUtils.showToast("请输入有效的地址");
 			return false;
 		}
