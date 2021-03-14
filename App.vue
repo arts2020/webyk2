@@ -15,7 +15,8 @@
 
 			//数据层数据模型初始化 
 			this.dal.init();
-			
+			//初始化设置语言
+			this.dal.Setting.setSysLanguage(this.entities.Metadata.GameLanguage.CN);
 			// this.dal.Account.onAutoLogin();
 			this.dal.onLoginSuccess();
 			// this.dal.Net.clear();

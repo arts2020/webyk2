@@ -7,16 +7,11 @@
 
 			<!-- <uni-icons v-if="active==1" type="search" class="search-icon" size="20" color="#000000" @tap="goAdd"></uni-icons> -->
 		</view>
-		<scroll-view scroll-y="true" :style="{ height: scrollHeight + 'px' }">			
-				<!-- 行情  -->
-				<Quotation class="quotation-content" v-if="active==0"/>
-						
-				<!-- 交易 -->
-				<web-view ref="scope" v-else  :webview-styles="webviewStyles" src="http://119.8.55.19:3000"></web-view>
-	
-		</scroll-view>
-
-
+		<!-- 行情  -->
+		<Quotation class="quotation-content" v-if="active==0"/>
+				
+		<!-- 交易 -->
+		<web-view ref="scope" v-else  :webview-styles="webviewStyles" src="http://119.8.55.19:3000"></web-view>
 	</view>
 </template>
 
@@ -36,6 +31,7 @@
 			if(this.webChild){
 				this.webChild.setStyle({
 					top: this.topHeight,
+					height:this.scrollHeight
 				})
 			}
 			
@@ -64,7 +60,7 @@
 				webviewStyles: {
 					progress: {
 						color: '#FF6666',
-					}
+					},
 				},
 				active: 0,
 				isRefersh: "",
@@ -114,15 +110,13 @@
 			},
 			updateMenu(val) {
 				this.active = val;
-				console.log('99999999999999999999999999999999',val)
 				if(val==0){return;}
-				console.log('123456789')
 				this.$nextTick(()=>{
 					this.webChild= this.$mp.page.$getAppWebview().children()[0];
-					console.log('qqqqqqqqqqqqqqqq',this.webChild )
 					if(this.webChild){
 						this.webChild.setStyle({
-							top: this.topHeight
+							top: this.topHeight,
+							height:this.scrollHeight
 						})
 					}				
 				})				

@@ -8,14 +8,14 @@
 			</view>
 		</view>
 		<scroll-view scroll-y="true" class="list-content" :style="'height:'+scrollHeight+'px'">
-			<view class="list-item"@tap="goCheck(-1)">
+<!-- 			<view class="list-item"@tap="goCheck(-1)">
 				<image class="icon" src="../../static/image/icons/1024x1024.png" mode=""></image>
 				<view class="dapp-info">
 					<view class="title">YK联盟</view>
 					<view class="descrip">YK联盟</view>
 				</view>
 				<image class="right-arr" src="../../static/image/index/arrow-left.png" mode=""></image>
-			</view>
+			</view> -->
 			<view class="list-item" v-for="(item,index) in list" :key="index" @tap="goCheck(item)">
 				<image class="icon" :src="item.icon" mode=""></image>
 				<view class="dapp-info">
