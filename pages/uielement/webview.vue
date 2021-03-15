@@ -1,14 +1,15 @@
 <template>
 	<view>
-		<uni-nav-bar :title="m_title" :fixed="true" :status-bar="true" :background-color="bgcolor">
+		<uni-nav-bar :title="m_title" :fixed="true" :status-bar="true" :background-color="bgcolor" left-icon="back" @clickLeft="showPasdPop">			
 			<view class="right_btn" slot="right">
 				<view class="box" :style="'background-color: '+bgcolor">
 					<image src="../../static/image/index/shenglve.png" mode="" @tap="goChoice"></image>
 					<view class="line"></view>
-					<image src="../../static/image/index/x.png" mode="" @click="goBack"></image>
+					<image src="../../static/image/index/x.png" mode="" @tap="goBack"></image>
 				</view>
 			</view>
 		</uni-nav-bar>
+		 <cover-view v-if="show" class="controls-title">简单的自简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls定义 controls</cover-view>
 		<web-view ref="scope" :webview-styles="webviewStyles" :src="m_url2" @message="handleMessage"
 			:style="'top:'+topHeight+'px'"></web-view>
 		<uni-popup type="bottom" ref="popup">
@@ -32,7 +33,7 @@
 		</uni-popup>
 		<uni-popup ref="msgPop" type="message">
 			<uni-popup-message type="error" :message="copy_success" :duration="2000"></uni-popup-message>
-		</uni-popup>
+		</uni-popup> 
 	</view>
 	</view>
 </template>
@@ -44,7 +45,8 @@
 	export default {
 		components: {
 			uniPopup,
-			uniPopupMessage
+			uniPopupMessage,
+			
 		},
 		onReady() {
 			this.topHeight = uni.getSystemInfoSync().statusBarHeight + 44;
@@ -91,6 +93,10 @@
 		},
 		data() {
 			return {
+				title: 'Hello',
+				show: false,
+				dialogContent:'are you ok?',
+				password:"",
 				topHeight: 0,
 				m_url: "",
 				m_url2: "",
@@ -104,6 +110,7 @@
 			}
 		},
 		onLoad(option) {
+
 			var data = JSON.parse(option.query);
 			this.m_title = data.title;
 			this.m_url = data.url;
@@ -118,20 +125,45 @@
 			// #ifdef APP-PLUS
 			plus.webview.prefetchURL(this.m_url)
 			// #endif
+			
+			
+			
+			// 验证密码是否正确
+			uni.$on('popup-page', (data) => {
+				console.log("-------------",data.password);
+				//验证密码是否正确  密码来自原生子窗体
+			})
 			this.initword()
 		},
 
 		methods: {
+			showPasdPop(){
+				//显示密码框
+				const subNvue=uni.getSubNVueById('pasd-popup'); // 获取subNvue实例
+				subNvue.show(); // 显示
+			},
 			initword(){
 				this.refersh = this.getLocalStr("refersh")
 				this.copy_link = this.getLocalStr("copy_link")
 				this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
 				this.copy_success = this.getLocalStr("copy_success")
+				this.pasd_title = this.getLocalStr("pasd_title")
+				this.pasd_err_blank = this.getLocalStr("pasd_err_blank")
+				this.pasd_err_tip = this.getLocalStr("pasd_err_tip")
+				this.btnstring_confirm = this.getLocalStr("btnstring_confirm")
+				this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
 			},
 			goBack() {
 				uni.navigateBack({
 					delta: 1
 				})
+			},
+			cancell(){
+				this.password = "";
+				this.$refs.pasdPop.close()
+			},
+			confirmOk(){
+				
 			},
 			goChoice() {
 				// #ifdef H5
