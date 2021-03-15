@@ -1,12 +1,18 @@
 <template>
 	<view class="market-index">
-		<bar ref="bar"></bar>
+		<!-- <bar ref="bar"></bar>
 		<view class="nav-menu">
 			<view :class="active==0?'menu active-index':'menu'" @tap="updateMenu(0)">{{mark_index_title_2}}</view>
 			<view :class="active==1?'menu active-index':'menu'" @tap="updateMenu(1)">{{mark_index_title_1}}</view>
 
-			<!-- <uni-icons v-if="active==1" type="search" class="search-icon" size="20" color="#000000" @tap="goAdd"></uni-icons> -->
-		</view>
+		</view> -->
+		<uni-nav-bar :statusBar="true" :fixed="true" background-color='#FAFBFF'>
+			<view class="nav-menu" slot="default">
+				<view :class="active==0?'menu active-index':'menu'" @tap="updateMenu(0)">{{mark_index_title_2}}</view>
+				<view :class="active==1?'menu active-index':'menu'" @tap="updateMenu(1)">{{mark_index_title_1}}</view>
+			
+			</view>
+		</uni-nav-bar>
 		<!-- 行情  -->
 		<Quotation class="quotation-content" v-if="active==0"/>
 				
@@ -27,7 +33,7 @@
 		},
 		onReady() {
 			this.topHeight = uni.getSystemInfoSync().statusBarHeight + 44;
-			setTimeout(function(){
+			setTimeout(()=>{
 				this.webChild= this.$mp.page.$getAppWebview().children()[0];
 				if(this.webChild){
 					this.webChild.setStyle({
@@ -111,7 +117,9 @@
 			},
 			updateMenu(val) {
 				this.active = val;
-				if(val==0){return;}
+				console.log("this.active",this.active)
+				if(this.active==0){return;}
+				console.log("this.active",this.active)  
 				this.$nextTick(()=>{
 					this.webChild= this.$mp.page.$getAppWebview().children()[0];
 					if(this.webChild){
@@ -121,12 +129,6 @@
 						})
 					}				
 				})				
-			},
-			pickerChangeLeft(e) {
-				this.coin_L = e.target.value
-			},
-			pickerChangeRight(e) {
-				this.coin_R = e.target.value
 			},
 		}
 	}
