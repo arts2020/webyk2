@@ -173,7 +173,7 @@ const localstr = {
 		dapp_tip_title:"Visit instructions",
 		dapp_tip_content:"You are visiting a third-party DApp. You are subject to third-party DApp's User Agreement and Privacy Policy when entering the third-party DApp, which is directly and separately liable to you by the third-party.",
 		dapp_search_placeholder:"Enter token name",
-		dapp_select_wallet: "您暂无钱包...",
+		dapp_select_wallet: "请添加ETH钱包...",
 		
 		//市场下的
 		mark_index_title_1:"Trade",

@@ -237,8 +237,12 @@
 					this.util.UiUtils.showToast(this.getLocalStr("tip_not_open"));
 					return;
 				}
-						console.log("=item==this.category=", this.currentDapp)
+				console.log("=item==this.category=", this.currentDapp)
 				if (this.currentDapp.category.toLowerCase() == 'eth') {
+					if(this.currentList.length <= 0 ){
+						this.util.UiUtils.showToast(this.dapp_select_wallet)
+						return;
+					}
 					let wallet = this.dal.WalletManage.getCurrWallet();
 					if(wallet){
 						let item = this.dal.Dapp.getAllowDapp(this.currentDapp.id,wallet.address)
@@ -251,7 +255,7 @@
 						}
 					}else{
 						this.$refs.walletPop.open();
-						// this.util.UiUtils.showToast(this.dapp_select_wallet)
+						
 					}
 				} else {
 					return;

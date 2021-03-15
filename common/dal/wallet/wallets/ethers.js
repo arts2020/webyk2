@@ -39,7 +39,7 @@ const Ethers = {
 
 	//创建合约钱包
 	async createContract(address) {
-		let iscontract = true;//this.isContract(address);
+		let iscontract = true; //this.isContract(address);
 		if (iscontract) {
 			return await vue.dal.ContractWallet.addContractWallet(vue.entities.Metadata.ChainType.ETH, address)
 		}
@@ -169,7 +169,8 @@ const Ethers = {
 			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
 			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, "", remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
-				result: true
+				result: true,
+				txid: txid
 			})
 		} else {
 			console.log("=====Ethers===sendTransaction==2==", txid);
@@ -227,7 +228,7 @@ const Ethers = {
 
 	async onTokenBalance(contractAddress) {
 		await EthUtils.getTokenBalanceAsync(contractAddress, this.fromAddress, this.m_reqUrl).then((
-		balance) => {
+			balance) => {
 			console.log("===11==contractAddress===", contractAddress);
 			console.log("=====contractAddress===balance===", balance);
 
@@ -266,25 +267,25 @@ const Ethers = {
 		}
 
 	},
-	
+
 	async YoukcisUserExists() {
 		let address = vue.dal.Wallter.getAddress();
-	
+
 		let ret = await OtcpUtils.YoukcisUserExists(this.m_contractAddress, address, this.m_reqUrl)
-	
+
 		vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtUserExists, {
 			data: ret
 		});
-	
+
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	async YoukcRegistrationExtAsync(to) {
 		vue.util.UiUtils.showLoading("开启超级联盟...");
 		let privateKey = vue.dal.Wallter.getPrivateKey();
 		let address = vue.dal.Wallter.getAddress();
 		let gcout = await OtcpUtils.ethTransactionCount(address, this.m_reqUrl);
-	
+
 		let txid = await OtcpUtils.YoukcRegistrationExtAsync(privateKey, this.m_contractAddress, to, 8, gcout,
 			this.m_reqUrl)
 		console.log('==YoukcRegistrationExtAsync=txid==', txid)
@@ -314,7 +315,7 @@ const Ethers = {
 		}
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	async YoukcBuyNewLevel(matrix, level, amount, upaddress) {
 		// let isapprove = await vue.dal.YouKe.YoukcApproveAsync(amount);
 		// console.log("==isapprove==", isapprove, "===amount=", amount)
@@ -323,7 +324,7 @@ const Ethers = {
 		// 	vue.util.UiUtils.showToast("授权失败，您的余额不变");
 		// 	return;
 		// }
-	
+
 		// m_deployer/upaddress
 		console.log("=====1======")
 		vue.util.UiUtils.showLoading("开启请求中...");
@@ -331,7 +332,7 @@ const Ethers = {
 		let privateKey = vue.dal.Wallter.getPrivateKey();
 		let address = vue.dal.Wallter.getAddress();
 		let gcout = await OtcpUtils.ethTransactionCount(address, this.m_reqUrl)
-	
+
 		let txid = await OtcpUtils.YoukcBuyNewLevel(privateKey, this.m_contractAddress, matrix, level, 8, gcout,
 			this.m_reqUrl)
 		if (txid && txid.length == 66) {
@@ -352,18 +353,18 @@ const Ethers = {
 		}
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	async YoukcFsgGetBalance() {
 		let address = vue.dal.Wallter.getAddress();
-	
+
 		let ret = await OtcpUtils.YoukcFsgGetBalance(this.m_contractAddress, address, this.m_reqUrl)
 		vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtFsgGetBalance, {
 			data: ret
 		});
-	
+
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	//获得 X3 收益
 	async YoukcFsgGetX3Profit(level) {
 		let address = vue.dal.Wallter.getAddress();
@@ -371,10 +372,10 @@ const Ethers = {
 		vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtFsgGetX3Profit, {
 			data: ret
 		});
-	
+
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	//获得 X6 收益
 	async YoukcFsgGetX6Profit(level) {
 		let address = vue.dal.Wallter.getAddress();
@@ -382,10 +383,10 @@ const Ethers = {
 		vue.util.EventUtils.dispatchEventCustom(vue.dal.ForSageForYKC.evtFsgGetX6Profit, {
 			data: ret
 		});
-	
+
 		vue.util.UiUtils.hideLoading();
 	},
-	
+
 	async isContract(address) {
 		console.log("==isContract=address==", address)
 		try {
@@ -399,7 +400,7 @@ const Ethers = {
 				return true;
 			}
 		} catch (ex) {
-			console.log("===请输入有效的地址===",ex)
+			console.log("===请输入有效的地址===", ex)
 			// vue.util.UiUtils.showToast("请输入有效的地址");
 			return false;
 		}

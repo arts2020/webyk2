@@ -216,23 +216,12 @@ const Btc = {
 	},
 	
 	async getTransferList(address){
-		let ret = await BtcUtils.getRecords('msfAPhJqdtfx9WA7rqW313CYxP5b73NYCF');
+		let ret = await BtcUtils.getRecords(address);
 		console.log('===getTransferList===ret=',ret);
 		if(ret){
 			for(let i = 0 ; i < ret.txrefs.length ;i++){
-				// if (item.from_address.toLowerCase() == address.toLowerCase()) {
-				// 	if (type == 0 || type == 1) {
-				// 		isselect = true
-				// 	}
-				// }
-				// if (item.to_address.toLowerCase() == address.toLowerCase()) {
-				// 	if (type == 2) {
-				// 		isselect = true
-				// 	}
-				// }
 				let refs = ret.txrefs[i];
-				
-				await BtcUtils.gettransferHash(refs.tx_hash);
+				// await BtcUtils.gettransferHash(refs.tx_hash);
 			}
 		}
 		return ret;

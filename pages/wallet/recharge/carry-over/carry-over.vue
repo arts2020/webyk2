@@ -31,6 +31,12 @@
 			</view>
 			<image src="../../../../static/image/mine/arrow-left.svg" mode=""></image>
 		</view>
+		<view class="fee" v-if="m_chain.name== 'FIL'">
+			<text>{{seeting_fee_str1}}</text>
+			<view class="fee-info">
+				<view class="coin">{{fee_fil}} FIL</view>
+			</view>
+		</view>
 		<view class="confirm-ok" @click="btnConfirm">{{btnstring_carry}}</view>
 		<uni-popup type="center" ref="pasdPop" class="pasdTip">
 			<view class="main-content">
@@ -61,6 +67,7 @@
 				rmb: "0.124",
 				address: "",
 				password: "",
+				fee_fil:0.01,
 				bak: "",
 				//当前资产信息
 				m_asset: {
@@ -193,7 +200,6 @@
 			//点击转账
 			btnConfirm() {
 				// 对地址数量和矿工费进行校验并打开风险提示框
-
 				// 	if (!this.util.UiUtils.getIsCanTrans()) {
 				// 		return;
 				// 	}
@@ -214,12 +220,18 @@
 					this.util.UiUtils.showToast(this.err_tip_str3)
 					return;
 				}
-				let sum = count * 1 + this.m_feeInfo.money / 100000 * 1;
+				let amount = 0;
+				if(this.m_chain.name == "FIL"){
+					amount = this.fee_fil;
+				}else{
+					amount = this.m_feeInfo.money / 100000
+				}
+				let sum = count * 1 + amount;
 				if (this.m_balane < sum) {
 					this.util.UiUtils.showToast(this.err_tip_str4)
 					return;
 				}
-
+				
 				let walletInfo = this.dal.WalletManage.getCurrWallet();
 				if (this.address.toLowerCase() == walletInfo.address.toLowerCase()) {
 					this.util.UiUtils.showToast(this.err_tip_str5)
@@ -261,7 +273,11 @@
 				let amount = this.count.replace(new RegExp(/( )/g), "");
 				let gas = 0;
 				if(this.m_chain.isgas){
-					gas = this.m_feeInfo.gas;
+					gas  = this.m_feeInfo.gas;
+				}else{
+					if(this.m_chain.name == "FIL"){
+						gas = this.fee_fil;
+					}
 				}
 				let remark = this.bak.replace(new RegExp(/( )/g), "");;
 				console.log("=this.m_feeInfo==",this.m_feeInfo)

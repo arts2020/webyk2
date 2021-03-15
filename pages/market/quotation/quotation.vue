@@ -145,6 +145,7 @@
 				if(!this.triggered){this.triggered = true;}
 				this.dal.Common.onGetDefi();
 				this.dal.Common.onGetAssetPrice();
+				this.util.UiUtils.showLoading("loading...");
 			},
 			scrollHandle(e){
 				if (e.detail.scrollTop === 0) {

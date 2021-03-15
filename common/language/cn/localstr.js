@@ -184,7 +184,7 @@ const localstr = {
 		dapp_tip_title: "访问说明",
 		dapp_tip_content: "你正在访问第三方DApp，你在第三方DApp上的使用行为将适用于第三方DApp的《用户协议》和《隐私政策,有第三方DApp直接想你承担责任。",
 		dapp_search_placeholder: "请输入token名称",
-		dapp_select_wallet: "您暂无钱包...",
+		dapp_select_wallet: "请添加ETH钱包...",
 		
 		//市场下的
 		mark_index_title_1: "交易",

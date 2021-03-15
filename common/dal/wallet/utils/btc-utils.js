@@ -50,9 +50,6 @@ const BtcUtils = {
 		console.log("===========amount=" + amount);
 		amount = amount * Math.pow(10, 8);
 		console.log("=====2======amount=" + amount);
-		// var keys = bitcoin.ECPair.fromPrivateKey(privateKey);
-
-		console.log("=====2======newTx=");
 		var newTx = {
 			inputs: [{
 				addresses: [fromAddress]

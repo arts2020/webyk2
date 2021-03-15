@@ -149,6 +149,7 @@ const Lotus = {
 			return;
 		}
 
+		console.log("=====fil====sendTransaction===amount=======", amount)
 		let ret = await FileCoinUtils.sendTransaction(this.fromAddress, to, amount);
 		console.log("=====fil====sendTransaction===ret==========", ret)
 		if (ret.data) {

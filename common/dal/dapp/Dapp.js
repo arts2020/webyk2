@@ -13,7 +13,7 @@ const Dapp = {
 	init: function() {
 		uni.cclog("======Dapp init========web3==")
 		let items = vue.util.StringUtils.getUserDefaults("dapp_select_wallets_key");
-		if(items){
+		if (items) {
 			this.dappRegists = JSON.parse(items);
 		}
 		this.onAddListener();
@@ -26,6 +26,7 @@ const Dapp = {
 
 	clear: function() {
 		uni.cclog("======Account clear==========")
+		vue.util.StringUtils.removeUserDefaults("dapp_select_wallets_key");
 		// vue.util.StringUtils.removeUserDefaults(vue.entities.LocalDataKeys.LOGIN_LOGININFO_KEY);
 	},
 
@@ -51,7 +52,7 @@ const Dapp = {
 		vue.dal.Net.request(vue.entities.RequestCode.GetDappList, params);
 	},
 	handleGetDappList(packetIn) {
-		console.log("=====handleGetDappList===packetIn=",packetIn.pktin.data)
+		console.log("=====handleGetDappList===packetIn=", packetIn.pktin.data)
 		if (packetIn.pktin.code == 200) {
 			this.m_Dapps = packetIn.pktin.data.filter(el => el.ishow);
 			this.hot_dapp = this.m_Dapps.filter(el => el.is_hot);
@@ -74,26 +75,45 @@ const Dapp = {
 		// console.log("==web3==",web3)
 		return web3;
 	},
-	
-	addAllowDapp:function(key,address){
-		let it = this.getAllowDapp(key,address);
-		if(!it){
+
+	addAllowDapp: function(key, address) {
+		for (let i = 0; i < this.dappRegists.length; i++) {
+			let it = this.dappRegists[i]
+			it.isdeault = false;
+		}
+		let it = this.getAllowDapp(key, address);
+		if (!it) {
 			let item = {
-				key:key,
-				address:address
+				key: key,
+				address: address,
+				isdeault: true,
 			}
 			this.dappRegists.push(item)
+		}else{
+			it.isdeault = true;
 		}
+		console.log('==this.dappRegists==', JSON.stringify(this.dappRegists))
 		vue.util.StringUtils.setUserDefaults("dapp_select_wallets_key", JSON.stringify(this.dappRegists));
 	},
-	
-	getAllowDapp:function(key,address){
-		console.log('==this.dappRegists==',JSON.stringify(this.dappRegists))
+
+	getAllowDapp: function(key, address) {
 		let item = null;
-		for(let i = 0; i < this.dappRegists.length ;i++){
+		for (let i = 0; i < this.dappRegists.length; i++) {
 			let it = this.dappRegists[i]
-			if(it.key == key && it.address == address){
+			if (it.key == key && it.address == address) {
 				item = it;
+			}
+		}
+		return item;
+	},
+	
+	getAllowDappByDeault: function() {
+		let item = null;
+		for (let i = 0; i < this.dappRegists.length; i++) {
+			let it = this.dappRegists[i]
+			if (it.isdeault == true) {
+				item = it;
+				break;
 			}
 		}
 		return item;

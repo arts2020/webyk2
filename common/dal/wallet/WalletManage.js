@@ -347,6 +347,7 @@ const WalletManage = {
 
 	getBalance: function(contract) {
 		console.log("==getBalance==", contract)
+		console.log("==this.m_currWallet==", this.m_currWallet)
 		let balance = 0;
 		if (!contract || contract.length <= 0) {
 			if (this.m_currWallet.idx <= 0) {

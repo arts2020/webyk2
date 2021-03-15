@@ -52,6 +52,7 @@ const FileCoinUtils = {
 			to: to,
 			mount: mount
 		}
+				console.log("=getGasPrice=pdata=", pdata)
 		let ret = await vue.dal.Net.asyncRequest(vue.entities.RequestCode.GetFilGasPrice, pdata);
 		console.log("=getGasPrice=ret=", ret)
 		return ret;

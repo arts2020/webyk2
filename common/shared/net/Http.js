@@ -104,7 +104,7 @@ const Http = {
 				data: hdata,
 				header: headers,
 				success: (res) => {
-					console.log("====1===HttpUtils==complete======", res.data)
+					console.log("====1===HttpUtils==complete======", res)
 					resolve(res.data)
 				},
 				fail: (err) => {

@@ -144,13 +144,9 @@ const WindowJs = {
 
 	//IMTOKEN注入
 	getImTokenInjectionStr: function() {
-		let address = vue.util.StringUtils.getUserDefaults("imtoken_account_address_key");
-		if (address && address.length > 0) {
-			address = "'" + address + "'"
-		} else {
-			address = "0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785500";
-		}
-		console.log("==address=", address)
+		// let address = vue.util.StringUtils.getUserDefaults("imtoken_account_address_key");
+		let item = vue.dal.Dapp.getAllowDappByDeault()
+		console.log("=item=address=", item)
 		let str = "window.m_flag = false;\
 			var Eth = function Eth() {\
 		    var defaultAccount = null;\
@@ -163,7 +159,7 @@ const WindowJs = {
 		window.ethereum.isMetaMask=true;\
 		window.ethereum.isImToken=true;\
 		window.ethereum.enable = function(){\
-			return ['" + address + "'];\
+			return ['" + item.address + "'];\
 		};\
 		window.myCallbacks = {};\
 		window.myFlags = {};\
@@ -227,7 +223,8 @@ const WindowJs = {
 			console.log('=callAPI==--1---');\
 			let timestamp = (new Date()).valueOf();\
 			window.myCallbacks[timestamp] = callBack;\
-			console.log('=====0000====' + uni.webView);\
+			console.log('=====0000====' + apiName);\
+			console.log('=====params====' + params);\
 			m_flag = true;\
 			params.method = apiName;\
 			setTimeout(() => {\

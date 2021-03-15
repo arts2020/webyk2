@@ -10,7 +10,7 @@ const Wallets = {
 			{chaintype:vue.entities.Metadata.ChainType.ETH ,isgas:true, img:"eth.png", name:'ETH', alias:'Ethereum' ,isaddassets:true},
 			{chaintype:vue.entities.Metadata.ChainType.BTC ,isgas:true, img:"btc.png", name:'BTC',alias:'Bitcoin' ,isaddassets:false},
 			{chaintype:vue.entities.Metadata.ChainType.TRON ,isgas:false, img:"tron.png", name:'TRON',alias:'TRON',isaddassets:true},
-			{chaintype:vue.entities.Metadata.ChainType.Lotus ,isgas:true, img:"fil.png",name:'FIL', alias:'Filecoin',isaddassets:false},
+			{chaintype:vue.entities.Metadata.ChainType.Lotus ,isgas:false, img:"fil.png",name:'FIL', alias:'Filecoin',isaddassets:false},
 			{chaintype:vue.entities.Metadata.ChainType.EOS ,isgas:false, img:"eos.png",name:'EOS', alias:'Enterprise Operation System',isaddassets:false},
 		]
 	},
