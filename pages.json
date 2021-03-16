@@ -478,7 +478,29 @@
             "path" : "pages/uielement/webview",
             "style" :                                                                                    
             {
-                "navigationStyle": "custom"
+                "navigationStyle": "custom",
+				 "app-plus": {
+				          "titleNView": false, //
+				          "subNVues": [
+				            {
+				              "id": "pasd-popup", // 唯一标识 
+				              "type": "popup", // subNVue窗体类型，弹出(popup)和导航(navigationBar)。
+				              "path": "pages/uielement/pasd-tip.nvue", // subNVue 的路径
+				              "style": { // 配置subNVue的位置，背景等样式属性。
+				                
+				                "width": "300px",
+				                "height": "180px",
+				                // subNVue无法设置圆角等样式，背景background设置为transparent，
+				                // 然后可以给页面中view标签设置圆角等subNvuew无法实现的样式
+				                "background": "transparent", 
+				                "mask": "rgba(0,0,0,0.5)",
+								
+								"margin":"auto",
+				                "zindex": 9
+				              }
+				            }
+				          ]
+				        }
             }
             
         },{

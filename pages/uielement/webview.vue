@@ -1,15 +1,17 @@
 <template>
 	<view>
-		<uni-nav-bar :title="m_title" :fixed="true" :status-bar="true" :background-color="bgcolor">
+		<uni-nav-bar :title="m_title" :fixed="true" :status-bar="true" :background-color="bgcolor" left-icon="back" @clickLeft="showPasdPop">			
 			<view class="right_btn" slot="right">
 				<view class="box" :style="'background-color: '+bgcolor">
 					<image src="../../static/image/index/shenglve.png" mode="" @tap="goChoice"></image>
 					<view class="line"></view>
-					<image src="../../static/image/index/x.png" mode="" @click="goBack"></image>
+					<image src="../../static/image/index/x.png" mode="" @tap="goBack"></image>
 				</view>
 			</view>
 		</uni-nav-bar>
-		
+		 <cover-view v-if="show" class="controls-title">简单的自简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls定义 controls</cover-view>
+		<web-view ref="scope" :webview-styles="webviewStyles" :src="m_url2" @message="handleMessage"
+			:style="'top:'+topHeight+'px'"></web-view>
 		<uni-popup type="bottom" ref="popup">
 			<view class="main-c">
 				<view class="top-box">
@@ -31,22 +33,8 @@
 		</uni-popup>
 		<uni-popup ref="msgPop" type="message">
 			<uni-popup-message type="error" :message="copy_success" :duration="2000"></uni-popup-message>
-		</uni-popup>
-
-		<uni-popup type="center" ref="pasdPop">
-			<view class="main-content">
-				<view class="title">{{pasd_title}}</view>
-				<view class="input-box">
-					<input type="text" :placeholder="pasd_title" password v-model="password" />
-				</view>
-				<view class="btns">
-					<view class="cancell" @click="cancellPass">{{btnstring_cancle}}</view>
-					<view class="ok" @click="confirmOk">{{btnstring_confirm}}</view>
-				</view>
-			</view>
-		</uni-popup>
-		<web-view ref="scope" :webview-styles="webviewStyles" :src="m_url2" @message="handleMessage"
-			:style="'top:'+topHeight+'px'"></web-view>
+		</uni-popup> 
+	</view>
 	</view>
 </template>
 
@@ -57,23 +45,16 @@
 	export default {
 		components: {
 			uniPopup,
-			uniPopupMessage
-		},
-		created() {
-			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtTransResult, this.onTransResult);
-		},
-		destroyed() {
-			this.util.EventUtils.removeEventCustom(this.dal.WalletManage.evtTransResult, this.onTransResult);
+			uniPopupMessage,
+			
 		},
 		onReady() {
 			this.topHeight = uni.getSystemInfoSync().statusBarHeight + 44;
 			if (this.$scope) {
-				this.util.UiUtils.showLoading("loading...");
 				this.m_currentWebview = this.$scope.$getAppWebview().children()[0]; //currentWebview.children()[0]
 				this.m_currentWebview.addEventListener("loaded", function() {
 					console.log("==window==loaded===")
-					this.util.UiUtils.hideLoading();
-				}.bind(this), false);
+				}, false);
 				let self = this;
 				plus.io.requestFileSystem(plus.io.PRIVATE_WWW, function(fobject) {
 					fobject.root.getFile('_www/static/js/uni.webview.1.5.2.js', {
@@ -93,8 +74,6 @@
 									self.m_currentWebview.loadURL(self.m_url)
 									console.log("====666666666666666666===")
 								}, 1000)
-
-
 							}
 						});
 					});
@@ -114,8 +93,11 @@
 		},
 		data() {
 			return {
+				title: 'Hello',
+				show: false,
+				dialogContent:'are you ok?',
+				password:"",
 				topHeight: 0,
-				password: "",
 				m_url: "",
 				m_url2: "",
 				isdisabled: true,
@@ -124,11 +106,11 @@
 					progress: {
 						color: '#FF6666',
 					}
-				},
-				dataParams: null,
+				}
 			}
 		},
 		onLoad(option) {
+
 			var data = JSON.parse(option.query);
 			this.m_title = data.title;
 			this.m_url = data.url;
@@ -143,13 +125,24 @@
 			// #ifdef APP-PLUS
 			plus.webview.prefetchURL(this.m_url)
 			// #endif
-			this.$refs.pasdPop.open()
 			
+			
+			
+			// 验证密码是否正确
+			uni.$on('popup-page', (data) => {
+				console.log("-------------",data.password);
+				//验证密码是否正确  密码来自原生子窗体
+			})
 			this.initword()
 		},
 
 		methods: {
-			initword() {
+			showPasdPop(){
+				//显示密码框
+				const subNvue=uni.getSubNVueById('pasd-popup'); // 获取subNvue实例
+				subNvue.show(); // 显示
+			},
+			initword(){
 				this.refersh = this.getLocalStr("refersh")
 				this.copy_link = this.getLocalStr("copy_link")
 				this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
@@ -158,11 +151,19 @@
 				this.pasd_err_blank = this.getLocalStr("pasd_err_blank")
 				this.pasd_err_tip = this.getLocalStr("pasd_err_tip")
 				this.btnstring_confirm = this.getLocalStr("btnstring_confirm")
+				this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
 			},
 			goBack() {
 				uni.navigateBack({
 					delta: 1
 				})
+			},
+			cancell(){
+				this.password = "";
+				this.$refs.pasdPop.close()
+			},
+			confirmOk(){
+				
 			},
 			goChoice() {
 				// #ifdef H5
@@ -239,49 +240,6 @@
 				console.log('=====cancellFun=========');
 				this.$refs.popup.close()
 			},
-			onTransResult: function(data) {
-				console.log("=onTransResult=data==", data)
-				let txid = "";
-				if (data.result == true) {
-					txid = data.txid;
-				}
-				this.m_currentWebview.evalJS(
-					"window.callBack3({method:'" + this.dataParams.method + "',callbackid:'" + this.dataParams
-					.callbackid +
-					"',signature:'" + txid + "',state:true,err:null});"
-				);
-			},
-
-			confirmOk() {
-				if (!this.password) {
-					this.util.UiUtils.showToast(this.pasd_err_blank)
-					return;
-				}
-
-				if (this.password != this.statusInfo.password) {
-					this.util.UiUtils.showToast(this.pasd_err_tip);
-					this.password = ""
-					return;
-				}
-				//检查输入密码是否正确，正确则跳转到备份页，否则给与密码不对提示
-				this.password = "";
-				this.$refs.pasdPop.close()
-
-				this.dal.WalletManage.sendTransaction('eth', this.dataParams.to, this.dataParams.value, 0, "dapp交易").then(
-					result => {
-						console.log("=111=result===")
-					});
-			},
-			cancellPass() {
-				this.password = "";
-				this.$refs.pasdPop.close()
-				this.m_currentWebview.evalJS(
-					"window.callBack3({method:'" + this.dataParams.method + "',callbackid:'" + this.dataParams
-					.callbackid +
-					"',signature:'',state:false,err:null});"
-				);
-			},
-
 			handleAccountsChanged: function() {
 				console.log('=====handleAccountsChanged=========');
 			},
@@ -297,33 +255,33 @@
 					// console.warn('===x=xxxxxxxx======data=' + JSON.stringify(data));
 					// console.warn('===x=xxxxxxxx======data.method=', data.method)
 					if (data.method == "user.showAccountSwitch") {
-						// this.$refs.popup.open()
-						// this.dataParams = data;
-						// this.m_currentWebview.evalJS(
-						// 	"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-						// 	"',address:'[0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508]',err:null});"
-						// )
+						this.util.StringUtils.setUserDefaults("imtoken_account_address_key",
+							"0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508");
+						this.m_currentWebview.evalJS(
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							"',address:'[0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508]',err:null});"
+						)
 					} else if (data.method == "transaction.signTransaction") {
-						this.dataParams = data;
-						console.warn('===x=xxxxxxxx======this.dataParams=',data)
-						this.$refs.pasdPop.open()
+						// var params = {
+						//   to: '0x0fa38abec02bd4dbb87f189df50b674b9db0b468',
+						//   from: web3.eth.defaultAccount,
+						//   value: '1250000000000000',
+						// }
+						this.m_currentWebview.evalJS(
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							"',signature:'tx',err:null});"
+						);
 					} else if (data.method == "eth_requestAccounts") {
 						console.warn('===x=xxxxxxxx======data=')
-						let item = this.dal.Dapp.getAllowDappByDeault()
-						if (item) {
-							this.m_currentWebview.evalJS(
-								"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-								"',accounts:['" + item.address + "'],err:null});"
-							);
-						}
+						this.m_currentWebview.evalJS(
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
+						);
 					} else if (data.method == "eth_accounts") {
-						let item = this.dal.Dapp.getAllowDappByDeault()
-						if (item) {
-							this.m_currentWebview.evalJS(
-								"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-								"',accounts:['" + item.address + "'],err:null});"
-							);
-						}
+						this.m_currentWebview.evalJS(
+							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
+						);
 					} else if (data.method == "eth_chainId") {
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
@@ -334,12 +292,12 @@
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
 							+"',params" + data.params + ",chainId:'1',err:null});"
 						);
-					} else if (data.method == "eth_approve") {
+					} else if (data.method == "eth_approve"){
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
 							+"',params" + data.params + ",chainId:'1',err:null});"
 						);
-					} else if (data.method == "eth_getBalance") {
+					} else if (data.method == "eth_getBalance"){
 						let balane = this.dal.WalletManage.getBalance(null)
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
@@ -360,7 +318,8 @@
 					delta: 1
 				});
 			}
-		},
+		}
+
 	}
 </script>
 
@@ -410,73 +369,6 @@
 			width: 1rpx;
 			height: 40rpx;
 			background-color: #E7E6ED;
-		}
-	}
-
-	.main-content {
-		width: 569rpx;
-		height: 320rpx;
-		background: #ffffff;
-		border: 1rpx solid #707070;
-		border-radius: 21rpx;
-		padding-top: 26rpx;
-		box-sizing: border-box;
-
-		.title {
-			font-size: 30rpx;
-			font-family: PingFang SC, PingFang SC-Regular;
-			font-weight: 400;
-			color: #071328;
-			text-align: center;
-			font-weight: bold;
-		}
-
-		.input-box {
-			width: 505rpx;
-			height: 77rpx;
-			background: #f6f5f8;
-			margin: 42rpx auto 49rpx;
-
-			uni-input {
-				width: 100%;
-				height: 77rpx;
-				line-height: 77rpx;
-				border-radius: 10rpx;
-				padding-left: 20rpx;
-				box-sizing: border-box;
-				background: #f6f5f8;
-				font-size: 30rpx;
-				font-family: PingFang SC, PingFang SC-Regular;
-				font-weight: 400;
-				color: #c2c2c2;
-			}
-		}
-
-		.btns {
-			width: 100%;
-			font-size: 26rpx;
-			color: #007AFF;
-			font-weight: bold;
-			text-align: center;
-			border-top: 1rpx solid #E7E6ED;
-			display: flex;
-			align-items: center;
-			font-size: 30rpx;
-			font-family: PingFang SC, PingFang SC-Regular;
-			font-weight: 400;
-
-			.cancell {
-				color: #C2C2C2;
-				width: 50%;
-				line-height: 60rpx;
-				border-right: 1rpx solid #E5E5E5;
-			}
-
-			.ok {
-				color: #4C72EF;
-				width: 50%;
-				line-height: 60rpx;
-			}
 		}
 	}
 
@@ -537,6 +429,5 @@
 			left: 50%;
 			transform: translateX(-50%);
 		}
-
 	}
 </style>

@@ -1,4 +1,3 @@
-
 const Tx = require('../../../../node_modules/ethereumjs-tx').Transaction;
 const HttpUtils = require('./https-util.js').HttpUtils
 import Vue from 'vue'
@@ -7,15 +6,15 @@ var vue = Vue.prototype
 const EthUtils = {
 
 	async getGasPriceAsync() {
-		// console.log("====getGasPriceAsync=data=======")
+		console.log("====getGasPriceAsync=data=======")
 		let url = 'https://ethgasstation.info/json/ethgasAPI.json';
 
 		let ret = await HttpUtils.request(url, "GET", "");
 
-		// console.log("====getGasPriceAsync=data===1==ret==", ret)
+		console.log("====getGasPriceAsync=data===1==ret==", ret)
 		ret = parseInt(ret.average) * Math.pow(10, 8);
 
-		// console.log("====getGasPriceAsync=data====2=ret==", ret)
+		console.log("====getGasPriceAsync=data====2=ret==", ret)
 		return '0x' + parseInt(ret).toString(16);
 	},
 
@@ -97,7 +96,7 @@ const EthUtils = {
 	},
 
 	async getTokenBalance(from, to, data, url) {
-		console.log("====getTokenBalance=ret======",url)
+		console.log("====getTokenBalance=ret======", url)
 		data = data.toLowerCase();
 		let pdata = {
 			jsonrpc: "2.0",
@@ -109,7 +108,7 @@ const EthUtils = {
 			}, "latest"],
 			id: "1"
 		}
-		console.log("====333=ret======",pdata)
+		console.log("====333=ret======", pdata)
 		let ret = await HttpUtils.request(url, "POST", pdata);
 		console.log("===3333==ret======", ret)
 		if (!ret) {
@@ -161,9 +160,9 @@ const EthUtils = {
 			id: "1"
 		}
 		let ret = await HttpUtils.request(url, "POST", pdata);
-		console.log("===getETHBalanceAsync=======address===",address)
-		console.log("===getETHBalanceAsync=========url=",url)
-		console.log("===getETHBalanceAsync==========",ret)
+		console.log("===getETHBalanceAsync=======address===", address)
+		console.log("===getETHBalanceAsync=========url=", url)
+		console.log("===getETHBalanceAsync==========", ret)
 		if (ret.id != '1' || ret.hasOwnProperty('error')) {
 			return false;
 		}
@@ -330,15 +329,18 @@ const EthUtils = {
 
 	async ethTransferAsync(privateKey, from, to, value, nonce, url, gas) {
 
+		console.log("======ethTransferAsync==value=",value)
 		if (privateKey.indexOf('0x') == 0) {
 			privateKey = privateKey.substring(2, privateKey.length);
 		}
+		console.log("======ethTransferAsync==2=")
 		let weiValue = value * 1000000000000000000;
 		weiValue = '0x' + weiValue.toString(16);
 		let bestGasPrice = await this.getGasPriceAsync();
 		if (!gas || gas <= 0) {
 			gas = bestGasPrice;
 		}
+		console.log("======ethTransferAsync==3=")
 		if (typeof(nonce) != Number) {
 			nonce = parseInt(nonce);
 		}
@@ -368,11 +370,12 @@ const EthUtils = {
 		console.log("===rawTx===privateKey:", privateKey)
 		console.log("===rawTx===rawTx:", rawTx)
 		let pKey = Buffer.from(privateKey, 'hex');
+		console.log("===rawTx===");
 		let tx = new Tx(rawTx, necessary);
-		
+
 		console.log("===rawTx===tx:", tx)
 		console.log("===rawTx===pKey:", pKey)
-		
+
 		tx.sign(pKey);
 		let serializedTx = tx.serialize().toString('hex');
 		let txid = await this.sendRawTransferAsync('0x' + serializedTx, url);

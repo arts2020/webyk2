@@ -160,9 +160,15 @@ const Ethers = {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
 		let gcout = await EthUtils.ethTransactionCount(this.fromAddress, this.m_reqUrl)
 
+			console.log("=====pedings=",pedings);
+			console.log("=====gcout=",gcout);
+			console.log("=====this.amount=",amount);
+			console.log("=====this.m_privateKey=",this.m_privateKey);
+			console.log("=====this.fromAddress=",this.fromAddress);
 		let txid = await EthUtils.ethTransferAsync(this.m_privateKey, this.fromAddress, to, amount, pedings,
 			this.m_reqUrl,
 			gas);
+			console.log("=====Ethers===sendTransaction==0==", txid);
 		if (txid && txid.length == 66) {
 			this.onBalance();
 			console.log("=====Ethers===sendTransaction===1=", txid);

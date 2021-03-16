@@ -1,0 +1,98 @@
+<template>
+	<div class="main-content">
+		<div class="title">请输入密码</div>
+		<input class="input-box" type="text" password placeholder="请输入密码" v-model="password" />
+		<div class="btns">
+			<div class="cancell" @click="cancell">取消</div>
+			<div class="ok" @click="confirmOk">确定</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	export default {
+		name: "pasd-tip",
+		data() {
+			return {
+				password: ""
+			};
+		},
+		onLoad() {
+			
+		},
+		methods: {			
+			cancell() {
+				this.password = "";
+				const subNvue=uni.getSubNVueById('pasd-popup'); // 获取subNvue实例
+				subNvue.hide();
+			},
+			confirmOk() {								
+               const subNvue=uni.getSubNVueById('pasd-popup'); // 获取subNvue实例
+			   uni.$emit('popup-page', {
+			   	password:this.password,
+			   })
+               subNvue.hide();
+			}
+		}
+	}
+</script>
+
+<style>
+	.main-content {		
+		background-color: #ffffff;
+		border-width: 1px;
+		border-style: solid;
+		border-color: #707070;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		
+	}
+
+	.title {
+		width: 300px;
+		font-size: 30px;
+		font-family: PingFang SC, PingFang SC-Regular;
+		font-weight: 400;
+		color: #071328;
+		text-align: center;
+		font-weight: bold;
+		margin-top: 10px;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.input-box {
+		width: 270px;
+		height: 50px;
+		background-color: #f6f5f8;
+		margin-top: 24px;
+		margin-bottom: 24px;
+        margin-left: 10px;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		padding-left: 10px;
+	}
+	.btns{
+		width: 300px;
+		height: 50px;
+		flex-direction: row;
+	}
+	.cancell{
+		width: 150px;
+		height: 50px;
+		text-align: center;
+		line-height: 60px;
+		align-items: center;
+		justify-content: center;
+	}
+	.ok{
+		width: 150px;
+		height: 50px;
+		text-align: center;
+		line-height: 50px;
+		align-items: center;
+		justify-content: center;
+	}
+</style>

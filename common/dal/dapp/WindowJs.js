@@ -176,7 +176,7 @@ const WindowJs = {
 				window.myCallbacks[data.callbackid](data.err,data.address);\
 			}else if(data.method == 'transaction.signTransaction'){\
 				console.log('====transaction.signTransaction==' + data.signature);\
-				window.myCallbacks[data.callbackid](data.err,data.signature);\
+				window.myCallbacks[data.callbackid](data);\
 			}else if(data.method == 'eth_requestAccounts'){\
 				console.log('====eth_requestAccounts==' + data.accounts[0]);\
 				window.myFlags[data.callbackid] = true;\

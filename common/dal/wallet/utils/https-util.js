@@ -11,7 +11,7 @@ const HttpUtils = {
 		// console.log("====const===HttpUtils==request======", method)
 		// console.log("====const===HttpUtils==url======", url)
 		return new Promise(function(resolve, reject) {
-			// console.log("====const===HttpUtils==request====1==")
+			console.log("====const===HttpUtils==request====1==")
 			var headers = {
 				'Authorization':"Basic MW0wN1BhUkhnYWdONE5yWGdvTkFRcHdia0g5OmEzYjFkMWY0NGFkYmM3ZGFmNzMzY2FhZWVkODRjZDU5",
 				'Content-Type': 'application/json;',
@@ -35,15 +35,15 @@ const HttpUtils = {
 				data: hdata,
 				header: headers,
 				success: (res) => {
-					// console.log("====1===HttpUtils==complete======", res)
+					console.log("====1===HttpUtils==complete======", res)
 					resolve(res.data)
 				},
 				fail: (err) => {
-					// console.log("====2===HttpUtils==err======", err)
+					console.log("====2===HttpUtils==err======", err)
 					reject(err)
 				},
 				complete: (res) => {
-					// console.log("====3===HttpUtils==complete======", res)
+					console.log("====3===HttpUtils==complete======", res)
 				}
 			});
 		})
