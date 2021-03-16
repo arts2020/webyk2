@@ -35,7 +35,7 @@ const HttpUtils = {
 				data: hdata,
 				header: headers,
 				success: (res) => {
-					console.log("====1===HttpUtils==complete======", res)
+					console.log("====1===HttpUtils==success======", res)
 					resolve(res.data)
 				},
 				fail: (err) => {

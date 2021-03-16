@@ -22,25 +22,21 @@
 		},
 		onShow: function() {
 			console.log('App Show')
-			this.tab_bar_wallet = this.getLocalStr("tab_bar_wallet");
-			this.tab_bar_market = this.getLocalStr("tab_bar_market");
-			this.tab_bar_browse = this.getLocalStr("tab_bar_browse");
-			this.tab_bar_my = this.getLocalStr("tab_bar_my");
 			uni.setTabBarItem({
-			  index: 0,
-			  text: this.tab_bar_wallet,
+			  index: 0, 
+			  text: this.getLocalStr("tab_bar_wallet"),
 			})
 			uni.setTabBarItem({
 			  index: 1,
-			  text: this.tab_bar_market,
+			  text: this.getLocalStr("tab_bar_market"),
 			})
 			uni.setTabBarItem({
 			  index: 2,
-			  text: this.tab_bar_browse,
+			  text: this.getLocalStr("tab_bar_browse"),
 			})
 			uni.setTabBarItem({
 			  index: 3,
-			  text: this.tab_bar_my,
+			  text: this.getLocalStr("tab_bar_my"),
 			})
 		},
 		onHide: function() {

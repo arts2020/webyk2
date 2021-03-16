@@ -153,6 +153,9 @@ const WindowJs = {
 		};\
 		var Web3 = function Web3() {\
 		    this.eth = new Eth(this);\
+			this.eth.sendTransaction = function(data,callBack){\
+				console.log('=s===this.eth.sendTransaction====---' , data);\
+			}\
 		};\
 		function ethereum(){}\
 		window.ethereum={};\
@@ -175,8 +178,9 @@ const WindowJs = {
 				console.log('====user.showAccountSwitch==' + data.signature);\
 				window.myCallbacks[data.callbackid](data.err,data.address);\
 			}else if(data.method == 'transaction.signTransaction'){\
-				console.log('====transaction.signTransaction==' + data.signature);\
-				window.myCallbacks[data.callbackid](data);\
+				console.log('====transaction.signTransaction=1=' + data.hash );\
+				console.log('====transaction.signTransaction=2=' + data.error );\
+				window.myCallbacks[data.callbackid](data.error,data.hash);\
 			}else if(data.method == 'eth_requestAccounts'){\
 				console.log('====eth_requestAccounts==' + data.accounts[0]);\
 				window.myFlags[data.callbackid] = true;\

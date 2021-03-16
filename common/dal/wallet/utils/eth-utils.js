@@ -202,6 +202,7 @@ const EthUtils = {
 		}
 		let ret = await HttpUtils.request(url, "POST", pdata);
 
+		console.log("===pedings=ethTransactionCount==ret=", ret)
 		if (ret.id != '1' || ret.hasOwnProperty('error')) {
 			return false;
 		}

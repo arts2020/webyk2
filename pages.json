@@ -493,7 +493,7 @@
 				                // subNVue无法设置圆角等样式，背景background设置为transparent，
 				                // 然后可以给页面中view标签设置圆角等subNvuew无法实现的样式
 				                "background": "transparent", 
-				                "mask": "rgba(0,0,0,0.5)",
+				                // "mask": "rgba(0,0,0,0.5)",
 								
 								"margin":"auto",
 				                "zindex": 9

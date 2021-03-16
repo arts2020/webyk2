@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<uni-nav-bar :title="m_title" :fixed="true" :status-bar="true" :background-color="bgcolor" left-icon="back" @clickLeft="showPasdPop">			
+		<uni-nav-bar :title="m_title" :fixed="true" :status-bar="true" :background-color="bgcolor">
 			<view class="right_btn" slot="right">
 				<view class="box" :style="'background-color: '+bgcolor">
 					<image src="../../static/image/index/shenglve.png" mode="" @tap="goChoice"></image>
@@ -9,7 +9,8 @@
 				</view>
 			</view>
 		</uni-nav-bar>
-		 <cover-view v-if="show" class="controls-title">简单的自简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义 controls定义 controls</cover-view>
+		<cover-view v-if="show" class="controls-title">简单的自简单的自定义 controls简单的自定义 controls简单的自定义 controls简单的自定义
+			controls简单的自定义 controls简单的自定义 controls简单的自定义 controls定义 controls</cover-view>
 		<web-view ref="scope" :webview-styles="webviewStyles" :src="m_url2" @message="handleMessage"
 			:style="'top:'+topHeight+'px'"></web-view>
 		<uni-popup type="bottom" ref="popup">
@@ -33,7 +34,7 @@
 		</uni-popup>
 		<uni-popup ref="msgPop" type="message">
 			<uni-popup-message type="error" :message="copy_success" :duration="2000"></uni-popup-message>
-		</uni-popup> 
+		</uni-popup>
 	</view>
 	</view>
 </template>
@@ -46,12 +47,19 @@
 		components: {
 			uniPopup,
 			uniPopupMessage,
-			
+
+		},
+		created() {
+			this.util.EventUtils.addEventListenerCustom(this.dal.WalletManage.evtTransResult, this.onTransResult);
+		},
+		destroyed() {
+			this.util.EventUtils.removeEventCustom(this.dal.WalletManage.evtTransResult, this.onTransResult);
 		},
 		onReady() {
 			this.topHeight = uni.getSystemInfoSync().statusBarHeight + 44;
 			if (this.$scope) {
 				this.m_currentWebview = this.$scope.$getAppWebview().children()[0]; //currentWebview.children()[0]
+				this.m_currentWebview.loadURL(this.m_url)
 				this.m_currentWebview.addEventListener("loaded", function() {
 					console.log("==window==loaded===")
 				}, false);
@@ -71,7 +79,7 @@
 								)
 								setTimeout(function() {
 									console.log("====5555555555555555555===")
-									self.m_currentWebview.loadURL(self.m_url)
+									// self.m_currentWebview.loadURL(self.m_url)
 									console.log("====666666666666666666===")
 								}, 1000)
 							}
@@ -95,8 +103,8 @@
 			return {
 				title: 'Hello',
 				show: false,
-				dialogContent:'are you ok?',
-				password:"",
+				dialogContent: 'are you ok?',
+				password: "",
 				topHeight: 0,
 				m_url: "",
 				m_url2: "",
@@ -125,24 +133,85 @@
 			// #ifdef APP-PLUS
 			plus.webview.prefetchURL(this.m_url)
 			// #endif
-			
-			
-			
+
 			// 验证密码是否正确
 			uni.$on('popup-page', (data) => {
-				console.log("-------------",data.password);
-				//验证密码是否正确  密码来自原生子窗体
+				console.log("-------------", data);
+				if (data.iscancel == false) {
+					//验证密码是否正确  密码来自原生子窗体
+					console.log("-------------", data.password);
+					if (!data.password) {
+						this.util.UiUtils.showToast(this.pasd_err_blank)
+						return;
+					}
+					let walletInfo = this.dal.WalletManage.getCurrWallet();
+					if (data.password != walletInfo.password) {
+						this.util.UiUtils.showToast(this.pasd_err_tip);
+						// data.password = ""
+						return;
+					}
+					uni.showLoading();
+					//检查输入密码是否正确，正确则跳转到备份页，否则给与密码不对提示
+					// data.password = "";
+					// this.$refs.pasdPop.close()
+					console.log("==this.dataParams==", this.dataParams)
+					this.dal.WalletManage.sendTransaction('eth', this.dataParams.params.to, this.dataParams.params
+						.value, 0,
+						"dapp交易").then(result => {
+						console.log("=111=result===")
+					});
+					data.obj.hide();
+				} else {
+					let str = {
+						"method": this.dataParams.method,
+						"callbackid": this.dataParams.callbackid,
+						"hash": "",
+						"error": {
+							"message": "用户取消了操作",
+							"code": "1001"
+						}
+					}
+					
+					this.m_currentWebview.evalJS(
+						"window.callBack3("+ JSON.stringify(str) +");"
+					);
+					data.obj.hide();
+				}
 			})
+
 			this.initword()
 		},
 
 		methods: {
-			showPasdPop(){
+			onTransResult: function(data) {
+				uni.hideLoading();
+				console.log("=onTransResult=data==", data)
+				let str = {
+					"method": this.dataParams.method,
+					"callbackid": this.dataParams.callbackid,
+					"hash": "",
+					"error": {
+						"message": "交易失败，余额不足",
+						"code": "2001"
+					}
+				}
+				if (data.result == true) {
+					str.txid = data.txid;
+					str.error = null;
+				}
+				console.log("=this.dataParamsdata==", this.dataParams)
+				console.log("window.callBack3(" + JSON.stringify(str) + ");");
+				this.m_currentWebview.evalJS(
+					"window.callBack3(" + JSON.stringify(str) + ");"
+				);
+			},
+
+			showPasdPop() {
 				//显示密码框
-				const subNvue=uni.getSubNVueById('pasd-popup'); // 获取subNvue实例
+				const subNvue = uni.getSubNVueById('pasd-popup'); // 获取subNvue实例
 				subNvue.show(); // 显示
 			},
-			initword(){
+			initword() {
 				this.refersh = this.getLocalStr("refersh")
 				this.copy_link = this.getLocalStr("copy_link")
 				this.btnstring_cancle = this.getLocalStr("btnstring_cancle")
@@ -158,12 +227,12 @@
 					delta: 1
 				})
 			},
-			cancell(){
+			cancell() {
 				this.password = "";
 				this.$refs.pasdPop.close()
 			},
-			confirmOk(){
-				
+			confirmOk() {
+
 			},
 			goChoice() {
 				// #ifdef H5
@@ -262,25 +331,20 @@
 							"',address:'[0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508]',err:null});"
 						)
 					} else if (data.method == "transaction.signTransaction") {
-						// var params = {
-						//   to: '0x0fa38abec02bd4dbb87f189df50b674b9db0b468',
-						//   from: web3.eth.defaultAccount,
-						//   value: '1250000000000000',
-						// }
-						this.m_currentWebview.evalJS(
-							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',signature:'tx',err:null});"
-						);
+						this.dataParams = data;
+						this.showPasdPop();
 					} else if (data.method == "eth_requestAccounts") {
 						console.warn('===x=xxxxxxxx======data=')
+						let item = this.dal.Dapp.getAllowDappByDeault()
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
+							"',accounts:['"+ item.address +"'],err:null});"
 						);
 					} else if (data.method == "eth_accounts") {
+						let item = this.dal.Dapp.getAllowDappByDeault()
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',accounts:['0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508'],err:null});"
+							"',accounts:['"+ item.address +"'],err:null});"
 						);
 					} else if (data.method == "eth_chainId") {
 						this.m_currentWebview.evalJS(
@@ -292,12 +356,12 @@
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
 							+"',params" + data.params + ",chainId:'1',err:null});"
 						);
-					} else if (data.method == "eth_approve"){
+					} else if (data.method == "eth_approve") {
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
 							+"',params" + data.params + ",chainId:'1',err:null});"
 						);
-					} else if (data.method == "eth_getBalance"){
+					} else if (data.method == "eth_getBalance") {
 						let balane = this.dal.WalletManage.getBalance(null)
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
