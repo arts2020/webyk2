@@ -4,6 +4,7 @@ const bip39 = require('../../../../node_modules/bip39')
 const bip32 = require('../../../../node_modules/bip32')
 const BtcUtils = require('../utils/btc-utils.js').BtcUtils;
 const bitcoin = require('bitcoinjs-lib')
+var WAValidator = require('wallet-address-validator');
 
 import Vue from 'vue'
 var vue = Vue.prototype
@@ -11,12 +12,14 @@ var vue = Vue.prototype
 const Btc = {
 	m_balance: 0,
 	m_reqUrl: "",
-	// m_network : bitcoin.networks.bitcoin,
-	m_network : bitcoin.networks.testnet,
+	m_network : bitcoin.networks.bitcoin,
+	// m_network : bitcoin.networks.testnet,
 	
 	init: function() {
 		console.log("========Btc===初始化===============",this.m_network)
-		this.m_reqUrl = "http://119.8.55.19:8332";
+		// this.m_reqUrl = "https://chain.api.btc.com/v3/address/";
+		// this.m_reqUrl = "https://api.blockcypher.com/v1/btc/test3";
+		this.m_reqUrl = "https://api.blockcypher.com/v1/btc/main";
 	},
 
 	destroy: function() {
@@ -141,7 +144,7 @@ const Btc = {
 		// let address = vue.dal.WalletManage.getAddress();
 		console.log("=========sendTransaction==========")
 		let keys = bitcoin.ECPair.fromWIF(this.m_privateKey, this.m_network);
-		let txid= await BtcUtils.sendRawTransferAsync(keys, this.fromAddress, to, amount);
+		let txid= await BtcUtils.sendRawTransferAsync(this.m_reqUrl,keys, this.fromAddress, to, amount);
 		
 		//TODO....
 		// const keyPair = bitcoin.ECPair.fromWIF(privateKey, this.m_network);
@@ -170,7 +173,7 @@ const Btc = {
 		if(txid && txid.length > 0){
 			this.onBalance();
 			console.log("=====Ethers===sendTransaction===1=", txid);
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str23"));
 			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, "",remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
@@ -206,7 +209,7 @@ const Btc = {
 
 	async onBalance() {
 		//"15urYnyeJe3gwbGJ74wcX89Tz7ZtsFDVew"; //
-		let ret = await BtcUtils.getBalance(this.fromAddress);
+		let ret = await BtcUtils.getBalance(this.m_reqUrl,this.fromAddress);
 		console.log("====onBalance=ret==", ret)
 		if (ret.address.toLowerCase() == this.fromAddress.toLowerCase()) {
 			let balance = ret.balance / Math.pow(10, 6);
@@ -216,7 +219,7 @@ const Btc = {
 	},
 	
 	async getTransferList(address){
-		let ret = await BtcUtils.getRecords(address);
+		let ret = await BtcUtils.getRecords(this.m_reqUrl,address);
 		console.log('===getTransferList===ret=',ret);
 		if(ret){
 			for(let i = 0 ; i < ret.txrefs.length ;i++){
@@ -260,6 +263,15 @@ const Btc = {
 			return false;
 		}
 		return true;
+	},
+	
+	isValidAddress: function(address) {
+		var valid = WAValidator.validate(address, 'litecoin', 'testnet');
+		if(valid){
+			console.log('This is a valid address');
+		}else{
+			console.log('Address INVALID');
+		}
 	}
 };
 

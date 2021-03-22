@@ -18,7 +18,7 @@
 			// this.dal.Account.onAutoLogin();
 			this.dal.onLoginSuccess();
 			// this.dal.Net.clear();
-			// this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetRate, this.onGetRate);		  
+			this.util.EventUtils.addEventListenerCustom(this.dal.Common.evtGetConfig, this.onGetConfig);		  
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -43,14 +43,14 @@
 			console.log('App Hide')
 		},
 		
-		// methods:{
-		// 	onGetRate:function(){
-		// 		console.log("====22===onGetRate=========",this.PlatformInfo.vsn)
-		// 		setTimeout(function(){
-		// 			this.util.UiUtils.checkUpdate(this.PlatformInfo.vsn,true)
-		// 		}.bind(this),2000)
-		// 	}
-		// }
+		methods:{
+			onGetConfig:function(){
+				console.log("====22===onGetConfig=========",this.PlatformInfo.vsn)
+				setTimeout(function(){
+					this.util.UiUtils.checkUpdate(this.PlatformInfo.vsn,true)
+				}.bind(this),2000)
+			}
+		}
 	}
 </script>
 

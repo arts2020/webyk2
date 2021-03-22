@@ -247,7 +247,7 @@ const UiUtils = {
 		// 	console.log("======v2=", v2);
 		// 	console.log("======v3=", v3);
 
-		// 	console.log("==vue.PlatformInfo.platform=", vue.PlatformInfo.platform);
+			console.log("99999999999==apploadurl=", apploadurl);
 		// 	console.log("==new====v=", v);
 		let vsn_n = v.split('.')
 		let v1_n = parseInt(vsn_n[0])

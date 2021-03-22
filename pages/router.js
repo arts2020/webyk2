@@ -88,27 +88,7 @@ const router = new MinRouter({
 		},{
 			path: 'pages/wallet/status-wallet/status-info',
 			name: 'status-wallet-info'
-		},
-		// {
-		// 	path: 'pages/my/safe/pwd-back',
-		// 	name: 'safe-pwd-back'
-		// },{
-		// 	path: 'pages/my/safe/safe-center',
-		// 	name: 'safe-safe-center'
-		// },{
-		// 	path: 'pages/my/safe/money-pwd/sure-pwd',
-		// 	name: 'safe-money-pwd-sure-pwd'
-		// },{
-		// 	path: 'pages/my/safe/money-pwd/money-pwd',
-		// 	name: 'safe-money-pwd'
-		// },{
-		// 	path: 'pages/my/safe/money-pwd/money-changepwd',
-		// 	name: 'safe-money-changepwd'
-		// },{
-		// 	path: 'pages/my/safe/authentication/authentication',
-		// 	name: 'safe-authentication-authentication'
-		// },
-		{
+		},{
 			path: 'pages/market/quotation/quotation',
 			name: 'quotation-quotation'
 		},{

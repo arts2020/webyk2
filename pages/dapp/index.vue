@@ -243,7 +243,8 @@
 						this.util.UiUtils.showToast(this.dapp_select_wallet)
 						return;
 					}
-					let wallet = this.dal.WalletManage.getCurrWallet();
+					let wallet = this.dal.WalletManage.getCurrWallet();						
+					console.log("=item==wallet=", wallet)
 					if(wallet){
 						let item = this.dal.Dapp.getAllowDapp(this.currentDapp.id,wallet.address)
 						console.log("=item==item=", item)

@@ -118,7 +118,6 @@
 			}
 		},
 		onLoad(option) {
-
 			var data = JSON.parse(option.query);
 			this.m_title = data.title;
 			this.m_url = data.url;
@@ -150,31 +149,10 @@
 						// data.password = ""
 						return;
 					}
-					uni.showLoading();
-					//检查输入密码是否正确，正确则跳转到备份页，否则给与密码不对提示
-					// data.password = "";
-					// this.$refs.pasdPop.close()
-					console.log("==this.dataParams==", this.dataParams)
-					this.dal.WalletManage.sendTransaction('eth', this.dataParams.params.to, this.dataParams.params
-						.value, 0,
-						"dapp交易").then(result => {
-						console.log("=111=result===")
-					});
+					this.onConfirmTrans()
 					data.obj.hide();
 				} else {
-					let str = {
-						"method": this.dataParams.method,
-						"callbackid": this.dataParams.callbackid,
-						"hash": "",
-						"error": {
-							"message": "用户取消了操作",
-							"code": "1001"
-						}
-					}
-					
-					this.m_currentWebview.evalJS(
-						"window.callBack3("+ JSON.stringify(str) +");"
-					);
+					this.onCancleTrans();
 					data.obj.hide();
 				}
 			})
@@ -197,6 +175,7 @@
 				}
 				if (data.result == true) {
 					str.txid = data.txid;
+					str.hash = data.txid;
 					str.error = null;
 				}
 				console.log("=this.dataParamsdata==", this.dataParams)
@@ -207,10 +186,98 @@
 			},
 
 			showPasdPop() {
+				let walletInfo = this.dal.WalletManage.getCurrWallet();
+				if(walletInfo){
+					let amount = this.dataParams.params.value * 1;
+					let symbol = this.dataParams.params.symbol.toLowerCase();
+					if (symbol == "eth") {
+						let balance = this.dal.WalletManage.getBalance();
+						if(balance <= amount){
+							this.util.UiUtils.showToast(symbol.toUpperCase() + "余额不足");
+							return;
+						}
+					} else {
+						let contractaddress = ""
+						if (symbol == "yk") {
+							contractaddress = this.dal.Eth.contractYKAddress;
+						} else if (symbol == 'usdt') {
+							contractaddress = this.dal.Eth.contractUsdtAddress;
+						}
+						console.log("=33333=contractaddress===", contractaddress)
+						if (contractaddress.length > 0) {
+							let contractWalletInfo = this.dal.ContractWallet.getContractMoney(walletInfo.address, contractaddress);
+							if(contractWalletInfo){
+								let money  = contractWalletInfo.money
+								console.log("=33333=money===", money)
+								console.log("=33333=amount===", amount)
+								if(money <= amount){
+									this.util.UiUtils.showToast(symbol.toUpperCase() + "余额不足");
+									this.onCancleTrans();
+									return;
+								}
+							}else{
+								this.util.UiUtils.showToast("钱包暂无此代币，加入钱包后进行操作");
+								this.onCancleTrans();
+								return;
+							}
+						}else{
+							this.util.UiUtils.showToast("未知代币名称");
+							this.onCancleTrans();
+							return;
+						}
+					}
+				}
+				
 				//显示密码框
 				const subNvue = uni.getSubNVueById('pasd-popup'); // 获取subNvue实例
 				subNvue.show(); // 显示
 			},
+
+			//取消交易
+			onCancleTrans: function() {
+				let str = {
+					"method": this.dataParams.method,
+					"callbackid": this.dataParams.callbackid,
+					"hash": "",
+					"error": {
+						"message": "用户取消了操作",
+						"code": "1001"
+					}
+				}
+
+				this.m_currentWebview.evalJS(
+					"window.callBack3(" + JSON.stringify(str) + ");"
+				);
+			},
+			//确认交易
+			onConfirmTrans: function() {
+				uni.showLoading();
+				//检查输入密码是否正确，正确则跳转到备份页，否则给与密码不对提示
+				// data.password = "";
+				// this.$refs.pasdPop.close()
+				let symbol = this.dataParams.params.symbol.toLowerCase();
+				if (symbol == "eth") {
+					this.dal.WalletManage.sendTransaction(symbol, this.dataParams.params.to, this.dataParams.params
+						.value, 0, "dapp交易").then(result => {
+						console.log("=111=result===")
+					});
+				} else {
+					let contractaddress = ""
+					if (symbol == "yk") {
+						contractaddress = this.dal.Eth.contractYKAddress;
+					} else if (symbol == 'usdt') {
+						contractaddress = this.dal.Eth.contractUsdtAddress;
+					}							
+					console.log("=111=symbol===" , symbol)
+					console.log("=111=contractaddress===" , contractaddress)
+					if (contractaddress.length > 0) {
+						this.dal.WalletManage.sendTokenTransaction(symbol, this.dataParams.params.to, this.dataParams
+							.params.value, contractaddress, 0).then(result => {
+						});
+					}
+				}
+			},
+
 			initword() {
 				this.refersh = this.getLocalStr("refersh")
 				this.copy_link = this.getLocalStr("copy_link")
@@ -309,13 +376,6 @@
 				console.log('=====cancellFun=========');
 				this.$refs.popup.close()
 			},
-			handleAccountsChanged: function() {
-				console.log('=====handleAccountsChanged=========');
-			},
-
-			handleChainChanged: function() {
-				console.log('=====handleChainChanged=========');
-			},
 
 			handleMessage: function(evt) { //data={"params":"eth_accounts","callbackid":1614872174140} 
 				// console.warn('===x=xxxxxxxx======111==接收到的消息：' + JSON.stringify(evt));
@@ -324,27 +384,43 @@
 					// console.warn('===x=xxxxxxxx======data=' + JSON.stringify(data));
 					// console.warn('===x=xxxxxxxx======data.method=', data.method)
 					if (data.method == "user.showAccountSwitch") {
-						this.util.StringUtils.setUserDefaults("imtoken_account_address_key",
-							"0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508");
-						this.m_currentWebview.evalJS(
-							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',address:'[0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508]',err:null});"
-						)
+						// this.util.StringUtils.setUserDefaults("imtoken_account_address_key",
+						// 	"0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508");
+						// this.m_currentWebview.evalJS(
+						// 	"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
+						// 	"',address:'[0x9CaCdC05cD8CE97d13d76CF1939E1c8c9e785508]',err:null});"
+						// )
 					} else if (data.method == "transaction.signTransaction") {
 						this.dataParams = data;
-						this.showPasdPop();
+						console.log('=this.dataParams=', JSON.stringify(this.dataParams))
+						let symbol = this.dataParams.params.symbol.toUpperCase();
+						let title = uni.getLocalStr("tip_title");
+						let content = "您确认用" + this.dataParams.params.value + symbol + "进行交易吗？";
+						uni.showModal({
+							title: title,
+							content: content,
+							cancelText: "取消",
+							confirmText: "确认",
+							success: function(res) {
+								if (res.confirm) {
+									this.showPasdPop();
+								} else if (res.cancel) {
+									this.onCancleTrans();
+								}
+							}.bind(this)
+						})
 					} else if (data.method == "eth_requestAccounts") {
 						console.warn('===x=xxxxxxxx======data=')
 						let item = this.dal.Dapp.getAllowDappByDeault()
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',accounts:['"+ item.address +"'],err:null});"
+							"',accounts:['" + item.address + "'],err:null});"
 						);
 					} else if (data.method == "eth_accounts") {
 						let item = this.dal.Dapp.getAllowDappByDeault()
 						this.m_currentWebview.evalJS(
 							"window.callBack3({method:'" + data.method + "',callbackid:'" + data.callbackid +
-							"',accounts:['"+ item.address +"'],err:null});"
+							"',accounts:['" + item.address + "'],err:null});"
 						);
 					} else if (data.method == "eth_chainId") {
 						this.m_currentWebview.evalJS(

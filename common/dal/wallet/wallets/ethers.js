@@ -1,6 +1,5 @@
 const ethers = require("../../../../node_modules/ethers")
 const EthUtils = require('../utils/eth-utils.js').EthUtils;
-const Web3 = require("../../../../node_modules/web3")
 const WAValidator = require('../../../../node_modules/wallet-address-validator');
 import Vue from 'vue'
 var vue = Vue.prototype
@@ -8,12 +7,11 @@ var vue = Vue.prototype
 const Ethers = {
 	m_balance: 0,
 	m_reqUrl: "",
+	contractUsdtAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+	contractYKAddress: "0x502E2a1925Af8E0726D497A02C6583d927a5b061",
 	init: function() {
 		console.log("=========Ethers===初始化===============")
 		this.m_reqUrl = "https://mainnet.infura.io/v3/b732128135d54960807f9ed6d480a58a";
-
-		this.m_web3 = new Web3(new Web3.providers.HttpProvider(this.m_reqUrl));
-		// console.log("=========Ethers===初始化=======this.m_web3========", this.m_web3)
 	},
 
 	destroy: function() {
@@ -160,24 +158,24 @@ const Ethers = {
 		let pedings = await EthUtils.ethTransactionCountByPending(this.fromAddress, this.m_reqUrl)
 		let gcout = await EthUtils.ethTransactionCount(this.fromAddress, this.m_reqUrl)
 
-			console.log("=====pedings=",pedings);
-			console.log("=====gcout=",gcout);
-			console.log("=====this.amount=",amount);
-			console.log("=====this.to=",to);
-			console.log("=====this.m_privateKey=",this.m_privateKey);
-			console.log("=====this.fromAddress=",this.fromAddress);
-			
+		console.log("=====pedings=", pedings);
+		console.log("=====gcout=", gcout);
+		console.log("=====this.amount=", amount);
+		console.log("=====this.to=", to);
+		console.log("=====this.m_privateKey=", this.m_privateKey);
+		console.log("=====this.fromAddress=", this.fromAddress);
+
 		let txid = "";
-		if(pedings && pedings >= 0){
+		if (pedings && pedings >= 0) {
 			txid = await EthUtils.ethTransferAsync(this.m_privateKey, this.fromAddress, to, amount, pedings,
-						this.m_reqUrl,
-						gas);
+				this.m_reqUrl,
+				gas);
 		}
 		console.log("=====Ethers===sendTransaction==0==", txid);
 		if (txid && txid.length == 66) {
 			this.onBalance();
 			console.log("=====Ethers===sendTransaction===1=", txid);
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str23"));
 			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, txid, "", remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true,
@@ -185,7 +183,7 @@ const Ethers = {
 			})
 		} else {
 			console.log("=====Ethers===sendTransaction==2==", txid);
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});
@@ -205,14 +203,14 @@ const Ethers = {
 			pedings, this.m_reqUrl, gas)
 		if (txid && txid.length == 66) {
 			this.onTokenBalance(contractAddress);
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str23"));
 			vue.dal.Common.onTransfer("erc_" + asset, this.fromAddress, to, amount, txid, contractAddress,
 				remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			});
 		} else {
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});
@@ -401,8 +399,14 @@ const Ethers = {
 	async isContract(address) {
 		console.log("==isContract=address==", address)
 		try {
-			let code = await this.m_web3.eth.getCode(address.toSting())
-			console.log("==isContract=code==", code)
+			let code = '0x';
+			if (this.isValidAddress(address)) {
+				let pedings = await EthUtils.ethTransactionCountByPending(address, this.m_reqUrl)
+				console.log("=====pedings==", pedings)
+				if (pedings <= 1) {
+					code = "";
+				}
+			}
 			if (code == '0x') {
 				console.log('普通账户')
 				return false;
@@ -420,13 +424,42 @@ const Ethers = {
 	isValidAddress: function(address) {
 		console.log('=====address==', address)
 		var valid = WAValidator.validate(address, 'ETH');
-		if (!valid)
+		if (valid)
 			console.log('This is a valid address');
 		else
 			console.log('Address INVALID');
 
 		return valid;
 	},
+
+	getControl: function(address) {
+		let url =
+			"https://api.etherscan.io/api?module=contract&action=getsourcecode&address=0xd850942ef8811f2a866692a623011bde52a462c1"
+
+		console.log("777777777====getControl===url======", url)
+		return new Promise(function(resolve, reject) {
+			let headers = null
+			uni.request({
+				url: url,
+				method: "GET",
+				dataType: 'json',
+				data: {},
+				header: headers,
+				success: (res) => {
+					console.log("777777777====1===HttpUtils==complete======", res)
+					resolve(res.data)
+				},
+				fail: (err) => {
+					console.log("777777777====2===HttpUtils==err======", err)
+					reject(err)
+				},
+				complete: (res) => {
+					console.log("777777777====3===HttpUtils==complete======", res)
+				}
+			});
+		})
+
+	}
 };
 
 export default Ethers

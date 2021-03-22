@@ -2,8 +2,8 @@
     "name" : "YouKey",
     "appid" : "__UNI__EBB37AF",
     "description" : "应用描述",
-    "versionName" : "1.0.1",
-    "versionCode" : 101,
+    "versionName" : "1.0.7",
+    "versionCode" : 107,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -89,20 +89,20 @@
                 },
                 "ios" : {
                     "iphone" : {
-                        "portrait-896h@3x" : "static/image/apple/1242x2688.png",
-                        "portrait-896h@2x" : "static/image/apple/828x1792.png",
-                        "iphonex" : "static/image/apple/1125x2436.png",
-                        "retina55" : "static/image/apple/1242x2208.png",
-                        "retina47" : "static/image/apple/750x1334.png",
-                        "retina40" : "static/image/apple/640x1136.png",
-                        "retina35" : "static/image/apple/640x960.png"
+                        "portrait-896h@3x" : "",
+                        "portrait-896h@2x" : "",
+                        "iphonex" : "",
+                        "retina55" : "",
+                        "retina47" : "",
+                        "retina40" : "",
+                        "retina35" : ""
                     },
                     "ipad" : {
-                        "portrait-1366h@2x" : "static/image/apple/2048x2732.png",
-                        "portrait-1194h@2x" : "static/image/apple/1668x2388.png",
-                        "portrait-1112h@2x" : "static/image/apple/1668x2224.png",
-                        "portrait-retina7" : "static/image/apple/1536x2048.png",
-                        "portrait7" : "static/image/apple/768x1024.png"
+                        "portrait-1366h@2x" : "",
+                        "portrait-1194h@2x" : "",
+                        "portrait-1112h@2x" : "",
+                        "portrait-retina7" : "",
+                        "portrait7" : ""
                     }
                 }
             },

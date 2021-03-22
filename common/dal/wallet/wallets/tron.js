@@ -117,13 +117,13 @@ const Tron = {
 		console.log("====receipt===", receipt)
 		console.log("====receipt.length===", receipt.txid.length)
 		if (receipt.result && receipt.txid && receipt.txid.length == 64) {
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str23"));
 			vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, receipt.txid, "" ,remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			});
 		} else {
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});
@@ -149,13 +149,13 @@ const Tron = {
 		console.log("====receipt===", receipt)
 		console.log("====receipt.length===", receipt.length)
 		if (receipt && receipt.length == 64) {
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str23"));
 			vue.dal.Common.onTransfer("trc_" + asset, this.fromAddress, to, amount, receipt, contractAddress,remark)
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: true
 			});
 		} else {
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});

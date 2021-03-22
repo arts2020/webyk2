@@ -157,19 +157,19 @@ const Lotus = {
 			console.log("==tx==", tx)
 			if (tx && tx.length == 62) {
 				this.onBalance();
-				vue.util.UiUtils.showToast(vue.getLocalStr("title_str24"));
+				// vue.util.UiUtils.showToast(vue.getLocalStr("title_str23"));
 				vue.dal.Common.onTransfer(asset, this.fromAddress, to, amount, tx,"",remark)
 				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 					result: true
 				});
 			} else {
-				vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
+				// vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 				vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 					result: false
 				});
 			}
 		} else {
-			vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
+			// vue.util.UiUtils.showToast(vue.getLocalStr("title_str26"));
 			vue.util.EventUtils.dispatchEventCustom(vue.dal.WalletManage.evtTransResult, {
 				result: false
 			});

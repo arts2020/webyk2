@@ -9,7 +9,8 @@ const Common = {
 
 	evtGetConfig: "EVT_evtGetConfig",
 	evtGetCommonConfig: "EVT_evtGetCommonConfig",
-
+	evtGetContract:"EVT_evtGetContract",
+	
 	evtGetAssetstate: "EVT_evtGetAssetstate",
 	evtGetTokenList: "EVT_evtGetTokenList",
 	evtGetTokenDetail: "EVT_evtGetTokenDetail",
@@ -53,6 +54,7 @@ const Common = {
 
 		vue.shared.Event.attach(vue.entities.RequestCode.GetDefi, this.handleGetDefi, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetCommonConfig, this.handleGetCommonConfig, "dal_common", this);
+		vue.shared.Event.attach(vue.entities.RequestCode.GetContract, this.handleGetContract, "dal_common", this);
 
 		vue.shared.Event.attach(vue.entities.RequestCode.Transfer, this.handleTransfer, "dal_common", this);
 		vue.shared.Event.attach(vue.entities.RequestCode.GetTransferList, this.handleGetTransferList, "dal_common", this);
@@ -187,6 +189,20 @@ const Common = {
 		uni.cclog("=======onGetConfigInfo=======key====", key)
 		return item;
 	},
+	
+	onGetContract:function(address){
+		var params = {
+			address:address
+		};
+		vue.dal.Net.request(vue.entities.RequestCode.GetContract, params);
+	},
+	
+	handleGetContract:function(packetIn){
+		// 0xff20817765cb7f73d4bde2e66e067e58d11095c2
+		console.log("===handleGetContract=====packetIn==",packetIn)
+		vue.util.EventUtils.dispatchEventCustom(this.evtGetContract,packetIn.pktin);
+		vue.util.UiUtils.hideLoading();
+	},
 
 	//转账
 	onTransfer: function(contractasset, fromaddress, to, amount, tx, contractaddress, remark) {
@@ -296,10 +312,12 @@ const Common = {
 	},
 
 	handleGetTokenList: function(packetIn) {
-		uni.cclog("==========handleGetTokenList==========packetIn====")
+		uni.cclog("==========handleGetTokenList==========packetIn====",packetIn)
 		if (packetIn.pktin.code == 200) {
 			this.m_tokenList = packetIn.pktin.data;
 			vue.util.EventUtils.dispatchEventCustom(this.evtGetTokenList);
+			
+			vue.dal.ContractWallet.onGetTokenList();
 		} else {
 			vue.util.UiUtils.showToast(vue.dal.Utils.getSysErrorType(packetIn.pktin.code));
 		}
@@ -311,9 +329,11 @@ const Common = {
 	},
 
 	getTokenByContractAddress: function(contractaddress) {
+			console.log("==getTokenByContractAddress=contractaddress==", contractaddress)
+			console.log("==this.m_tokenList.length==", this.m_tokenList.length)
 		for (let i = 0; i < this.m_tokenList.length; i++) {
 			let item = this.m_tokenList[i];
-			// console.log("==getTokenByContractAddress=item==", item)
+			console.log("==getTokenByContractAddress=item==", item)
 			if (item.address.toLowerCase() == contractaddress.toLowerCase()) {
 				let aa = vue.util.Utils.ccClone(item);
 				// console.log("==aa==", aa)

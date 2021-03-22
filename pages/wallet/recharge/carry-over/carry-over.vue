@@ -307,8 +307,9 @@
 				this.cancell();
 			},
 			onTransResult:function(data){
-				console.log("=onTransResult=data==",data)
+				console.log("=onTransResult=data==",data)					
 				if(data.result == true){
+					this.util.UiUtils.showToast(this.getLocalStr("title_str23"));
 					setTimeout(()=>{
 						this.$openPage({
 							name: "deal-record",
@@ -316,6 +317,8 @@
 							gotype:"redirectTo"
 						})
 					},1000)
+				}else{
+					this.util.UiUtils.showToast(this.getLocalStr("title_str26"));
 				}
 			},
 		}

@@ -298,6 +298,7 @@
 				width: 605rpx;
 				height: 100%;
 				padding: 36rpx 36rpx 0 0;
+				
 				box-sizing: border-box;
 				.top-title{
 					margin-bottom: 22rpx;

@@ -9,6 +9,7 @@ const RequestCode = {
 	GetAssetPrice: 64, //获得币价行情
 	GetDefi: 65, //defi价格
 	GetCommonConfig: 66, //共用配置文件(汇率)
+	GetContract: 67, //获取ETH合约地址详情
 
 	Transfer: 71, // 转账接口
 	GetTransferList: 72, // 查询转账记录接口

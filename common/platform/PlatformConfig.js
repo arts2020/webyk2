@@ -37,13 +37,17 @@ var PlatformConfig = {
 	
 		this.channelInfo = { //基础渠道配置模板
 			language: vue.entities.Metadata.GameLanguage.CN,
-			vsn: "1.0.1",
+			vsn: "1.0.0",
 			platform: platform,
 			devtype: devtype,
 			urlParams: {from: 0},
 			host: "http://119.8.55.19", //当前正在用的域名 http://8.210.62.53
 			testhost: "http://127.0.0.1:7300", //开发环境使用的域名
 		}
+		// #ifdef APP-PLUS
+			this.channelInfo.vsn = plus.runtime.version;
+		// #endif
+		console.log('=this.channelInfo.vsn=',this.channelInfo.vsn)
 		return this.channelInfo
 	},
 }

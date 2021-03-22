@@ -327,7 +327,7 @@
 				}
 				for (let i = 0; i < this.currentAsset.length; i++) {
 					let item = this.currentAsset[i];
-					console.log("=33333333==item=", item)
+					// console.log("=33333333==item=", item)
 					
 					if(item.contract){
 						this.dal.WalletManage.onTokenBalance(item.contract)
@@ -610,7 +610,7 @@
 
 				.coin-list {
 					width: 100%;
-					height: 714rpx;
+					height: 1000rpx;
 
 					.coin-item {
 						width: 100%;

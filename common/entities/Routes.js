@@ -20,6 +20,7 @@ const Routes = {
 			{code:vue.entities.RequestCode.GetDefi , path:"/api/v1/web/getDefi",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.GetCommonConfig , path:"/api/v1/web/getConfig",method:"POST", islogin:false},
 			
+			{code:vue.entities.RequestCode.GetContract , path:"/api/v1/getContract",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.SendTransaction , path:"/api/v1/link/sendTransaction",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.GetBalance , path:"/api/v1/link/getBalance",method:"POST", islogin:false},
 			{code:vue.entities.RequestCode.PrivateWallter , path:"/api/v1/link/privateWallter",method:"POST", islogin:false},
